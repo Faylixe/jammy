@@ -3,8 +3,10 @@ package review.classdesign.jammy.wizard.login;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicReference;
 
+
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
+
 
 import review.classdesign.jammy.common.ExceptionHandler;
 import review.classdesign.jammy.model.session.GoogleSessionProvider;
@@ -50,7 +52,12 @@ public final class LoginWizard extends Wizard {
 					login.set(page.getLogin());
 					password.set(page.getPassword());
 				});
-				provider.login(login.get(), password.get(), monitor);
+				try {
+					provider.login(login.get(), password.get(), monitor);
+				}
+				catch (final Exception e) {
+					throw new IllegalStateException(e);
+				}
 			});
 		}
 		catch (final InvocationTargetException | InterruptedException e) {

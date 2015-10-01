@@ -1,5 +1,6 @@
 package review.classdesign.jammy.model.session;
 
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -17,40 +18,53 @@ import org.eclipse.ui.services.ISourceProviderService;
  */
 public final class GoogleSessionProvider extends AbstractSourceProvider {
 
-	/** **/
+	/** Identifier of the source. **/
 	private static final String LOGGED = "review.classdesign.jammy.logged";
+
+	/** **/
+	private static final String URL = "https://www.google.com/accounts/ClientLogin";
 
 	/** Boolean flag that indicates if user is logged or not. **/
 	private boolean logged;
 
 	/**
+	 * Sets the {@link #logged} property of this provider.
 	 * 
-	 * @param logged
+	 * @param logged The new value of the {@link #logged} property.
 	 */
-	public void setLogged(final boolean logged) {
+	private void setLogged(final boolean logged) {
 		this.logged = logged;
 		fireSourceChanged(ISources.WORKBENCH, LOGGED, logged);
 	}
 
+	/**
+	 * Indicates if the user is logged into a google account or not.
+	 * 
+	 * @return <tt>true</tt> if the user is logged into a google account, <tt>false</tt> otherwise.
+	 */
 	public boolean isLogged() {
 		return logged;
 	}
 
 	/**
+	 * Connect user to the google account specified by
+	 * the given <tt>login</tt> and <tt>password</tt>.
 	 * 
-	 * @param login
-	 * @param password
-	 * @param monitor
+	 * @param login Login of the google account to connect in.
+	 * @param password Password of the google account to connect in.
+	 * @param monitor Monitor instance to use for handling progression.
+	 * @throws URISyntaxException 
 	 */
-	public void login(final String login, final String password, final IProgressMonitor monitor) {
-		System.out.println("LOGGED !");
+	public void login(final String login, final String password, final IProgressMonitor monitor) throws URISyntaxException {
+		// TODO : Execute request
 		setLogged(true);
 	}
 
 	/**
-	 * 
+	 * Disconnect user of it google account.
 	 */
 	public void logout() {
+		// TODO : Implement logout.
 		setLogged(false);
 	}
 
@@ -58,6 +72,7 @@ public final class GoogleSessionProvider extends AbstractSourceProvider {
 	/** {@inheritDoc} **/
 	@Override
 	public void dispose() {
+		// Do nothing.
 	}
 
 	/** {@inheritDoc} **/
@@ -73,8 +88,9 @@ public final class GoogleSessionProvider extends AbstractSourceProvider {
 	}
 
 	/**
+	 * Static method that allows to retrieve easily the provider instance.
 	 * 
-	 * @return
+	 * @return Instance registered as a source provider.
 	 */
 	public static GoogleSessionProvider get() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -82,4 +98,5 @@ public final class GoogleSessionProvider extends AbstractSourceProvider {
 		final ISourceProvider provider = service.getSourceProvider(LOGGED);
 		return (GoogleSessionProvider) provider;
 	}
+
 }

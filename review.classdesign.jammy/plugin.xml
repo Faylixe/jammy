@@ -19,6 +19,12 @@
             id="review.classdesign.jammy.command.login"
             name="Login">
       </command>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.handler.LogoutHandler"
+            id="review.classdesign.jammy.command.logout"
+            name="Logout">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -31,6 +37,29 @@
                   commandId="review.classdesign.jammy.command.login"
                   label="Login"
                   style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="review.classdesign.jammy.logged">
+                     <equals
+                           value="false">
+                     </equals>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="review.classdesign.jammy.command.logout"
+                  label="Logout"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="review.classdesign.jammy.logged">
+                     <equals
+                           value="true">
+                     </equals>
+                  </with>
+               </visibleWhen>
             </command>
             <command
                   commandId="review.classdesign.jammy.command.contestselection"
