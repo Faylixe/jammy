@@ -13,6 +13,12 @@
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.wizard.login.LoginHandler"
+            id="review.classdesign.jammy.command.login"
+            name="Login">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -21,6 +27,11 @@
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
                label="Jammy">
+            <command
+                  commandId="review.classdesign.jammy.command.login"
+                  label="Login"
+                  style="push">
+            </command>
             <command
                   commandId="review.classdesign.jammy.command.contestselection"
                   label="Select contest"
