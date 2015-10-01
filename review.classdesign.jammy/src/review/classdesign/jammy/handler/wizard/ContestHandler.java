@@ -1,8 +1,8 @@
-package review.classdesign.jammy.wizard.contest;
+package review.classdesign.jammy.handler.wizard;
 
 import org.eclipse.jface.wizard.IWizard;
 
-import review.classdesign.jammy.wizard.AbstractWizardHandler;
+import review.classdesign.jammy.wizard.contest.ContestWizard;
 
 /**
  * Default handler used for Jammy contest selection

@@ -12,11 +12,11 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import review.classdesign.jammy.model.TitledEntity;
+import review.classdesign.jammy.common.TitledEntity;
+import review.classdesign.jammy.common.provider.FunctionalContentProvider;
+import review.classdesign.jammy.common.provider.FunctionalLabelProvider;
 import review.classdesign.jammy.model.contest.Contest;
 import review.classdesign.jammy.model.contest.Round;
-import review.classdesign.jammy.model.provider.FunctionalContentProvider;
-import review.classdesign.jammy.model.provider.FunctionalLabelProvider;
 
 /**
  * Page implementation for {@link Round} selection.

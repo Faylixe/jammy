@@ -1,4 +1,4 @@
-package review.classdesign.jammy.wizard;
+package review.classdesign.jammy.handler.wizard;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

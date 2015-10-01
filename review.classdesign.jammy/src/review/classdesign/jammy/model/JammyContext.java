@@ -1,7 +1,10 @@
 package review.classdesign.jammy.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import org.eclipse.ui.AbstractSourceProvider;
 
 import review.classdesign.jammy.model.contest.Contest;
 import review.classdesign.jammy.model.contest.Round;
@@ -29,6 +32,14 @@ public final class JammyContext {
 		this.contests = Optional.empty();
 		this.currentRound = Optional.empty();
 		this.currentContest = Optional.empty();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isConnected() {
+		return false;
 	}
 
 	/**

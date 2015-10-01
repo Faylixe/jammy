@@ -21,49 +21,52 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
 	public Activator() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	/**
+	 * 
 	 */
+	private void disableSSLerror() {
+		// TODO : Fix certificate issues.
+		// Create a trust manager that does not validate certificate chains
+		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return new X509Certificate[0];
+			}
+
+			public void checkClientTrusted(
+					java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(
+					java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		// Install the all-trusting trust manager
+		try {
+			SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			HttpsURLConnection
+					.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		}
+		catch (GeneralSecurityException e) {
+		}
+	}
+
+	/** {@inheritDoc} **/
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		// TODO : Fix certificate issues.
-		// Create a trust manager that does not validate certificate chains
-				TrustManager[] trustAllCerts = new TrustManager[] { 
-				    new X509TrustManager() {     
-				        public java.security.cert.X509Certificate[] getAcceptedIssuers() { 
-				            return new X509Certificate[0];
-				        } 
-				        public void checkClientTrusted( 
-				            java.security.cert.X509Certificate[] certs, String authType) {
-				            } 
-				        public void checkServerTrusted( 
-				            java.security.cert.X509Certificate[] certs, String authType) {
-				        }
-				    } 
-				}; 
-			
-				// Install the all-trusting trust manager
-				try {
-				    SSLContext sc = SSLContext.getInstance("SSL"); 
-				    sc.init(null, trustAllCerts, new java.security.SecureRandom()); 
-				    HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-				} catch (GeneralSecurityException e) {
-				}
+		disableSSLerror();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
+	/** {@inheritDoc} **/
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);

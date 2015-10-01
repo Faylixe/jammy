@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import review.classdesign.jammy.model.TitledEntity;
+import review.classdesign.jammy.common.TitledEntity;
 
 /**
  * POJO class that represents a Google Jam {@link Contest}.

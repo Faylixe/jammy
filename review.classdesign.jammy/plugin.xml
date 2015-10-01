@@ -9,13 +9,13 @@
       </category>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.wizard.contest.ContestHandler"
+            defaultHandler="review.classdesign.jammy.handler.wizard.ContestHandler"
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.wizard.login.LoginHandler"
+            defaultHandler="review.classdesign.jammy.handler.wizard.LoginHandler"
             id="review.classdesign.jammy.command.login"
             name="Login">
       </command>
@@ -34,11 +34,31 @@
             </command>
             <command
                   commandId="review.classdesign.jammy.command.contestselection"
+                  id="review.classdesign.jammy.contribution.select"
                   label="Select contest"
                   style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="review.classdesign.jammy.logged">
+                     <equals
+                           value="true">
+                     </equals>
+                  </with>
+               </visibleWhen>
             </command>
          </menu>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.services">
+      <sourceProvider
+            provider="review.classdesign.jammy.model.session.GoogleSessionProvider">
+         <variable
+               name="review.classdesign.jammy.logged"
+               priorityLevel="workbench">
+         </variable>
+      </sourceProvider>
    </extension>
 
 </plugin>

@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.provider;
+package review.classdesign.jammy.common.provider;
 
 import java.util.function.Function;
 

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import review.classdesign.jammy.model.TitledEntity;
+import review.classdesign.jammy.common.TitledEntity;
 
 /**
  * 
