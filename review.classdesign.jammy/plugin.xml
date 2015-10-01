@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="review.classdesign.jammy.commands.category"
+            name="Jammy">
+      </category>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.wizard.contest.ContestHandler"
+            id="review.classdesign.jammy.command.contestselection"
+            name="Select contest">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Jammy">
+            <command
+                  commandId="review.classdesign.jammy.command.contestselection"
+                  label="Select contest"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
