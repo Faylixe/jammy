@@ -88,9 +88,11 @@ public final class JammyContext {
 	}
 
 	/**
+	 * Functional method.
 	 * 
 	 * @param dummy
 	 * @return
+	 * @category Function
 	 */
 	public static Object[] getContests(final Object dummy) {
 		return getInstance().getContests().toArray();

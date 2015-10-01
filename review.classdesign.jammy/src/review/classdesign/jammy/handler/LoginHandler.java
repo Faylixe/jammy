@@ -1,5 +1,8 @@
 package review.classdesign.jammy.handler;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -11,13 +14,18 @@ import review.classdesign.jammy.service.IGoogleSessionService;
  * 
  * @author fv
  */
-public final class LogoutHandler extends AbstractHandler {
+public final class LoginHandler extends AbstractHandler {
 
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		final IGoogleSessionService service = IGoogleSessionService.get();
-		service.logout();
+		try {
+			service.login();
+		}
+		catch (final IOException | GeneralSecurityException e) {
+			// TODO : Handle error.
+		}
 		return null;
 	}
 
