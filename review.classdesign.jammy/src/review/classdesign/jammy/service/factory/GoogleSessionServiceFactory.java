@@ -5,24 +5,24 @@ import java.util.Optional;
 import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
-import review.classdesign.jammy.service.ISubmissionService;
-import review.classdesign.jammy.service.internal.SubmissionService;
+import review.classdesign.jammy.service.IGoogleSessionService;
+import review.classdesign.jammy.service.internal.GoogleSessionService;
 
 /**
- * Factory {@link ISubmissionService} class.
+ * Factory for {@link IGoogleSessionService} class.
  * 
  * @author fv
  */
-public final class SubmissionServiceFactory extends AbstractServiceFactory {
+public final class GoogleSessionServiceFactory extends AbstractServiceFactory {
 
 	/** Optional reference of our singleton service. **/
-	private Optional<ISubmissionService> service;
+	private Optional<IGoogleSessionService> service;
 
 	/**
 	 * Default constructor.
 	 * Initializes service reference.
 	 */
-	public SubmissionServiceFactory() {
+	public GoogleSessionServiceFactory() {
 		this.service = Optional.empty();
 	}
 
@@ -33,9 +33,9 @@ public final class SubmissionServiceFactory extends AbstractServiceFactory {
 			final Class serviceInterface,
 			final IServiceLocator parentLocator,
 			final IServiceLocator locator) {
-		if (ISubmissionService.class.equals(serviceInterface)) {
+		if (IGoogleSessionService.class.equals(serviceInterface)) {
 			if (!service.isPresent()) {
-				service = Optional.of(new SubmissionService());
+				service = Optional.of(new GoogleSessionService());
 			}
 			return service.get();
 		}

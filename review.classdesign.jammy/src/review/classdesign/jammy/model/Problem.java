@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.contest;
+package review.classdesign.jammy.model;
 
 import java.util.HashMap;
 import java.util.List;

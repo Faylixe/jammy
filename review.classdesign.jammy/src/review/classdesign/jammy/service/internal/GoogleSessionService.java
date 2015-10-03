@@ -24,21 +24,22 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import review.classdesign.jammy.service.IGoogleSessionService;
 
 /**
+ * {@link IGoogleSessionService} implementation.
  * 
  * @author fv
  */
 public final class GoogleSessionService implements IGoogleSessionService {
 
-	/** **/
+	/** Target user id used for the session created. **/
 	private static final String USER_ID = "user";
 
-	/** **/
+	/** Default path of the JSON secret file. **/
 	private static final String SECRET_PATH = "/client_secret.json";
 
 	/** Default factory used to parse JSON data. **/
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-	/** **/
+	/** Scopes of the created session. **/
 	private static final Collection<String> SCOPES = Collections.singleton("https://www.googleapis.com/auth/plus.me");
 
 	/**
@@ -54,7 +55,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	private Optional<NetHttpTransport> transport;
 
 	/**
-	 * 
+	 * Default constructor.
 	 */
 	public GoogleSessionService() {
 		this.transport = Optional.empty();
@@ -79,9 +80,11 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	}
 
 	/**
+	 * Static tool method that retrieves google client secret
+	 * instance from internal JSON file.
 	 * 
-	 * @return
-	 * @throws IOException
+	 * @return {@link GoogleClientSecrets} instance created.
+	 * @throws IOException If any error occurs while reading JSON file.
 	 */
 	private static GoogleClientSecrets getSecret() throws IOException {
 		final InputStream stream = GoogleSessionProvider.class.getResourceAsStream(SECRET_PATH);
@@ -100,7 +103,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	@Override
 	public HttpRequestFactory createRequestFactory() {
 		if (!transport.isPresent() || !credential.isPresent()) {
-			// TODO : Handle error.
+			throw new IllegalStateException();
 		}
 		return transport.get().createRequestFactory(credential.get());
 	}

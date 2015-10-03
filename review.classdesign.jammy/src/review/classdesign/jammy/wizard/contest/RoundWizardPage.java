@@ -12,11 +12,12 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.TitledEntity;
 import review.classdesign.jammy.common.provider.FunctionalContentProvider;
 import review.classdesign.jammy.common.provider.FunctionalLabelProvider;
-import review.classdesign.jammy.model.contest.Contest;
-import review.classdesign.jammy.model.contest.Round;
+import review.classdesign.jammy.model.Contest;
+import review.classdesign.jammy.model.Round;
 
 /**
  * Page implementation for {@link Round} selection.
@@ -111,7 +112,7 @@ public final class RoundWizardPage extends WizardPage implements ISelectionChang
 		if (contest.isPresent()) {
 			return contest.get().getRounds().toArray();
 		}
-		return ContestWizard.CHILDLESS;
+		return Jammy.CHILDLESS;
 	}
 
 	/** {@inheritDoc} **/
@@ -120,7 +121,7 @@ public final class RoundWizardPage extends WizardPage implements ISelectionChang
 		final ListViewer viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new FunctionalContentProvider(this::getRound));
 		viewer.setLabelProvider(new FunctionalLabelProvider(TitledEntity::getText));
-		viewer.setInput(ContestWizard.CHILDLESS);
+		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addSelectionChangedListener(this);
 		setControl(viewer.getControl());
 		setPageComplete(false);

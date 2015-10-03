@@ -3,10 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Jammy
 Bundle-SymbolicName: review.classdesign.jammy;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: review.classdesign.jammy.Activator
+Bundle-Activator: review.classdesign.jammy.Jammy
 Bundle-Vendor: Faylixe
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.9.1",
  org.junit,
  javax.servlet;bundle-version="3.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -50,3 +51,11 @@ Bundle-ClassPath: dependecies/jsoup-1.8.3.jar,
  dependecies/transaction-api-1.1.jar,
  dependecies/xpp3-1.1.4c.jar,
  .
+Export-Package: review.classdesign.jammy.handler,
+ review.classdesign.jammy.handler.wizard,
+ review.classdesign.jammy.model,
+ review.classdesign.jammy.service,
+ review.classdesign.jammy.view,
+ review.classdesign.jammy.wizard,
+ review.classdesign.jammy.wizard.contest,
+ review.classdesign.jammy.wizard.submit

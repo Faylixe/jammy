@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.contest;
+package review.classdesign.jammy.model;
 
 import java.util.ArrayList;
 import java.util.List;

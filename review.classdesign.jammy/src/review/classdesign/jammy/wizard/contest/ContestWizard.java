@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.eclipse.jface.wizard.Wizard;
 
-import review.classdesign.jammy.model.JammyContext;
-import review.classdesign.jammy.model.contest.Contest;
-import review.classdesign.jammy.model.contest.Round;
+import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.model.Contest;
+import review.classdesign.jammy.model.Round;
 
 /**
  * {@link ContestWizard} allows to select
@@ -20,12 +20,6 @@ public final class ContestWizard extends Wizard {
 
 	/** Wizard title. **/
 	private static final String TITLE = "Google Code Jam contest selection";
-
-	/**
-	 * Empty object array in order to avoid empty array allocation duplication.
-	 * This objects is also used a root element for both contest and round selection view.
-	 */
-	protected static final Object [] CHILDLESS = new Object[0];
 	
 	/** Page for {@link Contest} selection. **/
 	private final ContestWizardPage contestPage;
@@ -57,7 +51,7 @@ public final class ContestWizard extends Wizard {
 		final Optional<Contest> contest = roundPage.getContest();
 		final Optional<Round> round = roundPage.getRound();
 		if (contest.isPresent() && round.isPresent()) {
-			JammyContext.getInstance().setCurrent(contest, round);
+			Jammy.getDefault().setCurrent(contest, round);
 			return true;
 		}
 		return false;
