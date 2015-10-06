@@ -83,11 +83,14 @@
          point="org.eclipse.ui.services">
       <serviceFactory
             factoryClass="review.classdesign.jammy.service.factory.GoogleSessionServiceFactory">
-         <service></service>
+         <service
+               serviceClass="review.classdesign.jammy.service.IGoogleSessionService">
+         </service>
       </serviceFactory>
       <serviceFactory
             factoryClass="review.classdesign.jammy.service.factory.SubmissionServiceFactory">
-         <service></service>
+         <service
+               serviceClass="review.classdesign.jammy.service.ISubmissionService"></service>
       </serviceFactory>
       <sourceProvider
             provider="review.classdesign.jammy.service.internal.GoogleSessionProvider">

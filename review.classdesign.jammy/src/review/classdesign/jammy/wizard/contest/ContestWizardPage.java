@@ -11,7 +11,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.common.TitledEntity;
 import review.classdesign.jammy.common.provider.FunctionalContentProvider;
 import review.classdesign.jammy.common.provider.FunctionalLabelProvider;
 import review.classdesign.jammy.model.Contest;
@@ -57,7 +56,7 @@ public final class ContestWizardPage extends WizardPage implements ISelectionCha
 	public void createControl(final Composite parent) {
 		final ListViewer viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new FunctionalContentProvider(Jammy::getContests));
-		viewer.setLabelProvider(new FunctionalLabelProvider(TitledEntity::getText));
+		viewer.setLabelProvider(new FunctionalLabelProvider(null));
 		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addSelectionChangedListener(this);
 		setControl(viewer.getControl());

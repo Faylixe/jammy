@@ -1,6 +1,5 @@
 package review.classdesign.jammy.model;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +10,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import review.classdesign.jammy.common.TitledEntity;
+import review.classdesign.jammy.common.Constants;
+import review.classdesign.jammy.common.NamedEntity;
+import review.classdesign.jammy.common.RequestUtils;
 
 /**
  * POJO class that represents a Google Jam {@link Contest}.
@@ -20,22 +21,7 @@ import review.classdesign.jammy.common.TitledEntity;
  * 
  * @author fv
  */
-public final class Contest implements TitledEntity {
-
-	/** URL of the contest index page. **/
-	private static final String INDEX = "https://code.google.com/codejam/contests.html";
-
-	/** Class name of the element that contains contest data. **/
-	private static final String CONTEST_CLASS_NAME = "year_row";
-
-	/** HTML tag used for parsing contest title. **/
-	private static final String TITLE_TAG = "h3";
-
-	/** Page downloading timeout. **/
-	private static final int TIMEOUT = 10000;
-
-	/** Title of this contest. **/
-	private final String title;
+public final class Contest extends NamedEntity {
 
 	/** {@link Round} that belongs to this contest. **/
 	private final List<Round> rounds;
@@ -43,18 +29,12 @@ public final class Contest implements TitledEntity {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param title Title of this contest.
+	 * @param name Title of this contest.
 	 * @param rounds {@link Round} that belongs to this contest.
 	 */
-	private Contest(final String title, final List<Round> rounds) {
-		this.title = title;
+	private Contest(final String name, final List<Round> rounds) {
+		super(name);
 		this.rounds = rounds;
-	}
-	
-	/** {@inheritDoc} **/
-	@Override
-	public String getTitle() {
-		return title;
 	}
 	
 	/**
@@ -76,7 +56,7 @@ public final class Contest implements TitledEntity {
 	 * @return Optional reference of a contest title.
 	 */
 	private static Optional<String> getTitle(final Element element) {
-		final Elements candidates = element.getElementsByTag(TITLE_TAG);
+		final Elements candidates = element.getElementsByTag(Constants.HTML.H3);
 		if (!candidates.isEmpty()) {
 			return Optional.of(candidates.first().text());
 		}
@@ -91,9 +71,8 @@ public final class Contest implements TitledEntity {
 	 * @throws Exception If any error occurs while retrieving or parsing document.
 	 */
 	public static List<Contest> get() throws Exception {
-		final URL url = new URL(INDEX);
-		final Document document = Jsoup.parse(url, TIMEOUT);
-		final Elements years = document.getElementsByClass(CONTEST_CLASS_NAME);
+		final Document document = Jsoup.parse(RequestUtils.get(Constants.CONTEST_INDEX));
+		final Elements years = document.getElementsByClass(Constants.CONTEST_CLASS_NAME);
 		final List<Contest> contests = new ArrayList<Contest>(years.size());
 		for (final Element contest : years) {
 			getTitle(contest).ifPresent(title -> {

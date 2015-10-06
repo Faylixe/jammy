@@ -11,10 +11,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.common.TitledEntity;
+import review.classdesign.jammy.common.NamedEntity;
 import review.classdesign.jammy.common.provider.FunctionalContentProvider;
 import review.classdesign.jammy.common.provider.FunctionalLabelProvider;
-import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
 
 /**
@@ -51,8 +50,8 @@ public final class ProblemWizardPage extends WizardPage implements ISelectionCha
 	private Object [] getProblems(final Object input) {
 		final Optional<Round> round = Jammy.getDefault().getCurrentRound();
 		if (round.isPresent()) {
-			final List<Problem> problems = Problem.get(round.get());
-			return problems.toArray();
+//			final List<Problem> problems = Problem.get(round.get());
+//			return problems.toArray();
 		}
 		return Jammy.CHILDLESS;
 	
@@ -63,7 +62,7 @@ public final class ProblemWizardPage extends WizardPage implements ISelectionCha
 	public void createControl(final Composite parent) {
 		final ListViewer viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new FunctionalContentProvider(this::getProblems));
-		viewer.setLabelProvider(new FunctionalLabelProvider(TitledEntity::getText));
+		viewer.setLabelProvider(new FunctionalLabelProvider(null));
 		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addSelectionChangedListener(this);
 		setControl(viewer.getControl());
