@@ -11,8 +11,10 @@ import org.osgi.framework.BundleContext;
 import review.classdesign.jammy.listener.ProblemSelectionListener;
 import review.classdesign.jammy.listener.RoundSelectionListener;
 import review.classdesign.jammy.model.Contest;
+import review.classdesign.jammy.model.ContestInfo;
 import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
+import review.classdesign.jammy.service.IGoogleSessionService;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -50,6 +52,7 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public Jammy() {
 		this.currentRound = Optional.empty();
+		this.currentProblem = Optional.empty();
 		this.roundListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
 	}

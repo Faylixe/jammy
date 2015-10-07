@@ -104,7 +104,6 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	@Override
 	public HttpRequestFactory createRequestFactory() {
 		if (!transport.isPresent() || !credential.isPresent()) {
-			// TODO : Consider triggering login.
 			throw new IllegalStateException();
 		}
 		return transport.get().createRequestFactory(credential.get());

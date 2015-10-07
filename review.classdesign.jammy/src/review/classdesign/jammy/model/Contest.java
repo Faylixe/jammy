@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import review.classdesign.jammy.JammyPreferences;
 import review.classdesign.jammy.common.Constants;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.common.RequestUtils;
@@ -74,7 +75,7 @@ public final class Contest extends NamedObject {
 	 * @throws Exception If any error occurs while retrieving or parsing document.
 	 */
 	public static List<Contest> get() throws Exception {
-		final Document document = Jsoup.parse(RequestUtils.get(Constants.CONTEST_INDEX));
+		final Document document = Jsoup.parse(RequestUtils.get(JammyPreferences.getHostname() + Constants.CONTEST_INDEX));
 		final Elements years = document.getElementsByClass(CONTEST_CLASS_NAME);
 		final List<Contest> contests = new ArrayList<Contest>(years.size());
 		for (final Element contest : years) {
