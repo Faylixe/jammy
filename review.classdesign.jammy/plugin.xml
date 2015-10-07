@@ -1,84 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.commands">
-      <category
-            id="review.classdesign.jammy.commands.category"
-            name="Jammy">
-      </category>
-      <command
-            categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.wizard.ContestHandler"
-            id="review.classdesign.jammy.command.contestselection"
-            name="Select contest">
-      </command>
-      <command
-            categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.LoginHandler"
-            id="review.classdesign.jammy.command.login"
-            name="Login">
-      </command>
-      <command
-            categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.LogoutHandler"
-            id="review.classdesign.jammy.command.logout"
-            name="Logout">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="Jammy">
-            <command
-                  commandId="review.classdesign.jammy.command.login"
-                  label="Login"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="review.classdesign.jammy.logged">
-                     <equals
-                           value="false">
-                     </equals>
-                  </with>
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="review.classdesign.jammy.command.logout"
-                  label="Logout"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="review.classdesign.jammy.logged">
-                     <equals
-                           value="true">
-                     </equals>
-                  </with>
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="review.classdesign.jammy.command.contestselection"
-                  id="review.classdesign.jammy.contribution.select"
-                  label="Select contest"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="review.classdesign.jammy.logged">
-                     <equals
-                           value="true">
-                     </equals>
-                  </with>
-               </visibleWhen>
-            </command>
-         </menu>
-      </menuContribution>
-   </extension>
+
+ 
    <extension
          point="org.eclipse.ui.services">
       <serviceFactory
@@ -99,20 +23,6 @@
                priorityLevel="workbench">
          </variable>
       </sourceProvider>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <category
-            id="review.classdesign.jammy.view.category"
-            name="Jammy">
-      </category>
-      <view
-            category="review.classdesign.jammy.view.category"
-            class="review.classdesign.jammy.view.SubmissionView"
-            id="review.classdesign.jammy.view.submission"
-            name="Submission"
-            restorable="true">
-      </view>
    </extension>
 
 </plugin>

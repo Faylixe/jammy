@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Jammy UI
-Bundle-SymbolicName: review.classdesign.jammy.ui
+Bundle-SymbolicName: review.classdesign.jammy.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: review.classdesign.jammy.ui.Activator
 Bundle-Vendor: Faylixe

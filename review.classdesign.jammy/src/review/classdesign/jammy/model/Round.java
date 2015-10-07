@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import review.classdesign.jammy.JammyPreferences;
 import review.classdesign.jammy.common.Constants;
 import review.classdesign.jammy.common.NamedObject;
 
@@ -73,7 +74,7 @@ public final class Round extends NamedObject {
 		}
 		final Element link = links.first();
 		final String name = link.text();
-		final String url = Constants.HOST + link.attr(Constants.HTML.HREF);
+		final String url = JammyPreferences.getHostname() + link.attr(Constants.HTML.HREF);
 		return Optional.of(new Round(parent, name, url));
 	}
 

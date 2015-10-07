@@ -26,6 +26,7 @@ import review.classdesign.jammy.service.IGoogleSessionService;
 /**
  * {@link IGoogleSessionService} implementation.
  * 
+ * TODO : Handle preference feature.
  * @author fv
  */
 public final class GoogleSessionService implements IGoogleSessionService {
@@ -103,6 +104,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	@Override
 	public HttpRequestFactory createRequestFactory() {
 		if (!transport.isPresent() || !credential.isPresent()) {
+			// TODO : Consider triggering login.
 			throw new IllegalStateException();
 		}
 		return transport.get().createRequestFactory(credential.get());

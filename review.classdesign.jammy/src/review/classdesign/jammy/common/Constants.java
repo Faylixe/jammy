@@ -1,7 +1,7 @@
 package review.classdesign.jammy.common;
 
 /**
- * 
+ * TODO : Make host name contextual.
  * @author fv
  */
 public final class Constants {
@@ -32,11 +32,8 @@ public final class Constants {
 		public static final String TR = "tr";
 	}
 
-	/** **/
-	public static final String HOST = "https://code.google.com";
-
 	/** URL of the contest index page. **/
-	public static final String CONTEST_INDEX = HOST + "/codejam/contests.html";
+	public static final String CONTEST_INDEX = "/codejam/contests.html";
 
 
 }

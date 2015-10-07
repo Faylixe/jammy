@@ -11,7 +11,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.ISourceProviderService;
 
 /**
- * 
+ * TODO : Provider javadoc.
  * @author fv
  */
 public final class GoogleSessionProvider extends AbstractSourceProvider {

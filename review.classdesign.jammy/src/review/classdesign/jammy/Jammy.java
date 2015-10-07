@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -52,7 +53,7 @@ public class Jammy extends AbstractUIPlugin {
 		this.roundListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
 	}
-
+	
 	/**
 	 * Adds the given {@link RoundSelectionListener} to the listener list.
 	 * 
@@ -142,6 +143,9 @@ public class Jammy extends AbstractUIPlugin {
 	/** {@inheritDoc} **/
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
+		final IPreferenceStore store = getPreferenceStore();
+		JammyPreferences.load(store);
+		store.addPropertyChangeListener(JammyPreferences::propertyChange);
 		plugin = this;
 	}
 
