@@ -51,11 +51,7 @@ Bundle-ClassPath: dependecies/jsoup-1.8.3.jar,
  dependecies/transaction-api-1.1.jar,
  dependecies/xpp3-1.1.4c.jar,
  .
-Export-Package: review.classdesign.jammy.handler,
- review.classdesign.jammy.handler.wizard,
+Export-Package: review.classdesign.jammy,
+ review.classdesign.jammy.listener,
  review.classdesign.jammy.model,
- review.classdesign.jammy.service,
- review.classdesign.jammy.view,
- review.classdesign.jammy.wizard,
- review.classdesign.jammy.wizard.contest,
- review.classdesign.jammy.wizard.submit
+ review.classdesign.jammy.service

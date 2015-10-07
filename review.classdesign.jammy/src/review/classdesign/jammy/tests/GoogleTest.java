@@ -27,7 +27,7 @@ public class GoogleTest {
 			final List<Round> rounds = contest.getRounds();
 			final Round round = rounds.get(0);
 			System.out.println("Round selected : " + round.getName());
-			final ContestInfo info = round.getInfo();
+			final ContestInfo info = ContestInfo.get(round);
 			System.out.println(info.getProblems().get(0).getName());
 			System.out.println(info.getProblems().get(0).getBody());
 		}

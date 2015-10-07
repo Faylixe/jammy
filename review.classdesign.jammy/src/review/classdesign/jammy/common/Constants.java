@@ -16,7 +16,6 @@ public final class Constants {
 	/**
 	 * 
 	 * @author fv
-	 *
 	 */
 	public static class HTML {
 
@@ -38,12 +37,6 @@ public final class Constants {
 
 	/** URL of the contest index page. **/
 	public static final String CONTEST_INDEX = HOST + "/codejam/contests.html";
-
-	/** Class name of the element that contains contest data. **/
-	public static final String CONTEST_CLASS_NAME = "year_row";
-
-	/** **/
-	public static final String DESCRIPTION_CLASS_NAME = "desc";
 
 
 }

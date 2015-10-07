@@ -1,12 +1,16 @@
 package review.classdesign.jammy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import review.classdesign.jammy.listener.ProblemSelectionListener;
+import review.classdesign.jammy.listener.RoundSelectionListener;
 import review.classdesign.jammy.model.Contest;
+import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
 
 /**
@@ -29,23 +33,86 @@ public class Jammy extends AbstractUIPlugin {
 	public static final Object [] CHILDLESS = new Object[0];
 
 	/** **/
-	private Optional<List<Contest>> contests;
-
-	/** Current contest this plugin is working on. **/
-	private Optional<Contest> currentContest;
+	private Optional<Round> currentRound;
+	
+	/** **/
+	private Optional<Problem> currentProblem;
 
 	/** **/
-	private Optional<Round> currentRound;
+	private final List<RoundSelectionListener> roundListeners;
+
+	/** **/
+	private final List<ProblemSelectionListener> problemListeners;
 
 	/**
 	 * The constructor
 	 */
 	public Jammy() {
-		this.contests = Optional.empty();
 		this.currentRound = Optional.empty();
-		this.currentContest = Optional.empty();
+		this.roundListeners = new ArrayList<>();
+		this.problemListeners = new ArrayList<>();
+	}
+
+	/**
+	 * Adds the given {@link RoundSelectionListener} to the listener list.
+	 * 
+	 * @param listener Listener instance to register.
+	 */
+	public void addRoundSelectionListener(final RoundSelectionListener listener) {
+		roundListeners.add(listener);
+	}
+
+	/**
+	 * Removes the given {@link RoundSelectionListener} of the listener list.
+	 * 
+	 * @param listener Listener instance to unregister
+	 */
+	public void removeRoundSelectionListener(final RoundSelectionListener listener) {
+		roundListeners.remove(listener);
+	}
+
+	/**
+	 * Adds the given {@link ProblemSelectionListener} to the listener list.
+	 * 
+	 * @param listener Listener instance to register.
+	 */
+	public void addProblemSelectionListener(final ProblemSelectionListener listener) {
+		problemListeners.add(listener);
 	}
 	
+	/**
+	 * Removes the given {@link ProblemSelectionListener} of the listener list.
+	 * 
+	 * @param listener Listener instance to unregister
+	 */
+	public void removeProblemSelectionListener(final ProblemSelectionListener listener) {
+		problemListeners.remove(listener);
+	}
+
+	/**
+	 * Notifies all {@link RoundSelectionListener} instance
+	 * registered that the current round has changed.
+	 */
+	public void fireRoundSelectionChanged() {
+		if (currentRound.isPresent()) {
+			for (final RoundSelectionListener listener : roundListeners) {
+				listener.roundSelected(currentRound.get());
+			}
+		}
+	}
+	
+	/**
+	 * Notifies all {@link ProblemSelectionListener} instance
+	 * registered that the current problem has changed.
+	 */
+	public void fireProblemSelectionChanged() {
+		if (currentProblem.isPresent()) {
+			for (final ProblemSelectionListener listener : problemListeners) {
+				listener.problemSelected(currentProblem.get());
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param contest
@@ -53,7 +120,7 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public void setCurrent(final Optional<Contest> contest, final Optional<Round> round) {
 		currentRound = round;
-		currentContest = contest;
+		fireRoundSelectionChanged();
 	}
 
 	/**
@@ -63,22 +130,13 @@ public class Jammy extends AbstractUIPlugin {
 	public Optional<Round> getCurrentRound() {
 		return currentRound;
 	}
-
+	
 	/**
 	 * 
 	 * @return
 	 */
-	public List<Contest> getContests() {
-		if (!contests.isPresent()) {
-			try {
-				contests = Optional.ofNullable(Contest.get());
-			}
-			catch (final Exception e) {
-				e.printStackTrace();
-				// TODO : Handle error.
-			}
-		}
-		return contests.get();
+	public Optional<Problem> getCurrentProblem() {
+		return currentProblem;
 	}
 
 	/** {@inheritDoc} **/
@@ -91,17 +149,6 @@ public class Jammy extends AbstractUIPlugin {
 	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-	}
-
-	/**
-	 * Functional method.
-	 * 
-	 * @param dummy
-	 * @return
-	 * @category Function
-	 */
-	public static Object[] getContests(final Object dummy) {
-		return plugin.getContests().toArray();
 	}
 
 	/**

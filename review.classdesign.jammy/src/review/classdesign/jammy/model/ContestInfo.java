@@ -1,12 +1,17 @@
 package review.classdesign.jammy.model;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import review.classdesign.jammy.common.RequestUtils;
+
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * TODO : Javadoc.
+ * POJO that aims to be bind to the <tt>/ContestInfo</tt>
+ * request, using Gson API.
  * 
  * @author fv
  */
@@ -51,6 +56,27 @@ public final class ContestInfo {
 	 */
 	public List<Problem> getProblems() {
 		return Arrays.asList(problems);
+	}
+	
+	/** Path of the ContestInfo request. **/
+	private static final String REQUEST = "/ContestInfo";
+
+	/**
+	 * Static factory method that builds a {@link ContestInfo} instance
+	 * from the given <tt>round</tt> using a <tt>/ContestInfo</tt>
+	 * request from the round dashboard.
+	 * 
+	 * @param round Round to retrieve {@link ContestInfo} from.
+	 * @return Built {@link ContestInfo} instance.
+	 * @throws IOException If any error occurs while performing the request.
+	 */
+	public static ContestInfo get(final Round round) throws IOException {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(round.getURL());
+		builder.append(REQUEST);
+		final String json = RequestUtils.get(builder.toString());
+		final Gson parser = new Gson();
+		return parser.fromJson(json, ContestInfo.class);
 	}
 
 }

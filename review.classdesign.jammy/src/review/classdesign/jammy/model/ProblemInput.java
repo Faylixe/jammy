@@ -1,16 +1,19 @@
 package review.classdesign.jammy.model;
 
-import review.classdesign.jammy.common.NamedEntity;
+import review.classdesign.jammy.common.NamedObject;
 
 import com.google.gson.annotations.SerializedName;
 
 
 /**
- * TODO : Class javadoc.
+ * POJO that aims to be bind to the <tt>/ContestInfo</tt>
+ * request, using Gson API. {@link ProblemInput} instance belong
+ * to a {@link Problem} object, and describes input submission
+ * available for a given {@link Problem}.
  * 
  * @author fv
  */
-public final class ProblemInput extends NamedEntity{
+public final class ProblemInput extends NamedObject{
 
 	/** Difficulty rank of this problem input. **/
 	@SerializedName("difficulty")

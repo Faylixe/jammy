@@ -11,17 +11,20 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.common.Constants;
-import review.classdesign.jammy.common.NamedEntity;
+import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.common.RequestUtils;
 
 /**
  * POJO class that represents a Google Jam {@link Contest}.
- * A {@link Contest} is represented by a title and a
+ * A {@link Contest} is represented by a name and a
  * collection of {@link Round}.
  * 
  * @author fv
  */
-public final class Contest extends NamedEntity {
+public final class Contest extends NamedObject {
+
+	/** Class name of the element that contains contest data. **/
+	public static final String CONTEST_CLASS_NAME = "year_row";
 
 	/** {@link Round} that belongs to this contest. **/
 	private final List<Round> rounds;
@@ -29,7 +32,7 @@ public final class Contest extends NamedEntity {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param name Title of this contest.
+	 * @param name Name of this contest.
 	 * @param rounds {@link Round} that belongs to this contest.
 	 */
 	private Contest(final String name, final List<Round> rounds) {
@@ -49,13 +52,13 @@ public final class Contest extends NamedEntity {
 	}
 
 	/**
-	 * Static factory method that retrieves contest title
+	 * Static factory method that retrieves contest name
 	 * from a given HTML contest element.
 	 * 
 	 * @param element JSoup element to retrieve title from.
 	 * @return Optional reference of a contest title.
 	 */
-	private static Optional<String> getTitle(final Element element) {
+	private static Optional<String> getName(final Element element) {
 		final Elements candidates = element.getElementsByTag(Constants.HTML.H3);
 		if (!candidates.isEmpty()) {
 			return Optional.of(candidates.first().text());
@@ -72,11 +75,11 @@ public final class Contest extends NamedEntity {
 	 */
 	public static List<Contest> get() throws Exception {
 		final Document document = Jsoup.parse(RequestUtils.get(Constants.CONTEST_INDEX));
-		final Elements years = document.getElementsByClass(Constants.CONTEST_CLASS_NAME);
+		final Elements years = document.getElementsByClass(CONTEST_CLASS_NAME);
 		final List<Contest> contests = new ArrayList<Contest>(years.size());
 		for (final Element contest : years) {
-			getTitle(contest).ifPresent(title -> {
-				contests.add(new Contest(title, Round.getRounds(contest)));
+			getName(contest).ifPresent(name -> {
+				contests.add(new Contest(name, Round.getRounds(name, contest)));
 			});
 		}
 		return contests;

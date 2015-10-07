@@ -3,16 +3,19 @@ package review.classdesign.jammy.model;
 import java.util.Arrays;
 import java.util.List;
 
-import review.classdesign.jammy.common.NamedEntity;
+import review.classdesign.jammy.common.NamedObject;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
- * TODO : Javadoc
+ * POJO that aims to be bind to the <tt>/ContestInfo</tt>
+ * request, using Gson API. {@link Problem} instance belong
+ * to a {@link ContestInfo} object, and consists in the problem
+ * metadata such a name, description, and IO details.
  * 
  * @author fv
  */
-public final class Problem extends NamedEntity {
+public final class Problem extends NamedObject {
 
 	/** Full HTML text that describes this problem. **/
 	@SerializedName("body")
