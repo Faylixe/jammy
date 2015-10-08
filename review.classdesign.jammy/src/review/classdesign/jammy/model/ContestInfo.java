@@ -2,6 +2,7 @@ package review.classdesign.jammy.model;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import review.classdesign.jammy.common.RequestUtils;
@@ -55,7 +56,7 @@ public final class ContestInfo {
 	 * @return List of problem this contest exposes.
 	 */
 	public List<Problem> getProblems() {
-		return Arrays.asList(problems);
+		return (problems != null ? Arrays.asList(problems) : Collections.emptyList());
 	}
 	
 	/** Path of the ContestInfo request. **/

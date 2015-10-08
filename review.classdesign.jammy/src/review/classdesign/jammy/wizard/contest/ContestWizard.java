@@ -48,10 +48,9 @@ public final class ContestWizard extends Wizard {
 	/** {@inheritDoc} **/
 	@Override
 	public boolean performFinish() {
-		final Optional<Contest> contest = roundPage.getContest();
 		final Optional<Round> round = roundPage.getRound();
-		if (contest.isPresent() && round.isPresent()) {
-			Jammy.getDefault().setCurrent(contest, round);
+		if (round.isPresent()) {
+			Jammy.getDefault().setCurrent(round.get());
 			return true;
 		}
 		return false;

@@ -1,6 +1,7 @@
 package review.classdesign.jammy.common;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -20,6 +21,9 @@ import review.classdesign.jammy.service.IGoogleSessionService;
  */
 public final class RequestUtils {
 
+	/** **/
+	private static final String SESSION_NOT_LOGGED = "Google sesson has not be logged in.";
+
 	/**
 	 * Private constructor for avoiding instantiation.
 	 */
@@ -35,8 +39,11 @@ public final class RequestUtils {
 	 */
 	public static String get(final String url) throws IOException {
 		final IGoogleSessionService service = IGoogleSessionService.get();
-		final HttpRequestFactory factory = service.createRequestFactory();
-		final HttpRequest request = factory.buildGetRequest(new GenericUrl(url));
+		final Optional<HttpRequestFactory> factory = service.createRequestFactory();
+		if (!factory.isPresent()) {
+			throw new IOException(SESSION_NOT_LOGGED);
+		}
+		final HttpRequest request = factory.get().buildGetRequest(new GenericUrl(url));
 		final HttpResponse response = request.execute();
 		return response.parseAsString();
 	}

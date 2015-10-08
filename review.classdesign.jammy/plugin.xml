@@ -27,25 +27,25 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="review.classdesign.jammy.ui.commands.category"
+            id="review.classdesign.jammy.commands.category"
             name="Jammy">
       </category>
       <command
-            categoryId="review.classdesign.jammy.ui.commands.category"
-            defaultHandler="review.classdesign.jammy.ui.handler.wizard.ContestHandler"
-            id="review.classdesign.jammy.ui.command.contestselection"
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.handler.wizard.ContestHandler"
+            id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
       <command
-            categoryId="review.classdesign.jammy.ui.commands.category"
-            defaultHandler="review.classdesign.jammy.ui.handler.LoginHandler"
-            id="review.classdesign.jammy.ui.command.login"
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.handler.LoginHandler"
+            id="review.classdesign.jammy.command.login"
             name="Login">
       </command>
       <command
-            categoryId="review.classdesign.jammy.ui.commands.category"
-            defaultHandler="review.classdesign.jammy.ui.handler.LogoutHandler"
-            id="review.classdesign.jammy.ui.command.logout"
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.handler.LogoutHandler"
+            id="review.classdesign.jammy.command.logout"
             name="Logout">
       </command>
    </extension>
@@ -57,7 +57,7 @@
          <menu
                label="Jammy">
             <command
-                  commandId="review.classdesign.jammy.ui.command.login"
+                  commandId="review.classdesign.jammy.command.login"
                   label="Login"
                   style="push">
                <visibleWhen
@@ -71,7 +71,7 @@
                </visibleWhen>
             </command>
             <command
-                  commandId="review.classdesign.jammy.ui.command.logout"
+                  commandId="review.classdesign.jammy.command.logout"
                   label="Logout"
                   style="push">
                <visibleWhen
@@ -85,8 +85,8 @@
                </visibleWhen>
             </command>
             <command
-                  commandId="review.classdesign.jammy.ui.command.contestselection"
-                  id="review.classdesign.jammy.ui.contribution.select"
+                  commandId="review.classdesign.jammy.command.contestselection"
+                  id="review.classdesign.jammy.contribution.select"
                   label="Select contest"
                   style="push">
                <visibleWhen
@@ -106,22 +106,30 @@
     <extension
          point="org.eclipse.ui.views">
       <category
-            id="review.classdesign.jammy.ui.view.category"
+            id="review.classdesign.jammy.view.category"
             name="Jammy">
       </category>
       <view
-            category="review.classdesign.jammy.ui.view.category"
-            class="review.classdesign.jammy.ui.view.SubmissionView"
-            id="review.classdesign.jammy.ui.view.submission"
+            category="review.classdesign.jammy.view.category"
+            class="review.classdesign.jammy.view.SubmissionView"
+            id="review.classdesign.jammy.view.submission"
             name="Submission"
             restorable="true">
       </view>
       <view
-            category="review.classdesign.jammy.ui.view.category"
-            class="review.classdesign.jammy.ui.view.ProblemView"
-            id="review.classdesign.jammy.ui.view.problem"
+            category="review.classdesign.jammy.view.category"
+            class="review.classdesign.jammy.view.ProblemView"
+            id="review.classdesign.jammy.view.problem"
             name="Round problem"
             restorable="true">
       </view>
    </extension>
+    <extension
+          point="org.eclipse.ui.preferencePages">
+       <page
+             class="review.classdesign.jammy.view.PreferencePage"
+             id="review.classdesign.jammy.preferences.root"
+             name="Jammy">
+       </page>
+    </extension>
 </plugin>

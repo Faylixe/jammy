@@ -44,38 +44,70 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	private static final Collection<String> SCOPES = Collections.singleton("https://www.googleapis.com/auth/plus.me");
 
 	/**
-	 * Optional reference to the authentification credentials.
-	 * Initialized during the login phase using OAuth 2.0.
+	 * 
+	 * @author fv
 	 */
-	private Optional<Credential> credential;
+	private static final class Container {
 
-	/**
-	 * Optional reference to the HTTP transport client.
-	 * Initialized during the first login phase.
-	 */
-	private Optional<NetHttpTransport> transport;
+		/** Authentification credentials. **/
+		private final Credential credential;
+
+		/** HTTP transport client. **/
+		private final NetHttpTransport transport;
+		
+		/**
+		 * 
+		 * @param transport
+		 * @param credential
+		 */
+		private Container(final NetHttpTransport transport, final Credential credential) {
+			this.credential = credential;
+			this.transport = transport;
+		}
+
+		/**
+		 * 
+		 * @return
+		 */
+		private boolean isPresent() {
+			return (!EMPTY.equals(this));
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		private HttpRequestFactory createRequestFactory() {
+			return transport.createRequestFactory(credential);
+		}
+
+		/** **/
+		private static final Container EMPTY = new Container(null, null);
+		
+	}
+
+	/** **/
+	private Container container;
 
 	/**
 	 * Default constructor.
 	 */
 	public GoogleSessionService() {
-		this.transport = Optional.empty();
-		this.credential = Optional.empty();
+		this.container = Container.EMPTY;
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void login() throws IOException, GeneralSecurityException {
-		if (!credential.isPresent()) {
-			if (!transport.isPresent()) {
-				transport = Optional.of(GoogleNetHttpTransport.newTrustedTransport());
-			}
+		if (!container.isPresent()) {
+			final NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
 			final GoogleClientSecrets secrets = getSecret();
-			final Builder builder = new GoogleAuthorizationCodeFlow.Builder(transport.get(), JSON_FACTORY, secrets, SCOPES);
+			final Builder builder = new GoogleAuthorizationCodeFlow.Builder(transport, JSON_FACTORY, secrets, SCOPES);
 			final LocalServerReceiver receiver = new LocalServerReceiver();
 			final AuthorizationCodeFlow flow = builder.build();
 			final AuthorizationCodeInstalledApp application = new AuthorizationCodeInstalledApp(flow, receiver);
-			credential = Optional.of(application.authorize(USER_ID));
+			final Credential credential = application.authorize(USER_ID);
+			this.container = new Container(transport, credential);
 			GoogleSessionProvider.get().setLogged(true);
 		}
 	}
@@ -96,17 +128,17 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void logout() {
-		credential = Optional.empty();
+		container = Container.EMPTY;
 		GoogleSessionProvider.get().setLogged(false);
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public HttpRequestFactory createRequestFactory() {
-		if (!transport.isPresent() || !credential.isPresent()) {
-			throw new IllegalStateException();
+	public Optional<HttpRequestFactory> createRequestFactory() {
+		if (!container.isPresent()) {
+			return Optional.empty();
 		}
-		return transport.get().createRequestFactory(credential.get());
+		return Optional.of(container.createRequestFactory());
 	}
 
 }

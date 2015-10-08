@@ -1,7 +1,9 @@
 package review.classdesign.jammy;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -11,10 +13,8 @@ import org.osgi.framework.BundleContext;
 import review.classdesign.jammy.listener.ProblemSelectionListener;
 import review.classdesign.jammy.listener.RoundSelectionListener;
 import review.classdesign.jammy.model.Contest;
-import review.classdesign.jammy.model.ContestInfo;
 import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
-import review.classdesign.jammy.service.IGoogleSessionService;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -36,10 +36,10 @@ public class Jammy extends AbstractUIPlugin {
 	public static final Object [] CHILDLESS = new Object[0];
 
 	/** **/
-	private Optional<Round> currentRound;
+	private Round currentRound;
 	
 	/** **/
-	private Optional<Problem> currentProblem;
+	private Problem currentProblem;
 
 	/** **/
 	private final List<RoundSelectionListener> roundListeners;
@@ -51,8 +51,6 @@ public class Jammy extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Jammy() {
-		this.currentRound = Optional.empty();
-		this.currentProblem = Optional.empty();
 		this.roundListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
 	}
@@ -97,11 +95,9 @@ public class Jammy extends AbstractUIPlugin {
 	 * Notifies all {@link RoundSelectionListener} instance
 	 * registered that the current round has changed.
 	 */
-	public void fireRoundSelectionChanged() {
-		if (currentRound.isPresent()) {
-			for (final RoundSelectionListener listener : roundListeners) {
-				listener.roundSelected(currentRound.get());
-			}
+	private void fireRoundSelectionChanged() {
+		for (final RoundSelectionListener listener : roundListeners) {
+			listener.roundSelected(currentRound);
 		}
 	}
 	
@@ -109,11 +105,9 @@ public class Jammy extends AbstractUIPlugin {
 	 * Notifies all {@link ProblemSelectionListener} instance
 	 * registered that the current problem has changed.
 	 */
-	public void fireProblemSelectionChanged() {
-		if (currentProblem.isPresent()) {
-			for (final ProblemSelectionListener listener : problemListeners) {
-				listener.problemSelected(currentProblem.get());
-			}
+	private void fireProblemSelectionChanged() {
+		for (final ProblemSelectionListener listener : problemListeners) {
+			listener.problemSelected(currentProblem);
 		}
 	}
 
@@ -122,8 +116,8 @@ public class Jammy extends AbstractUIPlugin {
 	 * @param contest
 	 * @param round
 	 */
-	public void setCurrent(final Optional<Contest> contest, final Optional<Round> round) {
-		currentRound = round;
+	public void setCurrent(final Round round) {
+		currentRound = Objects.requireNonNull(round);
 		fireRoundSelectionChanged();
 	}
 
@@ -132,7 +126,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return
 	 */
 	public Optional<Round> getCurrentRound() {
-		return currentRound;
+		return Optional.ofNullable(currentRound);
 	}
 	
 	/**
@@ -140,7 +134,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return
 	 */
 	public Optional<Problem> getCurrentProblem() {
-		return currentProblem;
+		return Optional.ofNullable(currentProblem);
 	}
 
 	/** {@inheritDoc} **/

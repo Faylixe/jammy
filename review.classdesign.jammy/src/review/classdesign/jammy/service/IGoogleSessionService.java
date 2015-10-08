@@ -2,6 +2,7 @@ package review.classdesign.jammy.service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Optional;
 
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -37,7 +38,7 @@ public interface IGoogleSessionService {
 	 * @return Created request factory.
 	 * @throws IllegalStateException If login step hasn't be performed before.
 	 */
-	HttpRequestFactory createRequestFactory();
+	Optional<HttpRequestFactory> createRequestFactory();
 
 	/**
 	 * Static method that allows service instance quick access

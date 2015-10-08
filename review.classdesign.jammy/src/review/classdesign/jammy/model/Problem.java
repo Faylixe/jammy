@@ -1,6 +1,7 @@
 package review.classdesign.jammy.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import review.classdesign.jammy.common.NamedObject;
@@ -84,7 +85,7 @@ public final class Problem extends NamedObject {
 	 * @see #inputs
 	 */
 	public List<ProblemInput> getProblemInputs() {
-		return Arrays.asList(inputs);
+		return (inputs != null ? Arrays.asList(inputs) : Collections.emptyList());
 	}
 
 }

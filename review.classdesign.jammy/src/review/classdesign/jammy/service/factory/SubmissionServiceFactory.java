@@ -1,7 +1,5 @@
 package review.classdesign.jammy.service.factory;
 
-import java.util.Optional;
-
 import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
@@ -16,14 +14,14 @@ import review.classdesign.jammy.service.internal.SubmissionService;
 public final class SubmissionServiceFactory extends AbstractServiceFactory {
 
 	/** Optional reference of our singleton service. **/
-	private Optional<ISubmissionService> service;
+	private final ISubmissionService service;
 
 	/**
 	 * Default constructor.
 	 * Initializes service reference.
 	 */
 	public SubmissionServiceFactory() {
-		this.service = Optional.empty();
+		this.service = new SubmissionService();
 	}
 
 	/** {@inheritDoc} **/
@@ -34,10 +32,7 @@ public final class SubmissionServiceFactory extends AbstractServiceFactory {
 			final IServiceLocator parentLocator,
 			final IServiceLocator locator) {
 		if (ISubmissionService.class.equals(serviceInterface)) {
-			if (!service.isPresent()) {
-				service = Optional.of(new SubmissionService());
-			}
-			return service.get();
+			return service;
 		}
 		return null;
 	}

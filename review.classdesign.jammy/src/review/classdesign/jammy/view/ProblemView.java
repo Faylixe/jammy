@@ -24,14 +24,14 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	 * This reference is initialized when control are created
 	 * through the {@link #createPartControl(Composite)} method.
 	 */
-	private Optional<Browser> browser;
+	private Browser browser;
 
 	/** {@inheritDoc} **/
 	@Override
 	public void createPartControl(final Composite parent) {
 		final Jammy jammy = Jammy.getDefault();
+		browser = new Browser(parent, SWT.NONE);
 		jammy.addProblemSelectionListener(this);
-		browser = Optional.of(new Browser(parent, SWT.NONE));
 		final Optional<Problem> problem = jammy.getCurrentProblem();
 		if (problem.isPresent()) {
 			problemSelected(problem.get());
@@ -54,10 +54,7 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	/** {@inheritDoc} **/
 	@Override
 	public void problemSelected(final Problem problem) {
-		if (browser.isPresent()) {
-			// TODO : Figure out for the view title.
-			browser.get().setText(problem.getBody());
-		}
+		browser.setText(problem.getBody());
 	}
 
 }

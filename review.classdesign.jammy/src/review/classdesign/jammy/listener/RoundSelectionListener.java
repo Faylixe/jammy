@@ -17,6 +17,6 @@ public interface RoundSelectionListener {
 	 * 
 	 * @param round Newly selected round instance.
 	 */
-	void roundSelected(final Round round);
+	void roundSelected(Round round);
 
 }
