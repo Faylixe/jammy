@@ -3,7 +3,7 @@ package review.classdesign.jammy.wizard.submit;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.wizard.Wizard;
 
-import review.classdesign.jammy.wizard.ProblemWizardPage;
+import review.classdesign.jammy.wizard.problem.ProblemWizardPage;
 
 /**
  * 

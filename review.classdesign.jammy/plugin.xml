@@ -32,7 +32,7 @@
       </category>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.wizard.ContestHandler"
+            defaultHandler="review.classdesign.jammy.handler.ContestSelectionHandler"
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
@@ -57,47 +57,16 @@
          <menu
                label="Jammy">
             <command
-                  commandId="review.classdesign.jammy.command.login"
-                  label="Login"
+                  commandId="review.classdesign.jammy.command.contestselection"
+                  id="review.classdesign.jammy.contribution.select.contest"
+                  label="Select contest"
                   style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="review.classdesign.jammy.logged">
-                     <equals
-                           value="false">
-                     </equals>
-                  </with>
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="review.classdesign.jammy.command.logout"
-                  label="Logout"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="review.classdesign.jammy.logged">
-                     <equals
-                           value="true">
-                     </equals>
-                  </with>
-               </visibleWhen>
             </command>
             <command
                   commandId="review.classdesign.jammy.command.contestselection"
-                  id="review.classdesign.jammy.contribution.select"
-                  label="Select contest"
+                  id="eview.classdesign.jammy.contribution.select.problem"
+                  label="Select problem"
                   style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="review.classdesign.jammy.logged">
-                     <equals
-                           value="true">
-                     </equals>
-                  </with>
-               </visibleWhen>
             </command>
          </menu>
       </menuContribution>

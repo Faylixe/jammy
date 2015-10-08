@@ -1,5 +1,6 @@
 package review.classdesign.jammy.common;
 
+import com.google.common.base.Function;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -39,6 +40,19 @@ public class NamedObject {
 	 */
 	public final String getName() {
 		return name;
+	}
+	
+	/**
+	 * Static method that acts as a {@link Function} object.
+	 * 
+	 * @param object Object to return name from.
+	 * @return Name of the given <tt>object</tt> if instance of {@link NamedObject}, <tt>null</tt> otherwise.
+	 */
+	public static String getName(final Object object) {
+		if (object instanceof NamedObject) {
+			return ((NamedObject) object).getName();
+		}
+		return null;
 	}
 
 }

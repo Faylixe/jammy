@@ -1,6 +1,5 @@
 package review.classdesign.jammy;
 
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +11,6 @@ import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.listener.ProblemSelectionListener;
 import review.classdesign.jammy.listener.RoundSelectionListener;
-import review.classdesign.jammy.model.Contest;
 import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
 
@@ -116,7 +114,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * @param contest
 	 * @param round
 	 */
-	public void setCurrent(final Round round) {
+	public void setCurrentRound(final Round round) {
 		currentRound = Objects.requireNonNull(round);
 		fireRoundSelectionChanged();
 	}

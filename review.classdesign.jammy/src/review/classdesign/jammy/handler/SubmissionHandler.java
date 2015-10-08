@@ -1,4 +1,4 @@
-package review.classdesign.jammy.handler.wizard;
+package review.classdesign.jammy.handler;
 
 import java.util.Optional;
 
@@ -19,14 +19,14 @@ public final class SubmissionHandler extends AbstractWizardHandler {
 
 	/** {@inheritDoc} **/
 	@Override
-	protected IWizard createWizard() {
+	protected Optional<IWizard> createWizard() {
 		final Optional<Round> round = Jammy.getDefault().getCurrentRound();
 		if (!round.isPresent()) {
 			// TODO : Shows error dialog.
 		}
 		final Optional<IFile> file = EclipseUtils.getCurrentFile();
 		// TODO : What if no file is currently edited ? 
-		return new SubmissionWizard(file.get());
+		return Optional.of(new SubmissionWizard(file.get()));
 	}
 
 }

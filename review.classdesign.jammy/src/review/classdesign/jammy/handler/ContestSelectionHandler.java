@@ -1,4 +1,6 @@
-package review.classdesign.jammy.handler.wizard;
+package review.classdesign.jammy.handler;
+
+import java.util.Optional;
 
 import org.eclipse.jface.wizard.IWizard;
 
@@ -10,12 +12,12 @@ import review.classdesign.jammy.wizard.contest.ContestWizard;
  * 
  * @author fv
  */
-public final class ContestHandler extends AbstractWizardHandler {
+public final class ContestSelectionHandler extends AbstractWizardHandler {
 
 	/** {@inheritDoc} **/
 	@Override
-	protected IWizard createWizard() {
-		return new ContestWizard();
+	protected Optional<IWizard> createWizard() {
+		return Optional.of(new ContestWizard());
 	}
 
 

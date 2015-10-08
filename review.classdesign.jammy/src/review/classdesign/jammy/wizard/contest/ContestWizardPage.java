@@ -1,6 +1,8 @@
 package review.classdesign.jammy.wizard.contest;
 
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -11,7 +13,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.FunctionalContentProvider;
 import review.classdesign.jammy.common.FunctionalLabelProvider;
+import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.model.Contest;
 
 /**
@@ -50,13 +54,28 @@ public final class ContestWizardPage extends WizardPage implements ISelectionCha
 		setPageComplete(true);
 	}
 	
+	/**
+	 * Functional method that acts as a {@link Supplier} of available
+	 * contest.
+	 * 
+	 * @return List of contest available.
+	 */
+	private List<Contest> getContest() {
+		try {
+			return Contest.get();
+		}
+		catch (final Exception e) {
+			// TODO : Log error.
+		}
+		return null;
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public void createControl(final Composite parent) {
 		final ListViewer viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		// TODO : Provide a delayed loading view.
-		//viewer.setContentProvider(new FunctionalContentProvider(Contest::get));
-		viewer.setLabelProvider(new FunctionalLabelProvider(null));
+		viewer.setContentProvider(new FunctionalContentProvider(this::getContest));
+		viewer.setLabelProvider(new FunctionalLabelProvider(NamedObject::getName));
 		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addSelectionChangedListener(this);
 		setControl(viewer.getControl());

@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Optional;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+
+import review.classdesign.jammy.service.internal.GoogleSessionProvider;
 
 import com.google.api.client.http.HttpRequestFactory;
 
@@ -50,6 +53,29 @@ public interface IGoogleSessionService {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		final Object service = workbench.getService(IGoogleSessionService.class);
 		return (IGoogleSessionService) service;
+	}
+
+	/**
+	 * TODO : Optimizes method design.
+	 * 
+	 * @return <tt>true</tt> if user is logged, <tt>false</tt> otherwise.
+	 */
+	public static boolean requireLogin() {
+		final GoogleSessionProvider provider = GoogleSessionProvider.get();
+		if (!provider.isLogged()) {
+			final IWorkbench workbench = PlatformUI.getWorkbench();
+			final boolean shouldLog = MessageDialog.openQuestion(workbench.getDisplay().getActiveShell(), "", "");
+			if (shouldLog) {
+				final IGoogleSessionService service = get();
+				try {
+					service.login();
+				}
+				catch (final Exception e) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

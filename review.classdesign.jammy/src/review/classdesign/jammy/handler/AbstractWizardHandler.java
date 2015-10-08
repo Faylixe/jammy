@@ -1,4 +1,6 @@
-package review.classdesign.jammy.handler.wizard;
+package review.classdesign.jammy.handler;
+
+import java.util.Optional;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -9,6 +11,8 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+
+import review.classdesign.jammy.service.IGoogleSessionService;
 
 /**
  * Abstract handler implementation that only run a {@link Wizard}
@@ -21,13 +25,17 @@ public abstract class AbstractWizardHandler extends AbstractHandler {
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		// Retrieves current shell.
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
-		// Creates wizard and run it.
-		final IWizard wizard = createWizard();
-		final WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
+		if (IGoogleSessionService.requireLogin()) {
+			// Retrieves current shell.
+			final IWorkbench workbench = PlatformUI.getWorkbench();
+			final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
+			// Creates wizard and run it.
+			final Optional<IWizard> wizard = createWizard();
+			if (wizard.isPresent()) {
+				final WizardDialog dialog = new WizardDialog(shell, wizard.get());
+				dialog.open();
+			}
+		}
 		return null;
 	}
 
@@ -36,6 +44,6 @@ public abstract class AbstractWizardHandler extends AbstractHandler {
 	 * 
 	 * @return Created wizard instance.
 	 */
-	protected abstract IWizard createWizard();
+	protected abstract Optional<IWizard> createWizard();
 
 }

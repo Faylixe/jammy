@@ -1,4 +1,4 @@
-package review.classdesign.jammy.wizard;
+package review.classdesign.jammy.wizard.problem;
 
 import java.util.Optional;
 

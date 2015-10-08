@@ -50,7 +50,7 @@ public final class ContestWizard extends Wizard {
 	public boolean performFinish() {
 		final Optional<Round> round = roundPage.getRound();
 		if (round.isPresent()) {
-			Jammy.getDefault().setCurrent(round.get());
+			Jammy.getDefault().setCurrentRound(round.get());
 			return true;
 		}
 		return false;
