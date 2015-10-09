@@ -1,7 +1,11 @@
 package review.classdesign.jammy.wizard.problem;
 
+import java.util.Optional;
+
 import org.eclipse.jface.wizard.Wizard;
 
+import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
 
 /**
@@ -22,7 +26,7 @@ public final class ProblemWizard extends Wizard {
 	 */
 	public ProblemWizard(final Round round) {
 		super();
-		setWindowTitle("");
+		setWindowTitle(TITLE);
 		page = new ProblemWizardPage();
 	}
 
@@ -35,6 +39,11 @@ public final class ProblemWizard extends Wizard {
 	/** {@inheritDoc} **/
 	@Override
 	public boolean performFinish() {
+		final Optional<Problem> problem = page.getProblem();
+		if (problem.isPresent()) {
+			Jammy.getDefault().setCurrentProblem(problem.get());
+			return true;
+		}
 		return false;
 	}
 

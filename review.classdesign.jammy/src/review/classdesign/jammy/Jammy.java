@@ -111,12 +111,20 @@ public class Jammy extends AbstractUIPlugin {
 
 	/**
 	 * 
-	 * @param contest
 	 * @param round
 	 */
 	public void setCurrentRound(final Round round) {
 		currentRound = Objects.requireNonNull(round);
 		fireRoundSelectionChanged();
+	}
+
+	/**
+	 * 
+	 * @param problem
+	 */
+	public void setCurrentProblem(final Problem problem) {
+		currentProblem = Objects.requireNonNull(problem);
+		fireProblemSelectionChanged();
 	}
 
 	/**
