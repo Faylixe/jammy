@@ -38,15 +38,9 @@
       </command>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.LoginHandler"
-            id="review.classdesign.jammy.command.login"
-            name="Login">
-      </command>
-      <command
-            categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.LogoutHandler"
-            id="review.classdesign.jammy.command.logout"
-            name="Logout">
+            defaultHandler="review.classdesign.jammy.handler.ProblemSelectionHandler"
+            id="review.classdesign.jammy.command.problemselection"
+            name="Select problem">
       </command>
    </extension>
      <extension
@@ -63,7 +57,7 @@
                   style="push">
             </command>
             <command
-                  commandId="review.classdesign.jammy.command.contestselection"
+                  commandId="review.classdesign.jammy.command.problemselection"
                   id="eview.classdesign.jammy.contribution.select.problem"
                   label="Select problem"
                   style="push">

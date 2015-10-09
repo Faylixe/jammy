@@ -55,6 +55,12 @@ public interface IGoogleSessionService {
 		return (IGoogleSessionService) service;
 	}
 
+	/** **/
+	public static final String TITLE = "Google session invalid";
+
+	/** **/
+	public static final String MESSAGE = "You should have an active Google session to use this feature, would you like to log in now ?";
+
 	/**
 	 * TODO : Optimizes method design.
 	 * 
@@ -64,18 +70,19 @@ public interface IGoogleSessionService {
 		final GoogleSessionProvider provider = GoogleSessionProvider.get();
 		if (!provider.isLogged()) {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
-			final boolean shouldLog = MessageDialog.openQuestion(workbench.getDisplay().getActiveShell(), "", "");
+			final boolean shouldLog = MessageDialog.openQuestion(workbench.getDisplay().getActiveShell(), TITLE, MESSAGE);
 			if (shouldLog) {
 				final IGoogleSessionService service = get();
 				try {
 					service.login();
 				}
 				catch (final Exception e) {
+					e.printStackTrace();
 					return false;
 				}
 			}
 		}
-		return true;
+		return provider.isLogged();
 	}
 
 }
