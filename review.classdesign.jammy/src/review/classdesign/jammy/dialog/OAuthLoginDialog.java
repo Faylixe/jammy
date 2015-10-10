@@ -15,42 +15,52 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.service.IGoogleLogger;
 
 /**
+ * Custom dialog implementation that aims
+ * to provide web browsing view for OAuth
+ * login.
  * 
  * @author fv
  */
-public final class LoginDialog extends Dialog {
+public final class OAuthLoginDialog extends Dialog {
 
+	/** Logger instance that provides OAuth URL. **/
 	private final IGoogleLogger logger;
 
 	/**
+	 * Default constructor.
 	 * 
-	 * @param parentShell
-	 * @param logger
+	 * @param parentShell Shell that owns this dialog.
+	 * @param logger Logger instance that provides OAuth URL.
 	 */
-	public LoginDialog(final Shell parentShell, final IGoogleLogger logger) {
+	public OAuthLoginDialog(final Shell parentShell, final IGoogleLogger logger) {
 		super(parentShell);
 		this.logger = logger;
 		
 	}
 	
+	/** Initial dialog width. **/
 	private static final int WIDTH = 500;
 	
+	/** Initial dialog height. **/
 	private static final int HEIGHT = 400;
 
+	/** {@inheritDoc} **/
 	@Override
 	protected boolean isResizable() {
 		return true;
 	}
-	
+
+	/** {@inheritDoc} **/
 	@Override
 	protected Point getInitialSize() {
 		return new Point(WIDTH, HEIGHT);
 	}
 
-	/** **/
+	/** {@inheritDoc} **/
 	@Override
 	protected Control createDialogArea(final Composite parent) {
 		final Composite container = (Composite) super.createDialogArea(parent);
@@ -59,12 +69,13 @@ public final class LoginDialog extends Dialog {
 		try {
 			final boolean reached = browser.setUrl(logger.getURL());
 			if (!reached) {
-				throw new IOException(""); // TODO : Set error message.
+				throw new IOException("Cannot reach OAuth page.");
 			}
 		}
 		catch (final IOException e) {
-			// TODO : Handle error.
-			e.printStackTrace();
+			EclipseUtils.showError(e);
+			logger.cancel();
+			close();
 		}
 		return container;
 	}

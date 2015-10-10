@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Optional;
 
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
 import com.google.api.client.http.HttpRequestFactory;
 
-import review.classdesign.jammy.dialog.LoginDialog;
+import review.classdesign.jammy.dialog.OAuthLoginDialog;
 import review.classdesign.jammy.service.IGoogleLogger;
 import review.classdesign.jammy.service.IGoogleSessionService;
 
@@ -51,7 +50,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final Shell shell = workbench.getDisplay().getActiveShell();
 			final IGoogleLogger logger = GoogleLogger.createLogger(this::setSession);
-			final LoginDialog dialog = new LoginDialog(shell, logger);
+			final OAuthLoginDialog dialog = new OAuthLoginDialog(shell, logger);
 			logger.addListener(() -> {
 				// TODO : Figure out LookupViewSystem error on OSX.
 				workbench.getDisplay().asyncExec(dialog::close);
