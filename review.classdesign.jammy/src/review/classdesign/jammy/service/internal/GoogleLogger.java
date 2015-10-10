@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Consumer;
@@ -12,12 +13,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow.Builder;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
@@ -26,14 +28,16 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import review.classdesign.jammy.service.IGoogleLogger;
+
 /**
  * 
  * @author fv
  */
-public final class GoogleLogger implements IRunnableWithProgress {
+public final class GoogleLogger implements IGoogleLogger {
 
 	/** Target user id used for the session created. **/
-	private static final String USER_ID = "user";
+	//private static final String USER_ID = "user";
 
 	/** Default path of the JSON secret file. **/
 	private static final String SECRET_PATH = "/client_secret.json";
@@ -43,136 +47,113 @@ public final class GoogleLogger implements IRunnableWithProgress {
 
 	/** Scopes of the created session. **/
 	private static final Collection<String> SCOPES = Collections.singleton("https://www.googleapis.com/auth/plus.me");
+	
+	/** **/
+	private final AuthorizationCodeFlow flow;
 
 	/** **/
-	private final Builder builder;
+	private final LocalServerReceiver receiver;
 
 	/** **/
-	private final Consumer<Session> consumer;
+	private final Consumer<Session> sessionConsumer;
+	
+	/** */
+	private final Collection<Runnable> listeners;
 
 	/** **/
-	private volatile boolean isRunning;
+	private String redirectUri;
 
 	/**
 	 * 
 	 * @param builder
-	 * @param consumer
+	 * @param sessionConsumer
 	 */
-	private GoogleLogger(final Builder builder, final Consumer<Session> consumer) {
-		this.builder = builder;
-		this.consumer = consumer;
-		this.isRunning = true;
+	private GoogleLogger(final Builder builder, final Consumer<Session> sessionConsumer) {
+		this.flow = builder.build();
+		this.receiver = new LocalServerReceiver();
+		this.listeners = new ArrayList<>(1);
+		this.sessionConsumer = sessionConsumer;
 	}
 
-	/**
-	 * 
-	 * @param job
-	 */
-	private void runJob(final Job job) {
-		job.setSystem(true);
-		job.setPriority(Job.SHORT);
-		job.schedule();
+	/** **/
+	@Override
+	public void addListener(final Runnable listener) {
+		listeners.add(listener);
 	}
 
-	/**
-	 * 
-	 * @param application
-	 * @param notifier
-	 * @return
-	 */
-	private Thread createAuthorizationThread(final AuthorizationCodeInstalledApp application) {
-		final Thread thread = new Thread(() -> {
-			try {
-				final Credential credential = application.authorize(USER_ID);
-				final Session session = new Session(builder.getTransport(), credential);
-				consumer.accept(session);
-			}
-			catch (final Exception e) {
-				e.printStackTrace();
-			}
-			finally {
-				terminate();
-			}
-		});
-		final Job job = Job.create("", (monitor) -> {
-			thread.start();
-			return Status.OK_STATUS;
-		});
-		runJob(job);
-		return thread;
-	}
-
-	/**
-	 * 
-	 */
-	private void terminate() {
-		isRunning = false;
-	}
-
-	/**
-	 * 
-	 */
-	private void waitForCompletion() {
-		while (isRunning) {
-			try {
-				Thread.sleep(1000);
-			}
-			catch (final InterruptedException e) {
-				e.printStackTrace();
-			}
+	/** **/
+	@Override
+	public void cancel() {
+		try {
+			receiver.stop();
+		}
+		catch (final IOException e) {
+			// TODO : Handle error.
 		}
 	}
 
-
+	/**
+	 * 
+	 * @param code
+	 */
+	private void authorize(final String code) {
+		try {
+			final AuthorizationCodeTokenRequest request = flow.newTokenRequest(code);
+			request.setRedirectUri(redirectUri);
+			final TokenResponse response = request.execute();
+			final Credential credential = flow.createAndStoreCredential(response, "user"); // TODO : Match user id.
+			sessionConsumer.accept(new Session(flow.getTransport(), credential));
+			listeners.forEach(Runnable::run);
+			receiver.stop();
+		}
+		catch (final IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param receiver
+	 * @param codeConsumer
+	 * @return
+	 */
+	private IStatus waitForCode(final IProgressMonitor monitor) {
+		try {
+			final String code = receiver.waitForCode();
+			authorize(code);
+		}
+		catch (final IOException e) {
+			// TODO : handle error.
+		}
+		return Status.OK_STATUS;
+	}
+	
 	/** **/
-	private static final String TASK = "Google session login";
-
+	private static final String JOB_NAME = "receive-code";
+	
 	/** {@inheritDoc} **/
 	@Override
-	public void run(final IProgressMonitor monitor) {
-		monitor.beginTask(TASK, IProgressMonitor.UNKNOWN);
-		monitor.worked(1);
-		final LocalServerReceiver receiver = new LocalServerReceiver();
-		final AuthorizationCodeFlow flow = builder.build();
-		final AuthorizationCodeInstalledApp application = new AuthorizationCodeInstalledApp(flow, receiver);
-		final Thread thread = createAuthorizationThread(application);
-		final Job job = new Job("") {
-			/** **/
-			@Override
-			protected IStatus run(IProgressMonitor jobMonitor) {
-				if (monitor.isCanceled()) {
-					try {
-						receiver.stop();
-						thread.interrupt();
-					}
-					catch (final Exception e) {
-						e.printStackTrace();
-					}
-					finally {
-						terminate();
-					}
-				}
-				else {
-					schedule(1000);
-				}
-				return Status.OK_STATUS;
-			}
-		};
-		runJob(job);
-		waitForCompletion();
+	public String getURL() throws IOException {
+		this.redirectUri = receiver.getRedirectUri();
+		final Job job = Job.create(JOB_NAME, this::waitForCode); 
+		job.setSystem(true);
+		job.setPriority(Job.SHORT);
+		job.schedule();
+		final AuthorizationCodeRequestUrl request = flow.newAuthorizationUrl();
+		request.setRedirectUri(redirectUri);
+		return request.build();
 	}
 
 	/**
 	 * 
-	 * @param consumer
 	 * @return
-	 * @throws IOException
 	 * @throws GeneralSecurityException
+	 * @throws IOException
 	 */
-	public static IRunnableWithProgress createLogger(final Consumer<Session> consumer) throws IOException, GeneralSecurityException {
+	public static IGoogleLogger createLogger(final Consumer<Session> sessionConsumer) throws GeneralSecurityException, IOException {
 		final NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
 		final Builder builder = new GoogleAuthorizationCodeFlow.Builder(transport, JSON_FACTORY, getSecret(), SCOPES);
-		return new GoogleLogger(builder, consumer);
+		return new GoogleLogger(builder, sessionConsumer);
 	}
 
 	/**
