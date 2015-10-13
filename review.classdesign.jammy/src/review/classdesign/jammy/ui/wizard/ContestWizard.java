@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardPage;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.NamedObject;
@@ -14,6 +13,7 @@ import review.classdesign.jammy.model.Round;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 import review.classdesign.jammy.ui.internal.ListPageBuilder;
+import review.classdesign.jammy.ui.internal.ListPageBuilder.ListPage;
 
 /** 
  * {@link ContestWizard} allows to select
@@ -45,6 +45,9 @@ public final class ContestWizard extends Wizard {
 
 	/** Selected round. **/
 	private Round round;
+	
+	/** **/
+	private ListPage roundPage;
 
 	/**
 	 * Default constructor.
@@ -87,6 +90,7 @@ public final class ContestWizard extends Wizard {
 	 */
 	private void setContest(final Object contest) {
 		this.contest = (Contest) contest;
+		roundPage.refresh();
 	}
 	
 	/**
@@ -103,7 +107,7 @@ public final class ContestWizard extends Wizard {
 	 * 
 	 * @return Created wizard page.
 	 */
-	private WizardPage createContestPage() {
+	private ListPage createContestPage() {
 		return new ListPageBuilder(CONTEST_NAME)
 				.description(CONTEST_DESCRIPTION)
 				.contentProvider(new FunctionalContentProvider(this::getContests))
@@ -117,7 +121,7 @@ public final class ContestWizard extends Wizard {
 	 * 
 	 * @return Created wizard page.
 	 */
-	private WizardPage createRoundPage() {
+	private ListPage createRoundPage() {
 		return new ListPageBuilder(ROUND_NAME)
 				.description(ROUND_DESCRIPTION)
 				.contentProvider(new FunctionalContentProvider(this::getRounds))
@@ -130,7 +134,8 @@ public final class ContestWizard extends Wizard {
 	@Override
 	public void addPages() {
 		addPage(createContestPage());
-		addPage(createRoundPage());
+		roundPage = createRoundPage();
+		addPage(roundPage);
 	}
 
 	/** {@inheritDoc} **/

@@ -31,7 +31,10 @@ public final class ListPageBuilder {
 	 * 
 	 * @author fv
 	 */
-	private class ListPage extends WizardPage {
+	public class ListPage extends WizardPage {
+
+		/** **/
+		private ListViewer viewer;
 
 		/**
 		 * Default constructor.
@@ -40,6 +43,13 @@ public final class ListPageBuilder {
 		 */
 		private ListPage(final String name) {
 			super(name);
+		}
+		
+		/**
+		 * 
+		 */
+		public void refresh() {
+			viewer.setInput(Jammy.CHILDLESS);
 		}
 		
 		/**
@@ -72,7 +82,7 @@ public final class ListPageBuilder {
 		/** {@inheritDoc} **/
 		@Override
 		public void createControl(final Composite parent) {
-			final ListViewer viewer = createListViewer(parent);
+			this.viewer = createListViewer(parent);
 			viewer.addSelectionChangedListener(event -> onSelectionChanged(event::getSelection));
 			viewer.addDoubleClickListener(event -> {
 				onSelectionChanged(event::getSelection);
@@ -174,7 +184,7 @@ public final class ListPageBuilder {
 	 * TODO : Check for null parameters.
 	 * @return Built wizard page.
 	 */
-	public WizardPage build() {
+	public ListPage build() {
 		final ListPage page = new ListPage(name);
 		page.setDescription(description);
 		return page;
