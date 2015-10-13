@@ -1,6 +1,10 @@
 package review.classdesign.jammy.ui.view;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -54,8 +58,35 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	/** {@inheritDoc} **/
 	@Override
 	public void problemSelected(final Problem problem) {
-		// TODO : Normalizes text.
-		browser.setText(problem.getBody());
+		final String body = problem.getBody();
+		final String source = format(body);
+		browser.setText(source);
+	}
+
+	/** Problem HTML template. **/
+	private static String TEMPLATE;
+
+	/** Path of the template file resources used for problem display. **/
+	private static final String TEMPLATE_PATH = "/problem.template.html";
+
+	/**
+	 * Static method that formats the given <tt>body</tt>
+	 * by using internal HTML template.
+	 * 
+	 * @param body Body of the text to format.
+	 * @return Formatted HTML text.
+	 */
+	private static String format(final String body) {
+		synchronized (ProblemView.class) {
+			if (TEMPLATE == null) {
+				// We are using another class to avoid synchronization issues.
+				final Class<?> loader = Jammy.class;
+				final InputStream stream = loader.getResourceAsStream(TEMPLATE_PATH);
+				final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+				TEMPLATE = reader.lines().collect(Collectors.joining("\n"));
+			}
+		}
+		return String.format(TEMPLATE, body);
 	}
 
 }

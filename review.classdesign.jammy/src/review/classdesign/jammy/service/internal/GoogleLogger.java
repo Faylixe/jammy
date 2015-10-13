@@ -164,7 +164,7 @@ public final class GoogleLogger implements IGoogleLogger {
 	 * @throws IOException If any error occurs while reading JSON file.
 	 */
 	private static GoogleClientSecrets getSecret() throws IOException {
-		final InputStream stream = GoogleSessionProvider.class.getResourceAsStream(SECRET_PATH);
+		final InputStream stream = GoogleLogger.class.getResourceAsStream(SECRET_PATH);
 		final InputStreamReader reader = new InputStreamReader(stream);
 		return GoogleClientSecrets.load(JSON_FACTORY, reader);
 	}
