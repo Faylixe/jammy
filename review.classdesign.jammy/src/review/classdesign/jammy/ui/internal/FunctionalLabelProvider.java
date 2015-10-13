@@ -1,4 +1,4 @@
-package review.classdesign.jammy.common;
+package review.classdesign.jammy.ui.internal;
 
 import java.util.function.Function;
 

@@ -1,4 +1,4 @@
-package review.classdesign.jammy.common;
+package review.classdesign.jammy.ui.internal;
 
 import java.util.List;
 import java.util.function.Function;
@@ -19,8 +19,10 @@ public final class FunctionalContentProvider implements IStructuredContentProvid
 	private final Function<Object, Object[]> delegate;
 
 	/**
+	 * Default constructor that uses a given <tt>suplier</tt> as
+	 * a function.
 	 * 
-	 * @param supplier
+	 * @param supplier Supplier instance that is transformed into a valid provider function.
 	 */
 	public FunctionalContentProvider(final Supplier<List<?>> supplier) {
 		this((object) -> supplier.get().toArray());

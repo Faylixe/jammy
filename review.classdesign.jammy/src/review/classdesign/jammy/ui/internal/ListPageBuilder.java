@@ -1,11 +1,16 @@
 package review.classdesign.jammy.ui.internal;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -36,16 +41,42 @@ public final class ListPageBuilder {
 		private ListPage(final String name) {
 			super(name);
 		}
+		
+		/**
+		 * Callback method used when use select an item on the list.
+		 * 
+		 * @param supplier Supplier that provides user selection.
+		 */
+		private void onSelectionChanged(final Supplier<ISelection> supplier) {
+			final IStructuredSelection selection = (IStructuredSelection) supplier.get();
+			final Object object = selection.getFirstElement();
+			consumer.accept(object);
+			setPageComplete(true);
+		}
+		
+		/**
+		 * Callback method that is triggered when
+		 * user double click on a list item.
+		 */
+		private void onDoubleClick() {
+			final IWizard wizard = getWizard();
+			final IWizardPage next = wizard.getNextPage(this);
+			final IWizardContainer container = wizard.getContainer();
+			if (next != null) {
+				// TODO : 	Figure out how to finalize wizard workflow.
+				//			Using WizardDialog buttonPressed().
+				container.showPage(next);
+			}
+		}
 
 		/** {@inheritDoc} **/
 		@Override
 		public void createControl(final Composite parent) {
 			final ListViewer viewer = createListViewer(parent);
-			viewer.addSelectionChangedListener(event -> {
-				final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-				final Object object = selection.getFirstElement();
-				consumer.accept(object);
-				setPageComplete(true);
+			viewer.addSelectionChangedListener(event -> onSelectionChanged(event::getSelection));
+			viewer.addDoubleClickListener(event -> {
+				onSelectionChanged(event::getSelection);
+				onDoubleClick();
 			});
 			setControl(viewer.getControl());
 			setPageComplete(false);
@@ -122,9 +153,12 @@ public final class ListPageBuilder {
 	}
 	
 	/**
+	 * Factory method that creates a {@link ListViewer} instance
+	 * from this builder internal attributes, which is bind to the
+	 * given <tt>parent</tt> container.
 	 * 
-	 * @param parent
-	 * @return
+	 * @param parent Parent composite container which should own the created component.
+	 * @return Created viewer.
 	 */
 	private ListViewer createListViewer(final Composite parent) {
 		final ListViewer viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -138,7 +172,7 @@ public final class ListPageBuilder {
 	 * Builds and returns the wizard page instance that will display the list.
 	 * 
 	 * TODO : Check for null parameters.
-	 * @return
+	 * @return Built wizard page.
 	 */
 	public WizardPage build() {
 		final ListPage page = new ListPage(name);

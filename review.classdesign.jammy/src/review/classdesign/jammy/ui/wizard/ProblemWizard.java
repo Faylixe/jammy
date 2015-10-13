@@ -11,12 +11,12 @@ import org.eclipse.jface.wizard.WizardPage;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
-import review.classdesign.jammy.common.FunctionalContentProvider;
-import review.classdesign.jammy.common.FunctionalLabelProvider;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.model.ContestInfo;
 import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
+import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
+import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 import review.classdesign.jammy.ui.internal.ListPageBuilder;
 
 /**
