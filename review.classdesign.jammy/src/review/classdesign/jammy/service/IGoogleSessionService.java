@@ -55,10 +55,10 @@ public interface IGoogleSessionService {
 		return (IGoogleSessionService) service;
 	}
 
-	/** **/
+	/** Title of the dialog displayed to notify user that connection is required. **/
 	public static final String TITLE = "Google session invalid";
 
-	/** **/
+	/** Message of the dialog displayed to notify user that connection is required. **/
 	public static final String MESSAGE = "You should have an active Google session to use this feature, would you like to log in now ?";
 
 	/**
