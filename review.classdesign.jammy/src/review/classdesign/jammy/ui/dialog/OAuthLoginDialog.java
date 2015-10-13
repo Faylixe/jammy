@@ -1,4 +1,4 @@
-package review.classdesign.jammy.dialog;
+package review.classdesign.jammy.ui.dialog;
 
 import java.io.IOException;
 

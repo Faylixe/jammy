@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.eclipse.jface.wizard.IWizard;
 
-import review.classdesign.jammy.wizard.contest.ContestWizard;
+import review.classdesign.jammy.ui.wizard.ContestWizard;
 
 /**
  * Default handler used for Jammy contest selection

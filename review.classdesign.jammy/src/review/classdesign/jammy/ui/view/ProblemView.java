@@ -1,4 +1,4 @@
-package review.classdesign.jammy.view;
+package review.classdesign.jammy.ui.view;
 
 import java.util.Optional;
 

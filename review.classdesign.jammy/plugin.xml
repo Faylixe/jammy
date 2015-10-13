@@ -74,14 +74,14 @@
       </category>
       <view
             category="review.classdesign.jammy.view.category"
-            class="review.classdesign.jammy.view.SubmissionView"
+            class="review.classdesign.jammy.ui.view.SubmissionView"
             id="review.classdesign.jammy.view.submission"
             name="Submission"
             restorable="true">
       </view>
       <view
             category="review.classdesign.jammy.view.category"
-            class="review.classdesign.jammy.view.ProblemView"
+            class="review.classdesign.jammy.ui.view.ProblemView"
             id="review.classdesign.jammy.view.problem"
             name="Round problem"
             restorable="true">
@@ -90,7 +90,7 @@
     <extension
           point="org.eclipse.ui.preferencePages">
        <page
-             class="review.classdesign.jammy.view.PreferencePage"
+             class="review.classdesign.jammy.ui.view.PreferencePage"
              id="review.classdesign.jammy.preferences.root"
              name="Jammy">
        </page>

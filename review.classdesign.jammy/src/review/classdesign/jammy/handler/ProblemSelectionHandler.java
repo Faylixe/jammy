@@ -11,7 +11,7 @@ import org.eclipse.ui.PlatformUI;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.model.Round;
-import review.classdesign.jammy.wizard.problem.ProblemWizard;
+import review.classdesign.jammy.ui.wizard.ProblemWizard;
 
 /**
  * Default handler used for Jammy problem selection
@@ -33,7 +33,7 @@ public final class ProblemSelectionHandler extends AbstractWizardHandler {
 	 */
 	private Optional<IWizard> create() {
 		final Optional<Round> round = Jammy.getDefault().getCurrentRound();	
-		return Optional.ofNullable(round.isPresent() ? new ProblemWizard(round.get()) : null);
+		return Optional.ofNullable(round.isPresent() ? new ProblemWizard() : null);
 	}
 
 	/**

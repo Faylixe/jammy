@@ -1,4 +1,4 @@
-package review.classdesign.jammy.view;
+package review.classdesign.jammy.ui.view;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
