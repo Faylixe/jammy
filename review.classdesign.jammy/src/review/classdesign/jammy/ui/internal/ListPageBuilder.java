@@ -13,21 +13,25 @@ import org.eclipse.swt.widgets.Composite;
 import review.classdesign.jammy.Jammy;
 
 /**
+ * A {@link ListPageBuilder} allows to build a {@link WizardPage}
+ * that aims to display a list of object.
  * 
- * @param <T>
  * @author fv
  */
 public final class ListPageBuilder {
 
 	/**
+	 * Custom wizard page implementation that displays a list
+	 * based on the builder parameters.
 	 * 
 	 * @author fv
 	 */
 	private class ListPage extends WizardPage {
 
 		/**
+		 * Default constructor.
 		 * 
-		 * @param name
+		 * @param name Name of this page.
 		 */
 		private ListPage(final String name) {
 			super(name);
@@ -49,32 +53,34 @@ public final class ListPageBuilder {
 		
 	}
 
-	/** **/
+	/** Name of the created page. **/
 	private final String name;
 
-	/** **/
+	/** Description of the created page. **/
 	private String description;
 
-	/** **/
+	/** Selection consumer that will handle user selection. **/
 	private Consumer<Object> consumer;
 
-	/** **/
+	/** Content provider instance used by the created list. **/
 	private IContentProvider contentProvider;
 
-	/** **/
+	/** Label provider instance used by the created list. **/
 	private IBaseLabelProvider labelProvider;
 
 	/**
+	 * Default constructor.
 	 * 
-	 * @param name
+	 * @param name Name of the created page.
 	 */
 	public ListPageBuilder(final String name) {
 		this.name = name;
 	}
 	
 	/**
+	 * Sets the created page description.
 	 * 
-	 * @param description
+	 * @param description Description of the target page.
 	 * @return Reference of this builder in order to chain call.
 	 */
 	public ListPageBuilder description(final String description) {
@@ -83,8 +89,9 @@ public final class ListPageBuilder {
 	}
 	
 	/**
+	 * Sets the consumer that will be used for handling user selection through the list.
 	 * 
-	 * @param consumer
+	 * @param consumer Selection consumer that will handle user selection.
 	 * @return Reference of this builder in order to chain call.
 	 */
 	public ListPageBuilder selectionConsumer(final Consumer<Object> consumer) {
@@ -93,8 +100,9 @@ public final class ListPageBuilder {
 	}
 	
 	/**
+	 * Sets the content provider used by the displayed list.
 	 * 
-	 * @param contentProvider
+	 * @param contentProvider Content provider instance used by the created list.
 	 * @return Reference of this builder in order to chain call.
 	 */
 	public ListPageBuilder contentProvider(final IContentProvider contentProvider) {
@@ -103,8 +111,9 @@ public final class ListPageBuilder {
 	}
 	
 	/**
+	 * Sets the label provider used by the displayed list.
 	 * 
-	 * @param labelProvider
+	 * @param labelProvider Label provider instance used by the created list.
 	 * @return Reference of this builder in order to chain call.
 	 */
 	public ListPageBuilder labelProvider(final IBaseLabelProvider labelProvider) {
@@ -126,7 +135,9 @@ public final class ListPageBuilder {
 	}
 
 	/**
+	 * Builds and returns the wizard page instance that will display the list.
 	 * 
+	 * TODO : Check for null parameters.
 	 * @return
 	 */
 	public WizardPage build() {
