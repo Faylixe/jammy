@@ -11,7 +11,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.ISourceProviderService;
 
 /**
- * TODO : Provider javadoc.
+ * Source provider that contains property about google session.
+ * 
  * @author fv
  */
 public final class GoogleSessionProvider extends AbstractSourceProvider {

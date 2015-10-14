@@ -8,7 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.JammyPreferences;
-import review.classdesign.jammy.common.Constants;
+import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.common.NamedObject;
 
 /**
@@ -68,13 +68,13 @@ public final class Round extends NamedObject {
 	 * @return Built {@link Round} instance.
 	 */
 	private static Optional<Round> getRound(final String parent, final Element round) {
-		final Elements links = round.getElementsByTag(Constants.HTML.ANCHOR);
+		final Elements links = round.getElementsByTag(HTMLConstant.ANCHOR);
 		if (links.isEmpty()) {
 			return Optional.empty();
 		}
 		final Element link = links.first();
 		final String name = link.text();
-		final String url = JammyPreferences.getHostname() + link.attr(Constants.HTML.HREF);
+		final String url = JammyPreferences.getHostname() + link.attr(HTMLConstant.HREF);
 		return Optional.of(new Round(parent, name, url));
 	}
 
@@ -86,7 +86,7 @@ public final class Round extends NamedObject {
 	 * @return List of retrieved round.
 	 */
 	public static List<Round> getRounds(final String parent, final Element contest) {
-		final Elements rows = contest.getElementsByTag(Constants.HTML.TR);
+		final Elements rows = contest.getElementsByTag(HTMLConstant.TR);
 		final List<Round> rounds = new ArrayList<Round>(rows.size());
 		for (final Element row : rows) {
 			final Elements cells = row.getElementsByClass(DESCRIPTION_CLASS_NAME);

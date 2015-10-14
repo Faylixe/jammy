@@ -11,7 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.JammyPreferences;
-import review.classdesign.jammy.common.Constants;
+import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.common.RequestUtils;
 
@@ -23,6 +23,9 @@ import review.classdesign.jammy.common.RequestUtils;
  * @author fv
  */
 public final class Contest extends NamedObject {
+
+	/** URL of the contest index page. **/
+	public static final String CONTEST_INDEX = "/codejam/contests.html";
 
 	/** Class name of the element that contains contest data. **/
 	public static final String CONTEST_CLASS_NAME = "year_row";
@@ -60,7 +63,7 @@ public final class Contest extends NamedObject {
 	 * @return Optional reference of a contest title.
 	 */
 	private static Optional<String> getName(final Element element) {
-		final Elements candidates = element.getElementsByTag(Constants.HTML.H3);
+		final Elements candidates = element.getElementsByTag(HTMLConstant.H3);
 		if (!candidates.isEmpty()) {
 			return Optional.of(candidates.first().text());
 		}
@@ -75,7 +78,7 @@ public final class Contest extends NamedObject {
 	 * @throws Exception If any error occurs while retrieving or parsing document.
 	 */
 	public static List<Contest> get() throws Exception {
-		final Document document = Jsoup.parse(RequestUtils.get(JammyPreferences.getHostname() + Constants.CONTEST_INDEX));
+		final Document document = Jsoup.parse(RequestUtils.get(JammyPreferences.getHostname() + CONTEST_INDEX));
 		final Elements years = document.getElementsByClass(CONTEST_CLASS_NAME);
 		final List<Contest> contests = new ArrayList<Contest>(years.size());
 		for (final Element contest : years) {

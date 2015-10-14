@@ -33,6 +33,7 @@ import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.service.IGoogleLogger;
 
 /**
+ * {@link IGoogleLogger} implementation.
  * 
  * @author fv
  */

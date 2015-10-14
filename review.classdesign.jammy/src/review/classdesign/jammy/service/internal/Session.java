@@ -5,7 +5,12 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
 
 /**
- * 
+ * POJO implementation that represents a Google session.
+ * Such session consists in :
+ * <ul>
+ * 	<li>Session credential that contains our OAuth token.</li>
+ * 	<li>HttpTransport instance that is used to create request factory using internal credential.</li>
+ * </ul>
  * @author fv
  */
 public final class Session {
@@ -17,9 +22,10 @@ public final class Session {
 	private final HttpTransport transport;
 	
 	/**
+	 * Default constructor.
 	 * 
-	 * @param transport
-	 * @param credential
+	 * @param transport HTTP transport client.
+	 * @param credential Authentification credentials.
 	 */
 	protected Session(final HttpTransport transport, final Credential credential) {
 		this.credential = credential;
@@ -27,22 +33,24 @@ public final class Session {
 	}
 
 	/**
+	 * Indicates if this session is valid or not.
 	 * 
-	 * @return
+	 * @return <tt>true</tt> if this session is not equals to {@link #EMPTY} session, <tt>false</tt> otherwise.
 	 */
 	protected boolean isPresent() {
 		return (!EMPTY.equals(this));
 	}
 	
 	/**
+	 * Creates and returns a {@link HttpTransport} instance that is configured with OAuth token.
 	 * 
-	 * @return
+	 * @return Created request factory.
 	 */
 	protected HttpRequestFactory createRequestFactory() {
 		return transport.createRequestFactory(credential);
 	}
 
-	/** **/
+	/** Instance that is used for representing non valid session.**/
 	protected static final Session EMPTY = new Session(null, null);
 
 }

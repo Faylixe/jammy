@@ -10,8 +10,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.JammyPreferences;
+import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.listener.ProblemSelectionListener;
 import review.classdesign.jammy.model.Problem;
 
@@ -59,7 +65,7 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	@Override
 	public void problemSelected(final Problem problem) {
 		final String body = problem.getBody();
-		final String source = format(body);
+		final String source = format(normalize(body));
 		browser.setText(source);
 	}
 
@@ -68,6 +74,24 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 
 	/** Path of the template file resources used for problem display. **/
 	private static final String TEMPLATE_PATH = "/problem.template.html";
+
+	/**
+	 * Normalizes the given HTML <tt>body</tt> text, by replacing
+	 * images URI by absolute URI using preference hostname.
+	 * 
+	 * @param body HTML body to normalize.
+	 * @return Normalized HTML content.
+	 */
+	private static String normalize(final String body) {
+		final Document document = Jsoup.parse(body);
+		final Elements images = document.getElementsByTag(HTMLConstant.IMG);
+		for (final Element image : images) {
+			final String original = image.attr(HTMLConstant.SRC);
+			final String normalized = JammyPreferences.getHostname() + original.substring(1);
+			images.attr(HTMLConstant.SRC, normalized);
+		}
+		return document.html();
+	}
 
 	/**
 	 * Static method that formats the given <tt>body</tt>

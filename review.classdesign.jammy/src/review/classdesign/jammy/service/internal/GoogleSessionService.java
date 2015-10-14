@@ -18,7 +18,7 @@ import review.classdesign.jammy.ui.dialog.OAuthLoginDialog;
 /**
  * {@link IGoogleSessionService} implementation.
  * 
- * TODO : Handle preference feature.
+ * TODO : Handle preference feature ?.
  * @author fv
  */
 public final class GoogleSessionService implements IGoogleSessionService {
