@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.model.Round;
 import review.classdesign.jammy.ui.wizard.ProblemWizard;
 
@@ -21,15 +22,20 @@ import review.classdesign.jammy.ui.wizard.ProblemWizard;
  */
 public final class ProblemSelectionHandler extends AbstractWizardHandler {
 
-	/** **/
+	/** Title displayed into the dialog.  **/
 	private static final String TITLE = "No contest found";
 
-	/** **/
+	/** Message displayed into the dialog.**/
 	private static final String MESSAGE = "A Codejam contest should be selected first, would you like to select one now ?";
 
+	/** Error message displayed when an error occurs during contest selection. **/
+	private static final String HANDLER_ERROR = "An error occurs while selecting contest / round.";
+
 	/**
+	 * Creates and returns a {@link ProblemWizard} instance
+	 * if a round is already selected.
 	 * 
-	 * @return
+	 * @return Created {@link ProblemWizard} if round available, empty {@link Optional} otherwise.
 	 */
 	private Optional<IWizard> create() {
 		final Optional<Round> round = Jammy.getDefault().getCurrentRound();	
@@ -37,8 +43,11 @@ public final class ProblemSelectionHandler extends AbstractWizardHandler {
 	}
 
 	/**
+	 * This method use a dialog to prompt user for
+	 * contest / round selection if required, before to return a
+	 * problem selection wizard is possible.
 	 * 
-	 * @return
+	 * @return Created {@link ProblemWizard} if round available, empty {@link Optional} otherwise.
 	 */
 	private Optional<IWizard> selectContest() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -50,7 +59,7 @@ public final class ProblemSelectionHandler extends AbstractWizardHandler {
 				handler.execute(event);
 			}
 			catch (final ExecutionException e) {
-				// TODO : Handle error.
+				EclipseUtils.showError(HANDLER_ERROR, e);
 			}
 		}
 		return create();

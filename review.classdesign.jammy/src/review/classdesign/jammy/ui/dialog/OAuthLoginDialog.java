@@ -27,6 +27,9 @@ import review.classdesign.jammy.service.IGoogleLogger;
  */
 public final class OAuthLoginDialog extends Dialog {
 
+	/** Error message displayed when an error occurs during OAuth phase. **/
+	private static final String OAUTH_ERROR_MESSAGE = "An error occurs while retrieving OAuth widget.";
+	
 	/** Logger instance that provides OAuth URL. **/
 	private final IGoogleLogger logger;
 
@@ -73,7 +76,7 @@ public final class OAuthLoginDialog extends Dialog {
 			}
 		}
 		catch (final IOException e) {
-			EclipseUtils.showError(e);
+			EclipseUtils.showError(OAUTH_ERROR_MESSAGE, e);
 			logger.cancel();
 			close();
 		}

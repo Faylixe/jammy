@@ -3,6 +3,7 @@ package review.classdesign.jammy.service.internal;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -22,19 +23,22 @@ import review.classdesign.jammy.ui.dialog.OAuthLoginDialog;
  */
 public final class GoogleSessionService implements IGoogleSessionService {
 
-	/** **/
+	/** Current user session. **/
 	private Session session;
 
 	/**
 	 * Default constructor.
+	 * Initializes current session as an empty one.
 	 */
 	public GoogleSessionService() {
 		this.session = Session.EMPTY;
 	}
 
 	/**
+	 * Session setter. This methods aims to be used as
+	 * a {@link Session} {@link Consumer}.
 	 * 
-	 * @param session
+	 * @param session Session to be consumed.
 	 */
 	private void setSession(final Session session) {
 		this.session = session;

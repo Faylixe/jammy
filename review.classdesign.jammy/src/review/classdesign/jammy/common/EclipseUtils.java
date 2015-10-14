@@ -1,13 +1,10 @@
 package review.classdesign.jammy.common;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
@@ -33,15 +30,21 @@ public final class EclipseUtils {
 		// Do nothing.
 	}
 
+	public static String getCurrentUser() {
+		// TODO : Figure out how to retrieve current user nickname (triggering secure storage ?)
+		return "user";
+	}
+
 	/**
 	 * Handles the given <tt>exception</tt> by displaying
 	 * it to user using eclipse status.
 	 * 
+	 * @param message Error message that should be displayed.
 	 * @param execption Error caught that should be logged.
 	 */
-	public static void showError(final Exception execption) {
+	public static void showError(final String message, final Exception execption) {
 		execption.printStackTrace(); // TODO : Remove for production.
-		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, execption.getMessage(), execption);
+		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message, execption);
 		StatusManager.getManager().handle(status, StatusManager.SHOW);
 	}
 

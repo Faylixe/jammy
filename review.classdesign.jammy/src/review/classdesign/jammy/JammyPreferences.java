@@ -7,7 +7,11 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.osgi.service.prefs.BackingStoreException;
 
+import review.classdesign.jammy.common.EclipseUtils;
+
 /**
+ * This class contains set of tools methods that are
+ * used to manipulate plugin preferences.
  * 
  * @author fv
  */
@@ -18,6 +22,9 @@ public final class JammyPreferences {
 
 	/** Default host name value to use. **/
 	private static final String DEFAULT_HOST = "https://code.google.com";
+
+	/** Error message displayed when an error occurs while saving preferences. **/
+	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
 
 	/**
 	 * Functional method that acts as a {@link IPropertyChangeListener}
@@ -35,14 +42,15 @@ public final class JammyPreferences {
 			preferences.flush();
 		}
 		catch (final BackingStoreException e) {
-			// TODO : Handle error.
-			e.printStackTrace();
+			EclipseUtils.showError(PREFERENCE_SAVE_ERROR, e);
 		}
 	}
 
 	/**
+	 * Loads the plugin preferences into the given <tt>store<tt>.
+	 * Aims to be called only by the {@link Jammy} plugin.
 	 * 
-	 * @param store
+	 * @param store Preference store to load preferences into.
 	 */
 	protected static void load(final IPreferenceStore store) {
 		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
@@ -50,8 +58,9 @@ public final class JammyPreferences {
 	}
 
 	/**
+	 * Getter for the hostname property of the preferences.
 	 * 
-	 * @return
+	 * @return The hostname property of the preferences.
 	 */
 	public static String getHostname() {
 		final IPreferenceStore store = Jammy.getDefault().getPreferenceStore();

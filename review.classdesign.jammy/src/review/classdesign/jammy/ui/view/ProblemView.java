@@ -76,7 +76,7 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	 * @param body Body of the text to format.
 	 * @return Formatted HTML text.
 	 */
-	private static String format(final String body) {
+	public static String format(final String body) {
 		synchronized (ProblemView.class) {
 			if (TEMPLATE == null) {
 				// We are using another class to avoid synchronization issues.

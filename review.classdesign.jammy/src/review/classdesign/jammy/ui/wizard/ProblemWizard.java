@@ -36,6 +36,9 @@ public final class ProblemWizard extends Wizard  {
 	/** Page description. **/
 	private static final String DESCRIPTION = "Please select a problem :";
 
+	/** Error message displayed when an error occurs during problem retrieval. **/
+	private static final String PROBLEM_ERROR_MESSAGE = "An unexpected error occurs while retrieving content dashboard.";
+
 	/** Selected problem. **/
 	private Problem problem;
 
@@ -61,7 +64,7 @@ public final class ProblemWizard extends Wizard  {
 				return info.getProblems();
 			}
 			catch (final IOException e) {
-				EclipseUtils.showError(e);
+				EclipseUtils.showError(PROBLEM_ERROR_MESSAGE, e);
 			}
 		}
 		return Collections.emptyList();
