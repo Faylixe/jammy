@@ -28,8 +28,8 @@ public final class ProblemSelectionHandler extends AbstractWizardHandler {
 	/** Message displayed into the dialog.**/
 	private static final String MESSAGE = "A Codejam contest should be selected first, would you like to select one now ?";
 
-	/** Error message displayed when an error occurs during contest selection. **/
-	private static final String HANDLER_ERROR = "An error occurs while selecting contest / round.";
+	/** Error message displayed when an error occurs during problem 	 selection. **/
+	private static final String HANDLER_ERROR = "An error occurs while starting problem selection wizard.";
 
 	/**
 	 * Creates and returns a {@link ProblemWizard} instance
@@ -53,14 +53,7 @@ public final class ProblemSelectionHandler extends AbstractWizardHandler {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		final boolean shouldSelect = MessageDialog.openQuestion(workbench.getDisplay().getActiveShell(), TITLE, MESSAGE);
 		if (shouldSelect) {
-			final ExecutionEvent event = new ExecutionEvent();
-			final ContestSelectionHandler handler = new ContestSelectionHandler();
-			try {
-				handler.execute(event);
-			}
-			catch (final ExecutionException e) {
-				EclipseUtils.showError(HANDLER_ERROR, e);
-			}
+			ContestSelectionHandler.execute();
 		}
 		return create();
 	}
@@ -73,6 +66,19 @@ public final class ProblemSelectionHandler extends AbstractWizardHandler {
 			return selectContest();
 		}
 		return wizard;
+	}
+
+	/**
+	 * Executes this handler asynchronously using handler service.
+	 */
+	public static void execute() {
+		final ProblemSelectionHandler handler = new ProblemSelectionHandler();
+		try {
+			handler.execute(new ExecutionEvent());
+		}
+		catch (final ExecutionException e) {
+			EclipseUtils.showError(HANDLER_ERROR, e);
+		}
 	}
 
 }

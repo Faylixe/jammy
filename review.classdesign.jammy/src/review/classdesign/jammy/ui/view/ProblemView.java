@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.LocationEvent;
+import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.jsoup.Jsoup;
@@ -18,6 +20,7 @@ import org.jsoup.select.Elements;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.JammyPreferences;
 import review.classdesign.jammy.common.HTMLConstant;
+import review.classdesign.jammy.handler.ProblemSelectionHandler;
 import review.classdesign.jammy.listener.ProblemSelectionListener;
 import review.classdesign.jammy.model.Problem;
 
@@ -25,9 +28,16 @@ import review.classdesign.jammy.model.Problem;
  * Jammy problem view that only consists in a web browser
  * that display a {@link Problem} instance body content.
  * 
+ * TODO : Add menu bar with a reloading button.
  * @author fv
  */
-public final class ProblemView extends ViewPart implements ProblemSelectionListener {
+public final class ProblemView extends ViewPart implements ProblemSelectionListener, LocationListener {
+
+	/** Link used for triggering {@link ProblemSelectionHandler}. **/
+	private static final String ACTION_URL = "action://problem.selection.handler";
+
+	/** HTML content displayed when problem is not selected. **/
+	private static final String PROBLEM_NOT_SELECTED_CONTENT = "<a href=\"" + ACTION_URL + "\">Please select a problem first.</a>";
 
 	/**
 	 * Optional reference to the internal browser displayed.
@@ -41,10 +51,14 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	public void createPartControl(final Composite parent) {
 		final Jammy jammy = Jammy.getDefault();
 		browser = new Browser(parent, SWT.NONE);
+		browser.addLocationListener(this);
 		jammy.addProblemSelectionListener(this);
 		final Optional<Problem> problem = jammy.getCurrentProblem();
 		if (problem.isPresent()) {
 			problemSelected(problem.get());
+		}
+		else {
+			browser.setText(PROBLEM_NOT_SELECTED_CONTENT);
 		}
 	}
 	
@@ -66,6 +80,8 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	public void problemSelected(final Problem problem) {
 		final String body = problem.getBody();
 		final String source = format(normalize(body));
+		System.out.println("Body : ");
+		System.out.println(source);
 		browser.setText(source);
 	}
 
@@ -87,8 +103,14 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 		final Elements images = document.getElementsByTag(HTMLConstant.IMG);
 		for (final Element image : images) {
 			final String original = image.attr(HTMLConstant.SRC);
-			final String normalized = JammyPreferences.getHostname() + original.substring(1);
-			images.attr(HTMLConstant.SRC, normalized);
+			if (!original.startsWith("https://")) {
+				final String hostname = JammyPreferences.getHostname();
+				final StringBuilder builder = new StringBuilder();
+				builder.append(hostname.endsWith("/") ? hostname.substring(0, -1) : hostname);
+				builder.append("/");
+				builder.append(original.startsWith("/") ? original.substring(1) : original);
+				image.attr(HTMLConstant.SRC, builder.toString());
+			}
 		}
 		return document.html();
 	}
@@ -111,6 +133,22 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 			}
 		}
 		return String.format(TEMPLATE, body);
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void changing(final LocationEvent event) {
+		final String location = event.location;
+		if (ACTION_URL.equals(location)) {
+			ProblemSelectionHandler.execute();
+			event.doit = false;
+			}
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void changed(final LocationEvent event) {
+		// Do nothing.
 	}
 
 }
