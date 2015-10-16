@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -20,6 +25,7 @@ import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.listener.ContestSelectionListener;
 import review.classdesign.jammy.model.ContestInfo;
@@ -34,13 +40,16 @@ import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
  */
 public final class ContestExplorer extends ViewPart implements ContestSelectionListener, IDoubleClickListener, ISelectionChangedListener {
 
+	/** **/
+	private static final String PROJECT_CREATION_ERROR = "An error occurs while creating project for solver %s : %s.";
+
 	/** Identifier of this view. **/
 	public static final String ID = "review.classdesign.jammy.view.contest";
 
 	/** Viewer instance this view expose. **/
 	private TableViewer viewer;
 
-	/** **/
+	/** Current contest information. **/
 	private ContestInfo contestInfo;
 
 	/**
@@ -54,9 +63,11 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 	}
 
 	/**
+	 * Functional method that acts as a {@link Supplier} of {@link Image}
+	 * to display for a given problem instance.
 	 * 
-	 * @param element
-	 * @return
+	 * @param element Problem instance to retrieve image from.
+	 * @return Image instance for the given problem.
 	 */
 	private Image getImage(final Object element) {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -82,7 +93,25 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 	/** {@inheritDoc} **/
 	@Override
 	public void doubleClick(final DoubleClickEvent event) {
-		// TODO : Open editor.
+		if (contestInfo != null) {
+			final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+			final Problem problem = (Problem) selection.getFirstElement();
+			final Job job = Job.create("", monitor -> {
+				try {
+					final IFile file = contestInfo.getProblemFile(problem, monitor);
+					if (!file.exists()) {
+						problem.createSolver(file, monitor);
+					}
+					EclipseUtils.openFile(file);
+				}
+				catch (final CoreException e) {
+					e.printStackTrace();
+					return new Status(IStatus.ERROR, Jammy.PLUGIN_ID, String.format(PROJECT_CREATION_ERROR, problem.getName(), e.getMessage()));
+				}
+				return Status.OK_STATUS;
+			});
+			job.schedule();
+		}
 	}
 
 	/** {@inheritDoc} **/

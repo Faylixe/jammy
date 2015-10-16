@@ -1,20 +1,25 @@
 package review.classdesign.jammy.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.JammyPreferences;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.common.NamedObject;
-import review.classdesign.jammy.common.TemplateLoader;
-import review.classdesign.jammy.ui.view.ProblemView;
+import review.classdesign.jammy.common.Template;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
@@ -33,11 +38,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public final class Problem extends NamedObject {
 
-	/** Problem HTML template. **/
-	private static String TEMPLATE;
+	/** Suffix used for solver class file. **/
+	private static final String SOLVER_SUFFIX = "Solver";
 
-	/** Path of the template file resources used for problem display. **/
-	private static final String TEMPLATE_PATH = "/templates/problem.template.html";
+	/** **/
+	private static final String FILE_CREATION_ERROR = "An error occurs while creating solver file %s.";
 
 	/**
 	 * Custom deserializer that normalizes problem body content.
@@ -55,7 +60,7 @@ public final class Problem extends NamedObject {
 			final Gson parser = new Gson();
 			final Problem problem = parser.fromJson(element, Problem.class);
 			final String normalized = normalize(problem.body);
-			problem.body = format(normalized);
+			problem.body = String.format(Template.DESCRIPTION.toString(), normalized);
 			return problem;
 		}
 	
@@ -87,22 +92,6 @@ public final class Problem extends NamedObject {
 		return document.html();
 	}
 
-	/**
-	 * Static method that formats the given <tt>body</tt>
-	 * by using internal HTML template.
-	 * 
-	 * @param body Body of the text to format.
-	 * @return Formatted HTML text.
-	 */
-	public static String format(final String body) {
-		synchronized (ProblemView.class) {
-			if (TEMPLATE == null) {
-				TEMPLATE = TemplateLoader.load(TEMPLATE_PATH);
-			}
-		}
-		return String.format(TEMPLATE, body);
-	}
-
 	/** Full HTML text that describes this problem. **/
 	@SerializedName("body")
 	private String body;
@@ -122,6 +111,67 @@ public final class Problem extends NamedObject {
 	/** List of inputs that are available for solving in this problem. **/
 	@SerializedName("io")
 	private ProblemInput [] inputs;
+
+	/** Name of the solver to create. **/
+	private transient String solverName;
+
+	/**
+	 * Creates name of the Java file that will contains the solver class.
+	 */
+	private void createSolverName() {
+		final StringBuilder builder = new StringBuilder();
+		final String name = getName().replace("[^A-Za-z0-9 ]", "");
+		final StringTokenizer tokenizer = new StringTokenizer(name, " ");
+		while (tokenizer.hasMoreTokens()) {
+			final String token = tokenizer.nextToken();
+			if (!token.isEmpty()) {
+				builder.append(token);
+			}
+		}
+		builder.append(SOLVER_SUFFIX);
+		solverName = builder.toString();
+		
+	}
+	/**
+	 * Creates if not exist, and returns the associated solver class name.
+	 * 
+	 * @return Solver name.
+	 */
+	public String getSolverName() {
+		if (solverName == null) {
+			createSolverName();
+		}
+		return solverName;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private String getSolverTemplate() {
+		final Object [] solvers = new Object[4];
+		final String solverName = getSolverName();
+		for (int i = 0; i < 4; i++) {
+			solvers[i] = solverName;
+		}
+		return String.format(Template.SOLVER.toString(), solvers);	
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @param monitor
+	 */
+	public void createSolver(final IFile file, final IProgressMonitor monitor) {
+		final String template = getSolverTemplate();
+		final InputStream stream = new ByteArrayInputStream(template.getBytes());
+		try {
+			file.create(stream, true, monitor);
+		}
+		catch (final Exception e) {
+			EclipseUtils.showError(String.format(FILE_CREATION_ERROR, file.getName()), e);
+		}
+	}
 
 	/**
 	 * Getter for the problem body description.

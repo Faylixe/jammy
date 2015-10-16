@@ -5,12 +5,16 @@ import java.util.Optional;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 import review.classdesign.jammy.Jammy;
@@ -22,6 +26,9 @@ import review.classdesign.jammy.Jammy;
  * @author fv
  */
 public final class EclipseUtils {
+
+	/** **/
+	private static final String CANNOT_OPEN_FILE = "An error occurs while opening file %s";
 
 	/**
 	 * Private constructor for avoiding instantiation.
@@ -46,6 +53,27 @@ public final class EclipseUtils {
 		execption.printStackTrace(); // TODO : Remove for production.
 		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message, execption);
 		StatusManager.getManager().handle(status, StatusManager.SHOW);
+	}
+
+	/**
+	 * 
+	 * @param file
+	 */
+	public static void openFile(final IFile file) {
+		Display.getDefault().asyncExec(() -> {
+			final IWorkbench workbench = PlatformUI.getWorkbench();
+			final IEditorDescriptor descriptor = workbench.getEditorRegistry().getDefaultEditor(file.getName());
+			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			// TODO : Open in UI thread ?
+			final IWorkbenchPage page = window.getActivePage();
+			try {
+				page.openEditor(new FileEditorInput(file), descriptor.getId());
+			}
+			catch (final PartInitException e) {
+				e.printStackTrace();
+				showError(String.format(CANNOT_OPEN_FILE, file.getName()), e);
+			}
+		});
 	}
 
 	/**
