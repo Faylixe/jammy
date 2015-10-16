@@ -36,12 +36,6 @@
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
-      <command
-            categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.ProblemSelectionHandler"
-            id="review.classdesign.jammy.command.problemselection"
-            name="Select problem">
-      </command>
    </extension>
      <extension
          point="org.eclipse.ui.menus">
@@ -54,12 +48,6 @@
                   commandId="review.classdesign.jammy.command.contestselection"
                   id="review.classdesign.jammy.contribution.select.contest"
                   label="Select contest"
-                  style="push">
-            </command>
-            <command
-                  commandId="review.classdesign.jammy.command.problemselection"
-                  id="eview.classdesign.jammy.contribution.select.problem"
-                  label="Select problem"
                   style="push">
             </command>
          </menu>
@@ -82,8 +70,17 @@
       <view
             category="review.classdesign.jammy.view.category"
             class="review.classdesign.jammy.ui.view.ProblemView"
+            icon="resources/icons/problem.view.png"
             id="review.classdesign.jammy.view.problem"
             name="Round problem"
+            restorable="true">
+      </view>
+      <view
+            category="review.classdesign.jammy.view.category"
+            class="review.classdesign.jammy.ui.view.ContestExplorer"
+            icon="resources/icons/contest.view.png"
+            id="review.classdesign.jammy.view.contest"
+            name="Contest Explorer"
             restorable="true">
       </view>
    </extension>
@@ -94,5 +91,13 @@
              id="review.classdesign.jammy.preferences.root"
              name="Jammy">
        </page>
+    </extension>
+    <extension
+          point="org.eclipse.ui.perspectives">
+       <perspective
+             class="review.classdesign.jammy.ui.JammyPerspectiveFactory"
+             id="review.classdesign.jammy.perspective"
+             name="Jammy">
+       </perspective>
     </extension>
 </plugin>

@@ -8,6 +8,7 @@ import java.util.List;
 import review.classdesign.jammy.common.RequestUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -76,7 +77,7 @@ public final class ContestInfo {
 		builder.append(round.getURL());
 		builder.append(REQUEST);
 		final String json = RequestUtils.get(builder.toString());
-		final Gson parser = new Gson();
+		final Gson parser = new GsonBuilder().registerTypeAdapter(Problem.class, new Problem.Deserializer()).create();
 		return parser.fromJson(json, ContestInfo.class);
 	}
 

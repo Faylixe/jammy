@@ -3,7 +3,7 @@ package review.classdesign.jammy.ui.internal;
 import java.util.function.Function;
 
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -12,54 +12,44 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @author fv
  */
-public final class FunctionalLabelProvider implements ILabelProvider {
+public final class FunctionalLabelProvider extends LabelProvider {
 
 	/** Delegate function used to retrieve label. **/
-	private final Function<Object, String> delegate;
+	private final Function<Object, String> textProvider;
 
+	/** Delegate function used to retrieve image. **/
+	private final Function<Object, Image> imageProvider;
+
+	/**
+	 * Constructor with no image provider.
+	 * 
+	 * @param textProvider Delegate function used to retrieve label.
+	 */
+	public FunctionalLabelProvider(final Function<Object, String> textProvider) {
+		this(textProvider, object -> null);
+	}
+	
 	/**
 	 * Default constructor.
 	 * 
-	 * @param delegate Delegate function used to retrieve label.
+	 * @param textProvider Delegate function used to retrieve label.
+	 * @param imageProvider Delegate function used to retrieve image.
 	 */
-	public FunctionalLabelProvider(final Function<Object, String> delegate) {
-		this.delegate = delegate;
+	public FunctionalLabelProvider(final Function<Object, String> textProvider, final Function<Object, Image> imageProvider) {
+		this.textProvider = textProvider;
+		this.imageProvider = imageProvider;
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public String getText(final Object element) {
-		return delegate.apply(element);
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void addListener(final ILabelProviderListener listener) {
-		// Do nothing.
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void removeListener(final ILabelProviderListener listener) {
-		// Do nothing.
-	}
-	
-	/** {@inheritDoc} **/
-	@Override
-	public void dispose() {
-		// Do nothing.
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public boolean isLabelProperty(final Object element, final String property) {
-		return false;
+		return textProvider.apply(element);
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public Image getImage(final Object element) {
-		return null;
+		return imageProvider.apply(element);
 	}
 
 }

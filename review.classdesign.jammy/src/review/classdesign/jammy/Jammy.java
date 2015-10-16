@@ -1,5 +1,6 @@
 package review.classdesign.jammy;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +11,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.listener.ProblemSelectionListener;
-import review.classdesign.jammy.listener.RoundSelectionListener;
+import review.classdesign.jammy.listener.ContestSelectionListener;
+import review.classdesign.jammy.model.ContestInfo;
 import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
 
@@ -34,13 +36,13 @@ public class Jammy extends AbstractUIPlugin {
 	public static final Object [] CHILDLESS = new Object[0];
 
 	/** **/
-	private Round currentRound;
+	private ContestInfo currentContest;
 	
 	/** **/
 	private Problem currentProblem;
 
 	/** **/
-	private final List<RoundSelectionListener> roundListeners;
+	private final List<ContestSelectionListener> contestListeners;
 
 	/** **/
 	private final List<ProblemSelectionListener> problemListeners;
@@ -49,26 +51,26 @@ public class Jammy extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Jammy() {
-		this.roundListeners = new ArrayList<>();
+		this.contestListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
 	}
 	
 	/**
-	 * Adds the given {@link RoundSelectionListener} to the listener list.
+	 * Adds the given {@link ContestSelectionListener} to the listener list.
 	 * 
 	 * @param listener Listener instance to register.
 	 */
-	public void addRoundSelectionListener(final RoundSelectionListener listener) {
-		roundListeners.add(listener);
+	public void addContestSelectionListener(final ContestSelectionListener listener) {
+		contestListeners.add(listener);
 	}
 
 	/**
-	 * Removes the given {@link RoundSelectionListener} of the listener list.
+	 * Removes the given {@link ContestSelectionListener} of the listener list.
 	 * 
 	 * @param listener Listener instance to unregister
 	 */
-	public void removeRoundSelectionListener(final RoundSelectionListener listener) {
-		roundListeners.remove(listener);
+	public void removeContestSelectionListener(final ContestSelectionListener listener) {
+		contestListeners.remove(listener);
 	}
 
 	/**
@@ -90,12 +92,12 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Notifies all {@link RoundSelectionListener} instance
+	 * Notifies all {@link ContestSelectionListener} instance
 	 * registered that the current round has changed.
 	 */
-	private void fireRoundSelectionChanged() {
-		for (final RoundSelectionListener listener : roundListeners) {
-			listener.roundSelected(currentRound);
+	private void fireContestSelectionChanged() {
+		for (final ContestSelectionListener listener : contestListeners) {
+			listener.contestSelected(currentContest);
 		}
 	}
 	
@@ -114,8 +116,13 @@ public class Jammy extends AbstractUIPlugin {
 	 * @param round
 	 */
 	public void setCurrentRound(final Round round) {
-		currentRound = Objects.requireNonNull(round);
-		fireRoundSelectionChanged();
+		try {
+			currentContest = ContestInfo.get(round);
+		}
+		catch (final IOException e) {
+			// TODO : Log error.
+		}
+		fireContestSelectionChanged();
 	}
 
 	/**
@@ -131,8 +138,8 @@ public class Jammy extends AbstractUIPlugin {
 	 * 
 	 * @return
 	 */
-	public Optional<Round> getCurrentRound() {
-		return Optional.ofNullable(currentRound);
+	public Optional<ContestInfo> getCurrentContest() {
+		return Optional.ofNullable(currentContest);
 	}
 	
 	/**
