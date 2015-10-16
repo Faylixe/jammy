@@ -1,6 +1,6 @@
 package review.classdesign.jammy.listener;
 
-import review.classdesign.jammy.model.ContestInfo;
+import review.classdesign.jammy.model.webservice.ContestInfo;
 
 /** 
  * Listener that is used for notifying

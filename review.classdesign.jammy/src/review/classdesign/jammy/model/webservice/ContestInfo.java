@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model;
+package review.classdesign.jammy.model.webservice;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,8 +12,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.common.JavaProjectBuilder;
 import review.classdesign.jammy.common.RequestUtils;
+import review.classdesign.jammy.model.Round;
+import review.classdesign.jammy.model.builder.JavaProjectBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

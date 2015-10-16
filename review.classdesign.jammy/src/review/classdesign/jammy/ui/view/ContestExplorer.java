@@ -28,8 +28,8 @@ import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.listener.ContestSelectionListener;
-import review.classdesign.jammy.model.ContestInfo;
-import review.classdesign.jammy.model.Problem;
+import review.classdesign.jammy.model.webservice.ContestInfo;
+import review.classdesign.jammy.model.webservice.Problem;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 

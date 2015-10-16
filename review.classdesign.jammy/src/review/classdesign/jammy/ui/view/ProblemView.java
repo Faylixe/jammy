@@ -12,7 +12,7 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.handler.ContestSelectionHandler;
 import review.classdesign.jammy.listener.ProblemSelectionListener;
-import review.classdesign.jammy.model.Problem;
+import review.classdesign.jammy.model.webservice.Problem;
 
 /**
  * Jammy problem view that only consists in a web browser

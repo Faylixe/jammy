@@ -1,6 +1,6 @@
 package review.classdesign.jammy.listener;
 
-import review.classdesign.jammy.model.Problem;
+import review.classdesign.jammy.model.webservice.Problem;
 
 /**
  * Listener that is used for notifying

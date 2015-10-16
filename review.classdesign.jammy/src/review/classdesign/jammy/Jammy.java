@@ -12,9 +12,9 @@ import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.listener.ProblemSelectionListener;
 import review.classdesign.jammy.listener.ContestSelectionListener;
-import review.classdesign.jammy.model.ContestInfo;
-import review.classdesign.jammy.model.Problem;
 import review.classdesign.jammy.model.Round;
+import review.classdesign.jammy.model.webservice.ContestInfo;
+import review.classdesign.jammy.model.webservice.Problem;
 
 /**
  * The activator class controls the plug-in life cycle.

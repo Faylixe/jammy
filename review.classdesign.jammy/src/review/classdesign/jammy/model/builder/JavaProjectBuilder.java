@@ -1,4 +1,4 @@
-package review.classdesign.jammy.common;
+package review.classdesign.jammy.model.builder;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -21,19 +21,13 @@ import org.eclipse.jdt.launching.LibraryLocation;
  * 
  * @author fv
  */
-public class JavaProjectBuilder {
+public final class JavaProjectBuilder extends ProjectContributor {
 
 	/** Path to use as source folder. **/
 	public static final String SOURCE_PATH = "src";
 
 	/** Path to use as binary folder. **/
 	private static final String BINARY_PATH = "bin";
-
-	/** Target java project to be created. **/
-	private final IProject project;
-
-	/** Monitor instance used for project creation. **/
-	private final IProgressMonitor monitor;
 
 	/**
 	 * Default constructor.
@@ -42,33 +36,18 @@ public class JavaProjectBuilder {
 	 * @param monitor Monitor instance used for project creation.
 	 */
 	private JavaProjectBuilder(final IProject project, final IProgressMonitor monitor) {
-		this.project = project;
-		this.monitor = monitor;
+		super(project, monitor);
 	}
 
-	
 	/**
 	 * Sets the internal project nature.
 	 * 
 	 * @throws CoreException If any error occurs while setting project nature.
 	 */
 	private void setNature() throws CoreException {
-		final IProjectDescription description = project.getDescription();
+		final IProjectDescription description = getProject().getDescription();
 		description.setNatureIds(new String[] { JavaCore.NATURE_ID });
-		project.setDescription(description, monitor);
-	}
-	
-	/**
-	 * Creates a folder using the given <tt>name</tt> inside the internal project.
-	 * 
-	 * @param name Name of the folder to be created.
-	 * @return Created folder instance.
-	 * @throws CoreException If any error occurs while creating folder.
-	 */
-	private IFolder createFolder(final String name) throws CoreException {
-		final IFolder folder = project.getFolder(name);
-		folder.create(false, true, monitor);
-		return folder;
+		getProject().setDescription(description, getMonitor());
 	}
 	
 	/**
@@ -98,10 +77,10 @@ public class JavaProjectBuilder {
 	private void build() throws CoreException {
 		final IFolder sourceFolder = createFolder(SOURCE_PATH);
 		final IFolder binaryFolder = createFolder(BINARY_PATH);
-		final IJavaProject javaProject = JavaCore.create(project);
+		final IJavaProject javaProject = JavaCore.create(getProject());
 		final IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(sourceFolder);
-		javaProject.setOutputLocation(binaryFolder.getFullPath(), monitor);
-		javaProject.setRawClasspath(createClasspath(root.getPath()), monitor);
+		javaProject.setOutputLocation(binaryFolder.getFullPath(), getMonitor());
+		javaProject.setRawClasspath(createClasspath(root.getPath()), getMonitor());
 	}
 
 	/**
