@@ -5,9 +5,14 @@ import java.util.Optional;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -18,14 +23,32 @@ import review.classdesign.jammy.service.IGoogleSessionService;
  * Abstract handler implementation that only run a {@link Wizard}
  * created by the {@link #createWizard()} abstract method.
  * 
+ * TODO : Consider remerging abstract handler with contest selection handler.
+ * 
  * @author fv
  */
 public abstract class AbstractWizardHandler extends AbstractHandler {
 
+	/** Name of the created job. **/
+	private static final String JOB_NAME = "Contest Selection";
+	
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		if (IGoogleSessionService.requireLogin()) {
+			final Job job = Job.create(JOB_NAME, this::onLoggedSession);
+			job.schedule();
+		}
+		return null;
+	}
+		
+	/**
+	 * 
+	 * @param monitor
+	 * @return
+	 */
+	private IStatus onLoggedSession(final IProgressMonitor monitor) {
+		Display.getDefault().asyncExec(() -> {
 			// Retrieves current shell.
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
@@ -35,8 +58,8 @@ public abstract class AbstractWizardHandler extends AbstractHandler {
 				final WizardDialog dialog = new WizardDialog(shell, wizard.get());
 				dialog.open();
 			}
-		}
-		return null;
+		});
+		return Status.OK_STATUS;
 	}
 
 	/**

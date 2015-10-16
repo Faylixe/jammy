@@ -27,7 +27,7 @@ import review.classdesign.jammy.Jammy;
  */
 public final class EclipseUtils {
 
-	/** **/
+	/** Error message displayed when a file could not be opened. **/
 	private static final String CANNOT_OPEN_FILE = "An error occurs while opening file %s";
 
 	/**
@@ -37,6 +37,11 @@ public final class EclipseUtils {
 		// Do nothing.
 	}
 
+	/**
+	 * Retrieves the current user name.
+	 * 
+	 * @return Current user nickname.
+	 */
 	public static String getCurrentUser() {
 		// TODO : Figure out how to retrieve current user nickname (triggering secure storage ?)
 		return "user";
@@ -56,21 +61,21 @@ public final class EclipseUtils {
 	}
 
 	/**
+	 * Opens the given <tt>file</tt> into a default editor
+	 * based on file nature.
 	 * 
-	 * @param file
+	 * @param file File to open in an editor.
 	 */
 	public static void openFile(final IFile file) {
 		Display.getDefault().asyncExec(() -> {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final IEditorDescriptor descriptor = workbench.getEditorRegistry().getDefaultEditor(file.getName());
 			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			// TODO : Open in UI thread ?
 			final IWorkbenchPage page = window.getActivePage();
 			try {
 				page.openEditor(new FileEditorInput(file), descriptor.getId());
 			}
 			catch (final PartInitException e) {
-				e.printStackTrace();
 				showError(String.format(CANNOT_OPEN_FILE, file.getName()), e);
 			}
 		});

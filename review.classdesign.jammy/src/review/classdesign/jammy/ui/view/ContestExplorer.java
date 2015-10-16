@@ -40,7 +40,10 @@ import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
  */
 public final class ContestExplorer extends ViewPart implements ContestSelectionListener, IDoubleClickListener, ISelectionChangedListener {
 
-	/** **/
+	/** Name of the created job. **/
+	private static final String JOB_NAME = "Solver opening";
+	
+	/** Error message displayed when an error occurs while creating project.**/
 	private static final String PROJECT_CREATION_ERROR = "An error occurs while creating project for solver %s : %s.";
 
 	/** Identifier of this view. **/
@@ -89,14 +92,14 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 			contestSelected(contest.get());
 		}
 	}
-	
+
 	/** {@inheritDoc} **/
 	@Override
 	public void doubleClick(final DoubleClickEvent event) {
 		if (contestInfo != null) {
 			final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 			final Problem problem = (Problem) selection.getFirstElement();
-			final Job job = Job.create("", monitor -> {
+			final Job job = Job.create(JOB_NAME, monitor -> {
 				try {
 					final IFile file = contestInfo.getProblemFile(problem, monitor);
 					if (!file.exists()) {
@@ -105,7 +108,6 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 					EclipseUtils.openFile(file);
 				}
 				catch (final CoreException e) {
-					e.printStackTrace();
 					return new Status(IStatus.ERROR, Jammy.PLUGIN_ID, String.format(PROJECT_CREATION_ERROR, problem.getName(), e.getMessage()));
 				}
 				return Status.OK_STATUS;

@@ -27,7 +27,7 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	private static final String ACTION_URL = "action://problem.selection.handler";
 
 	/** HTML content displayed when problem is not selected. **/
-	private static final String PROBLEM_NOT_SELECTED_CONTENT = "<a href=\"" + ACTION_URL + "\">Please select a contest first.</a>";
+	private static final String CONTEST_NOT_SELECTED_CONTENT = "<a href=\"" + ACTION_URL + "\">Please select a contest first.</a>";
 
 	/** View ID.**/
 	public static final String ID = "review.classdesign.jammy.view.problem";
@@ -51,7 +51,7 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 			problemSelected(problem.get());
 		}
 		else {
-			browser.setText(PROBLEM_NOT_SELECTED_CONTENT);
+			browser.setText(CONTEST_NOT_SELECTED_CONTENT);
 		}
 	}
 	
@@ -81,7 +81,8 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 		if (ACTION_URL.equals(location)) {
 			ContestSelectionHandler.execute();
 			event.doit = false;
-			}
+			// TODO : Implements browser redirection.
+		}
 	}
 
 	/** {@inheritDoc} **/

@@ -41,7 +41,7 @@ public final class Problem extends NamedObject {
 	/** Suffix used for solver class file. **/
 	private static final String SOLVER_SUFFIX = "Solver";
 
-	/** **/
+	/** Error message displayed when solver file creation fail. **/
 	private static final String FILE_CREATION_ERROR = "An error occurs while creating solver file %s.";
 
 	/**
@@ -60,7 +60,7 @@ public final class Problem extends NamedObject {
 			final Gson parser = new Gson();
 			final Problem problem = parser.fromJson(element, Problem.class);
 			final String normalized = normalize(problem.body);
-			problem.body = String.format(Template.DESCRIPTION.toString(), normalized);
+			problem.body = String.format(Template.DESCRIPTION.get(), normalized);
 			return problem;
 		}
 	
@@ -116,7 +116,8 @@ public final class Problem extends NamedObject {
 	private transient String solverName;
 
 	/**
-	 * Creates name of the Java file that will contains the solver class.
+	 * Creates name of the Java file that
+	 * will contains the solver class.
 	 */
 	private void createSolverName() {
 		final StringBuilder builder = new StringBuilder();
@@ -133,7 +134,8 @@ public final class Problem extends NamedObject {
 		
 	}
 	/**
-	 * Creates if not exist, and returns the associated solver class name.
+	 * Creates if not exist, and returns the
+	 * associated solver class name.
 	 * 
 	 * @return Solver name.
 	 */
@@ -145,8 +147,9 @@ public final class Problem extends NamedObject {
 	}
 	
 	/**
+	 * Creates and returns a valid solver template for this problem.
 	 * 
-	 * @return
+	 * @return Created template.
 	 */
 	private String getSolverTemplate() {
 		final Object [] solvers = new Object[4];
@@ -154,13 +157,14 @@ public final class Problem extends NamedObject {
 		for (int i = 0; i < 4; i++) {
 			solvers[i] = solverName;
 		}
-		return String.format(Template.SOLVER.toString(), solvers);	
+		return String.format(Template.SOLVER.get(), solvers);	
 	}
 	
 	/**
+	 * Creates a solver class file using the given <tt>file</tt> reference.
 	 * 
-	 * @param file
-	 * @param monitor
+	 * @param file File instance to create solver instance into.
+	 * @param monitor Monitor instance used for file creation.
 	 */
 	public void createSolver(final IFile file, final IProgressMonitor monitor) {
 		final String template = getSolverTemplate();

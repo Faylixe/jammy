@@ -23,13 +23,33 @@ public final class JammyPerspectiveFactory implements IPerspectiveFactory {
 	/** {@inheritDoc} **/
 	@Override
 	public void createInitialLayout(final IPageLayout layout) {
+		addView(layout);
+		addViewShortcut(layout);
+	}
+
+	/**
+	 * Adds view associated to the created perspective.
+	 * 
+	 * @param layout Layout instance to use for configuring created perspective.
+	 */
+	private void addView(final IPageLayout layout) {
 		final String editor = layout.getEditorArea();
 		// Create left views.
 		final IFolderLayout left = layout.createFolder(NAVIGATOR_ID, IPageLayout.LEFT, 0.26f, editor);
 		left.addView(ContestExplorer.ID);
 		// Create bottom views.
 		final IFolderLayout bottom = layout.createFolder(VIEW_ID, IPageLayout.BOTTOM, 0.75f, editor);
-		bottom.addView(ProblemView.ID);
+		bottom.addView(ProblemView.ID);		
+	}
+
+	/**
+	 * Adds view shortcut associated to the created perspective.
+	 * 
+	 * @param layout Layout instance to use for configuring created perspective.
+	 */
+	private void addViewShortcut(final IPageLayout layout) {
+		layout.addShowViewShortcut(ContestExplorer.ID);
+		layout.addShowViewShortcut(ProblemView.ID);
 	}
 
 }

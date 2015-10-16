@@ -14,8 +14,8 @@ public interface ContestSelectionListener {
 	 * Notifies that the current contextual {@link ContestInfo}
 	 * instance has changed.
 	 * 
-	 * @param round Newly selected round instance.
+	 * @param contest Newly selected contest instance.
 	 */
-	void contestSelected(ContestInfo round);
+	void contestSelected(ContestInfo contest);
 
 }

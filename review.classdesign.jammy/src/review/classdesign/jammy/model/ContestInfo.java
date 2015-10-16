@@ -27,14 +27,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public final class ContestInfo {
 
-	/** **/
-	private static final String CONTEST_PROJECT_PREFIX = "com.google.codejam.";
-
-	/** **/
-	private static final String SOURCE_PATH = "src/";
+	/** Prefix used for contest project. **/
+	private static final String CONTEST_PROJECT_PREFIX = "jammy.";
 	
-	/** **/
+	/** File extension used for created Java solver. **/
 	private static final String SOLVER_EXTENSION = ".java";
+
+	/** Normalization pattern used for creating project and file name. **/
+	private static final String PATTERN = "[^A-Za-z0-9]";
 
 	/** Boolean flag that indicates if this contest have analysis available. **/
 	@SerializedName("has_analysis")
@@ -55,7 +55,8 @@ public final class ContestInfo {
 	private transient IProject project;
 
 	/**
-	 * 
+	 * Sets the internal parent round. Aims to be only used
+	 * by the static factory method {@link #get(Round)}.
 	 * @param round
 	 */
 	private void setRound(final Round round) {
@@ -63,25 +64,32 @@ public final class ContestInfo {
 	}
 
 	/**
+	 * Creates and returns a valid project name
+	 * using the following structure :
+	 * <tt>jammy.contest_name.round_name</tt>.
 	 * 
-	 * @return
+	 * @return Created project name.
 	 */
 	private String getProjectName() {
+		// TODO : Fix pattern replacement issues.
 		final StringBuilder builder = new StringBuilder(CONTEST_PROJECT_PREFIX);
-		final String contest = parent.getContestName().replace("[^A-Za-z0-9]", "");
+		final String contest = parent.getContestName().replace(PATTERN, "");
 		builder.append(contest.toLowerCase());
 		builder.append(".");
-		final String round = parent.getName().replace("[^A-Za-z0-9 ]", "");
+		final String round = parent.getName().replace(PATTERN, "");
 		builder.append(round.toLowerCase());
 		return builder.toString();
 	}
 
 	/**
+	 * Retrieves and returns solver file instance
+	 * associated to the current problem. If the associated project
+	 * is not existing, it will be created.
 	 * 
-	 * @param problem
-	 * @param monitor
-	 * @return
-	 * @throws CoreException 
+	 * @param problem Problem instance to retrieve solver class file from.
+	 * @param monitor Monitor instance to use for creating project if required.
+	 * @return Associated {@link IFile} instance.
+	 * @throws CoreException If any error occurs while creating project if required.
 	 */
 	public IFile getProblemFile(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		if (project == null) {
@@ -92,7 +100,8 @@ public final class ContestInfo {
 			}
 		}
 		final StringBuilder builder = new StringBuilder();
-		builder.append(SOURCE_PATH);
+		builder.append(JavaProjectBuilder.SOURCE_PATH);
+		builder.append("/");
 		builder.append(problem.getSolverName());
 		builder.append(SOLVER_EXTENSION);
 		return project.getFile(builder.toString());
