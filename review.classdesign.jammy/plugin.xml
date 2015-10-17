@@ -32,9 +32,21 @@
       </category>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.ContestSelectionHandler"
+            defaultHandler="review.classdesign.jammy.handler.ContestSelectionCommand"
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
+      </command>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.handler.OpenSolverCommand"
+            id="review.classdesign.jammy.command.opensolver"
+            name="Open problem solver">
+      </command>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.handler.RunSampleDatasetCommand"
+            id="review.classdesign.jammy.command.runtest"
+            name="Run sample dataset">
       </command>
    </extension>
      <extension
@@ -51,6 +63,20 @@
                   style="push">
             </command>
          </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:review.classdesign.jammy.menu.contest?after=additions">
+         <command
+               commandId="review.classdesign.jammy.command.opensolver"
+               label="Open problem solver"
+               style="push">
+         </command>
+         <command
+               commandId="review.classdesign.jammy.command.runtest"
+               label="Run sample dataset"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
    
@@ -72,8 +98,11 @@
             class="review.classdesign.jammy.ui.view.ProblemView"
             icon="resources/icons/problem.view.png"
             id="review.classdesign.jammy.view.problem"
-            name="Round problem"
+            name="Problem description"
             restorable="true">
+         <description>
+            This view displays the currently selected problem description.
+         </description>
       </view>
       <view
             category="review.classdesign.jammy.view.category"
@@ -82,6 +111,9 @@
             id="review.classdesign.jammy.view.contest"
             name="Contest Explorer"
             restorable="true">
+         <description>
+            Contest explorer allows to navigate between each problem exposed by the currently selected CodeJam round.
+         </description>
       </view>
    </extension>
     <extension

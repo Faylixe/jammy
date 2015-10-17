@@ -5,13 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -19,7 +14,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
@@ -27,7 +24,8 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
-import review.classdesign.jammy.listener.ContestSelectionListener;
+import review.classdesign.jammy.handler.OpenSolverCommand;
+import review.classdesign.jammy.model.listener.ContestSelectionListener;
 import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
@@ -38,16 +36,13 @@ import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
  * 
  * @author fv
  */
-public final class ContestExplorer extends ViewPart implements ContestSelectionListener, IDoubleClickListener, ISelectionChangedListener {
-
-	/** Name of the created job. **/
-	private static final String JOB_NAME = "Solver opening";
-	
-	/** Error message displayed when an error occurs while creating project.**/
-	private static final String PROJECT_CREATION_ERROR = "An error occurs while creating project for solver %s : %s.";
+public final class ContestExplorer extends ViewPart implements ContestSelectionListener, ISelectionChangedListener {
 
 	/** Identifier of this view. **/
 	public static final String ID = "review.classdesign.jammy.view.contest";
+
+	/** Identifier of the contextual menu registered. **/
+	public static final String MENU_ID = "review.classdesign.jammy.menu.contest";
 
 	/** Viewer instance this view expose. **/
 	private TableViewer viewer;
@@ -85,37 +80,31 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 		viewer = new TableViewer(parent);
 		viewer.setContentProvider(new FunctionalContentProvider(this::getProblems));
 		viewer.setLabelProvider(new FunctionalLabelProvider(NamedObject::getName, this::getImage));
-		viewer.addDoubleClickListener(this);
+		viewer.addDoubleClickListener(event -> {
+			EclipseUtils.executeCommand(OpenSolverCommand.ID);
+		});
 		viewer.addSelectionChangedListener(this);
+		createContextualMenu();
 		final Optional<ContestInfo> contest = Jammy.getDefault().getCurrentContest();
 		if (contest.isPresent()) {
 			contestSelected(contest.get());
 		}
 	}
 
-	/** {@inheritDoc} **/
-	@Override
-	public void doubleClick(final DoubleClickEvent event) {
-		if (contestInfo != null) {
-			final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-			final Problem problem = (Problem) selection.getFirstElement();
-			final Job job = Job.create(JOB_NAME, monitor -> {
-				try {
-					final IFile file = contestInfo.getProblemFile(problem, monitor);
-					if (!file.exists()) {
-						problem.createSolver(file, monitor);
-					}
-					EclipseUtils.openFile(file);
-				}
-				catch (final CoreException e) {
-					return new Status(IStatus.ERROR, Jammy.PLUGIN_ID, String.format(PROJECT_CREATION_ERROR, problem.getName(), e.getMessage()));
-				}
-				return Status.OK_STATUS;
-			});
-			job.schedule();
-		}
+	/**
+	 * Creates and registers the contextual menu associated to the internal viewer.
+	 */
+	private void createContextualMenu() {
+		final MenuManager manager = new MenuManager();
+		manager.addMenuListener(menu -> {
+			menu.removeAll();
+			menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		});
+		final Menu menu = manager.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(MENU_ID, manager, viewer);
 	}
-
+	
 	/** {@inheritDoc} **/
 	@Override
 	public void selectionChanged(final SelectionChangedEvent event) {
@@ -131,7 +120,7 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 	@Override
 	public void contestSelected(final ContestInfo contestInfo) {
 		this.contestInfo = contestInfo;
-		if (viewer != null) {
+		if (viewer != null && !viewer.getTable().isDisposed()) {			
 			viewer.setInput(contestInfo);
 			viewer.setSelection(new StructuredSelection(contestInfo.getProblems().get(0)));
 		}

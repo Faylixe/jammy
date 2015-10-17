@@ -10,8 +10,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.handler.ContestSelectionHandler;
-import review.classdesign.jammy.listener.ProblemSelectionListener;
+import review.classdesign.jammy.common.EclipseUtils;
+import review.classdesign.jammy.handler.ContestSelectionCommand;
+import review.classdesign.jammy.model.listener.ProblemSelectionListener;
 import review.classdesign.jammy.model.webservice.Problem;
 
 /**
@@ -79,7 +80,7 @@ public final class ProblemView extends ViewPart implements ProblemSelectionListe
 	public void changing(final LocationEvent event) {
 		final String location = event.location;
 		if (ACTION_URL.equals(location)) {
-			ContestSelectionHandler.execute();
+			EclipseUtils.executeCommand(ContestSelectionCommand.ID);
 			event.doit = false;
 			// TODO : Implements browser redirection.
 		}

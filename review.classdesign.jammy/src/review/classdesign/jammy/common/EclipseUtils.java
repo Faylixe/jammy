@@ -2,6 +2,12 @@ package review.classdesign.jammy.common;
 
 import java.util.Optional;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -14,7 +20,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 import review.classdesign.jammy.Jammy;
@@ -58,6 +66,22 @@ public final class EclipseUtils {
 		execption.printStackTrace(); // TODO : Remove for production.
 		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message, execption);
 		StatusManager.getManager().handle(status, StatusManager.SHOW);
+	}
+	
+	/**
+	 * 
+	 * @param commandId
+	 */
+	public static void executeCommand(final String commandId) {
+		final IServiceLocator locator = PlatformUI.getWorkbench();
+		final ICommandService service = (ICommandService) locator.getService(ICommandService.class);
+		final Command command = service.getCommand(commandId);
+		try {
+			command.executeWithChecks(new ExecutionEvent());
+		}
+		catch (final ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
+			// TODO : Show error.
+		}
 	}
 
 	/**

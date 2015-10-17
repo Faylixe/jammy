@@ -35,7 +35,7 @@ public final class ContestInfo {
 	private static final String SOLVER_EXTENSION = ".java";
 
 	/** Normalization pattern used for creating project and file name. **/
-	private static final String PATTERN = "[^A-Za-z0-9]";
+	protected static final String PATTERN = "[^A-Za-z0-9]";
 
 	/** Boolean flag that indicates if this contest have analysis available. **/
 	@SerializedName("has_analysis")
@@ -55,6 +55,9 @@ public final class ContestInfo {
 	/** Associated project instance. **/
 	private transient IProject project;
 
+	/** **/
+	private transient String normalizedName;
+
 	/**
 	 * Sets the internal parent round. Aims to be only used
 	 * by the static factory method {@link #get(Round)}.
@@ -65,6 +68,19 @@ public final class ContestInfo {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public String getNormalizedName() {
+		if (normalizedName == null) {
+			normalizedName = parent
+					.getContestName()
+					.replaceAll(PATTERN, "")
+					.toLowerCase();
+		}
+		return normalizedName;
+	}
+	/**
 	 * Creates and returns a valid project name
 	 * using the following structure :
 	 * <tt>jammy.contest_name.round_name</tt>.
@@ -74,12 +90,28 @@ public final class ContestInfo {
 	private String getProjectName() {
 		// TODO : Fix pattern replacement issues.
 		final StringBuilder builder = new StringBuilder(CONTEST_PROJECT_PREFIX);
-		final String contest = parent.getContestName().replace(PATTERN, "");
-		builder.append(contest.toLowerCase());
+		builder.append(getNormalizedName());
 		builder.append(".");
-		final String round = parent.getName().replace(PATTERN, "");
+		final String round = parent.getName().replaceAll(PATTERN, "");
 		builder.append(round.toLowerCase());
 		return builder.toString();
+	}
+
+	/**
+	 * 
+	 * @param monitor
+	 * @return
+	 * @throws CoreException
+	 */
+	public IProject getProject(final IProgressMonitor monitor) throws CoreException {
+		if (project == null) {
+			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			project = workspace.getRoot().getProject(getProjectName());
+			if (!project.exists()) {
+				JavaProjectBuilder.build(project, monitor);
+			}
+		}
+		return project;
 	}
 
 	/**
@@ -93,13 +125,7 @@ public final class ContestInfo {
 	 * @throws CoreException If any error occurs while creating project if required.
 	 */
 	public IFile getProblemFile(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		if (project == null) {
-			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			project = workspace.getRoot().getProject(getProjectName());
-			if (!project.exists()) {
-				JavaProjectBuilder.build(project, monitor);
-			}
-		}
+		getProject(monitor);
 		final StringBuilder builder = new StringBuilder();
 		builder.append(JavaProjectBuilder.SOURCE_PATH);
 		builder.append("/");

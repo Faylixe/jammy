@@ -34,7 +34,7 @@ public abstract class AbstractWizardHandler extends AbstractHandler {
 	
 	/** {@inheritDoc} **/
 	@Override
-	public Object execute(final ExecutionEvent event) throws ExecutionException {
+	public final Object execute(final ExecutionEvent event) throws ExecutionException {
 		if (IGoogleSessionService.requireLogin()) {
 			final Job job = Job.create(JOB_NAME, this::onLoggedSession);
 			job.schedule();
@@ -47,7 +47,7 @@ public abstract class AbstractWizardHandler extends AbstractHandler {
 	 * @param monitor
 	 * @return
 	 */
-	private IStatus onLoggedSession(final IProgressMonitor monitor) {
+	private final IStatus onLoggedSession(final IProgressMonitor monitor) {
 		Display.getDefault().asyncExec(() -> {
 			// Retrieves current shell.
 			final IWorkbench workbench = PlatformUI.getWorkbench();

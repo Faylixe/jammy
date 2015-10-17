@@ -1,4 +1,4 @@
-package review.classdesign.jammy.listener;
+package review.classdesign.jammy.model.listener;
 
 import review.classdesign.jammy.model.webservice.Problem;
 

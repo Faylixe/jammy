@@ -6,7 +6,6 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -115,24 +114,20 @@ public final class Problem extends NamedObject {
 	/** Name of the solver to create. **/
 	private transient String solverName;
 
+	/** **/
+	private transient String normalizedName;
+
 	/**
-	 * Creates name of the Java file that
-	 * will contains the solver class.
+	 * 
+	 * @return
 	 */
-	private void createSolverName() {
-		final StringBuilder builder = new StringBuilder();
-		final String name = getName().replace("[^A-Za-z0-9 ]", "");
-		final StringTokenizer tokenizer = new StringTokenizer(name, " ");
-		while (tokenizer.hasMoreTokens()) {
-			final String token = tokenizer.nextToken();
-			if (!token.isEmpty()) {
-				builder.append(token);
-			}
+	public String getNormalizedName() {
+		if (normalizedName == null) {
+			normalizedName = getName().replaceAll(ContestInfo.PATTERN, "");
 		}
-		builder.append(SOLVER_SUFFIX);
-		solverName = builder.toString();
-		
+		return normalizedName;
 	}
+
 	/**
 	 * Creates if not exist, and returns the
 	 * associated solver class name.
@@ -141,7 +136,10 @@ public final class Problem extends NamedObject {
 	 */
 	public String getSolverName() {
 		if (solverName == null) {
-			createSolverName();
+			final StringBuilder builder = new StringBuilder();
+			builder.append(getNormalizedName());
+			builder.append(SOLVER_SUFFIX);
+			solverName = builder.toString();
 		}
 		return solverName;
 	}

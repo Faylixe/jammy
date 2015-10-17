@@ -59,7 +59,9 @@ public class ProjectContributor {
 	 */
 	protected final IFolder createFolder(final String name) throws CoreException {
 		final IFolder folder = project.getFolder(name);
-		folder.create(false, true, monitor);
+		if (!folder.exists()) {
+			folder.create(false, true, monitor);
+		}
 		return folder;
 	}
 

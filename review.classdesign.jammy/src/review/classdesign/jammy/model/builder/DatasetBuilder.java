@@ -71,9 +71,13 @@ public final class DatasetBuilder extends ProjectContributor {
 	 */
 	private void createFile(final String suffix, final String content) throws CoreException {
 		final StringBuilder builder = new StringBuilder();
-		builder.append(problem.getSolverName());
+		final String name = problem
+				.getNormalizedName()
+				.replace(" ", "")
+				.toLowerCase();
+		builder.append(name);
 		builder.append(suffix);
-		final IFile dataset = folder.getFile(problem.getSolverName());
+		final IFile dataset = folder.getFile(builder.toString());
 		if (!dataset.exists()) {
 			final InputStream stream = new ByteArrayInputStream(content.getBytes());
 			dataset.create(stream, true, getMonitor());
