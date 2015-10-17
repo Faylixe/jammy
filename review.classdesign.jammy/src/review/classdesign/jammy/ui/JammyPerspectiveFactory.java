@@ -3,6 +3,7 @@ package review.classdesign.jammy.ui;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.console.IConsoleConstants;
 
 import review.classdesign.jammy.ui.view.ContestExplorer;
 import review.classdesign.jammy.ui.view.ProblemView;
@@ -39,7 +40,8 @@ public final class JammyPerspectiveFactory implements IPerspectiveFactory {
 		left.addView(ContestExplorer.ID);
 		// Create bottom views.
 		final IFolderLayout bottom = layout.createFolder(VIEW_ID, IPageLayout.BOTTOM, 0.75f, editor);
-		bottom.addView(ProblemView.ID);		
+		bottom.addView(ProblemView.ID);
+		bottom.addView(IConsoleConstants.ID_CONSOLE_VIEW);
 	}
 
 	/**

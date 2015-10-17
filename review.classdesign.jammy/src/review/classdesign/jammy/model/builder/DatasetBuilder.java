@@ -3,18 +3,25 @@ package review.classdesign.jammy.model.builder;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import javax.swing.text.Document;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.model.webservice.Problem;
 
 /**
+ * A {@link DatasetBuilder} provides tools for extracting and
+ * creating sample dataset for a given {@link Problem} instance.
  * 
  * @author fv
  */
@@ -23,11 +30,17 @@ public final class DatasetBuilder extends ProjectContributor {
 	/** Path of the input folder in which dataset will be written. **/
 	private static final String INPUT_PATH = "input";
 
+	/** Classname of the DIV that contains our testing dataset. **/
+	private static final String IO_CLASSNAME = "problem-io-wrapper";
+
 	/** Path of the created test input file. **/
 	private static final String DATASET_INPUT_SUFFIX = ".test.in";
 	
 	/** Path of the created test output file. **/
 	private static final String DATASET_OUTPUT_SUFFIX = ".test.out";
+	
+	/** Error status thrown when problem dataset could not be found. **/
+	private static final IStatus IO_NOT_FOUND = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, "Problem dataset not found");
 
 	/** Problem instance dataset is built from. **/
 	private final Problem problem;
@@ -68,16 +81,39 @@ public final class DatasetBuilder extends ProjectContributor {
 	}
 
 	/**
+	 * Extracts and returns the dataset from the problem body.
+	 * 
+	 * @return HTML row element that contains our problem dataset.
+	 * @throws CoreException If any error occurs while extracing dataset.
+	 */
+	private Element extractDataset() throws CoreException {
+		final Document document = (Document) Jsoup.parse(problem.getBody());
+		final Elements problemIO = document.getElementsByClass(IO_CLASSNAME);
+		if (problemIO.isEmpty()) {
+			throw new CoreException(IO_NOT_FOUND);
+		}
+		final Elements row = problemIO.first().getElementsByTag(HTMLConstant.TR);
+		if (row.size() < 2) {
+			throw new CoreException(IO_NOT_FOUND);
+		}
+		return row.get(1);
+		
+	}
+
+	/**
 	 * Creates input and output dataset associated to the target problem instance.
 	 * 
 	 * @throws CoreException If any error occurs while creating dataset files.
 	 */
 	private void build() throws CoreException {
 		folder = createFolder(INPUT_PATH);
-		final Document document = (Document) Jsoup.parse(problem.getBody());
-		// TODO : Match problem-io-wrapper div.
-		createFile(DATASET_INPUT_SUFFIX, null);
-		createFile(DATASET_OUTPUT_SUFFIX, null);
+		final Element row = extractDataset();
+		final Elements io = row.getElementsByTag(HTMLConstant.TD);
+		if (io.size() < 2) {
+			throw new CoreException(IO_NOT_FOUND);
+		}
+		createFile(DATASET_INPUT_SUFFIX, io.first().text());
+		createFile(DATASET_OUTPUT_SUFFIX, io.get(1).text());
 	}
 
 	/**

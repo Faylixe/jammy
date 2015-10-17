@@ -25,6 +25,9 @@ public final class HTMLConstant {
 
 	/** HTML tag TR. **/
 	public static final String TR = "tr";
+	
+	/** HTML tag TD. **/
+	public static final String TD = "td";
 
 	/** HTML attribute HREF. **/
 	public static final String HREF = "href";
