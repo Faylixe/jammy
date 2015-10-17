@@ -2,13 +2,15 @@ package review.classdesign.jammy.model.builder;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.function.Function;
+
+import javax.swing.text.Document;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.jsoup.Jsoup;
 
 import review.classdesign.jammy.model.webservice.Problem;
 
@@ -51,16 +53,15 @@ public final class DatasetBuilder extends ProjectContributor {
 	 * dataset content from the problem description.
 	 * 
 	 * @param suffix File name suffix to use for the created file.
-	 * @param extractor Function that is in charge of retrieving dataset content from problem description.
+	 * @param content Content to write.
 	 * @throws CoreException If any error occurs while creating file.
 	 */
-	private void createFile(final String suffix, final Function<String, String> extractor) throws CoreException {
+	private void createFile(final String suffix, final String content) throws CoreException {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(problem.getSolverName());
 		builder.append(suffix);
 		final IFile dataset = folder.getFile(problem.getSolverName());
 		if (!dataset.exists()) {
-			final String content = extractor.apply(problem.getBody());
 			final InputStream stream = new ByteArrayInputStream(content.getBytes());
 			dataset.create(stream, true, getMonitor());
 		}
@@ -73,26 +74,10 @@ public final class DatasetBuilder extends ProjectContributor {
 	 */
 	private void build() throws CoreException {
 		folder = createFolder(INPUT_PATH);
-		createFile(DATASET_INPUT_SUFFIX, DatasetBuilder::getInput);
-		createFile(DATASET_OUTPUT_SUFFIX, DatasetBuilder::getOutput);
-	}
-
-	/**
-	 * 
-	 * @param content
-	 * @return
-	 */
-	private static String getInput(final String content) {
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param content
-	 * @return
-	 */
-	private static String getOutput(final String content) {
-		return null;
+		final Document document = (Document) Jsoup.parse(problem.getBody());
+		// TODO : Match problem-io-wrapper div.
+		createFile(DATASET_INPUT_SUFFIX, null);
+		createFile(DATASET_OUTPUT_SUFFIX, null);
 	}
 
 	/**
