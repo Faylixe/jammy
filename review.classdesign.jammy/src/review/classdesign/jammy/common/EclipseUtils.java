@@ -67,7 +67,7 @@ public final class EclipseUtils {
 		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message, execption);
 		StatusManager.getManager().handle(status, StatusManager.SHOW);
 	}
-	
+
 	/**
 	 * 
 	 * @param commandId
