@@ -68,6 +68,7 @@ public final class DatasetBuilder extends ProjectContributor {
 	 * 
 	 * @param suffix File name suffix to use for the created file.
 	 * @param content Content to write.
+	 * @return Created file reference.
 	 * @throws CoreException If any error occurs while creating file.
 	 */
 	private IFile createFile(final String suffix, final String content) throws CoreException {
@@ -106,6 +107,7 @@ public final class DatasetBuilder extends ProjectContributor {
 	/**
 	 * Creates input and output dataset associated to the target problem instance.
 	 * 
+	 * @return {@link ProblemSampleDataset} instance built.
 	 * @throws CoreException If any error occurs while creating dataset files.
 	 */
 	public ProblemSampleDataset build() throws CoreException {

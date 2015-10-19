@@ -12,6 +12,8 @@ import review.classdesign.jammy.common.Template;
 import review.classdesign.jammy.model.webservice.Problem;
 
 /**
+ * A {@link SolverBuilder} allows to create solver class
+ * file for a given problem using internal bundle template.
  * 
  * @author fv
  */
@@ -24,9 +26,10 @@ public final class SolverBuilder extends ProjectContributor {
 	private static final String SOLVER_EXTENSION = ".java";
 
 	/**
+	 * Default constructor.
 	 * 
-	 * @param project
-	 * @param monitor
+	 * @param project Target java project to be created.
+	 * @param monitor Monitor instance used for project creation.
 	 */
 	public SolverBuilder(final IProject project, final IProgressMonitor monitor) {
 		super(project, monitor);
@@ -34,11 +37,9 @@ public final class SolverBuilder extends ProjectContributor {
 
 	/**
 	 * Retrieves and returns solver file instance
-	 * associated to the current problem. If the associated project
-	 * is not existing, it will be created.
+	 * associated to the current problem.
 	 * 
-	 * @param problem Problem instance to retrieve solver class file from.
-	 * @param monitor Monitor instance to use for creating project if required.
+	 * @param name Name of the file to retrieve.
 	 * @return Associated {@link IFile} instance.
 	 * @throws CoreException If any error occurs while creating project if required.
 	 */
@@ -54,6 +55,7 @@ public final class SolverBuilder extends ProjectContributor {
 	/**
 	 * Creates and returns a valid solver template for this problem.
 	 * 
+	 * @param name Name of the solver class created.
 	 * @return Created template.
 	 */
 	private static String getSolverTemplate(final String name) {
@@ -65,8 +67,11 @@ public final class SolverBuilder extends ProjectContributor {
 	}
 
 	/**
+	 * Builds the solver file for the given <tt>problem</tt>.
 	 * 
-	 * @param problem
+	 * @param problem Problem to build solver class file for.
+	 * @return Solver class file reference.
+	 * @throws CoreException If any error occurs while creating solver file.
 	 */
 	public IFile build(final Problem problem) throws CoreException {
 		final StringBuilder builder = new StringBuilder();
