@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.Status;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
+import review.classdesign.jammy.model.ProblemSolver;
 import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;
 
@@ -31,10 +32,8 @@ public final class OpenSolverCommand extends AbstractJobHandler {
 		if (currentContest.isPresent() && currentProblem.isPresent()) {
 			final Problem problem = currentProblem.get();
 			try {
-				final IFile file = currentContest.get().getProblemFile(problem, monitor);
-				if (!file.exists()) {
-					problem.createSolver(file, monitor);
-				}
+				final ProblemSolver solver = ProblemSolver.get(problem, monitor);
+				final IFile file = solver.getFile();
 				EclipseUtils.openFile(file);
 			}
 			catch (final CoreException e) {

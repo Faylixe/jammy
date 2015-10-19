@@ -5,16 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-
 import review.classdesign.jammy.common.RequestUtils;
+import review.classdesign.jammy.common.Template;
 import review.classdesign.jammy.model.Round;
-import review.classdesign.jammy.model.builder.JavaProjectBuilder;
+import review.classdesign.jammy.model.webservice.Problem.Deserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,12 +24,6 @@ public final class ContestInfo {
 
 	/** Prefix used for contest project. **/
 	private static final String CONTEST_PROJECT_PREFIX = "jammy.";
-	
-	/** File extension used for created Java solver. **/
-	private static final String SOLVER_EXTENSION = ".java";
-
-	/** Normalization pattern used for creating project and file name. **/
-	protected static final String PATTERN = "[^A-Za-z0-9]";
 
 	/** Boolean flag that indicates if this contest have analysis available. **/
 	@SerializedName("has_analysis")
@@ -49,89 +37,29 @@ public final class ContestInfo {
 	@SerializedName("problems")
 	private Problem [] problems;
 
-	/** Source round instance that has been used to create this contest info. **/
-	private transient Round parent;
-
-	/** Associated project instance. **/
-	private transient IProject project;
-
-	/** **/
-	private transient String normalizedName;
+	/** Name of the project associated to this contest. **/
+	private transient String projectName;
 
 	/**
 	 * Sets the internal parent round. Aims to be only used
 	 * by the static factory method {@link #get(Round)}.
 	 * @param round
 	 */
-	private void setRound(final Round round) {
-		this.parent = round;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getNormalizedName() {
-		if (normalizedName == null) {
-			normalizedName = parent
-					.getContestName()
-					.replaceAll(PATTERN, "")
-					.toLowerCase();
-		}
-		return normalizedName;
-	}
-	/**
-	 * Creates and returns a valid project name
-	 * using the following structure :
-	 * <tt>jammy.contest_name.round_name</tt>.
-	 * 
-	 * @return Created project name.
-	 */
-	private String getProjectName() {
-		// TODO : Fix pattern replacement issues.
+	private void createProjectName(final Round round) {
 		final StringBuilder builder = new StringBuilder(CONTEST_PROJECT_PREFIX);
-		builder.append(getNormalizedName());
+		builder.append(Template.normalize(round.getContestName()).toLowerCase());
 		builder.append(".");
-		final String round = parent.getName().replaceAll(PATTERN, "");
-		builder.append(round.toLowerCase());
-		return builder.toString();
+		builder.append(Template.normalize(round.getName()).toLowerCase());
+		projectName = builder.toString();
 	}
-
+	
 	/**
+	 * Getter for the project name associated to this contest.
 	 * 
-	 * @param monitor
-	 * @return
-	 * @throws CoreException
+	 * @return Name of the project associated to this contest.
 	 */
-	public IProject getProject(final IProgressMonitor monitor) throws CoreException {
-		if (project == null) {
-			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			project = workspace.getRoot().getProject(getProjectName());
-			if (!project.exists()) {
-				JavaProjectBuilder.build(project, monitor);
-			}
-		}
-		return project;
-	}
-
-	/**
-	 * Retrieves and returns solver file instance
-	 * associated to the current problem. If the associated project
-	 * is not existing, it will be created.
-	 * 
-	 * @param problem Problem instance to retrieve solver class file from.
-	 * @param monitor Monitor instance to use for creating project if required.
-	 * @return Associated {@link IFile} instance.
-	 * @throws CoreException If any error occurs while creating project if required.
-	 */
-	public IFile getProblemFile(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		getProject(monitor);
-		final StringBuilder builder = new StringBuilder();
-		builder.append(JavaProjectBuilder.SOURCE_PATH);
-		builder.append("/");
-		builder.append(problem.getSolverName());
-		builder.append(SOLVER_EXTENSION);
-		return project.getFile(builder.toString());
+	public String getProjectName() {
+		return projectName;
 	}
 
 	/**
@@ -180,9 +108,12 @@ public final class ContestInfo {
 		builder.append(round.getURL());
 		builder.append(REQUEST);
 		final String json = RequestUtils.get(builder.toString());
-		final Gson parser = new GsonBuilder().registerTypeAdapter(Problem.class, new Problem.Deserializer()).create();
+		final Gson parser = new GsonBuilder().registerTypeAdapter(Problem.class, new Deserializer()).create();
 		final ContestInfo info = parser.fromJson(json, ContestInfo.class);
-		info.setRound(round);
+		info.createProjectName(round);
+		for (final Problem problem : info.getProblems()) {
+			problem.setParent(info);
+		}
 		return info;
 	}
 

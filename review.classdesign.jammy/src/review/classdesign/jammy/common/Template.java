@@ -27,6 +27,20 @@ public enum Template implements Supplier<String> {
 	
 	;
 	
+	/** Normalization pattern used for creating project and file name. **/
+	private static final String PATTERN = "[^A-Za-z0-9]";
+	
+	/**
+	 * Normalizes the given <tt>name</tt> by removing
+	 * all non alphanumeric character.
+	 * 
+	 * @param name Name to normalize.
+	 * @return Normalized name.
+	 */
+	public static String normalize(final String name) {
+		return name.replaceAll(PATTERN, "");
+	}
+	
 	/** Content to be retrieved. **/
 	private final String content;
 

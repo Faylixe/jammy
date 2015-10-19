@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
@@ -43,6 +42,9 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 
 	/** Identifier of the contextual menu registered. **/
 	public static final String MENU_ID = "review.classdesign.jammy.menu.contest";
+
+	/** Menu contribution identifier. **/
+	public static final String MENU_CONTRIBUTION = "contest.contribution";
 
 	/** Viewer instance this view expose. **/
 	private TableViewer viewer;
@@ -98,7 +100,7 @@ public final class ContestExplorer extends ViewPart implements ContestSelectionL
 		final MenuManager manager = new MenuManager();
 		manager.addMenuListener(menu -> {
 			menu.removeAll();
-			menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+			menu.add(new GroupMarker(MENU_CONTRIBUTION));
 		});
 		final Menu menu = manager.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);

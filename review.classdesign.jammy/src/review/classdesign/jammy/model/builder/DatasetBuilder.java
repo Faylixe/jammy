@@ -17,6 +17,7 @@ import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.HTMLConstant;
+import review.classdesign.jammy.model.ProblemSampleDataset;
 import review.classdesign.jammy.model.webservice.Problem;
 
 /**
@@ -51,11 +52,11 @@ public final class DatasetBuilder extends ProjectContributor {
 	/**
 	 * Default constructor. 
 	 * 
+	 * @param problem Problem instance dataset is built from.
 	 * @param project Target java project to be created.
 	 * @param monitor Monitor instance used for project creation.
-	 * @param problem Problem instance dataset is built from. 
 	 */
-	private DatasetBuilder(final IProject project, final IProgressMonitor monitor, final Problem problem) {
+	public DatasetBuilder(final Problem problem, final IProject project, final IProgressMonitor monitor) {
 		super(project, monitor);
 		this.problem = problem;
 	}
@@ -69,19 +70,17 @@ public final class DatasetBuilder extends ProjectContributor {
 	 * @param content Content to write.
 	 * @throws CoreException If any error occurs while creating file.
 	 */
-	private void createFile(final String suffix, final String content) throws CoreException {
+	private IFile createFile(final String suffix, final String content) throws CoreException {
 		final StringBuilder builder = new StringBuilder();
-		final String name = problem
-				.getNormalizedName()
-				.replace(" ", "")
-				.toLowerCase();
+		final String name = problem.getNormalizedName().toLowerCase();
 		builder.append(name);
 		builder.append(suffix);
-		final IFile dataset = folder.getFile(builder.toString());
-		if (!dataset.exists()) {
+		final IFile file = folder.getFile(builder.toString());
+		if (!file.exists()) {
 			final InputStream stream = new ByteArrayInputStream(content.getBytes());
-			dataset.create(stream, true, getMonitor());
+			file.create(stream, true, getMonitor());
 		}
+		return file;
 	}
 
 	/**
@@ -109,26 +108,16 @@ public final class DatasetBuilder extends ProjectContributor {
 	 * 
 	 * @throws CoreException If any error occurs while creating dataset files.
 	 */
-	private void build() throws CoreException {
+	public ProblemSampleDataset build() throws CoreException {
 		folder = createFolder(INPUT_PATH);
 		final Element row = extractDataset();
 		final Elements io = row.getElementsByTag(HTMLConstant.TD);
 		if (io.size() < 2) {
 			throw new CoreException(IO_NOT_FOUND);
 		}
-		createFile(DATASET_INPUT_SUFFIX, io.first().text());
-		createFile(DATASET_OUTPUT_SUFFIX, io.get(1).text());
-	}
-
-	/**
-	 * 
-	 * @param problem
-	 * @param project
-	 * @param monitor
-	 * @throws CoreException
-	 */
-	public static void build(final Problem problem, final IProject project, final IProgressMonitor monitor) throws CoreException {
-		new DatasetBuilder(project, monitor, problem).build();
+		final IFile input = createFile(DATASET_INPUT_SUFFIX, io.first().text());
+		final IFile output = createFile(DATASET_OUTPUT_SUFFIX, io.get(1).text());
+		return new ProblemSampleDataset(input, output);
 	}
 
 }

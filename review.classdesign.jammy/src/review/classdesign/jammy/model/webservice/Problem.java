@@ -1,21 +1,16 @@
 package review.classdesign.jammy.model.webservice;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.JammyPreferences;
-import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.common.Template;
@@ -37,12 +32,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public final class Problem extends NamedObject {
 
-	/** Suffix used for solver class file. **/
-	private static final String SOLVER_SUFFIX = "Solver";
-
-	/** Error message displayed when solver file creation fail. **/
-	private static final String FILE_CREATION_ERROR = "An error occurs while creating solver file %s.";
-
 	/**
 	 * Custom deserializer that normalizes problem body content.
 	 * 
@@ -60,6 +49,7 @@ public final class Problem extends NamedObject {
 			final Problem problem = parser.fromJson(element, Problem.class);
 			final String normalized = normalize(problem.body);
 			problem.body = String.format(Template.DESCRIPTION.get(), normalized);
+			problem.normalizedName = Template.normalize(problem.getName());
 			return problem;
 		}
 	
@@ -111,68 +101,37 @@ public final class Problem extends NamedObject {
 	@SerializedName("io")
 	private ProblemInput [] inputs;
 
-	/** Name of the solver to create. **/
-	private transient String solverName;
+	/** Parent contest of this problem. **/
+	private transient ContestInfo parent;
 
 	/** **/
 	private transient String normalizedName;
 
 	/**
+	 * Contest setter that aims to be called by {@link ContestInfo} static factory.
+	 * 
+	 * @param parent Parent contest of this problem.
+	 */
+	protected void setParent(final ContestInfo parent) {
+		this.parent = parent;
+	}
+	
+	/**
+	 * Getter for the parent contest of this problem.
+	 * 
+	 * @return Parent contest of this problem.
+	 * @see #parent
+	 */
+	public ContestInfo getParent() {
+		return parent;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
 	public String getNormalizedName() {
-		if (normalizedName == null) {
-			normalizedName = getName().replaceAll(ContestInfo.PATTERN, "");
-		}
 		return normalizedName;
-	}
-
-	/**
-	 * Creates if not exist, and returns the
-	 * associated solver class name.
-	 * 
-	 * @return Solver name.
-	 */
-	public String getSolverName() {
-		if (solverName == null) {
-			final StringBuilder builder = new StringBuilder();
-			builder.append(getNormalizedName());
-			builder.append(SOLVER_SUFFIX);
-			solverName = builder.toString();
-		}
-		return solverName;
-	}
-	
-	/**
-	 * Creates and returns a valid solver template for this problem.
-	 * 
-	 * @return Created template.
-	 */
-	private String getSolverTemplate() {
-		final Object [] solvers = new Object[4];
-		final String solverName = getSolverName();
-		for (int i = 0; i < 4; i++) {
-			solvers[i] = solverName;
-		}
-		return String.format(Template.SOLVER.get(), solvers);	
-	}
-	
-	/**
-	 * Creates a solver class file using the given <tt>file</tt> reference.
-	 * 
-	 * @param file File instance to create solver instance into.
-	 * @param monitor Monitor instance used for file creation.
-	 */
-	public void createSolver(final IFile file, final IProgressMonitor monitor) {
-		final String template = getSolverTemplate();
-		final InputStream stream = new ByteArrayInputStream(template.getBytes());
-		try {
-			file.create(stream, true, monitor);
-		}
-		catch (final Exception e) {
-			EclipseUtils.showError(String.format(FILE_CREATION_ERROR, file.getName()), e);
-		}
 	}
 
 	/**

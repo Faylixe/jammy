@@ -66,7 +66,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:review.classdesign.jammy.menu.contest?after=additions">
+            locationURI="popup:review.classdesign.jammy.menu.contest?after=contest.contribution">
          <command
                commandId="review.classdesign.jammy.command.opensolver"
                label="Open problem solver"

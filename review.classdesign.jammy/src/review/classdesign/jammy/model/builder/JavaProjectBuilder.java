@@ -3,6 +3,8 @@ package review.classdesign.jammy.model.builder;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -87,18 +89,21 @@ public final class JavaProjectBuilder extends ProjectContributor {
 	 * Creates if not exist, and configures the given
 	 * <tt>project</tt> as a valid Java project instance.
 	 * 
-	 * @param project Project instance to create and / or configures as a Java project.
+	 * @param name Name of the project to create.
 	 * @param monitor Monitor instance used for project creation.
 	 * @throws CoreException If any error occurs during project creation and / or configuration.
 	 */
-	public static void build(final IProject project, final IProgressMonitor monitor) throws CoreException {
+	public static IProject build(final String name, final IProgressMonitor monitor) throws CoreException {
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IProject project = workspace.getRoot().getProject(name);
 		if (!project.exists()) {
 			project.create(monitor);
+			project.open(monitor);
+			final JavaProjectBuilder builder = new JavaProjectBuilder(project, monitor);
+			builder.setNature();
+			builder.build();
 		}
-		project.open(monitor);
-		final JavaProjectBuilder builder = new JavaProjectBuilder(project, monitor);
-		builder.setNature();
-		builder.build();
+		return project;
 	}
 
 }
