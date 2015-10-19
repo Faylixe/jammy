@@ -11,8 +11,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.model.Round;
-import review.classdesign.jammy.model.listener.ContestSelectionListener;
-import review.classdesign.jammy.model.listener.ProblemSelectionListener;
+import review.classdesign.jammy.model.listener.IContestSelectionListener;
+import review.classdesign.jammy.model.listener.IProblemSelectionListener;
 import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;
 
@@ -42,10 +42,10 @@ public class Jammy extends AbstractUIPlugin {
 	private Problem currentProblem;
 
 	/** **/
-	private final List<ContestSelectionListener> contestListeners;
+	private final List<IContestSelectionListener> contestListeners;
 
 	/** **/
-	private final List<ProblemSelectionListener> problemListeners;
+	private final List<IProblemSelectionListener> problemListeners;
 
 	/**
 	 * The constructor
@@ -56,57 +56,57 @@ public class Jammy extends AbstractUIPlugin {
 	}
 	
 	/**
-	 * Adds the given {@link ContestSelectionListener} to the listener list.
+	 * Adds the given {@link IContestSelectionListener} to the listener list.
 	 * 
 	 * @param listener Listener instance to register.
 	 */
-	public void addContestSelectionListener(final ContestSelectionListener listener) {
+	public void addContestSelectionListener(final IContestSelectionListener listener) {
 		contestListeners.add(listener);
 	}
 
 	/**
-	 * Removes the given {@link ContestSelectionListener} of the listener list.
+	 * Removes the given {@link IContestSelectionListener} of the listener list.
 	 * 
 	 * @param listener Listener instance to unregister
 	 */
-	public void removeContestSelectionListener(final ContestSelectionListener listener) {
+	public void removeContestSelectionListener(final IContestSelectionListener listener) {
 		contestListeners.remove(listener);
 	}
 
 	/**
-	 * Adds the given {@link ProblemSelectionListener} to the listener list.
+	 * Adds the given {@link IProblemSelectionListener} to the listener list.
 	 * 
 	 * @param listener Listener instance to register.
 	 */
-	public void addProblemSelectionListener(final ProblemSelectionListener listener) {
+	public void addProblemSelectionListener(final IProblemSelectionListener listener) {
 		problemListeners.add(listener);
 	}
 	
 	/**
-	 * Removes the given {@link ProblemSelectionListener} of the listener list.
+	 * Removes the given {@link IProblemSelectionListener} of the listener list.
 	 * 
 	 * @param listener Listener instance to unregister
 	 */
-	public void removeProblemSelectionListener(final ProblemSelectionListener listener) {
+	public void removeProblemSelectionListener(final IProblemSelectionListener listener) {
 		problemListeners.remove(listener);
 	}
 
 	/**
-	 * Notifies all {@link ContestSelectionListener} instance
+	 * Notifies all {@link IContestSelectionListener} instance
 	 * registered that the current round has changed.
 	 */
 	private void fireContestSelectionChanged() {
-		for (final ContestSelectionListener listener : contestListeners) {
+		for (final IContestSelectionListener listener : contestListeners) {
 			listener.contestSelected(currentContest);
 		}
 	}
 	
 	/**
-	 * Notifies all {@link ProblemSelectionListener} instance
+	 * Notifies all {@link IProblemSelectionListener} instance
 	 * registered that the current problem has changed.
 	 */
 	private void fireProblemSelectionChanged() {
-		for (final ProblemSelectionListener listener : problemListeners) {
+		for (final IProblemSelectionListener listener : problemListeners) {
 			listener.problemSelected(currentProblem);
 		}
 	}

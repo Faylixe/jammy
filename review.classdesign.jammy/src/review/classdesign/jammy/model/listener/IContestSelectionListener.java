@@ -8,7 +8,7 @@ import review.classdesign.jammy.model.webservice.ContestInfo;
  * 
  * @author fv
  */
-public interface ContestSelectionListener {
+public interface IContestSelectionListener {
 
 	/**
 	 * Notifies that the current contextual {@link ContestInfo}

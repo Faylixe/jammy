@@ -24,7 +24,7 @@ import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.handler.OpenSolverCommand;
-import review.classdesign.jammy.model.listener.ContestSelectionListener;
+import review.classdesign.jammy.model.listener.IContestSelectionListener;
 import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
@@ -35,7 +35,7 @@ import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
  * 
  * @author fv
  */
-public final class ContestExplorer extends ViewPart implements ContestSelectionListener, ISelectionChangedListener {
+public final class ContestExplorer extends ViewPart implements IContestSelectionListener, ISelectionChangedListener {
 
 	/** Identifier of this view. **/
 	public static final String ID = "review.classdesign.jammy.view.contest";

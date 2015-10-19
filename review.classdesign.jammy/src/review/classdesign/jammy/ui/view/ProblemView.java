@@ -12,7 +12,7 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.handler.ContestSelectionCommand;
-import review.classdesign.jammy.model.listener.ProblemSelectionListener;
+import review.classdesign.jammy.model.listener.IProblemSelectionListener;
 import review.classdesign.jammy.model.webservice.Problem;
 
 /**
@@ -22,7 +22,7 @@ import review.classdesign.jammy.model.webservice.Problem;
  * TODO : Add menu bar with a reloading button.
  * @author fv
  */
-public final class ProblemView extends ViewPart implements ProblemSelectionListener, LocationListener {
+public final class ProblemView extends ViewPart implements IProblemSelectionListener, LocationListener {
 
 	/** Link used for triggering {@link ProblemSelectionHandler}. **/
 	private static final String ACTION_URL = "action://problem.selection.handler";

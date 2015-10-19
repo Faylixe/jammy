@@ -3,7 +3,7 @@ package review.classdesign.jammy.service;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
-import review.classdesign.jammy.model.listener.SubmissionListener;
+import review.classdesign.jammy.model.listener.ISubmissionListener;
 import review.classdesign.jammy.model.submission.ISubmission;
 
 /**
@@ -17,13 +17,19 @@ public interface ISubmissionService {
 	 * 
 	 * @param listener
 	 */
-	void addSubmissionListener(SubmissionListener listener);
+	void addSubmissionListener(ISubmissionListener listener);
 
 	/**
 	 * 
 	 * @param listener
 	 */
-	void removeSubmissionListener(SubmissionListener listener);
+	void removeSubmissionListener(ISubmissionListener listener);
+
+	/**
+	 * 
+	 * @param submission
+	 */
+	void fireSubmissionStarted(ISubmission submission);
 
 	/**
 	 * 

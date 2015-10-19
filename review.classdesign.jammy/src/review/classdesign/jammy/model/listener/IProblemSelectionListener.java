@@ -8,7 +8,7 @@ import review.classdesign.jammy.model.webservice.Problem;
  * 
  * @author fv
  */
-public interface ProblemSelectionListener {
+public interface IProblemSelectionListener {
 
 	/**
 	 * Notifies that the current contextual {@link Problem}
