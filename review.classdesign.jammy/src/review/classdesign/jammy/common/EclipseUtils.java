@@ -70,6 +70,16 @@ public final class EclipseUtils {
 
 	/**
 	 * 
+	 * @param expected
+	 * @param actual
+	 * @return
+	 */
+	public static boolean isFileEquals(final IFile expected, final IFile actual) {
+		return false;
+	}
+
+	/**
+	 * 
 	 * @param commandId
 	 */
 	public static void executeCommand(final String commandId) {

@@ -30,6 +30,7 @@ public final class RunSampleDatasetCommand extends AbstractJobHandler {
 			try {
 				final ProblemSolver solver = ProblemSolver.get(problem, monitor);
 				final ISubmission submission = new LocalSubmission(solver);
+				submission.submit(monitor);
 			}
 			catch (final CoreException e) {
 				return e.getStatus();

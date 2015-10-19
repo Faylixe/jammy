@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.services.IServiceLocator;
 
 import review.classdesign.jammy.service.internal.GoogleSessionProvider;
 
@@ -50,8 +51,8 @@ public interface IGoogleSessionService {
 	 * @return Service instance.
 	 */
 	public static IGoogleSessionService get() {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final Object service = workbench.getService(IGoogleSessionService.class);
+		final IServiceLocator locator = PlatformUI.getWorkbench();
+		final Object service = locator.getService(IGoogleSessionService.class);
 		return (IGoogleSessionService) service;
 	}
 
