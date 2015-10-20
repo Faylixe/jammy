@@ -82,6 +82,15 @@ public final class ProblemSolver extends NamedObject {
 	/** Cache of all problem solver instances indexed by **/
 	private static final Map<Problem, SoftReference<ProblemSolver>> INSTANCES = new ConcurrentHashMap<>();
 
+	/** Task name for the project retrieval. **/
+	private static final String PROJECT_TASK = "Retrieves associated Java project";
+
+	/** Task name for the solver retrieval. **/
+	private static final String SOLVER_TASK = "Retrieves associated Java solver class file";
+
+	/** Task name for the dataset retrieval. **/
+	private static final String DATASET_TASK = "Retrieves associated sample dataset";
+
 	/**
 	 * Static factory method that creates a {@link ProblemSolver} instance
 	 * from the given <tt>problem</tt> instance. Creates project, solver, and
@@ -94,12 +103,15 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	private static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final ContestInfo contest = problem.getParent();
+		monitor.subTask(PROJECT_TASK);
 		final IProject project = JavaProjectBuilder.build(contest.getProjectName(), monitor);
 		final StringBuilder builder = new StringBuilder();
 		builder.append(problem.getNormalizedName());
 		builder.append(SOLVER_SUFFIX);
 		final String name = builder.toString();
+		monitor.subTask(SOLVER_TASK);
 		final IFile file = new SolverBuilder(project, monitor).build(name);
+		monitor.subTask(DATASET_TASK);
 		final ProblemSampleDataset dataset = new DatasetBuilder(problem, project, monitor).build();
 		return new ProblemSolver(name, file, dataset);
 	}

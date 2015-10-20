@@ -1,4 +1,4 @@
-package review.classdesign.jammy.handler;
+package review.classdesign.jammy.command;
 
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ import review.classdesign.jammy.service.IGoogleSessionService;
  * 
  * @author fv
  */
-public abstract class AbstractWizardHandler extends AbstractHandler {
+public abstract class AbstractWizardCommand extends AbstractHandler {
 
 	/** Name of the created job. **/
 	private static final String JOB_NAME = "Contest Selection";

@@ -1,4 +1,4 @@
-package review.classdesign.jammy.handler;
+package review.classdesign.jammy.command;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import review.classdesign.jammy.ui.wizard.ContestWizard;
  * 
  * @author fv
  */
-public final class ContestSelectionCommand extends AbstractWizardHandler {
+public final class ContestSelectionCommand extends AbstractWizardCommand {
 
 	/** Command identifier. **/
 	public static final String ID = "review.classdesign.jammy.command.contestselection";

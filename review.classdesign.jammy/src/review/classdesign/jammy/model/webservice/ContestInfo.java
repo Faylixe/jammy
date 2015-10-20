@@ -2,7 +2,9 @@ package review.classdesign.jammy.model.webservice;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.ObjectInputValidation;
+import java.io.OptionalDataException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -103,6 +105,16 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 		for (final Problem problem : problems) {
 			problem.setParent(this);
 		}
+	}
+	
+	/**
+	 * Custom readObject method that registers this object as a deserialization validator.
+	 * 
+	 * @param stream {@link ObjectInputStream} to register this validator to.
+	 */
+	private void readObject(final ObjectInputStream stream) throws OptionalDataException, ClassNotFoundException, IOException {
+		stream.registerValidation(this, 0);
+		stream.defaultReadObject();
 	}
 
 	/** Path of the ContestInfo request. **/

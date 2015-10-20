@@ -84,6 +84,9 @@ public final class JavaProjectBuilder extends ProjectContributor {
 		javaProject.setOutputLocation(binaryFolder.getFullPath(), getMonitor());
 		javaProject.setRawClasspath(createClasspath(root.getPath()), getMonitor());
 	}
+	
+	/** Task name for the Java project creation. **/
+	private static final String CREATE_PROJECT_TASK = "Creates Java project for current round";
 
 	/**
 	 * Creates if not exist, and configures the given
@@ -97,6 +100,7 @@ public final class JavaProjectBuilder extends ProjectContributor {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProject project = workspace.getRoot().getProject(name);
 		if (!project.exists()) {
+			monitor.subTask(CREATE_PROJECT_TASK);
 			project.create(monitor);
 			project.open(monitor);
 			final JavaProjectBuilder builder = new JavaProjectBuilder(project, monitor);

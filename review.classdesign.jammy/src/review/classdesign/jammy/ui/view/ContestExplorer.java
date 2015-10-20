@@ -21,9 +21,9 @@ import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.command.OpenSolverCommand;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
-import review.classdesign.jammy.handler.OpenSolverCommand;
 import review.classdesign.jammy.model.listener.IContestSelectionListener;
 import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;

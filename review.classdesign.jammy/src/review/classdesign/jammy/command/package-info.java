@@ -1,4 +1,4 @@
 /**
  * Action handler provided by this plugin.
  */
-package review.classdesign.jammy.handler;
+package review.classdesign.jammy.command;

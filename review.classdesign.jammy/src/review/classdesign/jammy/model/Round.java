@@ -20,6 +20,9 @@ import review.classdesign.jammy.common.NamedObject;
  */
 public final class Round extends NamedObject {
 
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
+
 	/** Class name of the HTML description node. **/
 	public static final String DESCRIPTION_CLASS_NAME = "desc";
 

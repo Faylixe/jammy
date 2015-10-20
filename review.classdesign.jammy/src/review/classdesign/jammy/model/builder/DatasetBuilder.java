@@ -62,26 +62,30 @@ public final class DatasetBuilder extends ProjectContributor {
 	}
 
 	/**
-	 * Creates a dataset file for the target problem using the given
-	 * file name <tt>suffix</tt>, and the given function that extracts
-	 * dataset content from the problem description.
+	 * Creates a dataset file for the target problem by writing given
+	 * <tt>content</tt> into the given <tt>file</tt>.
 	 * 
-	 * @param suffix File name suffix to use for the created file.
+	 * @param file File to write content info.
 	 * @param content Content to write.
-	 * @return Created file reference.
-	 * @throws CoreException If any error occurs while creating file.
+	 * @throws CoreException If any error occurs while writing file.
 	 */
-	private IFile createFile(final String suffix, final String content) throws CoreException {
+	private void createFile(final IFile file, final String content) throws CoreException {
+		final InputStream stream = new ByteArrayInputStream(content.getBytes());
+		file.create(stream, true, getMonitor());
+	}
+
+	/**
+	 * Retrieves file associated to the given problem suffix.
+	 * 
+	 * @param suffix File name suffix to use for the retrieved file.
+	 * @return Created file reference.
+	 */
+	private IFile getFile(final String suffix) {
 		final StringBuilder builder = new StringBuilder();
 		final String name = problem.getNormalizedName().toLowerCase();
 		builder.append(name);
 		builder.append(suffix);
-		final IFile file = folder.getFile(builder.toString());
-		if (!file.exists()) {
-			final InputStream stream = new ByteArrayInputStream(content.getBytes());
-			file.create(stream, true, getMonitor());
-		}
-		return file;
+		return folder.getFile(builder.toString());
 	}
 
 	/**
@@ -112,13 +116,17 @@ public final class DatasetBuilder extends ProjectContributor {
 	 */
 	public ProblemSampleDataset build() throws CoreException {
 		folder = createFolder(INPUT_PATH);
-		final Element row = extractDataset();
-		final Elements io = row.getElementsByTag(HTMLConstant.TD);
-		if (io.size() < 2) {
-			throw new CoreException(IO_NOT_FOUND);
+		final IFile input = getFile(DATASET_INPUT_SUFFIX);
+		final IFile output = getFile(DATASET_OUTPUT_SUFFIX);
+		if (!input.exists() || !output.exists()) {
+			final Element row = extractDataset();
+			final Elements io = row.getElementsByTag(HTMLConstant.TD);
+			if (io.size() < 2) {
+				throw new CoreException(IO_NOT_FOUND);
+			}
+			createFile(input, io.first().text());
+			createFile(output, io.get(1).text());
 		}
-		final IFile input = createFile(DATASET_INPUT_SUFFIX, io.first().text());
-		final IFile output = createFile(DATASET_OUTPUT_SUFFIX, io.get(1).text());
 		return new ProblemSampleDataset(input, output);
 	}
 

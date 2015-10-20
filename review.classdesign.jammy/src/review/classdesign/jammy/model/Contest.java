@@ -24,6 +24,9 @@ import review.classdesign.jammy.common.RequestUtils;
  */
 public final class Contest extends NamedObject {
 
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
+
 	/** URL of the contest index page. **/
 	public static final String CONTEST_INDEX = "/codejam/contests.html";
 

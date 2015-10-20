@@ -32,19 +32,19 @@
       </category>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.ContestSelectionCommand"
+            defaultHandler="review.classdesign.jammy.command.ContestSelectionCommand"
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.OpenSolverCommand"
+            defaultHandler="review.classdesign.jammy.command.OpenSolverCommand"
             id="review.classdesign.jammy.command.opensolver"
             name="Open problem solver">
       </command>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.handler.RunSampleDatasetCommand"
+            defaultHandler="review.classdesign.jammy.command.RunSampleDatasetCommand"
             id="review.classdesign.jammy.command.runtest"
             name="Run sample dataset">
       </command>
