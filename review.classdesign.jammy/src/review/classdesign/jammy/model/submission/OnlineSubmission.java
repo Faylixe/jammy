@@ -1,5 +1,6 @@
 package review.classdesign.jammy.model.submission;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -32,6 +33,12 @@ public final class OnlineSubmission extends AbstractSubmission {
 		// TODO : Retrieve input using submission service.
 		// TODO : Run solver with the input.
 		// TODO : Post result using submission service.
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public IFile getOutput() {
+		return null;
 	}
 
 }

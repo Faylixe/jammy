@@ -33,6 +33,7 @@ public final class RunSampleDatasetCommand extends AbstractJobHandler {
 				submission.submit(monitor);
 			}
 			catch (final CoreException e) {
+				e.printStackTrace();
 				return e.getStatus();
 			}
 		}

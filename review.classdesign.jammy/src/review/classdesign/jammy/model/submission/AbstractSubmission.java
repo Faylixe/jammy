@@ -1,6 +1,8 @@
 package review.classdesign.jammy.model.submission;
 
-import org.eclipse.core.resources.IFile;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -12,6 +14,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
@@ -26,6 +29,15 @@ public abstract class AbstractSubmission implements ISubmission {
 
 	/** Job name used for {@link LaunchMonitorJob} instances. **/
 	private static final String JOB_NAME = "Solver execution listener";
+
+	/** **/
+	private static final String CONFIGURATION_SUFFIX = ".configuration";
+
+	/** **/
+	private static final String TRUE_ATTRIBUTE = "true";
+
+	/** **/
+	protected static final String OUTPUT_PATH = "output";
 
 	/**
 	 * Job implementation that checks for launch life cycle.
@@ -61,16 +73,23 @@ public abstract class AbstractSubmission implements ISubmission {
 	
 	}
 
-	/** **/
+	/** Target problem solver this submission will work on. **/
 	private final ProblemSolver solver;
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param solver Target problem solver this submission will work on.
+	 */
 	protected AbstractSubmission(final ProblemSolver solver) {
 		this.solver = solver;
 	}
 
 	/**
+	 * Getter for the target problem solver.
 	 * 
-	 * @return
+	 * @return Target problem solver this submission will work on.
+	 * @see #solver
 	 */
 	protected final ProblemSolver getSolver() {
 		return solver;
@@ -87,12 +106,7 @@ public abstract class AbstractSubmission implements ISubmission {
 		job.setPriority(Job.SHORT);
 		job.schedule();
 	}
-	
-	/** {@inheritDoc} **/
-	@Override
-	public final IFile getOutput() {
-		return null;
-	}
+
 
 	/**
 	 * 
@@ -102,11 +116,33 @@ public abstract class AbstractSubmission implements ISubmission {
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
 		final StringBuilder builder = new StringBuilder();
-		// TODO : Create configuration name from solver.
+		builder.append(solver.getFile());
+		builder.append(CONFIGURATION_SUFFIX);
 		final String name = builder.toString();
-		final ILaunchConfiguration configuration = getLaunchConfiguration(name, arguments);
-		// TODO : Save workspace
-		start(configuration.launch(ILaunchManager.RUN_MODE, monitor));
+		final ILaunchConfigurationWorkingCopy workingCopy = getLaunchConfiguration(name, arguments);
+		final Map<String, String> attributes = createAttributesMap(arguments);
+		for (final String key : attributes.keySet()) {
+			workingCopy.setAttribute(key, attributes.get(key));
+		}
+		final ILaunchConfiguration configuration = workingCopy.doSave();
+		final ILaunch launch = configuration.launch(ILaunchManager.RUN_MODE, monitor);
+		start(launch);
+	}
+
+	/**
+	 * 
+	 * @param arguments
+	 * @return
+	 */
+	private final Map<String, String> createAttributesMap(final String arguments) {
+		final HashMap<String, String> attributes = new HashMap<>();
+		final ICompilationUnit unit = (ICompilationUnit) solver.getFile().getAdapter(ICompilationUnit.class);
+		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, unit.getElementName());
+		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
+		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);
+		attributes.put(IDebugUIConstants.ATTR_PRIVATE, TRUE_ATTRIBUTE);
+		attributes.put(IDebugUIConstants.ATTR_CAPTURE_IN_FILE, getOutput().getLocation().toOSString());
+		return attributes;
 	}
 
 	/**
@@ -116,7 +152,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * @return
 	 * @throws CoreException
 	 */
-	private final ILaunchConfiguration getLaunchConfiguration(final String name, final String arguments) throws CoreException {
+	private final ILaunchConfigurationWorkingCopy getLaunchConfiguration(final String name, final String arguments) throws CoreException {
 		final DebugPlugin plugin = DebugPlugin.getDefault();
 		final ILaunchManager manager = plugin.getLaunchManager();
 		final ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
@@ -125,23 +161,7 @@ public abstract class AbstractSubmission implements ISubmission {
 				configuration.delete();
 			}
 		}
-		return createConfiguration(type, name, arguments);
-	}
-	
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 * @throws CoreException 
-	 */
-	private final ILaunchConfiguration createConfiguration(final ILaunchConfigurationType type, final String name, final String arguments) throws CoreException {
-		final ILaunchConfigurationWorkingCopy copy = type.newInstance(null, name);
-		final IFile solverFile = solver.getFile();
-		final ICompilationUnit unit = (ICompilationUnit) solver.getFile().getAdapter(ICompilationUnit.class);
-		copy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, unit.getElementName());
-		copy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solverFile.getProject().getName());
-		copy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);
-		return copy.doSave();
+		return type.newInstance(null, name);
 	}
 
 }

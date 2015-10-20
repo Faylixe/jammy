@@ -4,28 +4,42 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import review.classdesign.jammy.model.ProblemSolver;
+
 /**
+ * This interface represents the action of submitting
+ * a {@link ProblemSolver} as a valid problem solution.
+ * It consists in running the solver with an input dataset
+ * and to analyze result using reference output or online
+ * dataset submission service.
  * 
  * @author fv
  */
 public interface ISubmission {
 
 	/**
+	 * Indicates if this submission has run successfully or not.
+	 * In case of local submission, it will return <tt>true</tt> if the
+	 * submission output is equals of the local dataset output.
+	 * In online output it will correspond to the returned output analysis.
 	 * 
-	 * @return
+	 * @return <tt>true</tt> if this submission is a success, <tt>false</tt> otherwise.
 	 */
 	boolean isSuccess();
 
 	/**
+	 * Submits by running internal problem solver.
 	 * 
-	 * @param monitor
-	 * @throws CoreException 
+	 * @param monitor Monitor instance used for submission execution.
+	 * @throws CoreException If any error occurs while submitting.
 	 */
 	void submit(IProgressMonitor monitor) throws CoreException;
 
 	/**
+	 * Returns the output file associated to this submission.
+	 * Such file contains the console content from our solver execution.
 	 * 
-	 * @return
+	 * @return File that contains our submission output content.
 	 */
 	IFile getOutput();
 
