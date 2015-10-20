@@ -1,6 +1,9 @@
 package review.classdesign.jammy.model.webservice;
 
 import java.io.IOException;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputValidation;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +23,10 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author fv
  */
-public final class ContestInfo {
+public final class ContestInfo implements Serializable, ObjectInputValidation {
+
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
 
 	/** Prefix used for contest project. **/
 	private static final String CONTEST_PROJECT_PREFIX = "jammy.";
@@ -90,7 +96,15 @@ public final class ContestInfo {
 	public List<Problem> getProblems() {
 		return (problems != null ? Arrays.asList(problems) : Collections.emptyList());
 	}
-	
+
+	/** {@inheritDoc} **/
+	@Override
+	public void validateObject() throws InvalidObjectException {
+		for (final Problem problem : problems) {
+			problem.setParent(this);
+		}
+	}
+
 	/** Path of the ContestInfo request. **/
 	private static final String REQUEST = "/ContestInfo";
 

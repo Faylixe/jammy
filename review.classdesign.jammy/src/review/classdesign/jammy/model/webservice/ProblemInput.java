@@ -1,5 +1,7 @@
 package review.classdesign.jammy.model.webservice;
 
+import java.io.Serializable;
+
 import review.classdesign.jammy.common.NamedObject;
 
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +15,10 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author fv
  */
-public final class ProblemInput extends NamedObject{
+public final class ProblemInput extends NamedObject implements Serializable {
+
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
 
 	/** Difficulty rank of this problem input. **/
 	@SerializedName("difficulty")

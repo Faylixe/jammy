@@ -1,15 +1,18 @@
 package review.classdesign.jammy;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import review.classdesign.jammy.common.SerializationUtils;
 import review.classdesign.jammy.model.Round;
 import review.classdesign.jammy.model.listener.IContestSelectionListener;
 import review.classdesign.jammy.model.listener.IProblemSelectionListener;
@@ -149,12 +152,50 @@ public class Jammy extends AbstractUIPlugin {
 	public Optional<Problem> getCurrentProblem() {
 		return Optional.ofNullable(currentProblem);
 	}
+	
+	private static final String CONTEST_STATE = "current.contest";
+
+	/**
+	 * 
+	 */
+	private void loadState() {
+		final IPath state = getStateLocation();
+		final IPath contest = state.append(CONTEST_STATE);
+		final File file = contest.toFile();
+		if (file.exists()) {
+			try {
+				currentContest = SerializationUtils.deserialize(file, ContestInfo.class);
+				fireContestSelectionChanged();
+			}
+			catch (final IOException | ClassNotFoundException e) {
+				// TODO : Log error.
+			}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void saveState() {
+		final IPath state = getStateLocation();
+		if (currentContest != null) {
+			// Save current contest.
+			final IPath contest = state.append(CONTEST_STATE);
+			try {
+				SerializationUtils.serialize(currentContest, contest.toFile());
+			}
+			catch (final IOException e) {
+				// TODO : Log error.
+			}
+		}
+	}
 
 	/** {@inheritDoc} **/
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		final IPreferenceStore store = getPreferenceStore();
 		JammyPreferences.load(store);
+		loadState();
 		store.addPropertyChangeListener(JammyPreferences::propertyChange);
 		plugin = this;
 	}
@@ -163,7 +204,7 @@ public class Jammy extends AbstractUIPlugin {
 	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		// TODO : Manage
+		saveState();
 	}
 
 	/**

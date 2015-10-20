@@ -32,6 +32,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public final class Problem extends NamedObject {
 
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Custom deserializer that normalizes problem body content.
 	 * 

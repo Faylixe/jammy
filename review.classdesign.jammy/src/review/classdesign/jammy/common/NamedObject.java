@@ -1,5 +1,7 @@
 package review.classdesign.jammy.common;
 
+import java.io.Serializable;
+
 import com.google.common.base.Function;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +11,10 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author fv
  */
-public class NamedObject {
+public class NamedObject implements Serializable {
+
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
 
 	/** Name of this object. **/
 	@SerializedName("name")
