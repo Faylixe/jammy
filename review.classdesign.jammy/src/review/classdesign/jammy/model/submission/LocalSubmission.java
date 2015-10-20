@@ -39,7 +39,7 @@ public final class LocalSubmission extends AbstractSubmission {
 			// TODO : Create status.
 			throw new CoreException(null);
 		}
-		run(input.getFullPath().toOSString(), monitor);
+		run(input.getLocation().toOSString(), monitor);
 	}
 
 	/** {@inheritDoc} **/

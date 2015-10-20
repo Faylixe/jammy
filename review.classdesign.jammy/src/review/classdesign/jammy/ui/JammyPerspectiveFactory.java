@@ -39,7 +39,7 @@ public final class JammyPerspectiveFactory implements IPerspectiveFactory {
 		final IFolderLayout left = layout.createFolder(NAVIGATOR_ID, IPageLayout.LEFT, 0.26f, editor);
 		left.addView(ContestExplorer.ID);
 		// Create bottom views.
-		final IFolderLayout bottom = layout.createFolder(VIEW_ID, IPageLayout.BOTTOM, 0.75f, editor);
+		final IFolderLayout bottom = layout.createFolder(VIEW_ID, IPageLayout.BOTTOM, 0.60f, editor);
 		bottom.addView(ProblemView.ID);
 		bottom.addView(IConsoleConstants.ID_CONSOLE_VIEW);
 	}

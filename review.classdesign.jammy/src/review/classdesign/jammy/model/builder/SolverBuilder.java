@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.common.Template;
-import review.classdesign.jammy.model.webservice.Problem;
 
 /**
  * A {@link SolverBuilder} allows to create solver class
@@ -18,9 +17,6 @@ import review.classdesign.jammy.model.webservice.Problem;
  * @author fv
  */
 public final class SolverBuilder extends ProjectContributor {
-
-	/** Suffix used for solver class file. **/
-	private static final String SOLVER_SUFFIX = "Solver";
 
 	/** File extension used for created Java solver. **/
 	private static final String SOLVER_EXTENSION = ".java";
@@ -73,11 +69,7 @@ public final class SolverBuilder extends ProjectContributor {
 	 * @return Solver class file reference.
 	 * @throws CoreException If any error occurs while creating solver file.
 	 */
-	public IFile build(final Problem problem) throws CoreException {
-		final StringBuilder builder = new StringBuilder();
-		builder.append(problem.getNormalizedName());
-		builder.append(SOLVER_SUFFIX);
-		final String name = builder.toString();
+	public IFile build(final String name) throws CoreException {
 		final IFile file = getFile(name);
 		final String template = getSolverTemplate(name);
 		final InputStream stream = new ByteArrayInputStream(template.getBytes());

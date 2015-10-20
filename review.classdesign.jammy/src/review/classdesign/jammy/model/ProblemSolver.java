@@ -24,6 +24,9 @@ import review.classdesign.jammy.model.webservice.Problem;
  */
 public final class ProblemSolver extends NamedObject {
 
+	/** Suffix used for solver class file. **/
+	private static final String SOLVER_SUFFIX = "Solver";
+
 	/** Target solver class file. **/
 	private final IFile solver;
 
@@ -89,9 +92,13 @@ public final class ProblemSolver extends NamedObject {
 	private static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final ContestInfo contest = problem.getParent();
 		final IProject project = JavaProjectBuilder.build(contest.getProjectName(), monitor);
-		final IFile file = new SolverBuilder(project, monitor).build(problem);
+		final StringBuilder builder = new StringBuilder();
+		builder.append(problem.getNormalizedName());
+		builder.append(SOLVER_SUFFIX);
+		final String name = builder.toString();
+		final IFile file = new SolverBuilder(project, monitor).build(name);
 		final ProblemSampleDataset dataset = new DatasetBuilder(problem, project, monitor).build();
-		return new ProblemSolver(problem.getNormalizedName(), file, dataset);
+		return new ProblemSolver(name, file, dataset);
 	}
 
 	/**

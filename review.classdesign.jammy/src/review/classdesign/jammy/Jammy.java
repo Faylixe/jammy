@@ -163,6 +163,7 @@ public class Jammy extends AbstractUIPlugin {
 	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+		// TODO : Manage
 	}
 
 	/**

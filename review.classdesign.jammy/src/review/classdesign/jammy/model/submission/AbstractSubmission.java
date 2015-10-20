@@ -15,7 +15,6 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
 import review.classdesign.jammy.model.ProblemSolver;
@@ -29,9 +28,6 @@ public abstract class AbstractSubmission implements ISubmission {
 
 	/** Job name used for {@link LaunchMonitorJob} instances. **/
 	private static final String JOB_NAME = "Solver execution listener";
-
-	/** **/
-	private static final String CONFIGURATION_SUFFIX = ".configuration";
 
 	/** **/
 	private static final String TRUE_ATTRIBUTE = "true";
@@ -115,11 +111,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * @throws CoreException
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
-		final StringBuilder builder = new StringBuilder();
-		builder.append(solver.getFile());
-		builder.append(CONFIGURATION_SUFFIX);
-		final String name = builder.toString();
-		final ILaunchConfigurationWorkingCopy workingCopy = getLaunchConfiguration(name, arguments);
+		final ILaunchConfigurationWorkingCopy workingCopy = getLaunchConfiguration(solver.getName(), arguments);
 		final Map<String, String> attributes = createAttributesMap(arguments);
 		for (final String key : attributes.keySet()) {
 			workingCopy.setAttribute(key, attributes.get(key));
@@ -136,8 +128,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 */
 	private final Map<String, String> createAttributesMap(final String arguments) {
 		final HashMap<String, String> attributes = new HashMap<>();
-		final ICompilationUnit unit = (ICompilationUnit) solver.getFile().getAdapter(ICompilationUnit.class);
-		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, unit.getElementName());
+		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, solver.getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);
 		attributes.put(IDebugUIConstants.ATTR_PRIVATE, TRUE_ATTRIBUTE);
