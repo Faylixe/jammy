@@ -71,9 +71,11 @@ public final class SolverBuilder extends ProjectContributor {
 	 */
 	public IFile build(final String name) throws CoreException {
 		final IFile file = getFile(name);
-		final String template = getSolverTemplate(name);
-		final InputStream stream = new ByteArrayInputStream(template.getBytes());
-		file.create(stream, true, getMonitor());
+		if (!file.exists()) {
+			final String template = getSolverTemplate(name);
+			final InputStream stream = new ByteArrayInputStream(template.getBytes());
+			file.create(stream, true, getMonitor());
+		}
 		return file;
 	}	
 

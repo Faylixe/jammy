@@ -44,7 +44,7 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 	private Problem [] problems;
 
 	/** Name of the project associated to this contest. **/
-	private transient String projectName;
+	private String projectName;
 
 	/**
 	 * Sets the internal parent round. Aims to be only used

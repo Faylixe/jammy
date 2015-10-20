@@ -24,6 +24,9 @@ import review.classdesign.jammy.model.webservice.Problem;
  */
 public final class ProblemSolver extends NamedObject {
 
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
+
 	/** Suffix used for solver class file. **/
 	private static final String SOLVER_SUFFIX = "Solver";
 
