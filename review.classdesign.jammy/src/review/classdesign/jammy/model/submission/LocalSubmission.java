@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.model.ProblemSampleDataset;
 import review.classdesign.jammy.model.ProblemSolver;
-import review.classdesign.jammy.service.ISubmissionService;
 
 /**
  * Submission that aims to use local dataset file.
@@ -44,7 +43,7 @@ public final class LocalSubmission extends AbstractSubmission {
 	 * @throws CoreException **/
 	@Override
 	public void submit(final IProgressMonitor monitor) throws CoreException {
-		ISubmissionService.get().fireSubmissionStarted(this);
+		getService().fireSubmissionStarted(this);
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
 		final IFile input = dataset.getInput();
 		if (!input.exists()) {
@@ -56,10 +55,12 @@ public final class LocalSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public boolean isSuccess() {
+	public void validate() throws SubmissionException {
 		final IFile expected = getSolver().getSampleDataset().getOutput();
 		final IFile actual = getOutput();
-		return EclipseUtils.isFileEquals(expected, actual);
+		if (!EclipseUtils.isFileEquals(expected, actual)) {
+			throw new SubmissionException();
+		}
 	}
 
 	/** {@inheritDoc} **/

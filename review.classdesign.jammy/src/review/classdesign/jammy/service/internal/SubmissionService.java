@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import review.classdesign.jammy.model.listener.ISubmissionListener;
 import review.classdesign.jammy.model.submission.ISubmission;
+import review.classdesign.jammy.model.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**
@@ -40,17 +41,31 @@ public final class SubmissionService implements ISubmissionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void fireSubmissionStarted(final ISubmission submission) {
-		for (final ISubmissionListener listener : listeners) {
-			listener.submissionStarted(submission);
-		}
+		listeners.forEach(listener -> listener.submissionStarted(submission));
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void fireSubmissionFinished(final ISubmission submission) {
+		listeners.forEach(listener -> listener.submissionFinished(submission));
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void fireExecutionStarted(final ISubmission submission) {
+		listeners.forEach(listener -> listener.executionStarted(submission));
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void fireExecutionFinished(final ISubmission submission) {
-		for (final ISubmissionListener listener : listeners) {
-			listener.executionFinished(submission);
-		}
+		listeners.forEach(listener -> listener.executionFinished(submission));
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void fireErrorCaught(final ISubmission submission, final SubmissionException exception) {
+		listeners.forEach(listener -> listener.errorCaught(submission, exception));
 	}
 
 }

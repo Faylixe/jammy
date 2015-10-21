@@ -1,28 +1,32 @@
 package review.classdesign.jammy.ui.view;
 
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.viewers.IFontProvider;
+import java.util.Arrays;
+
+import org.eclipse.debug.ui.DebugUITools;
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.model.listener.ISubmissionListener;
 import review.classdesign.jammy.model.submission.ISubmission;
+import review.classdesign.jammy.model.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**
@@ -35,25 +39,24 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 	/** **/
 	public static final String ID = "review.classdesign.jammy.view.submission";
 
+	/** **/
+	private static final int INPUT = 0;
 
 	/** **/
-	private static final String INPUT = "Retrieving input";
+	private static final int RUNNING = 1;
 
 	/** **/
-	private static final String RUNNING = "Running solver";
-
-	/** **/
-	private static final String OUTPUT = "Submitting output";
+	private static final int OUTPUT = 2;
 	
 	/** **/
-	private static final String [] LABEL = { INPUT, RUNNING, OUTPUT };
+	private static final String [] LABEL = { "Retrieving input", "Running solver", "Submitting output" };
 	
 	/**
 	 * 
 	 * @author fv
 	 *
 	 */
-	private class StateLabelProvider extends LabelProvider implements IFontProvider {
+	private class StateLabelProvider extends LabelProvider {
 
 		/** {@inheritDoc} **/
 		@Override
@@ -64,16 +67,24 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		/** {@inheritDoc} **/
 		@Override
 		public Image getImage(final Object element) {
-			return null;
-		}
-
-		/** {@inheritDoc} **/
-		@Override
-		public Font getFont(final Object element) {
-			if (element.equals(getState())) {
-				return JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
+			final ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
+			if (element.equals(currentSubmission)) {
+				return DebugUITools.getImage(IDebugUIConstants.IMG_ACT_SYNCED);
 			}
-			return viewer.getControl().getFont();
+			final String label = element.toString();
+			final int currentState = Arrays.binarySearch(LABEL, label);
+			if (currentState < state) {
+				return images.getImage(SharedImages.IMG_OBJS_TASK_TSK);
+			}
+			else if (currentState == state) {
+				if (error != null) {
+					return images.getImage(ISharedImages.IMG_ETOOL_DELETE);
+				}
+				else {
+					return DebugUITools.getImage(IDebugUIConstants.IMG_OBJS_LAUNCH_RUN);
+				}
+			}
+			return images.getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		}
 		
 	}
@@ -142,18 +153,13 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 	private TreeViewer viewer;
 
 	/** **/
-	private String state;
+	private int state;
 
 	/** **/
 	private String currentSubmission;
 
-	/**
-	 * 
-	 * @return
-	 */
-	private String getState() {
-		return state;
-	}
+	/** **/
+	private SubmissionException error;
 
 	/** {@inheritDoc} **/
 	@Override
@@ -182,7 +188,8 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 	 * @param parent
 	 */
 	private void createView(final Composite parent) {
-		viewer = new TreeViewer(parent);
+		viewer = new TreeViewer(parent, SWT.NONE);
+		viewer.setUseHashlookup(true);
 		viewer.getControl().setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 		viewer.setContentProvider(new StateContentProvider());
 		viewer.setLabelProvider(new StateLabelProvider());
@@ -203,57 +210,55 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		// Do nothing.
 	}
 
-	/**
-	 * 
-	 */
-	private void activate() {
-		Display.getDefault().asyncExec(() -> { 
+	private void update() {
+		Display.getDefault().asyncExec(() -> {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			final IWorkbenchPage page = window.getActivePage();
 			page.activate(SubmissionView.this);
+			viewer.refresh();
+			indicator.setSelection(indicator.getSelection() + 1);
 		});
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void submissionStarted(final ISubmission submission) {
-		activate();
 		state = INPUT;
 		currentSubmission = submission.getName();
+		update();
 		Display.getDefault().asyncExec(() -> {
-			viewer.refresh();
 			viewer.expandToLevel(TreeViewer.ALL_LEVELS);
-			indicator.setSelection(indicator.getSelection() + 1);
 		});
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void submissionFinished(final ISubmission submission) {
-		activate();
-		state = null;
+		state = 4;
+		update();
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void executionStarted(final ISubmission submission) {
+		state = RUNNING;
+		update();
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void executionFinished(final ISubmission submission) {
-		activate();
 		state = OUTPUT;
-		Display.getDefault().asyncExec(() -> {
-			viewer.refresh();
-			indicator.setSelection(indicator.getSelection() + 1);
-		});
+		update();
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void executionStarted(ISubmission submission) {
-		activate();
-		state = RUNNING;
-		Display.getDefault().asyncExec(() -> {
-			viewer.refresh();
-		});
+	public void errorCaught(final ISubmission submission, final SubmissionException exception) {
+		error = exception;
+		update();
 	}
+
 
 }

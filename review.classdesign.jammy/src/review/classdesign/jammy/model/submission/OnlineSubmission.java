@@ -22,9 +22,8 @@ public final class OnlineSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public boolean isSuccess() {
+	public void validate() throws SubmissionException {
 		// TODO : Use submission service to check if success.
-		return false;
 	}
 
 	/** {@inheritDoc} **/

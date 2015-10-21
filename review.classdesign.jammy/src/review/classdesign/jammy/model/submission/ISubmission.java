@@ -24,8 +24,9 @@ public interface ISubmission {
 	 * In online output it will correspond to the returned output analysis.
 	 * 
 	 * @return <tt>true</tt> if this submission is a success, <tt>false</tt> otherwise.
+	 * 
 	 */
-	boolean isSuccess();
+	void validate() throws SubmissionException;
 
 	/**
 	 * Submits by running internal problem solver.

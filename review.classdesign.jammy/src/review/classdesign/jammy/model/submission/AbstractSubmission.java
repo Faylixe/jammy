@@ -59,7 +59,14 @@ public abstract class AbstractSubmission implements ISubmission {
 		@Override
 		protected IStatus run(final IProgressMonitor monitor) {
 			if (launch.isTerminated()) {
-				ISubmissionService.get().fireExecutionFinished(AbstractSubmission.this);
+				service.fireExecutionFinished(AbstractSubmission.this);
+				try {
+					validate();
+					service.fireSubmissionFinished(AbstractSubmission.this);
+				}
+				catch (final SubmissionException e) {
+					service.fireErrorCaught(AbstractSubmission.this, e);
+				}
 			}
 			else {
 				start(launch);
@@ -72,6 +79,9 @@ public abstract class AbstractSubmission implements ISubmission {
 	/** Target problem solver this submission will work on. **/
 	private final ProblemSolver solver;
 
+	/** **/
+	private final ISubmissionService service;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -79,6 +89,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 */
 	protected AbstractSubmission(final ProblemSolver solver) {
 		this.solver = solver;
+		this.service = ISubmissionService.get();
 	}
 
 	/**
@@ -89,6 +100,14 @@ public abstract class AbstractSubmission implements ISubmission {
 	 */
 	protected final ProblemSolver getSolver() {
 		return solver;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected final ISubmissionService getService() {
+		return service;
 	}
 
 	/**
@@ -118,6 +137,7 @@ public abstract class AbstractSubmission implements ISubmission {
 		}
 		final ILaunchConfiguration configuration = workingCopy.doSave();
 		final ILaunch launch = configuration.launch(ILaunchManager.RUN_MODE, monitor);
+		service.fireExecutionStarted(this);
 		start(launch);
 	}
 

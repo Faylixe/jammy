@@ -5,6 +5,7 @@ import org.eclipse.ui.services.IServiceLocator;
 
 import review.classdesign.jammy.model.listener.ISubmissionListener;
 import review.classdesign.jammy.model.submission.ISubmission;
+import review.classdesign.jammy.model.submission.SubmissionException;
 
 /**
  * TODO : Service javadoc.
@@ -35,7 +36,26 @@ public interface ISubmissionService {
 	 * 
 	 * @param submission
 	 */
+	void fireSubmissionFinished(ISubmission submission);
+
+	/**
+	 * 
+	 * @param submission
+	 */
 	void fireExecutionFinished(ISubmission submission);
+
+	/**
+	 * 
+	 * @param submission
+	 */
+	void fireExecutionStarted(ISubmission submission);
+
+	/**
+	 * 
+	 * @param submission
+	 * @param exception
+	 */
+	void fireErrorCaught(ISubmission submission, SubmissionException exception);
 
 	/**
 	 * 

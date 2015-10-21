@@ -1,12 +1,20 @@
 package review.classdesign.jammy.model.listener;
 
 import review.classdesign.jammy.model.submission.ISubmission;
+import review.classdesign.jammy.model.submission.SubmissionException;
 
 /**
  * 
  * @author fv
  */
 public interface ISubmissionListener {
+
+	/**
+	 * 
+	 * @param submission
+	 * @param e
+	 */
+	void errorCaught(ISubmission submission, SubmissionException e);
 
 	/**
 	 * Notify this listener that the given <tt>submission</tt>
