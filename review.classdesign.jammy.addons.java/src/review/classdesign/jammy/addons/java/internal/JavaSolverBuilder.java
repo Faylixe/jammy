@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.builder;
+package review.classdesign.jammy.addons.java.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -9,14 +9,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.common.Template;
+import review.classdesign.jammy.model.builder.ProjectContributor;
 
 /**
- * A {@link SolverBuilder} allows to create solver class
+ * A {@link JavaSolverBuilder} allows to create solver class
  * file for a given problem using internal bundle template.
  * 
  * @author fv
  */
-public final class SolverBuilder extends ProjectContributor {
+public final class JavaSolverBuilder extends ProjectContributor {
 
 	/** File extension used for created Java solver. **/
 	private static final String SOLVER_EXTENSION = ".java";
@@ -27,7 +28,7 @@ public final class SolverBuilder extends ProjectContributor {
 	 * @param project Target java project to be created.
 	 * @param monitor Monitor instance used for project creation.
 	 */
-	public SolverBuilder(final IProject project, final IProgressMonitor monitor) {
+	public JavaSolverBuilder(final IProject project, final IProgressMonitor monitor) {
 		super(project, monitor);
 	}
 

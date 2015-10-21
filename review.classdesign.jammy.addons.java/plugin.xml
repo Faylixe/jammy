@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="review.classdesign.jammy.addons">
+      <review.classdesign.jammy.addons.manager
+            class="review.classdesign.jammy.addons.java.JavaManager"
+            language="Java">
+      </review.classdesign.jammy.addons.manager>
+   </extension>
+
+</plugin>

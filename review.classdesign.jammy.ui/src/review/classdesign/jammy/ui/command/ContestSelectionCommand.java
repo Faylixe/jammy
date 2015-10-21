@@ -1,9 +1,10 @@
-package review.classdesign.jammy.command;
+package review.classdesign.jammy.ui.command;
 
 import java.util.Optional;
 
 import org.eclipse.jface.wizard.IWizard;
 
+import review.classdesign.jammy.ui.command.internal.AbstractWizardCommand;
 import review.classdesign.jammy.ui.wizard.ContestWizard;
 
 /**

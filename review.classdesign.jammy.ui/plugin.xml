@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.ui.command.ContestSelectionCommand"
+            id="review.classdesign.jammy.command.contestselection"
+            name="Select contest">
+      </command>
+     </extension>
+    <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="review.classdesign.jammy.view.category"
+            name="Jammy">
+      </category>
+      <view
+            category="review.classdesign.jammy.view.category"
+            class="review.classdesign.jammy.ui.view.SubmissionView"
+            icon="resources/icons/submission.view.png"
+            id="review.classdesign.jammy.view.submission"
+            name="Submission"
+            restorable="true">
+      </view>
+      <view
+            category="review.classdesign.jammy.view.category"
+            class="review.classdesign.jammy.ui.view.ProblemView"
+            icon="resources/icons/problem.view.png"
+            id="review.classdesign.jammy.view.problem"
+            name="Problem description"
+            restorable="true">
+         <description>
+            This view displays the currently selected problem description.
+         </description>
+      </view>
+      <view
+            category="review.classdesign.jammy.view.category"
+            class="review.classdesign.jammy.ui.view.ContestExplorer"
+            icon="resources/icons/contest.view.png"
+            id="review.classdesign.jammy.view.contest"
+            name="Contest Explorer"
+            restorable="true">
+         <description>
+            Contest explorer allows to navigate between each problem exposed by the currently selected CodeJam round.
+         </description>
+      </view>
+   </extension>
+    <extension
+          point="org.eclipse.ui.preferencePages">
+       <page
+             class="review.classdesign.jammy.ui.view.PreferencePage"
+             id="review.classdesign.jammy.preferences.root"
+             name="Jammy">
+       </page>
+    </extension>
+    <extension
+          point="org.eclipse.ui.perspectives">
+       <perspective
+             class="review.classdesign.jammy.ui.JammyPerspectiveFactory"
+             id="review.classdesign.jammy.perspective"
+             name="Jammy">
+       </perspective>
+    </extension>
+</plugin>

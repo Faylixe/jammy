@@ -1,4 +1,4 @@
-package review.classdesign.jammy.command;
+package review.classdesign.jammy.ui.command.internal;
 
 import java.util.Optional;
 

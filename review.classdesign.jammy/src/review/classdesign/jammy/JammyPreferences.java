@@ -58,6 +58,15 @@ public final class JammyPreferences {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public static ILanguageManager getCurrentLanguageManager() {
+		return null;
+		
+	}
+
+	/**
 	 * Getter for the hostname property of the preferences.
 	 * 
 	 * @return The hostname property of the preferences.

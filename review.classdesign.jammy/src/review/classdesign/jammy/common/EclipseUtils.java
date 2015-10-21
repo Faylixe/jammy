@@ -21,7 +21,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.statushandlers.StatusManager;
 

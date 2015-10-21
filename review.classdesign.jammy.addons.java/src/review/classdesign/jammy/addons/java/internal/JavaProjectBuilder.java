@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.builder;
+package review.classdesign.jammy.addons.java.internal;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -15,6 +15,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.LibraryLocation;
+
+import review.classdesign.jammy.model.builder.ProjectContributor;
 
 /**
  * A {@link JavaProjectBuilder} provides tools for creating

@@ -50,6 +50,9 @@ public class Jammy extends AbstractUIPlugin {
 	/** **/
 	private final List<IProblemSelectionListener> problemListeners;
 
+	/** **/
+	private ILanguageManager [] managers;
+
 	/**
 	 * The constructor
 	 */
@@ -188,6 +191,21 @@ public class Jammy extends AbstractUIPlugin {
 				// TODO : Log error.
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void loadManagers() {
+		//
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ILanguageManager[] getLanguageManager() {
+		return managers;
 	}
 
 	/** {@inheritDoc} **/

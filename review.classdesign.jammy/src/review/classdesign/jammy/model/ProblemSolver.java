@@ -10,6 +10,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import review.classdesign.jammy.ILanguageManager;
+import review.classdesign.jammy.JammyPreferences;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.model.builder.DatasetBuilder;
 import review.classdesign.jammy.model.builder.JavaProjectBuilder;
@@ -104,13 +106,10 @@ public final class ProblemSolver extends NamedObject {
 	private static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final ContestInfo contest = problem.getParent();
 		monitor.subTask(PROJECT_TASK);
-		final IProject project = JavaProjectBuilder.build(contest.getProjectName(), monitor);
-		final StringBuilder builder = new StringBuilder();
-		builder.append(problem.getNormalizedName());
-		builder.append(SOLVER_SUFFIX);
-		final String name = builder.toString();
+		final ILanguageManager manager = JammyPreferences.getCurrentLanguageManager();
+		final IProject project = manager.getProject(problem, monitor);
 		monitor.subTask(SOLVER_TASK);
-		final IFile file = new SolverBuilder(project, monitor).build(name);
+		final IFile file = manager.getSolver(problem, monitor);
 		monitor.subTask(DATASET_TASK);
 		final ProblemSampleDataset dataset = new DatasetBuilder(problem, project, monitor).build();
 		return new ProblemSolver(name, file, dataset);

@@ -10,10 +10,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.command.ContestSelectionCommand;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.model.listener.IProblemSelectionListener;
 import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.ui.command.ContestSelectionCommand;
 
 /**
  * Jammy problem view that only consists in a web browser
