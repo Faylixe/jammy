@@ -26,7 +26,7 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 		// TODO : Consider down the job layer with rule to the submit() method (even with submission service).
 		final Job job = Job.create("", submissionMonitor -> {
 			try {
-				submission.submit(submissionMonitor);
+				submission.start(submissionMonitor);
 			}
 			catch (final CoreException e) {
 				return e.getStatus();

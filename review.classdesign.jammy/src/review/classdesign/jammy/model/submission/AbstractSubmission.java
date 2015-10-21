@@ -61,7 +61,7 @@ public abstract class AbstractSubmission implements ISubmission {
 			if (launch.isTerminated()) {
 				service.fireExecutionFinished(AbstractSubmission.this);
 				try {
-					validate();
+					submit();
 					service.fireSubmissionFinished(AbstractSubmission.this);
 				}
 				catch (final SubmissionException e) {
@@ -69,7 +69,7 @@ public abstract class AbstractSubmission implements ISubmission {
 				}
 			}
 			else {
-				start(launch);
+				startJob(launch);
 			}
 			return Status.OK_STATUS;
 		}
@@ -115,7 +115,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * 
 	 * @param launch Target launch that will be monitored by created job.
 	 */
-	private final void start(final ILaunch launch) {
+	private final void startJob(final ILaunch launch) {
 		final Job job = new LaunchMonitorJob(launch);
 		job.setSystem(true);
 		job.setPriority(Job.SHORT);
@@ -138,7 +138,7 @@ public abstract class AbstractSubmission implements ISubmission {
 		final ILaunchConfiguration configuration = workingCopy.doSave();
 		final ILaunch launch = configuration.launch(ILaunchManager.RUN_MODE, monitor);
 		service.fireExecutionStarted(this);
-		start(launch);
+		startJob(launch);
 	}
 
 	/**

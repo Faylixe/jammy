@@ -26,15 +26,15 @@ public interface ISubmission {
 	 * @return <tt>true</tt> if this submission is a success, <tt>false</tt> otherwise.
 	 * 
 	 */
-	void validate() throws SubmissionException;
+	void submit() throws SubmissionException;
 
 	/**
-	 * Submits by running internal problem solver.
+	 * Starts this submission.
 	 * 
 	 * @param monitor Monitor instance used for submission execution.
 	 * @throws CoreException If any error occurs while submitting.
 	 */
-	void submit(IProgressMonitor monitor) throws CoreException;
+	void start(IProgressMonitor monitor) throws CoreException;
 
 	/**
 	 * Returns the output file associated to this submission.

@@ -1,10 +1,12 @@
 package review.classdesign.jammy.model.submission;
 
+import org.eclipse.compare.CompareUI;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.model.ProblemSampleDataset;
@@ -42,7 +44,7 @@ public final class LocalSubmission extends AbstractSubmission {
 	/** {@inheritDoc} 
 	 * @throws CoreException **/
 	@Override
-	public void submit(final IProgressMonitor monitor) throws CoreException {
+	public void start(final IProgressMonitor monitor) throws CoreException {
 		getService().fireSubmissionStarted(this);
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
 		final IFile input = dataset.getInput();
@@ -55,11 +57,13 @@ public final class LocalSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void validate() throws SubmissionException {
+	public void submit() throws SubmissionException {
 		final IFile expected = getSolver().getSampleDataset().getOutput();
 		final IFile actual = getOutput();
 		if (!EclipseUtils.isFileEquals(expected, actual)) {
-			throw new SubmissionException();
+			throw new SubmissionException("", () -> {
+				CompareUI.openCompareEditor(SubmissionCompareEditorInput.create(actual, expected), true);
+			});
 		}
 	}
 
@@ -74,7 +78,7 @@ public final class LocalSubmission extends AbstractSubmission {
 			}
 			catch (final CoreException e) {
 				e.printStackTrace();
-				EclipseUtils.showError("", e); // TODO : Customize error message.
+				EclipseUtils.showError(e.getMessage(), e); // TODO : Customize error message.
 			}
 		}
 		final StringBuilder builder = new StringBuilder();

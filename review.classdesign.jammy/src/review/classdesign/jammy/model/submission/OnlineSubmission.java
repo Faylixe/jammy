@@ -22,13 +22,13 @@ public final class OnlineSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void validate() throws SubmissionException {
+	public void submit() throws SubmissionException {
 		// TODO : Use submission service to check if success.
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void submit(final IProgressMonitor monitor) throws CoreException {
+	public void start(final IProgressMonitor monitor) throws CoreException {
 		// TODO : Retrieve input using submission service.
 		// TODO : Run solver with the input.
 		// TODO : Post result using submission service.

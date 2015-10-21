@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -34,7 +37,7 @@ import review.classdesign.jammy.service.ISubmissionService;
  * 
  * @author fv
  */
-public final class SubmissionView extends ViewPart implements ISubmissionListener {
+public final class SubmissionView extends ViewPart implements ISubmissionListener, IDoubleClickListener {
 
 	/** **/
 	public static final String ID = "review.classdesign.jammy.view.submission";
@@ -194,6 +197,18 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		viewer.setContentProvider(new StateContentProvider());
 		viewer.setLabelProvider(new StateLabelProvider());
 		viewer.setInput(Jammy.CHILDLESS);
+		viewer.addDoubleClickListener(this);
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void doubleClick(final DoubleClickEvent event) {
+		final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		final String label = selection.getFirstElement().toString();
+		final int index = Arrays.binarySearch(LABEL, label);
+		if (index == state && error != null) {
+			error.run();
+		}
 	}
 
 
@@ -259,6 +274,5 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		error = exception;
 		update();
 	}
-
 
 }

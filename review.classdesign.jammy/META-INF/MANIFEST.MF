@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.core;bundle-version="3.9.1",
  org.eclipse.jdt.debug;bundle-version="3.8.102",
  org.eclipse.debug.ui;bundle-version="3.10.2",
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.compare;bundle-version="3.5.501"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: dependecies/jsoup-1.8.3.jar,
