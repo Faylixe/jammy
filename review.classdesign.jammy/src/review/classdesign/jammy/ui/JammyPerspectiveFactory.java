@@ -7,6 +7,7 @@ import org.eclipse.ui.console.IConsoleConstants;
 
 import review.classdesign.jammy.ui.view.ContestExplorer;
 import review.classdesign.jammy.ui.view.ProblemView;
+import review.classdesign.jammy.ui.view.SubmissionView;
 
 /**
  * Factory that is in charge of creating Jammy Perspective.
@@ -38,6 +39,7 @@ public final class JammyPerspectiveFactory implements IPerspectiveFactory {
 		// Create left views.
 		final IFolderLayout left = layout.createFolder(NAVIGATOR_ID, IPageLayout.LEFT, 0.26f, editor);
 		left.addView(ContestExplorer.ID);
+		left.addView(SubmissionView.ID);
 		// Create bottom views.
 		final IFolderLayout bottom = layout.createFolder(VIEW_ID, IPageLayout.BOTTOM, 0.60f, editor);
 		bottom.addView(ProblemView.ID);

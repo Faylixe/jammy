@@ -89,6 +89,7 @@
       <view
             category="review.classdesign.jammy.view.category"
             class="review.classdesign.jammy.ui.view.SubmissionView"
+            icon="resources/icons/submission.view.png"
             id="review.classdesign.jammy.view.submission"
             name="Submission"
             restorable="true">

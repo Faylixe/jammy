@@ -43,4 +43,11 @@ public interface ISubmission {
 	 */
 	IFile getOutput();
 
+	/**
+	 * Getter for this submission name.
+	 * 
+	 * @return Submission name.
+	 */
+	String getName();
+
 }

@@ -18,6 +18,14 @@ public interface ISubmissionListener {
 
 	/**
 	 * Notify this listener that the given <tt>submission</tt>
+	 * execution has started.
+	 * 
+	 * @param submission Target submission that have it execution started.
+	 */
+	void executionStarted(ISubmission submission);
+
+	/**
+	 * Notify this listener that the given <tt>submission</tt>
 	 * has finished.
 	 * 
 	 * @param submission Target submission that have finished.

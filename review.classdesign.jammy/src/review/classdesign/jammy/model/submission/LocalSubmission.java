@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.model.ProblemSampleDataset;
 import review.classdesign.jammy.model.ProblemSolver;
+import review.classdesign.jammy.service.ISubmissionService;
 
 /**
  * Submission that aims to use local dataset file.
@@ -20,6 +21,12 @@ public final class LocalSubmission extends AbstractSubmission {
 	/** **/
 	private static final String OUTPUT_EXTENSION = ".sample.out";
 
+	/** **/
+	private static final String SAMPLE_SUFFIX = " - sample";
+
+	/** **/
+	private final String name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -27,12 +34,17 @@ public final class LocalSubmission extends AbstractSubmission {
 	 */
 	public LocalSubmission(final ProblemSolver solver) {
 		super(solver);
+		final StringBuilder builder = new StringBuilder();
+		builder.append(solver.getName());
+		builder.append(SAMPLE_SUFFIX);
+		this.name = builder.toString().toLowerCase();
 	}
 
 	/** {@inheritDoc} 
 	 * @throws CoreException **/
 	@Override
 	public void submit(final IProgressMonitor monitor) throws CoreException {
+		ISubmissionService.get().fireSubmissionStarted(this);
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
 		final IFile input = dataset.getInput();
 		if (!input.exists()) {
@@ -68,6 +80,12 @@ public final class LocalSubmission extends AbstractSubmission {
 		builder.append(getSolver().getName().toLowerCase());
 		builder.append(OUTPUT_EXTENSION);
 		return folder.getFile(builder.toString());
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

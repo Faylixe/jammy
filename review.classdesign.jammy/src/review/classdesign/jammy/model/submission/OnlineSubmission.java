@@ -41,4 +41,10 @@ public final class OnlineSubmission extends AbstractSubmission {
 		return null;
 	}
 
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

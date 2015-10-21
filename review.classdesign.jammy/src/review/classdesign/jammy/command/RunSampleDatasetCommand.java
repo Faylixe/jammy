@@ -22,7 +22,8 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
 		final ISubmission submission = new LocalSubmission(solver);
-		// TODO : Export common utils system high priority job ?
+		// TODO : Implements ISchedulingRule in order to avoid submission conflict.
+		// TODO : Consider down the job layer with rule to the submit() method (even with submission service).
 		final Job job = Job.create("", submissionMonitor -> {
 			try {
 				submission.submit(submissionMonitor);
