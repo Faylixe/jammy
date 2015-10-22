@@ -1,22 +1,13 @@
 package review.classdesign.jammy.model.submission;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
+import review.classdesign.jammy.ILanguageManager;
+import review.classdesign.jammy.JammyPreferences;
 import review.classdesign.jammy.model.ProblemSolver;
 import review.classdesign.jammy.service.ISubmissionService;
 
@@ -40,22 +31,22 @@ public abstract class AbstractSubmission implements ISubmission {
 	private class LaunchMonitorJob extends Job {
 
 		/** Target launch that is monitored by this job. **/
-		private final ILaunch launch;
+		private final ISolverExecution execution;
 
 		/**
 		 * Default constructor.
 		 * 
-		 * @param launch Target launch that is monitored by this job.
+		 * @param execution Target launch that is monitored by this job.
 		 */
-		public LaunchMonitorJob(final ILaunch launch) {
+		public LaunchMonitorJob(final ISolverExecution execution) {
 			super(JOB_NAME);
-			this.launch = launch;
+			this.execution = execution;
 		}
 
 		/** {@inheritDoc} **/
 		@Override
 		protected IStatus run(final IProgressMonitor monitor) {
-			if (launch.isTerminated()) {
+			if (execution.isTerminated()) {
 				service.fireExecutionFinished(AbstractSubmission.this);
 				try {
 					submit();
@@ -66,7 +57,7 @@ public abstract class AbstractSubmission implements ISubmission {
 				}
 			}
 			else {
-				startJob(launch);
+				startJob(execution);
 			}
 			return Status.OK_STATUS;
 		}
@@ -98,7 +89,20 @@ public abstract class AbstractSubmission implements ISubmission {
 	protected final ProblemSolver getSolver() {
 		return solver;
 	}
-	
+
+	/**
+	 * 
+	 * @param arguments
+	 * @param monitor
+	 * @throws CoreException 
+	 */
+	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
+		final ILanguageManager manager = JammyPreferences.getCurrentLanguageManager();
+		final ISolverExecution execution = manager.getExecution(solver, monitor);
+		service.fireExecutionStarted(this);
+		startJob(execution);
+	}
+
 	/**
 	 * 
 	 * @return
@@ -112,8 +116,8 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * 
 	 * @param launch Target launch that will be monitored by created job.
 	 */
-	private final void startJob(final ILaunch launch) {
-		final Job job = new LaunchMonitorJob(launch);
+	private final void startJob(final ISolverExecution execution) {
+		final Job job = new LaunchMonitorJob(execution);
 		job.setSystem(true);
 		job.setPriority(Job.SHORT);
 		job.schedule();

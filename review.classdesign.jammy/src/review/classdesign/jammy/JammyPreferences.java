@@ -63,7 +63,6 @@ public final class JammyPreferences {
 	 */
 	public static ILanguageManager getCurrentLanguageManager() {
 		return null;
-		
 	}
 
 	/**

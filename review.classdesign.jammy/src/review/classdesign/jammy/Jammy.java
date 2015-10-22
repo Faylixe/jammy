@@ -3,11 +3,18 @@ package review.classdesign.jammy;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -51,7 +58,7 @@ public class Jammy extends AbstractUIPlugin {
 	private final List<IProblemSelectionListener> problemListeners;
 
 	/** **/
-	private ILanguageManager [] managers;
+	private final Map<String, ILanguageManager> managers;
 
 	/**
 	 * The constructor
@@ -59,6 +66,7 @@ public class Jammy extends AbstractUIPlugin {
 	public Jammy() {
 		this.contestListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
+		this.managers = new HashMap<>();
 	}
 	
 	/**
@@ -197,15 +205,26 @@ public class Jammy extends AbstractUIPlugin {
 	 * 
 	 */
 	private void loadManagers() {
-		//
+		final IExtensionRegistry registry = Platform.getExtensionRegistry();
+		final IConfigurationElement [] elements = registry.getConfigurationElementsFor(ILanguageManager.EXTENSION_ID);
+		for (final IConfigurationElement element : elements) {
+			final String language = element.getAttribute(ILanguageManager.LANGUAGE_ATTRIBUTE);
+			try {
+				final Object manager = element.createExecutableExtension(ILanguageManager.CLASS_ATTRIBUTE);
+				managers.put(language, (ILanguageManager) manager);
+			}
+			catch (final CoreException e) {
+				// TODO : Log error.
+			}
+		}
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public ILanguageManager[] getLanguageManager() {
-		return managers;
+	public Collection<ILanguageManager> getLanguageManager() {
+		return null;
 	}
 
 	/** {@inheritDoc} **/
@@ -213,6 +232,7 @@ public class Jammy extends AbstractUIPlugin {
 		super.start(context);
 		final IPreferenceStore store = getPreferenceStore();
 		JammyPreferences.load(store);
+		loadManagers();
 		loadState();
 		store.addPropertyChangeListener(JammyPreferences::propertyChange);
 		plugin = this;
