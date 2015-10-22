@@ -100,6 +100,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
 		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager();
 		final ISolverExecution execution = manager.getExecution(solver, monitor);
+		execution.run(arguments, getOutput().getLocation().toString());
 		service.fireExecutionStarted(this);
 		startJob(execution);
 	}

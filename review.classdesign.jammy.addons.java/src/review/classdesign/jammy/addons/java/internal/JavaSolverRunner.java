@@ -48,7 +48,8 @@ public final class JavaSolverRunner implements ISolverExecution {
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected final void run(final String arguments, final String output) throws CoreException {
+	@Override
+	public void run(final String arguments, final String output) throws CoreException {
 		final ILaunchConfigurationWorkingCopy workingCopy = getLaunchConfiguration(solver.getName(), arguments);
 		final Map<String, String> attributes = createAttributesMap(arguments);
 		for (final String key : attributes.keySet()) {
@@ -63,7 +64,7 @@ public final class JavaSolverRunner implements ISolverExecution {
 	 * @param arguments
 	 * @return
 	 */
-	private final Map<String, String> createAttributesMap(final String arguments) {
+	private Map<String, String> createAttributesMap(final String arguments) {
 		final HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, solver.getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
@@ -80,7 +81,7 @@ public final class JavaSolverRunner implements ISolverExecution {
 	 * @return
 	 * @throws CoreException
 	 */
-	private static final ILaunchConfigurationWorkingCopy getLaunchConfiguration(final String name, final String arguments) throws CoreException {
+	private static ILaunchConfigurationWorkingCopy getLaunchConfiguration(final String name, final String arguments) throws CoreException {
 		final DebugPlugin plugin = DebugPlugin.getDefault();
 		final ILaunchManager manager = plugin.getLaunchManager();
 		final ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
