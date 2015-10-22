@@ -15,7 +15,9 @@ import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;
 
 /**
- * 
+ * {@link ILanguageManager} implementation for Java language,
+ * which is the default language used for Jammy plugin.
+ *
  * @author fv
  */
 public final class JavaManager implements ILanguageManager {

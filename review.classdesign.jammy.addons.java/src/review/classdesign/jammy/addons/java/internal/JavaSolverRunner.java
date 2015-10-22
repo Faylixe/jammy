@@ -17,6 +17,11 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import review.classdesign.jammy.ISolverExecution;
 import review.classdesign.jammy.model.ProblemSolver;
 
+/**
+ * {@link ISolverExecution} implementation for Java language.
+ * 
+ * @author fv
+ */
 public final class JavaSolverRunner implements ISolverExecution {
 
 	/** **/
@@ -25,33 +30,34 @@ public final class JavaSolverRunner implements ISolverExecution {
 	/** Target problem solver this submission will work on. **/
 	private final ProblemSolver solver;
 
+	/** Monitor instance used for Java execution. **/
 	private final IProgressMonitor monitor;
 
-	/** **/
+	/** Delegate {@link ILaunch} instance which correspond to our solver execution. **/
 	private ILaunch launch;
 
-	/** **/
-	private String output;
-
 	/**
+	 * Default constructor.
 	 * 
-	 * @param solver
+	 * @param solver Solver which aims to be ran.
+	 * @param monitor Monitor instance used for Java execution.
 	 */
 	public JavaSolverRunner(final ProblemSolver solver, final IProgressMonitor monitor) {
 		this.solver = solver;
 		this.monitor = monitor;
 	}
 
-	/**
-	 * 
-	 * @param arguments
-	 * @param monitor
-	 * @throws CoreException
-	 */
+	/** {@inheritDoc} **/
+	@Override
+	public boolean isTerminated() {
+		return launch.isTerminated();
+	}
+
+	/** {@inheritDoc} **/
 	@Override
 	public void run(final String arguments, final String output) throws CoreException {
-		final ILaunchConfigurationWorkingCopy workingCopy = getLaunchConfiguration(solver.getName(), arguments);
-		final Map<String, String> attributes = createAttributesMap(arguments);
+		final ILaunchConfigurationWorkingCopy workingCopy = getLaunchConfiguration(solver.getName());
+		final Map<String, String> attributes = createAttributesMap(arguments, output);
 		for (final String key : attributes.keySet()) {
 			workingCopy.setAttribute(key, attributes.get(key));
 		}
@@ -60,11 +66,13 @@ public final class JavaSolverRunner implements ISolverExecution {
 	}
 
 	/**
+	 * Creates a {@link Map} of attributes used for the generated launch configuration.
 	 * 
-	 * @param arguments
-	 * @return
+	 * @param arguments Command line argument to be used.
+	 * @param output Target output file path.
+	 * @return Created attributes map.
 	 */
-	private Map<String, String> createAttributesMap(final String arguments) {
+	private Map<String, String> createAttributesMap(final String arguments, final String output) {
 		final HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, solver.getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
@@ -75,13 +83,14 @@ public final class JavaSolverRunner implements ISolverExecution {
 	}
 
 	/**
+	 * Creates a working copy of {@link ILaunchConfiguration} for the given <tt>name</tt>.
+	 * If such configuration already exist, they are removed first.
 	 * 
-	 * @param name
-	 * @param arguments
-	 * @return
-	 * @throws CoreException
+	 * @param name Name of the launch configuration to create.
+	 * @return Retrieved launch configuration.
+	 * @throws CoreException If any error occurs while creating launch configuration.
 	 */
-	private static ILaunchConfigurationWorkingCopy getLaunchConfiguration(final String name, final String arguments) throws CoreException {
+	private static ILaunchConfigurationWorkingCopy getLaunchConfiguration(final String name) throws CoreException {
 		final DebugPlugin plugin = DebugPlugin.getDefault();
 		final ILaunchManager manager = plugin.getLaunchManager();
 		final ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
@@ -91,12 +100,6 @@ public final class JavaSolverRunner implements ISolverExecution {
 			}
 		}
 		return type.newInstance(null, name);
-	}
-
-	/** **/
-	@Override
-	public boolean isTerminated() {
-		return launch.isTerminated();
 	}
 
 }

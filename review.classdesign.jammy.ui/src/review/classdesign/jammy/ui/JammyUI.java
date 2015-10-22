@@ -1,4 +1,4 @@
-package review.classdesign.jammy.addons.java;
+package review.classdesign.jammy.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -8,19 +8,21 @@ import org.osgi.framework.BundleContext;
  * 
  * @author fv
  */
-public final class Activator extends AbstractUIPlugin {
+public final class JammyUI extends AbstractUIPlugin {
 
 	/** Plugin identifier. **/
-	public static final String PLUGIN_ID = "review.classdesign.jammy.addons.java"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "review.classdesign.jammy.ui"; //$NON-NLS-1$
 
 	/** Unique plugin instance. **/
-	private static Activator plugin;
+	private static JammyUI plugin;
 	
-	/** Default constructor. **/
-	public Activator() {
+	/**
+	 * Default constructor.
+	 */
+	public JammyUI() {
 		// Do nothing.
 	}
-
+	
 	/** {@inheritDoc} **/
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -40,7 +42,7 @@ public final class Activator extends AbstractUIPlugin {
 	 *
 	 * @return Unique plugin instance, or <tt>null</tt> if the plugin has not been activated.
 	 */
-	public static Activator getDefault() {
+	public static JammyUI getDefault() {
 		return plugin;
 	}
 
