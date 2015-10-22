@@ -7,7 +7,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import review.classdesign.jammy.model.ProblemSolver;
 import review.classdesign.jammy.model.submission.ISubmission;
-import review.classdesign.jammy.model.submission.LocalSubmission;
+import review.classdesign.jammy.model.submission.internal.LocalSubmission;
 
 /**
  * 

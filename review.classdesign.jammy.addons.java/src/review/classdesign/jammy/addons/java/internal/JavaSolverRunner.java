@@ -14,8 +14,8 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
+import review.classdesign.jammy.ISolverExecution;
 import review.classdesign.jammy.model.ProblemSolver;
-import review.classdesign.jammy.model.submission.ISolverExecution;
 
 public final class JavaSolverRunner implements ISolverExecution {
 

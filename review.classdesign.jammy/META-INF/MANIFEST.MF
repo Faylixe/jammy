@@ -62,5 +62,4 @@ Export-Package: review.classdesign.jammy,
  review.classdesign.jammy.model.listener,
  review.classdesign.jammy.model.submission,
  review.classdesign.jammy.model.webservice,
- review.classdesign.jammy.service,
- review.classdesign.jammy.ui.dialog
+ review.classdesign.jammy.service

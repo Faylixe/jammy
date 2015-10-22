@@ -6,11 +6,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.ILanguageManager;
+import review.classdesign.jammy.ISolverExecution;
 import review.classdesign.jammy.addons.java.internal.JavaProjectBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverRunner;
 import review.classdesign.jammy.model.ProblemSolver;
-import review.classdesign.jammy.model.submission.ISolverExecution;
 import review.classdesign.jammy.model.webservice.ContestInfo;
 import review.classdesign.jammy.model.webservice.Problem;
 

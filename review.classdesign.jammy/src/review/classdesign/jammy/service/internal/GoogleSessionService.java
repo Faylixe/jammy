@@ -13,7 +13,6 @@ import com.google.api.client.http.HttpRequestFactory;
 
 import review.classdesign.jammy.service.IGoogleLogger;
 import review.classdesign.jammy.service.IGoogleSessionService;
-import review.classdesign.jammy.ui.dialog.OAuthLoginDialog;
 
 /**
  * {@link IGoogleSessionService} implementation.
