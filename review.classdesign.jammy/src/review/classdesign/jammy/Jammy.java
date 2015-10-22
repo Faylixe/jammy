@@ -3,12 +3,12 @@ package review.classdesign.jammy;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -223,8 +223,17 @@ public class Jammy extends AbstractUIPlugin {
 	 * 
 	 * @return
 	 */
-	public Collection<ILanguageManager> getLanguageManager() {
-		return null;
+	public ILanguageManager getCurrentLanguageManager() {
+		final String language = JammyPreferences.getCurrentLanguage();
+		return managers.get(language);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Set<String> getLanguages() {
+		return managers.keySet();
 	}
 
 	/** {@inheritDoc} **/

@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.ILanguageManager;
-import review.classdesign.jammy.JammyPreferences;
+import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.model.builder.DatasetBuilder;
 import review.classdesign.jammy.model.webservice.Problem;
@@ -99,7 +99,7 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	private static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		monitor.subTask(PROJECT_TASK);
-		final ILanguageManager manager = JammyPreferences.getCurrentLanguageManager();
+		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager();
 		final IProject project = manager.getProject(problem, monitor);
 		monitor.subTask(SOLVER_TASK);
 		final IFile file = manager.getSolver(problem, monitor);

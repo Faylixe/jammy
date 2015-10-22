@@ -20,8 +20,14 @@ public final class JammyPreferences {
 	/** Preference key for the target host name.  **/
 	public static final String HOSTNAME_PROPERTY = "review.classdesign.jammy.hostname";
 
+	/** **/
+	public static final String LANGUAGE_PROPERTY = "review.classdesign.jammy.language";
+
 	/** Default host name value to use. **/
 	private static final String DEFAULT_HOST = "https://code.google.com";
+
+	/** **/
+	private static final String DEFAULT_LANGUAGE = "Java";
 
 	/** Error message displayed when an error occurs while saving preferences. **/
 	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
@@ -55,14 +61,16 @@ public final class JammyPreferences {
 	protected static void load(final IPreferenceStore store) {
 		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
 		store.setValue(HOSTNAME_PROPERTY, node.get(HOSTNAME_PROPERTY, DEFAULT_HOST));
+		store.setValue(LANGUAGE_PROPERTY, node.get(LANGUAGE_PROPERTY, DEFAULT_LANGUAGE));
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public static ILanguageManager getCurrentLanguageManager() {
-		return null;
+	public static String getCurrentLanguage() {
+		final IPreferenceStore store = Jammy.getDefault().getPreferenceStore();
+		return store.getString(LANGUAGE_PROPERTY);
 	}
 
 	/**

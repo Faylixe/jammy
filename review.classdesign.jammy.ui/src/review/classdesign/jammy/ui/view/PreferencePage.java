@@ -1,5 +1,8 @@
 package review.classdesign.jammy.ui.view;
 
+import java.util.Set;
+
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -20,7 +23,14 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	private static final String HOSTNAME_LABEL = "Hostname";
 
 	/** **/
+	private static final String LANGUAGE_LABEL = "Language";
+
+	/** **/
 	private StringFieldEditor hostname;
+
+	/** **/
+	private ComboFieldEditor language;
+
 
 	/**
 	 * Default constructor.
@@ -41,6 +51,25 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	/**
 	 * 
 	 */
+	private void createLanguage() {
+		final Set<String> languages = Jammy.getDefault().getLanguages();
+		final String [][] values = new String[languages.size()][2];
+		int i = 0;
+		for (final String language : languages) {
+			values[i][0] = language;
+			values[i][1] = language;
+		}
+		language = new ComboFieldEditor(
+				JammyPreferences.LANGUAGE_PROPERTY,
+				LANGUAGE_LABEL,
+				values,
+				getFieldEditorParent());
+		addField(language);
+	}
+
+	/**
+	 * 
+	 */
 	private void createHostname() {
 		hostname = new StringFieldEditor(
 				JammyPreferences.HOSTNAME_PROPERTY,
@@ -54,6 +83,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	@Override
 	protected void createFieldEditors() {
 		createHostname();
+		createLanguage();
 	}
 
 	/** {@inheritDoc} **/

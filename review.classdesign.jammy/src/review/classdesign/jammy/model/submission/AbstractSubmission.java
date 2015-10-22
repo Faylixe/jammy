@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import review.classdesign.jammy.ILanguageManager;
 import review.classdesign.jammy.ISolverExecution;
-import review.classdesign.jammy.JammyPreferences;
+import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.model.ProblemSolver;
 import review.classdesign.jammy.service.ISubmissionService;
 
@@ -98,7 +98,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * @throws CoreException 
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
-		final ILanguageManager manager = JammyPreferences.getCurrentLanguageManager();
+		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager();
 		final ISolverExecution execution = manager.getExecution(solver, monitor);
 		service.fireExecutionStarted(this);
 		startJob(execution);
