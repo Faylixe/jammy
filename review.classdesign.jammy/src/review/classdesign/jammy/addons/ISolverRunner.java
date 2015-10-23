@@ -1,4 +1,4 @@
-package review.classdesign.jammy;
+package review.classdesign.jammy.addons;
 
 import org.eclipse.core.runtime.CoreException;
 

@@ -15,7 +15,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
-import review.classdesign.jammy.ISolverRunner;
+import review.classdesign.jammy.addons.ISolverRunner;
 import review.classdesign.jammy.core.ProblemSolver;
 
 /**

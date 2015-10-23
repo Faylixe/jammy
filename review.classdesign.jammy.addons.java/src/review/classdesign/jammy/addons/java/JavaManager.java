@@ -5,8 +5,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.ILanguageManager;
-import review.classdesign.jammy.ISolverRunner;
+import review.classdesign.jammy.addons.ILanguageManager;
+import review.classdesign.jammy.addons.ISolverRunner;
 import review.classdesign.jammy.addons.java.internal.JavaProjectBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverRunner;

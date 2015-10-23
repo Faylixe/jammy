@@ -6,9 +6,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import review.classdesign.jammy.ILanguageManager;
-import review.classdesign.jammy.ISolverRunner;
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.addons.ILanguageManager;
+import review.classdesign.jammy.addons.ISolverRunner;
 import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.submission.ISubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;

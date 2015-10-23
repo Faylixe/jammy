@@ -19,6 +19,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import review.classdesign.jammy.addons.ILanguageManager;
 import review.classdesign.jammy.common.SerializationUtils;
 import review.classdesign.jammy.core.Round;
 import review.classdesign.jammy.core.listener.IContestSelectionListener;

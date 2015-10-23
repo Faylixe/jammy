@@ -10,8 +10,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.ILanguageManager;
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.addons.ILanguageManager;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.core.builder.DatasetBuilder;
 import review.classdesign.jammy.core.webservice.Problem;

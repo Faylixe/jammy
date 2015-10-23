@@ -66,6 +66,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 		for (final String language : languages) {
 			values[i][0] = language;
 			values[i][1] = language;
+			i++;
 		}
 		language = new ComboFieldEditor(
 				JammyPreferences.LANGUAGE_PROPERTY,
@@ -84,6 +85,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 				JammyPreferences.HOSTNAME_PROPERTY,
 				HOSTNAME_LABEL,
 				getFieldEditorParent());
+		// WHY NULL HERE ?
 		hostname.setPropertyChangeListener(this::hostnameChanged);
 		addField(hostname);
 	}

@@ -1,4 +1,4 @@
-package review.classdesign.jammy;
+package review.classdesign.jammy.addons;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -34,6 +34,9 @@ public interface ILanguageManager {
 
 	/** Extension attribute name for the manager implementation class. **/
 	public static final String CLASS_ATTRIBUTE = "class";
+
+	/** Task name for the project creation. **/
+	public static final String CREATE_PROJECT_TASK = "Creates %s project for current round";
 
 	/**
 	 * Retrieves the project associated to the given <tt>problem</tt> if exist.

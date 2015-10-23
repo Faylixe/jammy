@@ -55,6 +55,7 @@ Bundle-ClassPath: dependecies/jsoup-1.8.3.jar,
  dependecies/xpp3-1.1.4c.jar,
  .
 Export-Package: review.classdesign.jammy,
+ review.classdesign.jammy.addons,
  review.classdesign.jammy.command,
  review.classdesign.jammy.common,
  review.classdesign.jammy.core,
