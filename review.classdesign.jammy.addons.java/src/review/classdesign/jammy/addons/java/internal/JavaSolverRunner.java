@@ -25,9 +25,6 @@ import review.classdesign.jammy.core.ProblemSolver;
  */
 public final class JavaSolverRunner implements ISolverRunner {
 
-	/** **/
-	private static final String TRUE_ATTRIBUTE = "true";
-
 	/** Target problem solver this submission will work on. **/
 	private final ProblemSolver solver;
 
@@ -81,7 +78,7 @@ public final class JavaSolverRunner implements ISolverRunner {
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, name);
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);
-		attributes.put(IDebugUIConstants.ATTR_PRIVATE, TRUE_ATTRIBUTE);
+		attributes.put(IDebugUIConstants.ATTR_PRIVATE, Boolean.toString(true));
 		attributes.put(IDebugUIConstants.ATTR_CAPTURE_IN_FILE, output);
 		return attributes;
 	}
