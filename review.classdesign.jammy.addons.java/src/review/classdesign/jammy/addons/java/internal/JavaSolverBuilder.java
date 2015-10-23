@@ -8,8 +8,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.common.Template;
-import review.classdesign.jammy.model.builder.ProjectContributor;
+import review.classdesign.jammy.addons.java.JavaAddonPlugin;
+import review.classdesign.jammy.core.builder.ProjectContributor;
 
 /**
  * A {@link JavaSolverBuilder} allows to create solver class
@@ -20,7 +20,7 @@ import review.classdesign.jammy.model.builder.ProjectContributor;
 public final class JavaSolverBuilder extends ProjectContributor {
 
 	/** File extension used for created Java solver. **/
-	private static final String SOLVER_EXTENSION = ".java";
+	public static final String SOLVER_EXTENSION = ".java";
 
 	/**
 	 * Default constructor.
@@ -60,7 +60,7 @@ public final class JavaSolverBuilder extends ProjectContributor {
 		for (int i = 0; i < 4; i++) {
 			solvers[i] = name;
 		}
-		return String.format(Template.SOLVER.get(), solvers);	
+		return String.format(JavaAddonPlugin.SOLVER_TEMPLATE, solvers);	
 	}
 
 	/**

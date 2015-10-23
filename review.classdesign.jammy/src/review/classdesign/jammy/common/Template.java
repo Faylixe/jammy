@@ -3,33 +3,30 @@ package review.classdesign.jammy.common;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import review.classdesign.jammy.Jammy;
 
 /**
- * Enumeration of all available template file.
+ * Static toolbox that exposes methods for template managment.
  * 
  * @author fv
  */
-public enum Template implements Supplier<String> {
-
-	/**
-	 * Template for problem solution solver.
-	 */
-	SOLVER("/templates/solution.template.java"),
+public final class Template {
 	
 	/**
-	 * Template for jam problem description.
+	 * Private constructor for avoiding instantiation.
 	 */
-	DESCRIPTION("/templates/problem.template.html")
-	
-	;
+	private Template() {
+		// Do nothing.
+	}
 	
 	/** Normalization pattern used for creating project and file name. **/
 	private static final String PATTERN = "[^A-Za-z0-9]";
-	
+
+	/** Bundle relative path of the HTML template file. **/
+	private static final String HTML_TEMPLATE_PATH = "/templates/problem.template.html";
+
 	/**
 	 * Normalizes the given <tt>name</tt> by removing
 	 * all non alphanumeric character.
@@ -40,27 +37,28 @@ public enum Template implements Supplier<String> {
 	public static String normalize(final String name) {
 		return name.replaceAll(PATTERN, "");
 	}
-	
-	/** Content to be retrieved. **/
-	private final String content;
 
 	/**
-	 * Default constructor.
-	 * Reads template content using the given file <tt>path</tt>.
+	 * Retrieves the template file content of the given <tt>path</tt>
+	 * using the given <tt>loader</tt> for retrieving the file stream.
 	 * 
-	 * @param path Bundle relative path of the template file to use.
+	 * @param path Path to retrieve template file from.
+	 * @param loader Class instance used to retrieve template file stream from.
+	 * @return
 	 */
-	private Template(final String path) {
-		final Class<?> loader = Jammy.class;
-		final InputStream stream = loader.getResourceAsStream(path);
+	public static String getTemplate(final String path, final Class<?> loader) {
+		final InputStream stream = loader.getResourceAsStream(path);	
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		this.content = reader.lines().collect(Collectors.joining("\n"));
+		return reader.lines().collect(Collectors.joining("\n"));
 	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public String get() {
-		return content;
+	
+	/**
+	 * Getter for the HTML template content.
+	 * 
+	 * @return HTML page template.
+	 */
+	public static String getHTMLTemplate() {
+		return getTemplate(HTML_TEMPLATE_PATH, Jammy.class);
 	}
 
 }

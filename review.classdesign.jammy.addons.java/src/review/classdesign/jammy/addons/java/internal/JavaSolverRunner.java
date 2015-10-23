@@ -3,6 +3,7 @@ package review.classdesign.jammy.addons.java.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
@@ -14,15 +15,15 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
-import review.classdesign.jammy.ISolverExecution;
-import review.classdesign.jammy.model.ProblemSolver;
+import review.classdesign.jammy.ISolverRunner;
+import review.classdesign.jammy.core.ProblemSolver;
 
 /**
- * {@link ISolverExecution} implementation for Java language.
+ * {@link ISolverRunner} implementation for Java language.
  * 
  * @author fv
  */
-public final class JavaSolverRunner implements ISolverExecution {
+public final class JavaSolverRunner implements ISolverRunner {
 
 	/** **/
 	private static final String TRUE_ATTRIBUTE = "true";
@@ -74,7 +75,10 @@ public final class JavaSolverRunner implements ISolverExecution {
 	 */
 	private Map<String, String> createAttributesMap(final String arguments, final String output) {
 		final HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, solver.getName());
+		final IFile file = solver.getFile();
+		final String filename = file.getName();
+		final String name = filename.substring(0, -1 * file.getFileExtension().length());
+		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, name);
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);
 		attributes.put(IDebugUIConstants.ATTR_PRIVATE, TRUE_ATTRIBUTE);

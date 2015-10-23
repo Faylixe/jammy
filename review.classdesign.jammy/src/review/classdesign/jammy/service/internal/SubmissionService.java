@@ -3,9 +3,9 @@ package review.classdesign.jammy.service.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import review.classdesign.jammy.model.listener.ISubmissionListener;
-import review.classdesign.jammy.model.submission.ISubmission;
-import review.classdesign.jammy.model.submission.SubmissionException;
+import review.classdesign.jammy.core.listener.ISubmissionListener;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**

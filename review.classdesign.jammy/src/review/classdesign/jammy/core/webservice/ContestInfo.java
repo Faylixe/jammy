@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.webservice;
+package review.classdesign.jammy.core.webservice;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -12,8 +12,8 @@ import java.util.List;
 
 import review.classdesign.jammy.common.RequestUtils;
 import review.classdesign.jammy.common.Template;
-import review.classdesign.jammy.model.Round;
-import review.classdesign.jammy.model.webservice.Problem.Deserializer;
+import review.classdesign.jammy.core.Round;
+import review.classdesign.jammy.core.webservice.Problem.Deserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -8,8 +8,8 @@ import org.eclipse.jface.wizard.Wizard;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.NamedObject;
-import review.classdesign.jammy.model.Contest;
-import review.classdesign.jammy.model.Round;
+import review.classdesign.jammy.core.Contest;
+import review.classdesign.jammy.core.Round;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 import review.classdesign.jammy.ui.internal.ListPageBuilder;

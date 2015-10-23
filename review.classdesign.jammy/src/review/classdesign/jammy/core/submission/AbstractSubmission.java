@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.submission;
+package review.classdesign.jammy.core.submission;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -7,9 +7,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import review.classdesign.jammy.ILanguageManager;
-import review.classdesign.jammy.ISolverExecution;
+import review.classdesign.jammy.ISolverRunner;
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.model.ProblemSolver;
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**
@@ -32,14 +32,14 @@ public abstract class AbstractSubmission implements ISubmission {
 	private class LaunchMonitorJob extends Job {
 
 		/** Target launch that is monitored by this job. **/
-		private final ISolverExecution execution;
+		private final ISolverRunner execution;
 
 		/**
 		 * Default constructor.
 		 * 
 		 * @param execution Target launch that is monitored by this job.
 		 */
-		public LaunchMonitorJob(final ISolverExecution execution) {
+		public LaunchMonitorJob(final ISolverRunner execution) {
 			super(JOB_NAME);
 			this.execution = execution;
 		}
@@ -99,7 +99,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
 		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager();
-		final ISolverExecution execution = manager.getExecution(solver, monitor);
+		final ISolverRunner execution = manager.getRunner(solver, monitor);
 		execution.run(arguments, getOutput().getLocation().toString());
 		service.fireExecutionStarted(this);
 		startJob(execution);
@@ -118,7 +118,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * 
 	 * @param launch Target launch that will be monitored by created job.
 	 */
-	private final void startJob(final ISolverExecution execution) {
+	private final void startJob(final ISolverRunner execution) {
 		final Job job = new LaunchMonitorJob(execution);
 		job.setSystem(true);
 		job.setPriority(Job.SHORT);

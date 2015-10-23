@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model;
+package review.classdesign.jammy.core;
 
 import java.util.ArrayList;
 import java.util.Collections;

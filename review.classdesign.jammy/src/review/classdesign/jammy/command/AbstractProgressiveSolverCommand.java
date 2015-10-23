@@ -6,9 +6,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.model.ProblemSolver;
-import review.classdesign.jammy.model.webservice.ContestInfo;
-import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.webservice.ContestInfo;
+import review.classdesign.jammy.core.webservice.Problem;
 
 /**
  * 

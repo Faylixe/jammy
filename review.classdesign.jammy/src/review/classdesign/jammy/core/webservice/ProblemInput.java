@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.webservice;
+package review.classdesign.jammy.core.webservice;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.submission;
+package review.classdesign.jammy.core.submission;
 
 /**
  * 

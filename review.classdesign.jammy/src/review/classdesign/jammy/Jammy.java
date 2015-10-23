@@ -20,11 +20,11 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.common.SerializationUtils;
-import review.classdesign.jammy.model.Round;
-import review.classdesign.jammy.model.listener.IContestSelectionListener;
-import review.classdesign.jammy.model.listener.IProblemSelectionListener;
-import review.classdesign.jammy.model.webservice.ContestInfo;
-import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.core.Round;
+import review.classdesign.jammy.core.listener.IContestSelectionListener;
+import review.classdesign.jammy.core.listener.IProblemSelectionListener;
+import review.classdesign.jammy.core.webservice.ContestInfo;
+import review.classdesign.jammy.core.webservice.Problem;
 
 /**
  * The activator class controls the plug-in life cycle.

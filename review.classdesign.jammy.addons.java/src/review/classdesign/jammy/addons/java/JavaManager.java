@@ -6,13 +6,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.ILanguageManager;
-import review.classdesign.jammy.ISolverExecution;
+import review.classdesign.jammy.ISolverRunner;
 import review.classdesign.jammy.addons.java.internal.JavaProjectBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverRunner;
-import review.classdesign.jammy.model.ProblemSolver;
-import review.classdesign.jammy.model.webservice.ContestInfo;
-import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.webservice.ContestInfo;
+import review.classdesign.jammy.core.webservice.Problem;
 
 /**
  * {@link ILanguageManager} implementation for Java language,
@@ -46,7 +46,7 @@ public final class JavaManager implements ILanguageManager {
 
 	/** {@inheritDoc} **/
 	@Override
-	public ISolverExecution getExecution(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
+	public ISolverRunner getRunner(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
 		return new JavaSolverRunner(solver, monitor);
 	}
 

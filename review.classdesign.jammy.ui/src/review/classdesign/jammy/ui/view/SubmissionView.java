@@ -27,9 +27,9 @@ import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.model.listener.ISubmissionListener;
-import review.classdesign.jammy.model.submission.ISubmission;
-import review.classdesign.jammy.model.submission.SubmissionException;
+import review.classdesign.jammy.core.listener.ISubmissionListener;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**

@@ -1,7 +1,7 @@
-package review.classdesign.jammy.model.listener;
+package review.classdesign.jammy.core.listener;
 
-import review.classdesign.jammy.model.submission.ISubmission;
-import review.classdesign.jammy.model.submission.SubmissionException;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
  * 

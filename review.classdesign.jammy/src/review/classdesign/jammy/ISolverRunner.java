@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.CoreException;
  * 
  * @author fv
  */
-public interface ISolverExecution {
+public interface ISolverRunner {
 
 	/**
 	 * 

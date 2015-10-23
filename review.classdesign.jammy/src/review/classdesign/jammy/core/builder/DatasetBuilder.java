@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.builder;
+package review.classdesign.jammy.core.builder;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -17,8 +17,8 @@ import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.HTMLConstant;
-import review.classdesign.jammy.model.ProblemSampleDataset;
-import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.core.ProblemSampleDataset;
+import review.classdesign.jammy.core.webservice.Problem;
 
 /**
  * A {@link DatasetBuilder} provides tools for extracting and

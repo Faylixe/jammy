@@ -16,7 +16,7 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.LibraryLocation;
 
-import review.classdesign.jammy.model.builder.ProjectContributor;
+import review.classdesign.jammy.core.builder.ProjectContributor;
 
 /**
  * A {@link JavaProjectBuilder} provides tools for creating

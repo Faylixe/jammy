@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model.builder;
+package review.classdesign.jammy.core.builder;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

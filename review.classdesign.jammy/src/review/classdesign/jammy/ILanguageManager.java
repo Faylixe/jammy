@@ -5,8 +5,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.model.ProblemSolver;
-import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.webservice.Problem;
 
 /**
  * TODO : GOOD JAVADOC HERE !!!
@@ -51,6 +51,6 @@ public interface ILanguageManager {
 	 * @param solver
 	 * @return
 	 */
-	ISolverExecution getExecution(ProblemSolver solver, IProgressMonitor monitor) throws CoreException;
+	ISolverRunner getRunner(ProblemSolver solver, IProgressMonitor monitor) throws CoreException;
 
 }

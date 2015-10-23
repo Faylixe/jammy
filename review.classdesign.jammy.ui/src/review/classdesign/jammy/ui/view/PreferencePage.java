@@ -22,13 +22,13 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	/** Label for the host name field. **/
 	private static final String HOSTNAME_LABEL = "Hostname";
 
-	/** **/
+	/** Label for the language field. s**/
 	private static final String LANGUAGE_LABEL = "Language";
 
-	/** **/
+	/** Field editor for the host name.**/
 	private StringFieldEditor hostname;
 
-	/** **/
+	/** Field editor for the language. **/
 	private ComboFieldEditor language;
 
 
@@ -45,11 +45,19 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	 * @param event
 	 */
 	private void hostnameChanged(final PropertyChangeEvent event) {
+		// TODO : 
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	private void languageChanged(final PropertyChangeEvent event) {
 		
 	}
 
 	/**
-	 * 
+	 * Creates and adds the language field to this page.
 	 */
 	private void createLanguage() {
 		final Set<String> languages = Jammy.getDefault().getLanguages();
@@ -64,11 +72,12 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 				LANGUAGE_LABEL,
 				values,
 				getFieldEditorParent());
+		language.setPropertyChangeListener(this::languageChanged);
 		addField(language);
 	}
 
 	/**
-	 * 
+	 * Creates and adds the hostname field to this page.
 	 */
 	private void createHostname() {
 		hostname = new StringFieldEditor(
@@ -89,7 +98,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	/** {@inheritDoc} **/
 	@Override
 	public void init(final IWorkbench workbench) {
-		
+		// Do nothing.
 	}
 
 }

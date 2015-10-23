@@ -1,4 +1,4 @@
-package review.classdesign.jammy.model;
+package review.classdesign.jammy.core;
 
 import java.lang.ref.SoftReference;
 import java.util.Map;
@@ -13,8 +13,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import review.classdesign.jammy.ILanguageManager;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.NamedObject;
-import review.classdesign.jammy.model.builder.DatasetBuilder;
-import review.classdesign.jammy.model.webservice.Problem;
+import review.classdesign.jammy.core.builder.DatasetBuilder;
+import review.classdesign.jammy.core.webservice.Problem;
 
 /**
  * TODO : Javadoc.
