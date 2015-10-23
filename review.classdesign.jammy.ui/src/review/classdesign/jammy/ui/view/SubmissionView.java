@@ -2,8 +2,6 @@ package review.classdesign.jammy.ui.view;
 
 import java.util.Arrays;
 
-import org.eclipse.debug.ui.DebugUITools;
-import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -18,12 +16,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
@@ -31,6 +27,7 @@ import review.classdesign.jammy.core.listener.ISubmissionListener;
 import review.classdesign.jammy.core.submission.ISubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
+import review.classdesign.jammy.ui.JammyUI;
 
 /**
  * Custom eclipse view for submission monitoring.
@@ -70,24 +67,23 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		/** {@inheritDoc} **/
 		@Override
 		public Image getImage(final Object element) {
-			final ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
 			if (element.equals(currentSubmission)) {
-				return DebugUITools.getImage(IDebugUIConstants.IMG_ACT_SYNCED);
+				return JammyUI.getImage(JammyUI.IMG_SUBMISSION_SUITE);
 			}
 			final String label = element.toString();
 			final int currentState = Arrays.binarySearch(LABEL, label);
 			if (currentState < state) {
-				return images.getImage(SharedImages.IMG_OBJS_TASK_TSK);
+				return JammyUI.getImage(JammyUI.IMG_SUBMISSION_SUCCESS);
 			}
 			else if (currentState == state) {
 				if (error != null) {
-					return images.getImage(ISharedImages.IMG_ETOOL_DELETE);
+					return JammyUI.getImage(JammyUI.IMG_SUBMISSION_FAIL);
 				}
 				else {
-					return DebugUITools.getImage(IDebugUIConstants.IMG_OBJS_LAUNCH_RUN);
+					return JammyUI.getImage(JammyUI.IMG_SUBMISSION_RUN);
 				}
 			}
-			return images.getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			return JammyUI.getImage(JammyUI.IMG_SUBMISSION_TEST);
 		}
 		
 	}

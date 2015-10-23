@@ -30,7 +30,7 @@ public abstract class AbstractProgressiveSolverCommand extends AbstractProgressi
 				processSolver(solver, monitor);
 			}
 			catch (final CoreException e) {
-				// TODO : Handle error.
+				e.printStackTrace();
 			}
 		}
 	}

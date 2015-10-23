@@ -5,7 +5,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.core.ProblemSolver;
-import review.classdesign.jammy.core.submission.AbstractSubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
@@ -24,7 +23,7 @@ public final class OnlineSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void submit() throws SubmissionException {
+	public void submit(final IProgressMonitor monitor) throws SubmissionException {
 		// TODO : Use submission service to check if success.
 	}
 

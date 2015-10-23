@@ -4,13 +4,13 @@ import org.eclipse.compare.CompareUI;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.core.ProblemSampleDataset;
 import review.classdesign.jammy.core.ProblemSolver;
-import review.classdesign.jammy.core.submission.AbstractSubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
@@ -58,9 +58,16 @@ public final class LocalSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void submit() throws SubmissionException {
+	public void submit(final IProgressMonitor monitor) throws SubmissionException {
 		final IFile expected = getSolver().getSampleDataset().getOutput();
 		final IFile actual = getOutput();
+		try {
+			expected.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			actual.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		}
+		catch (final CoreException e) {
+			throw new SubmissionException(e.getMessage());
+		}
 		if (!EclipseUtils.isFileEquals(expected, actual)) {
 			throw new SubmissionException("", () -> {
 				CompareUI.openCompareEditor(SubmissionCompareEditorInput.create(actual, expected), true);

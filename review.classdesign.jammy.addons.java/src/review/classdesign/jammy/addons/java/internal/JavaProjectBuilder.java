@@ -104,8 +104,7 @@ public final class JavaProjectBuilder extends ProjectContributor {
 		final IProject project = workspace.getRoot().getProject(name);
 		if (!project.exists()) {
 			monitor.subTask(CREATE_PROJECT_TASK);
-			final IProjectDescription description = project.getDescription();
-			project.create(description, IProject.HIDDEN, monitor); // TODO : Validate using #create javadoc.
+			project.create(monitor);
 			project.open(monitor);
 			final JavaProjectBuilder builder = new JavaProjectBuilder(project, monitor);
 			builder.setNature();

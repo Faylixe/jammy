@@ -1,4 +1,4 @@
-package review.classdesign.jammy.ui.command.internal;
+package review.classdesign.jammy.ui.internal;
 
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import review.classdesign.jammy.service.IGoogleSessionService;
 
 /**
- * Abstract handler implementation that only run a {@link Wizard}
+ * Abstract command implementation that only run a {@link Wizard}
  * created by the {@link #createWizard()} abstract method.
  * 
  * TODO : Consider remerging abstract handler with contest selection handler.

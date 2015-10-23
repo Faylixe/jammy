@@ -74,7 +74,7 @@ public final class JavaSolverRunner implements ISolverRunner {
 		final HashMap<String, String> attributes = new HashMap<>();
 		final IFile file = solver.getFile();
 		final String filename = file.getName();
-		final String name = filename.substring(0, -1 * file.getFileExtension().length());
+		final String name = filename.substring(0, filename.length() - JavaSolverBuilder.SOLVER_EXTENSION.length());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, name);
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);

@@ -23,10 +23,10 @@ public interface ISubmission {
 	 * submission output is equals of the local dataset output.
 	 * In online output it will correspond to the returned output analysis.
 	 * 
+	 * @param monitor Monitor instance used for submission.
 	 * @return <tt>true</tt> if this submission is a success, <tt>false</tt> otherwise.
-	 * 
 	 */
-	void submit() throws SubmissionException;
+	void submit(IProgressMonitor monitor) throws SubmissionException;
 
 	/**
 	 * Starts this submission.

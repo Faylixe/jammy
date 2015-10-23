@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.submission;
+package review.classdesign.jammy.core.submission.internal;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -10,6 +10,8 @@ import review.classdesign.jammy.ILanguageManager;
 import review.classdesign.jammy.ISolverRunner;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**
@@ -50,7 +52,7 @@ public abstract class AbstractSubmission implements ISubmission {
 			if (execution.isTerminated()) {
 				service.fireExecutionFinished(AbstractSubmission.this);
 				try {
-					submit();
+					submit(monitor);
 					service.fireSubmissionFinished(AbstractSubmission.this);
 				}
 				catch (final SubmissionException e) {

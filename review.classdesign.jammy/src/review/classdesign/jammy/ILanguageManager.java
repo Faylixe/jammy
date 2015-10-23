@@ -9,7 +9,18 @@ import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.webservice.Problem;
 
 /**
- * TODO : GOOD JAVADOC HERE !!!
+ * An {@link ILanguageManager} is in charge of managing
+ * problem solver execution by providing for a given problem,
+ * following features :
+ * 
+ * <ul>
+ * 	<li>Retrieving a valid project instance</li>
+ * 	<li>Retrieving a valid solver file</li>
+ * 	<li>Run a given solver file for a given output.</li>
+ * </ul>
+ * 
+ * Such manager can be registered to Jammy using the extension
+ * point <tt>review.classdesign.jammy.addons</tt>.
  * 
  * @author fv
  */
@@ -47,10 +58,13 @@ public interface ILanguageManager {
 	IFile getSolver(Problem problem, IProgressMonitor monitor) throws CoreException;
 
 	/**
+	 * Retrieves a valid {@link ISolverRunner} instance that could
+	 * manage the given <tt>solver</tt> execution.
 	 * 
-	 * @param solver
-	 * @return
+	 * @param solver Solver instance to get valid runner from.
+	 * @param monitor Monitor instance used for creating runner.
+	 * @return Created runner instance for executing the given <tt>solver</tt>
 	 */
-	ISolverRunner getRunner(ProblemSolver solver, IProgressMonitor monitor) throws CoreException;
+	ISolverRunner getRunner(ProblemSolver solver, IProgressMonitor monitor);
 
 }

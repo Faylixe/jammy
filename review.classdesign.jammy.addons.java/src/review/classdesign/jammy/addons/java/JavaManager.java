@@ -46,7 +46,7 @@ public final class JavaManager implements ILanguageManager {
 
 	/** {@inheritDoc} **/
 	@Override
-	public ISolverRunner getRunner(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
+	public ISolverRunner getRunner(final ProblemSolver solver, final IProgressMonitor monitor) {
 		return new JavaSolverRunner(solver, monitor);
 	}
 
