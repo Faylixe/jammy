@@ -13,6 +13,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.webservice.Problem;
 
+/**
+ * 
+ * @author fv
+ */
 public abstract class AbstractProcessManager implements ILanguageManager {
 
 	/** {@inheritDoc} **/

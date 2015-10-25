@@ -9,6 +9,10 @@ import org.eclipse.core.runtime.CoreException;
 
 import review.classdesign.jammy.core.ProblemSolver;
 
+/**
+ * 
+ * @author fv
+ */
 public class ProcessSolverRunner implements ISolverRunner {
 
 	/** **/
