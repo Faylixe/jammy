@@ -1,5 +1,7 @@
 package review.classdesign.jammy.core.submission.internal;
 
+import java.io.IOException;
+
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -68,10 +70,15 @@ public final class LocalSubmission extends AbstractSubmission {
 		catch (final CoreException e) {
 			throw new SubmissionException(e.getMessage());
 		}
-		if (!EclipseUtils.isFileEquals(expected, actual)) {
-			throw new SubmissionException("", () -> {
-				CompareUI.openCompareEditor(SubmissionCompareEditorInput.create(actual, expected), true);
-			});
+		try {
+			if (!EclipseUtils.isFileEquals(expected, actual)) {
+				throw new SubmissionException("", () -> {
+					CompareUI.openCompareEditor(SubmissionCompareEditorInput.create(actual, expected), true);
+				});
+			}
+		}
+		catch (final IOException | CoreException e) {
+			throw new SubmissionException(e.getMessage());
 		}
 	}
 

@@ -14,6 +14,8 @@ import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.webservice.Problem;
 
 /**
+ * Abstract {@link ILanguageManager} implementation tat aims to run solver
+ * through {@link Process} instance.
  * 
  * @author fv
  */
@@ -49,7 +51,6 @@ public abstract class AbstractProcessManager implements ILanguageManager {
 		return file;
 	}
 
-
 	/** {@inheritDoc} **/
 	@Override
 	public ISolverRunner getRunner(final ProblemSolver solver, final IProgressMonitor monitor) {
@@ -57,21 +58,27 @@ public abstract class AbstractProcessManager implements ILanguageManager {
 	}
 
 	/**
-	 * 
-	 * @param name
-	 * @return
+	 * Returns the default template for
+	 * the given solver <tt>name</tt>.
+	 *
+	 * @param name Name of the solver to retrieve template for.
+	 * @return Generated template.
 	 */
 	protected abstract String getTemplate(String name);
 
 	/**
+	 * Returns the file extension for file that contains
+	 * solver code.
 	 * 
-	 * @return
+	 * @return Solver file extension.
 	 */
 	protected abstract String getExtension();
 
 	/**
+	 * Returns the command binary name that will be ran for
+	 * executing the solver code.
 	 * 
-	 * @return
+	 * @return Name of the command line binary.
 	 */
 	protected abstract String getCommand();
 

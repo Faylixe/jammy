@@ -47,6 +47,7 @@ public final class Template {
 	 * @return
 	 */
 	public static String getTemplate(final String path, final Class<?> loader) {
+		// TODO : Consider using file locator instead.
 		final InputStream stream = loader.getResourceAsStream(path);	
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 		return reader.lines().collect(Collectors.joining("\n"));

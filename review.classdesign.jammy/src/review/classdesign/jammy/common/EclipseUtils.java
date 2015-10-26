@@ -1,6 +1,11 @@
 package review.classdesign.jammy.common;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -9,6 +14,7 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Display;
@@ -38,6 +44,9 @@ public final class EclipseUtils {
 	/** Error message displayed when a file could not be opened. **/
 	private static final String CANNOT_OPEN_FILE = "An error occurs while opening file %s";
 
+	/** Error message displayed when an error occurs while executing a command.**/
+	private static final String COMMAND_ERROR = "An error occurs while executing the command %s";
+
 	/**
 	 * Private constructor for avoiding instantiation.
 	 */
@@ -63,24 +72,45 @@ public final class EclipseUtils {
 	 * @param execption Error caught that should be logged.
 	 */
 	public static void showError(final String message, final Exception execption) {
-		execption.printStackTrace(); // TODO : Remove for production.
+		execption.printStackTrace();
 		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message, execption);
 		StatusManager.getManager().handle(status, StatusManager.SHOW);
 	}
 
 	/**
+	 * Retrieves the content as a {@link String} of the given <tt>file</tt>
 	 * 
-	 * @param expected
-	 * @param actual
-	 * @return
+	 * @param file File to retrieve content from.
+	 * @return Content of the given file.
+	 * @throws CoreException If any error occurs while reading the file content.
+	 * @throws IOException If any error occurs while colsing file input stream.
 	 */
-	public static boolean isFileEquals(final IFile expected, final IFile actual) {
-		return false;
+	private static String getContent(final IFile file) throws CoreException, IOException {
+		try (final InputStream stream = file.getContents()) {
+			final InputStreamReader reader = new InputStreamReader(stream);
+			final BufferedReader bufferedReader = new BufferedReader(reader);
+			final String content = bufferedReader.lines().collect(Collectors.joining("\n"));
+			return content;
+		}
 	}
 
 	/**
+	 * Compares and indicates if both given files are equals or not.
 	 * 
-	 * @param commandId
+	 * @param expected File that is containing expected content.
+	 * @param actual File that is compared to the expected one.
+	 * @return <tt>true</tt> if both file have the same content, <tt>false</tt> otherwise.
+	 * @throws CoreException If any error occurs while reading file content.
+	 * @throws IOException 
+	 */
+	public static boolean isFileEquals(final IFile expected, final IFile actual) throws CoreException, IOException {
+		return getContent(expected).equals(getContent(actual));
+	}
+
+	/**
+	 * Executes the command denoted by the given <tt>commandId</tt>.
+	 * 
+	 * @param commandId Identifier of the command to execute.
 	 */
 	public static void executeCommand(final String commandId) {
 		final IServiceLocator locator = PlatformUI.getWorkbench();
@@ -90,7 +120,7 @@ public final class EclipseUtils {
 			command.executeWithChecks(new ExecutionEvent());
 		}
 		catch (final ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-			// TODO : Show error.
+			showError(String.format(COMMAND_ERROR, commandId), e);
 		}
 	}
 
@@ -107,6 +137,7 @@ public final class EclipseUtils {
 			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			final IWorkbenchPage page = window.getActivePage();
 			try {
+				// TODO : Figure out error when using unknown file format.
 				page.openEditor(new FileEditorInput(file), descriptor.getId());
 			}
 			catch (final PartInitException e) {

@@ -7,27 +7,34 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.core.ProblemSolver;
 
 /**
+ * {@link ISolverRunner} implementation used for language
+ * that are ran through a {@link Process}.
  * 
  * @author fv
  */
 public class ProcessSolverRunner implements ISolverRunner {
 
-	/** **/
+	/** Error message displayed when an error occurs while executing subprocess. **/
+	private static final String EXECUTION_ERROR = "An error occurs while running solver code";
+
+	/** Problem solver instance this runner should execute. **/
 	private final ProblemSolver solver;
 
-	/** **/
+	/** Command binary name that will be ran by this runner. **/
 	private final String command;
 
-	/** **/
+	/** Process reference that is ran by this runner. **/
 	private Process process;
 	
 	/**
+	 * Default constructor.
 	 * 
-	 * @param command
-	 * @param solver
+	 * @param command Command binary name that will be ran by this runner.
+	 * @param solver Problem solver instance this runner should execute.
 	 */
 	public ProcessSolverRunner(final String command, final ProblemSolver solver) {
 		this.command = command;
@@ -51,8 +58,7 @@ public class ProcessSolverRunner implements ISolverRunner {
 			process = builder.start();
 		}
 		catch (final IOException e) {
-			// TODO : Throw error.
-			e.printStackTrace();
+			EclipseUtils.showError(EXECUTION_ERROR, e);
 		}
 	}
 

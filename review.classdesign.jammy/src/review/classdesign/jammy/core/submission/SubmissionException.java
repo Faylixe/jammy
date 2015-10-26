@@ -10,6 +10,9 @@ public final class SubmissionException extends Exception implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	/** **/
+	private static final Runnable DEFAULT_RUNNABLE = () -> {};
+
+	/** **/
 	private final Runnable delegate;
 
 	/**
@@ -17,7 +20,17 @@ public final class SubmissionException extends Exception implements Runnable {
 	 * @param message
 	 */
 	public SubmissionException(final String message) {
-		this(message, () -> {});
+		super(message);
+		this.delegate = DEFAULT_RUNNABLE;
+	}
+
+	/**
+	 * 
+	 * @param throwable
+	 */
+	public SubmissionException(final Throwable throwable) {
+		super(throwable);
+		this.delegate = DEFAULT_RUNNABLE;
 	}
 	
 	/**
