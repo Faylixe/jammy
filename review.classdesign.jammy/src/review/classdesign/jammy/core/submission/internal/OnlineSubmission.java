@@ -8,14 +8,17 @@ import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
+ * Online submission that consists in downloading problem input,
+ * running solver, and uploading output.
  * 
  * @author fv
  */
 public final class OnlineSubmission extends AbstractSubmission {
 
 	/**
+	 * Default constructor.
 	 * 
-	 * @param solver
+	 * @param solver Target problem solver this submission will work on.
 	 */
 	public OnlineSubmission(ProblemSolver solver) {
 		super(solver);
@@ -41,9 +44,9 @@ public final class OnlineSubmission extends AbstractSubmission {
 		return null;
 	}
 
+	/** {@inheritDoc} **/
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

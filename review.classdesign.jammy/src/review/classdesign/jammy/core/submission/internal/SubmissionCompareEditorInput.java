@@ -13,26 +13,39 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Image;
 
-public class SubmissionCompareEditorInput extends CompareEditorInput {
+/**
+ * {@link CompareEditorInput} implementation for comparing
+ * problem output files.
+ * 
+ * TODO : Check for setMessage() and setAncestorLabel() content.
+ * 
+ * @author fv
+ */
+public final class SubmissionCompareEditorInput extends CompareEditorInput {
 
-	/** **/
+	/** Editor title. **/
+	private static final String TITLE = "Dataset output comparaison";
+
+	/** Label used for the left side of the compare editor. **/
 	private static final String LEFT_LABEL = "Actual";
 
-	/** **/
+	/** Label used for the right side of the compare editor. **/
 	private static final String RIGHT_LABEL = "Expected";
 
 	/**
+	 * Item wrapper class for compared file.
 	 * 
 	 * @author fv
 	 */
-	private static class Item extends BufferedContent implements ITypedElement {
+	private static final class Item extends BufferedContent implements ITypedElement {
 
-		/** **/
+		/** Target file that is wrapped by this item. **/
 		private final IFile file;
 	
 		/**
+		 * Default constructor.
 		 * 
-		 * @param file
+		 * @param file Target file that is wrapped by this item.
 		 */
 		private Item(final IFile file) {
 			this.file = file;
@@ -63,19 +76,22 @@ public class SubmissionCompareEditorInput extends CompareEditorInput {
 		
 	}
 
-	/** **/
+	/** Actual file. **/
 	private final IFile actual;
 	
-	/** **/
+	/** Expected file. **/
 	private final IFile expected;
 
 	/**
+	 * Default constructor.
 	 * 
-	 * @param configuration
+	 * @param configuration Editor configuration.
+	 * @param actual Actual file.
+	 * @param expected Expected file.
 	 */
 	private SubmissionCompareEditorInput(final CompareConfiguration configuration, final IFile actual, final IFile expected) {
 		super(configuration);
-		setTitle("Dataset output comparaison");
+		setTitle(TITLE);
 		this.actual = actual;
 		this.expected = expected;
 	}
@@ -87,10 +103,12 @@ public class SubmissionCompareEditorInput extends CompareEditorInput {
 	}
 
 	/**
+	 * Static factory method that creates a {@link SubmissionCompareEditorInput} from the given
+	 * <tt>actual</tt> and <tt>expected</tt> file.
 	 * 
-	 * @param actual
-	 * @param expected
-	 * @return
+	 * @param actual Actual file to be compared.
+	 * @param expected Expected file to be compared.
+	 * @return Created input instance.
 	 */
 	public static SubmissionCompareEditorInput create(final IFile actual, final IFile expected) {
 		final CompareConfiguration configuration = new CompareConfiguration();

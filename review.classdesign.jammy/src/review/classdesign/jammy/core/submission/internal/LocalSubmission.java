@@ -22,13 +22,13 @@ import review.classdesign.jammy.core.submission.SubmissionException;
  */
 public final class LocalSubmission extends AbstractSubmission {
 
-	/** **/
+	/** Extension used for local submission output file. **/
 	private static final String OUTPUT_EXTENSION = ".sample.out";
 
-	/** **/
+	/** Suffix used for local submission name. **/
 	private static final String SAMPLE_SUFFIX = " - sample";
 
-	/** **/
+	/** Name of this submission.**/
 	private final String name;
 
 	/**
@@ -66,12 +66,8 @@ public final class LocalSubmission extends AbstractSubmission {
 		try {
 			expected.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			actual.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		}
-		catch (final CoreException e) {
-			throw new SubmissionException(e.getMessage());
-		}
-		try {
 			if (!EclipseUtils.isFileEquals(expected, actual)) {
+				// TODO : Add error message.
 				throw new SubmissionException("", () -> {
 					CompareUI.openCompareEditor(SubmissionCompareEditorInput.create(actual, expected), true);
 				});
@@ -86,14 +82,15 @@ public final class LocalSubmission extends AbstractSubmission {
 	@Override
 	public IFile getOutput() {
 		final IProject project = getSolver().getProject();
+		// TODO : Consider adding getFolder(IProject, String) method to EclipseUtils
 		final IFolder folder = project.getFolder(OUTPUT_PATH);
 		if (!folder.exists()) {
 			try {
 				folder.create(true, true, null);
 			}
 			catch (final CoreException e) {
-				e.printStackTrace();
-				EclipseUtils.showError(e.getMessage(), e); // TODO : Customize error message.
+				// TODO : Customize error message.
+				EclipseUtils.showError(e.getMessage(), e);
 			}
 		}
 		final StringBuilder builder = new StringBuilder();

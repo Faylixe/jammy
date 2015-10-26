@@ -4,17 +4,21 @@ import review.classdesign.jammy.core.submission.ISubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
+ * Listener that is used for notifying
+ * submission state change.
  * 
  * @author fv
  */
 public interface ISubmissionListener {
 
 	/**
+	 * Notify this listener that the given <tt>submission</tt> has thrown
+	 * the given <tt>error</tt>.
 	 * 
-	 * @param submission
-	 * @param e
+	 * @param submission Submission that has been throwing an error.
+	 * @param error Error caught.
 	 */
-	void errorCaught(ISubmission submission, SubmissionException e);
+	void errorCaught(ISubmission submission, SubmissionException error);
 
 	/**
 	 * Notify this listener that the given <tt>submission</tt>

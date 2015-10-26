@@ -85,7 +85,6 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 				JammyPreferences.HOSTNAME_PROPERTY,
 				HOSTNAME_LABEL,
 				getFieldEditorParent());
-		// WHY NULL HERE ?
 		hostname.setPropertyChangeListener(this::hostnameChanged);
 		addField(hostname);
 	}

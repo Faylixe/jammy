@@ -15,6 +15,8 @@ import review.classdesign.jammy.core.submission.SubmissionException;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**
+ * Abstract {@link ISubmission} implementation that language extension
+ * should extends.
  * 
  * @author fv
  */
@@ -23,7 +25,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	/** Job name used for {@link LaunchMonitorJob} instances. **/
 	private static final String JOB_NAME = "Solver execution listener";
 
-	/** **/
+	/** Path of the output file for a given project. **/
 	protected static final String OUTPUT_PATH = "output";
 
 	/**
@@ -70,7 +72,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	/** Target problem solver this submission will work on. **/
 	private final ProblemSolver solver;
 
-	/** **/
+	/** {@link ISubmissionService} instance used by this submission. **/
 	private final ISubmissionService service;
 
 	/**
@@ -94,10 +96,14 @@ public abstract class AbstractSubmission implements ISubmission {
 	}
 
 	/**
+	 * Creates and runs a contextual {@link ISolverRunner} with
+	 * the given <tt>arguments</tt>. Since solver should be ran
+	 * asynchronously, a monitoring job is started to check
+	 * execution life cycle.
 	 * 
-	 * @param arguments
-	 * @param monitor
-	 * @throws CoreException 
+	 * @param arguments Arguments to submit to the runner.
+	 * @param monitor Monitor instance used for the solver execution.
+	 * @throws CoreException If any error occurs while running solver instance.
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
 		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager();
@@ -108,8 +114,9 @@ public abstract class AbstractSubmission implements ISubmission {
 	}
 
 	/**
+	 * Getter for the {@link ISubmissionService} instance used by this submission.
 	 * 
-	 * @return
+	 * @return Service instance to use.
 	 */
 	protected final ISubmissionService getService() {
 		return service;

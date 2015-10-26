@@ -20,13 +20,13 @@ public final class JammyPreferences {
 	/** Preference key for the target host name.  **/
 	public static final String HOSTNAME_PROPERTY = "review.classdesign.jammy.hostname";
 
-	/** **/
+	/** Preference key for the target language. **/
 	public static final String LANGUAGE_PROPERTY = "review.classdesign.jammy.language";
 
 	/** Default host name value to use. **/
 	private static final String DEFAULT_HOST = "https://code.google.com";
 
-	/** **/
+	/** Default language value to use. **/
 	private static final String DEFAULT_LANGUAGE = "Java";
 
 	/** Error message displayed when an error occurs while saving preferences. **/
@@ -65,8 +65,9 @@ public final class JammyPreferences {
 	}
 
 	/**
+	 * Getter for the language property of the preferences.
 	 * 
-	 * @return
+	 * @return The language property of the preferences.
 	 */
 	public static String getCurrentLanguage() {
 		final IPreferenceStore store = Jammy.getDefault().getPreferenceStore();
