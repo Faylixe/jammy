@@ -7,8 +7,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.core.ProblemSolver;
-import review.classdesign.jammy.core.webservice.ContestInfo;
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.contest.ContestInfo;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 
 /**
  * 

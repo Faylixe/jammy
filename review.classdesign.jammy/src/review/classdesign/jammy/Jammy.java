@@ -20,12 +20,14 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.addons.ILanguageManager;
+import review.classdesign.jammy.common.RequestUtils;
 import review.classdesign.jammy.common.SerializationUtils;
 import review.classdesign.jammy.core.Round;
 import review.classdesign.jammy.core.listener.IContestSelectionListener;
 import review.classdesign.jammy.core.listener.IProblemSelectionListener;
-import review.classdesign.jammy.core.webservice.ContestInfo;
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.InitialValues;
+import review.classdesign.jammy.core.webservice.contest.ContestInfo;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -133,9 +135,12 @@ public class Jammy extends AbstractUIPlugin {
 	public void setCurrentRound(final Round round) {
 		try {
 			currentContest = ContestInfo.get(round);
+			InitialValues.get(round);
+			System.out.println("======================");
+			System.out.println(RequestUtils.get("https://accounts.google.com/ServiceLogin?service=ah"));
 		}
 		catch (final IOException e) {
-			// TODO : Log error.
+			e.printStackTrace();
 		}
 		fireContestSelectionChanged();
 	}

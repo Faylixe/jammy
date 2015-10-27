@@ -25,8 +25,8 @@ import review.classdesign.jammy.command.OpenSolverCommand;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.core.listener.IContestSelectionListener;
-import review.classdesign.jammy.core.webservice.ContestInfo;
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.contest.ContestInfo;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 

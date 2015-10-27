@@ -11,8 +11,8 @@ import review.classdesign.jammy.addons.java.internal.JavaProjectBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverRunner;
 import review.classdesign.jammy.core.ProblemSolver;
-import review.classdesign.jammy.core.webservice.ContestInfo;
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.contest.ContestInfo;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 
 /**
  * {@link ILanguageManager} implementation for Java language,

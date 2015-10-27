@@ -12,7 +12,7 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.core.listener.IProblemSelectionListener;
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 import review.classdesign.jammy.ui.command.ContestSelectionCommand;
 
 /**

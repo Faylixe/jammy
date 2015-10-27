@@ -1,6 +1,6 @@
 package review.classdesign.jammy.core.listener;
 
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 
 /**
  * Listener that is used for notifying

@@ -46,7 +46,7 @@ public final class GoogleLogger implements IGoogleLogger {
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
 	/** Scopes of the created session. **/
-	private static final Collection<String> SCOPES = Collections.singleton("https://www.googleapis.com/auth/plus.me");
+	private static final Collection<String> SCOPES = Collections.singleton("https://www.googleapis.com/auth/youtube");
 
 	/** Error message displayed when an error occurs while stoping server. **/
 	private static final String SERVER_STOP_ERROR_MESSAGE = "An unexpected error occurs while stopping server.";

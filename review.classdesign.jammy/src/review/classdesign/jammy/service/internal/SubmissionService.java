@@ -6,6 +6,7 @@ import java.util.Collection;
 import review.classdesign.jammy.core.listener.ISubmissionListener;
 import review.classdesign.jammy.core.submission.ISubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;
+import review.classdesign.jammy.core.webservice.contest.ProblemInput;
 import review.classdesign.jammy.service.ISubmissionService;
 
 /**
@@ -66,6 +67,12 @@ public final class SubmissionService implements ISubmissionService {
 	@Override
 	public void fireErrorCaught(final ISubmission submission, final SubmissionException exception) {
 		listeners.forEach(listener -> listener.errorCaught(submission, exception));
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void downloadInput(final ProblemInput input) {
+		
 	}
 
 }

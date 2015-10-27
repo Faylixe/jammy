@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.webservice;
+package review.classdesign.jammy.core.webservice.contest;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;

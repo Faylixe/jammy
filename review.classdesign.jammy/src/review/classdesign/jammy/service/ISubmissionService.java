@@ -6,6 +6,7 @@ import org.eclipse.ui.services.IServiceLocator;
 import review.classdesign.jammy.core.listener.ISubmissionListener;
 import review.classdesign.jammy.core.submission.ISubmission;
 import review.classdesign.jammy.core.submission.SubmissionException;
+import review.classdesign.jammy.core.webservice.contest.ProblemInput;
 
 /**
  * TODO : Service javadoc.
@@ -56,6 +57,12 @@ public interface ISubmissionService {
 	 * @param exception
 	 */
 	void fireErrorCaught(ISubmission submission, SubmissionException exception);
+
+	/** 
+	 * 
+	 * @param input
+	 */
+	void downloadInput(final ProblemInput input);
 
 	/**
 	 * 

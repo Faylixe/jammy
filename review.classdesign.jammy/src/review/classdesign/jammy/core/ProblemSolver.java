@@ -14,7 +14,7 @@ import review.classdesign.jammy.Jammy;
 import review.classdesign.jammy.addons.ILanguageManager;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.core.builder.DatasetBuilder;
-import review.classdesign.jammy.core.webservice.Problem;
+import review.classdesign.jammy.core.webservice.contest.Problem;
 
 /**
  * TODO : Javadoc.
