@@ -16,7 +16,7 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.LibraryLocation;
 
-import review.classdesign.jammy.core.builder.ProjectContributor;
+import review.classdesign.jammy.common.EclipseUtils;
 
 /**
  * A {@link JavaProjectBuilder} provides tools for creating
@@ -25,13 +25,19 @@ import review.classdesign.jammy.core.builder.ProjectContributor;
  * 
  * @author fv
  */
-public final class JavaProjectBuilder extends ProjectContributor {
+public final class JavaProjectBuilder {
 
 	/** Path to use as source folder. **/
 	public static final String SOURCE_PATH = "src";
 
 	/** Path to use as binary folder. **/
 	private static final String BINARY_PATH = "bin";
+
+	/** Target project contribution is made for. **/
+	private final IProject project;
+
+	/** Monitor instance used for project creation. **/
+	private final IProgressMonitor monitor;
 
 	/**
 	 * Default constructor.
@@ -40,7 +46,8 @@ public final class JavaProjectBuilder extends ProjectContributor {
 	 * @param monitor Monitor instance used for project creation.
 	 */
 	private JavaProjectBuilder(final IProject project, final IProgressMonitor monitor) {
-		super(project, monitor);
+		this.project = project;
+		this.monitor = monitor;
 	}
 
 	/**
@@ -49,9 +56,9 @@ public final class JavaProjectBuilder extends ProjectContributor {
 	 * @throws CoreException If any error occurs while setting project nature.
 	 */
 	private void setNature() throws CoreException {
-		final IProjectDescription description = getProject().getDescription();
+		final IProjectDescription description = project.getDescription();
 		description.setNatureIds(new String[] { JavaCore.NATURE_ID });
-		getProject().setDescription(description, getMonitor());
+		project.setDescription(description, monitor);
 	}
 	
 	/**
@@ -79,12 +86,12 @@ public final class JavaProjectBuilder extends ProjectContributor {
 	 * @throws CoreException If any error occurs while creating or configuring project.
 	 */
 	private void build() throws CoreException {
-		final IFolder sourceFolder = createFolder(SOURCE_PATH);
-		final IFolder binaryFolder = createFolder(BINARY_PATH);
-		final IJavaProject javaProject = JavaCore.create(getProject());
+		final IFolder sourceFolder = EclipseUtils.getFolder(project, SOURCE_PATH, monitor);
+		final IFolder binaryFolder = EclipseUtils.getFolder(project, BINARY_PATH, monitor);
+		final IJavaProject javaProject = JavaCore.create(project);
 		final IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(sourceFolder);
-		javaProject.setOutputLocation(binaryFolder.getFullPath(), getMonitor());
-		javaProject.setRawClasspath(createClasspath(root.getPath()), getMonitor());
+		javaProject.setOutputLocation(binaryFolder.getFullPath(), monitor);
+		javaProject.setRawClasspath(createClasspath(root.getPath()), monitor);
 	}
 	
 	/** Task name for the Java project creation. **/

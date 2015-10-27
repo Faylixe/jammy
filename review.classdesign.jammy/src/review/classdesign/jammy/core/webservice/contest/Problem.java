@@ -62,8 +62,6 @@ public final class Problem extends NamedObject {
 	 * Normalizes the given HTML <tt>body</tt> text, by replacing
 	 * images URI by absolute URI using preference hostname.
 	 * 
-	 * TODO : Move this to Problem class.
-	 * 
 	 * @param body HTML body to normalize.
 	 * @return Normalized HTML content.
 	 */

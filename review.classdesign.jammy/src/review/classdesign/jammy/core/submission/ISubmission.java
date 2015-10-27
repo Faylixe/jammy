@@ -41,8 +41,9 @@ public interface ISubmission {
 	 * Such file contains the console content from our solver execution.
 	 * 
 	 * @return File that contains our submission output content.
+	 * @throws CoreException If any error occurs while retrieving output file.
 	 */
-	IFile getOutput();
+	IFile getOutput() throws CoreException;
 
 	/**
 	 * Getter for this submission name.

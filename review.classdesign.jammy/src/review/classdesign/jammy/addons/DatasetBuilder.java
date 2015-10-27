@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.builder;
+package review.classdesign.jammy.addons;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.HTMLConstant;
 import review.classdesign.jammy.core.ProblemSampleDataset;
 import review.classdesign.jammy.core.webservice.contest.Problem;
@@ -26,7 +27,7 @@ import review.classdesign.jammy.core.webservice.contest.Problem;
  * 
  * @author fv
  */
-public final class DatasetBuilder extends ProjectContributor {
+public final class DatasetBuilder {
 
 	/** Path of the input folder in which dataset will be written. **/
 	private static final String INPUT_PATH = "input";
@@ -43,6 +44,12 @@ public final class DatasetBuilder extends ProjectContributor {
 	/** Error status thrown when problem dataset could not be found. **/
 	private static final IStatus IO_NOT_FOUND = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, "Problem dataset not found");
 
+	/** Target project contribution is made for. **/
+	private final IProject project;
+
+	/** Monitor instance used for project creation. **/
+	private final IProgressMonitor monitor;
+
 	/** Problem instance dataset is built from. **/
 	private final Problem problem;
 
@@ -57,7 +64,8 @@ public final class DatasetBuilder extends ProjectContributor {
 	 * @param monitor Monitor instance used for project creation.
 	 */
 	public DatasetBuilder(final Problem problem, final IProject project, final IProgressMonitor monitor) {
-		super(project, monitor);
+		this.project = project;
+		this.monitor = monitor;
 		this.problem = problem;
 	}
 
@@ -71,7 +79,7 @@ public final class DatasetBuilder extends ProjectContributor {
 	 */
 	private void createFile(final IFile file, final String content) throws CoreException {
 		final InputStream stream = new ByteArrayInputStream(content.getBytes());
-		file.create(stream, true, getMonitor());
+		file.create(stream, true, monitor);
 	}
 
 	/**
@@ -115,7 +123,7 @@ public final class DatasetBuilder extends ProjectContributor {
 	 * @throws CoreException If any error occurs while creating dataset files.
 	 */
 	public ProblemSampleDataset build() throws CoreException {
-		folder = createFolder(INPUT_PATH);
+		folder = EclipseUtils.getFolder(project, INPUT_PATH);
 		final IFile input = getFile(DATASET_INPUT_SUFFIX);
 		final IFile output = getFile(DATASET_OUTPUT_SUFFIX);
 		if (!input.exists() || !output.exists()) {

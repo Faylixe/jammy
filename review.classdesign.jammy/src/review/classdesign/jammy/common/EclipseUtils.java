@@ -14,12 +14,14 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
@@ -28,6 +30,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.statushandlers.StatusManager;
 
@@ -46,6 +49,9 @@ public final class EclipseUtils {
 
 	/** Error message displayed when an error occurs while executing a command.**/
 	private static final String COMMAND_ERROR = "An error occurs while executing the command %s";
+
+	/** {@link NullProgressMonitor} instance shared in order to avoid instance duplication. **/
+	public static final IProgressMonitor NULL_MONITOR = new NullProgressMonitor();
 
 	/**
 	 * Private constructor for avoiding instantiation.
@@ -108,6 +114,40 @@ public final class EclipseUtils {
 	}
 
 	/**
+	 * Retrieves folder denoted by the given <tt>path</tt> from
+	 * the given <tt>project</tt>. If the folder does not exist,
+	 * it will be created using a default {@link NullProgressMonitor}
+	 * before to be returned.
+	 * 
+	 * @param project Project to retrieve folder from.
+	 * @param path Project relative path of the folder to retrieve.
+	 * @return Retrieved folder.
+	 * @throws CoreException If any error occurs while creating folder when required.
+	 */
+	public static IFolder getFolder(final IProject project, final String path) throws CoreException {
+		return getFolder(project, path, NULL_MONITOR);
+	}
+	
+	/**
+	 * Retrieves folder denoted by the given <tt>path</tt> from
+	 * the given <tt>project</tt>. If the folder does not exist,
+	 * it will be created before to be returned.
+	 * 
+	 * @param project Project to retrieve folder from.
+	 * @param path Project relative path of the folder to retrieve.
+	 * @param monitor Monitor instance to use when creating folder.
+	 * @return Retrieved folder.
+	 * @throws CoreException If any error occurs while creating folder when required.
+	 */
+	public static IFolder getFolder(final IProject project, final String path, final IProgressMonitor monitor) throws CoreException {
+		final IFolder folder = project.getFolder(path);
+		if (!folder.exists()) {
+			folder.create(false, true, monitor);
+		}
+		return folder;
+	}
+
+	/**
 	 * Executes the command denoted by the given <tt>commandId</tt>.
 	 * 
 	 * @param commandId Identifier of the command to execute.
@@ -133,12 +173,10 @@ public final class EclipseUtils {
 	public static void openFile(final IFile file) {
 		Display.getDefault().asyncExec(() -> {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
-			final IEditorDescriptor descriptor = workbench.getEditorRegistry().getDefaultEditor(file.getName());
 			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			final IWorkbenchPage page = window.getActivePage();
 			try {
-				// TODO : Figure out error when using unknown file format.
-				page.openEditor(new FileEditorInput(file), descriptor.getId());
+				IDE.openEditor(page, file);
 			}
 			catch (final PartInitException e) {
 				showError(String.format(CANNOT_OPEN_FILE, file.getName()), e);

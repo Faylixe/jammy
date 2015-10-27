@@ -62,8 +62,8 @@ public final class LocalSubmission extends AbstractSubmission {
 	@Override
 	public void submit(final IProgressMonitor monitor) throws SubmissionException {
 		final IFile expected = getSolver().getSampleDataset().getOutput();
-		final IFile actual = getOutput();
 		try {
+			final IFile actual = getOutput();
 			expected.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			actual.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			if (!EclipseUtils.isFileEquals(expected, actual)) {
@@ -80,19 +80,9 @@ public final class LocalSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public IFile getOutput() {
+	public IFile getOutput() throws CoreException {
 		final IProject project = getSolver().getProject();
-		// TODO : Consider adding getFolder(IProject, String) method to EclipseUtils
-		final IFolder folder = project.getFolder(OUTPUT_PATH);
-		if (!folder.exists()) {
-			try {
-				folder.create(true, true, null);
-			}
-			catch (final CoreException e) {
-				// TODO : Customize error message.
-				EclipseUtils.showError(e.getMessage(), e);
-			}
-		}
+		final IFolder folder = EclipseUtils.getFolder(project, OUTPUT_PATH);
 		final StringBuilder builder = new StringBuilder();
 		builder.append(getSolver().getName().toLowerCase());
 		builder.append(OUTPUT_EXTENSION);

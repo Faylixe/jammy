@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.addons.java.JavaAddonPlugin;
-import review.classdesign.jammy.core.builder.ProjectContributor;
 
 /**
  * A {@link JavaSolverBuilder} allows to create solver class
@@ -17,10 +16,16 @@ import review.classdesign.jammy.core.builder.ProjectContributor;
  * 
  * @author fv
  */
-public final class JavaSolverBuilder extends ProjectContributor {
+public final class JavaSolverBuilder {
 
 	/** File extension used for created Java solver. **/
 	public static final String SOLVER_EXTENSION = ".java";
+
+	/** Target project contribution is made for. **/
+	private final IProject project;
+
+	/** Monitor instance used for project creation. **/
+	private final IProgressMonitor monitor;
 
 	/**
 	 * Default constructor.
@@ -29,7 +34,8 @@ public final class JavaSolverBuilder extends ProjectContributor {
 	 * @param monitor Monitor instance used for project creation.
 	 */
 	public JavaSolverBuilder(final IProject project, final IProgressMonitor monitor) {
-		super(project, monitor);
+		this.project = project;
+		this.monitor = monitor;
 	}
 
 	/**
@@ -46,7 +52,7 @@ public final class JavaSolverBuilder extends ProjectContributor {
 		builder.append("/");
 		builder.append(name);
 		builder.append(SOLVER_EXTENSION);
-		return getProject().getFile(builder.toString());
+		return project.getFile(builder.toString());
 	}
 
 	/**
@@ -75,7 +81,7 @@ public final class JavaSolverBuilder extends ProjectContributor {
 		if (!file.exists()) {
 			final String template = getSolverTemplate(name);
 			final InputStream stream = new ByteArrayInputStream(template.getBytes());
-			file.create(stream, true, getMonitor());
+			file.create(stream, true, monitor);
 		}
 		return file;
 	}	

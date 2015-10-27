@@ -21,7 +21,7 @@ import review.classdesign.jammy.service.IGoogleSessionService;
  */
 public final class RequestUtils {
 
-	/** **/
+	/** Error message thrown when google session has not be configured first. **/
 	private static final String SESSION_NOT_LOGGED = "Google sesson has not be logged in.";
 
 	/**
@@ -45,11 +45,6 @@ public final class RequestUtils {
 		}
 		final HttpRequest request = factory.get().buildGetRequest(new GenericUrl(url));
 		final HttpResponse response = request.execute();
-		System.out.println("--------------------");
-		System.out.println("Request : " + request.getHeaders().toString());
-		System.out.println("Response headers : " + response.getHeaders().toString());
-		System.out.println("Response code : " + response.getStatusCode());
-		System.out.println("Response message : " + response.getStatusMessage());
 		return response.parseAsString();
 	}
 
