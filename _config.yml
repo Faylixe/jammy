@@ -1,11 +1,11 @@
 # Site settings
 title: Jammy
 email: noadresse@youfool.com
-description: > # this means to ignore newlines until "baseurl:"
+description: >
   Please note that this plugin is not provided by Google. Any responsability
   is declined if a bug occurs when you are using it in a real contest condition.
-baseurl: "/review.classdesign.jammy" # the subpath of your site, e.g. /blog/
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+baseurl: "" # Before commit switch to /review.classdesign.jammy
+url: "" # TODO : Update url.
 twitter_username: Faylixe
 github_username:  Faylixe
 

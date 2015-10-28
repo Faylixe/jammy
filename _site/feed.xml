@@ -4,10 +4,10 @@
     <title>Jammy</title>
     <description>Please note that this plugin is not provided by Google. Any responsability is declined if a bug occurs when you are using it in a real contest condition.
 </description>
-    <link>http://yourdomain.com/review.classdesign.jammy/</link>
-    <atom:link href="http://yourdomain.com/review.classdesign.jammy/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 26 Oct 2015 12:44:10 +0100</pubDate>
-    <lastBuildDate>Mon, 26 Oct 2015 12:44:10 +0100</lastBuildDate>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 28 Oct 2015 16:31:40 +0100</pubDate>
+    <lastBuildDate>Wed, 28 Oct 2015 16:31:40 +0100</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
   </channel>
