@@ -11,6 +11,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import review.classdesign.jammy.ui.view.SubmissionView;
+
 /**
  * The activator class controls the plug-in life cycle
  * 
@@ -21,25 +23,25 @@ public final class JammyUI extends AbstractUIPlugin {
 	/** Plugin identifier. **/
 	public static final String PLUGIN_ID = "review.classdesign.jammy.ui"; //$NON-NLS-1$
 
-	/** **/
+	/** Constant value used for identifying {@link SubmissionView} suite icon. **/
 	public static final String IMG_SUBMISSION_SUITE = "suite";
 
-	/** **/
+	/** Constant value used for identifying {@link SubmissionView} test icon. **/
 	public static final String IMG_SUBMISSION_TEST = "test";
 
-	/** **/
+	/** Constant value used for identifying {@link SubmissionView} run icon. **/
 	public static final String IMG_SUBMISSION_RUN = "run";
 
-	/** **/
+	/** Constant value used for identifying {@link SubmissionView} fail icon. **/
 	public static final String IMG_SUBMISSION_FAIL = "fail";
 
-	/** **/
+	/** Constant value used for identifying {@link SubmissionView} success icon. **/
 	public static final String IMG_SUBMISSION_SUCCESS = "success";
 
-	/** **/
+	/** Path of the bundle relative folder which contains {@link SubmissionView} icons. **/
 	private static final IPath ICONS_PATH = new Path("/resources/icons/tests/");
 
-	/** **/
+	/** Extension used for plugin icon. **/
 	private static final String ICON_EXTENSION = ".gif";
 
 	/** Unique plugin instance. **/
@@ -76,9 +78,10 @@ public final class JammyUI extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Retrieves and returns image denoted by the given <tt>name</tt>.
 	 * 
-	 * @param symbolicName
-	 * @return
+	 * @param name Name of the required image.
+	 * @return Retrieves image if exist, <tt>null</tt> otherwise.
 	 */
 	public static Image getImage(final String name) {
 		return getDefault().getImageRegistry().get(name);
