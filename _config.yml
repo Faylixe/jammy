@@ -2,8 +2,8 @@
 title: Jammy
 email: noadresse@youfool.com
 description: >
-  Please note that this plugin is not provided by Google. Any responsability
-  is declined if a bug occurs when you are using it in a real contest condition.
+  Dedicated site for Jammy plugin which is a set of Eclipse plugin which
+  integrates Google code jam contest services.
 baseurl: "" # Before commit switch to /review.classdesign.jammy
 url: "" # TODO : Update url.
 twitter_username: Faylixe
