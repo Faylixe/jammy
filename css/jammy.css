@@ -3,6 +3,7 @@
 nav.jammy {
   min-height: 50px;
   background-color: #2c2d55;
+  padding-bottom: 5px;
 }
 
 nav.jammy ul {
