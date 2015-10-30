@@ -3,7 +3,6 @@ package review.classdesign.jammy.command;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
 import review.classdesign.jammy.core.ProblemSolver;
@@ -17,7 +16,7 @@ import review.classdesign.jammy.core.submission.internal.LocalSubmission;
  * 
  * @author fv
  */
-public final class RunSampleDatasetCommand extends AbstractProgressiveSolverCommand implements ISchedulingRule {
+public final class RunSampleDatasetCommand extends AbstractProgressiveSolverCommand {
 
 	/** Task name for the file opening. **/
 	private static final String RUN_SAMPLE_TASK = "Running sample dataset";
@@ -37,7 +36,7 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 			}
 			return Status.OK_STATUS;
 		});
-		job.setRule(this);
+		//job.setRule(this);
 		job.schedule();
 	}
 
@@ -45,18 +44,6 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 	@Override
 	protected String getTaskName() {
 		return RUN_SAMPLE_TASK;
-	}
-
-	/** **/
-	@Override
-	public boolean contains(final ISchedulingRule rule) {
-		return false;
-	}
-
-	/** **/
-	@Override
-	public boolean isConflicting(final ISchedulingRule rule) {
-		return false;
 	}
 
 }

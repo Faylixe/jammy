@@ -6,8 +6,16 @@
       <command
             categoryId="review.classdesign.jammy.commands.category"
             defaultHandler="review.classdesign.jammy.ui.command.ContestSelectionCommand"
+            description="Start the contest selection wizard"
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
+      </command>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.ui.command.RefreshProblemCommand"
+            description="Reload the currently selected problem data"
+            id="review.classdesign.jammy.command.refreshproblem"
+            name="Refresh problem">
       </command>
      </extension>
     <extension
@@ -59,8 +67,49 @@
           point="org.eclipse.ui.perspectives">
        <perspective
              class="review.classdesign.jammy.ui.JammyPerspectiveFactory"
+             icon="resources/icons/jammy.png"
              id="review.classdesign.jammy.perspective"
              name="Jammy">
        </perspective>
     </extension>
+    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Jammy">
+            <command
+                  commandId="review.classdesign.jammy.command.contestselection"
+                  id="review.classdesign.jammy.contribution.select.contest"
+                  label="Select contest"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:review.classdesign.jammy.menu.contest?after=contest.contribution">
+         <command
+               commandId="review.classdesign.jammy.command.opensolver"
+               label="Open problem solver"
+               style="push">
+         </command>
+         <command
+               commandId="review.classdesign.jammy.command.runtest"
+               label="Run sample dataset"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:review.classdesign.jammy.view.problem?after=problem.contribution">
+         <command
+               commandId="review.classdesign.jammy.command.refreshproblem"
+               icon="IMG_ELCL_SYNCED"
+               label="Refresh problem"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>

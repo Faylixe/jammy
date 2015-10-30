@@ -2,11 +2,14 @@ package review.classdesign.jammy.ui.view;
 
 import java.util.Optional;
 
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
 import review.classdesign.jammy.Jammy;
@@ -19,7 +22,6 @@ import review.classdesign.jammy.ui.command.ContestSelectionCommand;
  * Jammy problem view that only consists in a web browser
  * that display a {@link Problem} instance body content.
  * 
- * TODO : Add menu bar with a reloading button.
  * @author fv
  */
 public final class ProblemView extends ViewPart implements IProblemSelectionListener, LocationListener {
@@ -32,6 +34,9 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 
 	/** View ID.**/
 	public static final String ID = "review.classdesign.jammy.view.problem";
+
+	/** Menu contribution identifier. **/
+	public static final String MENU_CONTRIBUTION = "problem.contribution";
 
 	/**
 	 * Optional reference to the internal browser displayed.
@@ -54,8 +59,11 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 		else {
 			browser.setText(CONTEST_NOT_SELECTED_CONTENT);
 		}
+		final IActionBars bars = getViewSite().getActionBars();
+		final IToolBarManager manager = bars.getToolBarManager();
+		manager.add(new GroupMarker(MENU_CONTRIBUTION));
 	}
-	
+
 	/** {@inheritDoc} **/
 	@Override
 	public void dispose() {

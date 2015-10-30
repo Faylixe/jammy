@@ -44,36 +44,5 @@
             name="Run sample dataset">
       </command>
    </extension>
-     <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="Jammy">
-            <command
-                  commandId="review.classdesign.jammy.command.contestselection"
-                  id="review.classdesign.jammy.contribution.select.contest"
-                  label="Select contest"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:review.classdesign.jammy.menu.contest?after=contest.contribution">
-         <command
-               commandId="review.classdesign.jammy.command.opensolver"
-               label="Open problem solver"
-               style="push">
-         </command>
-         <command
-               commandId="review.classdesign.jammy.command.runtest"
-               label="Run sample dataset"
-               style="push">
-         </command>
-      </menuContribution>
-   </extension>
-   
 
 </plugin>
