@@ -4,8 +4,28 @@ title:  "Home"
 ---
 
 <div class="container padded centered">
+  <div id="preview" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#preview" data-slide-to="0"></li>
+      <li data-target="#preview" data-slide-to="1"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="images/preview-first.png" alt="Write solution quickly"/>
+      </div>
+      <div class="item">
+        <img src="images/preview-second.png" alt="Easy debugging"/>
+      </div>
+    </div>
+    <a class="carousel-control left" href="#preview" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="carousel-control right" href="#preview" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
     <!-- TODO Consider adding a carousel. -->
-    <img src="images/jammy.preview.png" class="preview center img-responsive" alt="Eclipse with Jammy"/>
+    <img src="images/preview-first.png" class="preview center img-responsive" alt="Eclipse with Jammy"/>
 </div>
 
 <div class="blued">
