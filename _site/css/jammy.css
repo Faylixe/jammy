@@ -13,7 +13,6 @@ nav.jammy li {
   display: inline-block;
   margin-top: 19px;
   padding-right: 20px;
-
 }
 
 nav.jammy a {
@@ -46,11 +45,13 @@ footer ul {
 
 footer li a {
   color: white;
+  font-weight: bold;
+  font-family: Lucida Console, Lucida Sans Typewriter, monaco, Bitstream Vera Sans Mono, monospace
   text-decoration: none;
 }
 
 footer li a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /** Content section **/
@@ -73,8 +74,6 @@ footer li a:hover {
 .medium {
   font-weight: bold;
   font-size: 16px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 .small {
@@ -89,7 +88,7 @@ footer li a:hover {
 }
 
 .feature {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .centered {
