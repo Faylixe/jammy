@@ -1,13 +1,8 @@
 package review.classdesign.jammy.ui.command;
 
-import java.util.Optional;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-
-import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.core.webservice.contest.Problem;
 
 /**
  * 
@@ -21,8 +16,7 @@ public final class RefreshProblemCommand extends AbstractHandler {
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		final Optional<Problem> problem = Jammy.getDefault().getCurrentProblem();
-		// TODO : Recreates ContestInfo.
+		// TODO : Reload contest info ?
 		return null;
 	}
 
