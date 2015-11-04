@@ -84,6 +84,16 @@ public final class EclipseUtils {
 	}
 
 	/**
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public static CoreException createException(final String message) {
+		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message);
+		return new CoreException(status);
+	}
+
+	/**
 	 * Retrieves the content as a {@link String} of the given <tt>file</tt>
 	 * 
 	 * @param file File to retrieve content from.

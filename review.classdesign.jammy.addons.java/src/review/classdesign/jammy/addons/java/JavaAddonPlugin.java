@@ -16,7 +16,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "review.classdesign.jammy.addons.java"; //$NON-NLS-1$
 
 	/** Template to use for Java solver class file. **/
-	public static final String SOLVER_TEMPLATE = Template.getTemplate("/templates/solution.template.java", JavaAddonPlugin.class);
+	private String template;
 
 	/** Unique plugin instance. **/
 	private static JavaAddonPlugin plugin;
@@ -25,12 +25,23 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 	public JavaAddonPlugin() {
 		// Do nothing.
 	}
+	
+	/**
+	 * Getter for the solver template.
+	 * 
+	 * @return Solver template as {@link String}.
+	 * @see #template
+	 */
+	public String getSolverTemplate() {
+		return template;
+	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		template = Template.getTemplate("/templates/solution.template.java", JavaAddonPlugin.getDefault().getBundle());
 	}
 
 	/** {@inheritDoc} **/

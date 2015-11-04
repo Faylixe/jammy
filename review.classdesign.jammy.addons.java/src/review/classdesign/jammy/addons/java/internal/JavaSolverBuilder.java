@@ -1,3 +1,4 @@
+
 package review.classdesign.jammy.addons.java.internal;
 
 import java.io.ByteArrayInputStream;
@@ -66,7 +67,7 @@ public final class JavaSolverBuilder {
 		for (int i = 0; i < 4; i++) {
 			solvers[i] = name;
 		}
-		return String.format(JavaAddonPlugin.SOLVER_TEMPLATE, solvers);	
+		return String.format(JavaAddonPlugin.getDefault().getSolverTemplate(), solvers);	
 	}
 
 	/**

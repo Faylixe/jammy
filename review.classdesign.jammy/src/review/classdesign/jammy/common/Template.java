@@ -1,9 +1,15 @@
 package review.classdesign.jammy.common;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.stream.Collectors;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.osgi.framework.Bundle;
 
 import review.classdesign.jammy.Jammy;
 
@@ -43,12 +49,13 @@ public final class Template {
 	 * using the given <tt>loader</tt> for retrieving the file stream.
 	 * 
 	 * @param path Path to retrieve template file from.
-	 * @param loader Class instance used to retrieve template file stream from.
-	 * @return
+	 * @param bundle Bundle the path is relative to.
+	 * @return Content read from the required template file.
+	 * @throws IOException If any error occurs while reading template content.
 	 */
-	public static String getTemplate(final String path, final Class<?> loader) {
-		// TODO : Consider using file locator instead.
-		final InputStream stream = loader.getResourceAsStream(path);	
+	public static String getTemplate(final String path, final Bundle bundle) throws IOException {
+		final URL url = FileLocator.find(bundle, new Path(path), null);
+		final InputStream stream = url.openStream();	
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 		return reader.lines().collect(Collectors.joining("\n"));
 	}
@@ -57,9 +64,10 @@ public final class Template {
 	 * Getter for the HTML template content.
 	 * 
 	 * @return HTML page template.
+	 * @throws IOException If any error occurs while reading template content.
 	 */
-	public static String getHTMLTemplate() {
-		return getTemplate(HTML_TEMPLATE_PATH, Jammy.class);
+	public static String getHTMLTemplate() throws IOException {
+		return getTemplate(HTML_TEMPLATE_PATH, Jammy.getDefault().getBundle());
 	}
 
 }

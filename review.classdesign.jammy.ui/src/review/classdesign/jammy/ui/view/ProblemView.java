@@ -90,7 +90,9 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 		if (ACTION_URL.equals(location)) {
 			EclipseUtils.executeCommand(ContestSelectionCommand.ID);
 			event.doit = false;
-			// TODO : Implements browser redirection.
+		}
+		else {
+			// TODO : Open system browser here.
 		}
 	}
 

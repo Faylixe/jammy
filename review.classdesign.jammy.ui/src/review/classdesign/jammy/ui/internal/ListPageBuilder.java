@@ -1,5 +1,6 @@
 package review.classdesign.jammy.ui.internal;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -24,6 +25,15 @@ import review.classdesign.jammy.Jammy;
  * @author fv
  */
 public final class ListPageBuilder {
+
+	/** Error message thrown when build page with <tt>null</tt> selection consumer. **/
+	private static final String CONSUMER_NULL = "Page selection consumer could not be null";
+
+	/** Error message thrown when build page with <tt>null</tt> content provider. **/
+	private static final String CONTENT_PROVIDER_NULL = "Content provider could not be null";
+
+	/** Error message thrown when build page with <tt>null</tt> label provider. **/
+	private static final String LABEL_PROVIDER_NULL = "Label provider could not be null";
 
 	/**
 	 * Custom wizard page implementation that displays a list
@@ -181,10 +191,12 @@ public final class ListPageBuilder {
 	/**
 	 * Builds and returns the wizard page instance that will display the list.
 	 * 
-	 * TODO : Check for null parameters.
 	 * @return Built wizard page.
 	 */
 	public ListPage build() {
+		Objects.requireNonNull(consumer, CONSUMER_NULL);
+		Objects.requireNonNull(contentProvider, CONTENT_PROVIDER_NULL);
+		Objects.requireNonNull(labelProvider, LABEL_PROVIDER_NULL);
 		final ListPage page = new ListPage(name);
 		page.setDescription(description);
 		return page;

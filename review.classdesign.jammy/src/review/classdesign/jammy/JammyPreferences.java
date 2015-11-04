@@ -37,7 +37,7 @@ public final class JammyPreferences {
 	 * in order to handle preferences changing, by saving the updated
 	 * preferences. 
 	 * 
-	 * TODO : Trigger a single save by preference page validation in UI.
+	 * TODO : Trigger a single save by preference page validation in UI ?.
 	 * 
 	 * @param event Target property change event.
 	 */

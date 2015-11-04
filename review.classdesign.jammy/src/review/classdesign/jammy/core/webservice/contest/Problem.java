@@ -1,5 +1,6 @@
 package review.classdesign.jammy.core.webservice.contest;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,7 +52,12 @@ public final class Problem extends NamedObject {
 			final Gson parser = new Gson();
 			final Problem problem = parser.fromJson(element, Problem.class);
 			final String normalized = normalize(problem.body);
-			problem.body = String.format(Template.getHTMLTemplate(), normalized);
+			try {
+				problem.body = String.format(Template.getHTMLTemplate(), normalized);
+			}
+			catch (final IOException e) {
+				throw new JsonParseException(e);
+			}
 			problem.normalizedName = Template.normalize(problem.getName());
 			return problem;
 		}

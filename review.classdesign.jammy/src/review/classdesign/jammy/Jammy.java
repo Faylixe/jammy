@@ -20,6 +20,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.addons.ILanguageManager;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.RequestUtils;
 import review.classdesign.jammy.common.SerializationUtils;
 import review.classdesign.jammy.core.Round;
@@ -185,7 +186,7 @@ public class Jammy extends AbstractUIPlugin {
 				fireContestSelectionChanged();
 			}
 			catch (final IOException | ClassNotFoundException e) {
-				// TODO : Log error.
+				EclipseUtils.showError(e.getMessage(), e);
 			}
 		}
 	}
@@ -202,7 +203,7 @@ public class Jammy extends AbstractUIPlugin {
 				SerializationUtils.serialize(currentContest, contest.toFile());
 			}
 			catch (final IOException e) {
-				// TODO : Log error.
+				EclipseUtils.showError(e.getMessage(), e);
 			}
 		}
 	}
@@ -220,7 +221,7 @@ public class Jammy extends AbstractUIPlugin {
 				managers.put(language, (ILanguageManager) manager);
 			}
 			catch (final CoreException e) {
-				// TODO : Log error.
+				EclipseUtils.showError(e.getMessage(), e);
 			}
 		}
 	}

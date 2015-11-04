@@ -52,8 +52,8 @@ public final class LocalSubmission extends AbstractSubmission {
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
 		final IFile input = dataset.getInput();
 		if (!input.exists()) {
-			// TODO : Create status.
-			throw new CoreException(null);
+			// TODO : Add error message.
+			throw EclipseUtils.createException("");
 		}
 		run(input.getLocation().toOSString(), monitor);
 	}

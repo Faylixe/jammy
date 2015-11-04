@@ -5,7 +5,6 @@ import java.util.Set;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -41,22 +40,6 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	}
 
 	/**
-	 * 
-	 * @param event
-	 */
-	private void hostnameChanged(final PropertyChangeEvent event) {
-		// TODO : 
-	}
-	
-	/**
-	 * 
-	 * @param event
-	 */
-	private void languageChanged(final PropertyChangeEvent event) {
-		
-	}
-
-	/**
 	 * Creates and adds the language field to this page.
 	 */
 	private void createLanguage() {
@@ -73,7 +56,6 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 				LANGUAGE_LABEL,
 				values,
 				getFieldEditorParent());
-		language.setPropertyChangeListener(this::languageChanged);
 		addField(language);
 	}
 
@@ -85,7 +67,6 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 				JammyPreferences.HOSTNAME_PROPERTY,
 				HOSTNAME_LABEL,
 				getFieldEditorParent());
-		hostname.setPropertyChangeListener(this::hostnameChanged);
 		addField(hostname);
 	}
 

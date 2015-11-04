@@ -65,6 +65,7 @@ public final class ContestWizard extends Wizard {
 	 */
 	private List<Contest> getContests() {
 		try {
+			// TODO : Consider using a job based retrieval.
 			return Contest.get();
 		}
 		catch (final Exception e) {

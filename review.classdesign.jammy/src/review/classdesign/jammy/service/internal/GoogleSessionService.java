@@ -55,7 +55,6 @@ public final class GoogleSessionService implements IGoogleSessionService {
 			final IGoogleLogger logger = GoogleLogger.createLogger(this::setSession);
 			final OAuthLoginDialog dialog = new OAuthLoginDialog(shell, logger);
 			logger.addListener(() -> {
-				// TODO : Figure out LookupViewSystem error on OSX.
 				workbench.getDisplay().asyncExec(dialog::close);
 			});
 			dialog.open();
