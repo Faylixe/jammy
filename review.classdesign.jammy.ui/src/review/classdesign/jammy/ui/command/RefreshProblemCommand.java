@@ -13,6 +13,13 @@ public final class RefreshProblemCommand extends AbstractHandler {
 	/** Command identifier. **/
 	public static final String ID = "review.classdesign.jammy.command.refreshproblem";
 	
+	/**
+	 * Default constructor.
+	 */
+	public RefreshProblemCommand() {
+		super();
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {

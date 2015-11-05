@@ -75,7 +75,7 @@ public final class LocalSubmission extends AbstractSubmission {
 			}
 		}
 		catch (final IOException | CoreException e) {
-			throw new SubmissionException(e.getMessage());
+			throw new SubmissionException(e);
 		}
 	}
 

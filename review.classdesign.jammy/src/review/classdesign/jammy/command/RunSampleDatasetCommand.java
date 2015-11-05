@@ -21,6 +21,13 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 	/** Task name for the file opening. **/
 	private static final String RUN_SAMPLE_TASK = "Running sample dataset";
 
+	/**
+	 * Default constructor.
+	 */
+	public RunSampleDatasetCommand() {
+		super();
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {

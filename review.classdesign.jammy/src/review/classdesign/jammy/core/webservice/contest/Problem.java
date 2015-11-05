@@ -74,16 +74,17 @@ public final class Problem extends NamedObject {
 	private static String normalize(final String body) {
 		final Document document = Jsoup.parse(body);
 		final Elements images = document.getElementsByTag(HTMLConstant.IMG);
+		final StringBuilder builder = new StringBuilder();
 		for (final Element image : images) {
 			final String original = image.attr(HTMLConstant.SRC);
 			if (!original.startsWith("https://")) {
 				final String hostname = JammyPreferences.getHostname();
-				final StringBuilder builder = new StringBuilder();
 				builder
-					.append(hostname.endsWith("/") ? hostname.substring(0, -1) : hostname)
+					.append(hostname.charAt(0) == '/' ? hostname.substring(0, -1) : hostname)
 					.append("/")
-					.append(original.startsWith("/") ? original.substring(1) : original);
+					.append(original.charAt(0) == '/' ? original.substring(1) : original);
 				image.attr(HTMLConstant.SRC, builder.toString());
+				builder.delete(0, builder.length());
 			}
 		}
 		return document.html();

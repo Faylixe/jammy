@@ -38,7 +38,7 @@ import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 public final class ContestExplorer extends ViewPart implements IContestSelectionListener, ISelectionChangedListener {
 
 	/** Identifier of this view. **/
-	public static final String ID = "review.classdesign.jammy.view.contest";
+	public static final String VIEW_ID = "review.classdesign.jammy.view.contest";
 
 	/** Identifier of the contextual menu registered. **/
 	public static final String MENU_ID = "review.classdesign.jammy.menu.contest";
