@@ -24,6 +24,7 @@ public class NamedObject implements Serializable {
 	 * Default constructor.
 	 */
 	protected NamedObject() {
+		// Protected constructor for avoiding raw instantiation.
 	}
 	
 	/**
@@ -54,11 +55,11 @@ public class NamedObject implements Serializable {
 	 * @return Name of the given <tt>object</tt> if instance of {@link NamedObject}, <tt>null</tt> otherwise.
 	 */
 	public static String getName(final Object object) {
-		String name = null;
-		if (object instanceof NamedObject) {
-			name = ((NamedObject) object).getName();
+		if (!(object instanceof NamedObject)) {
+			throw new IllegalArgumentException();
 		}
-		return name;
+		final NamedObject named = (NamedObject) object;		
+		return named.getName();
 	}
 
 }
