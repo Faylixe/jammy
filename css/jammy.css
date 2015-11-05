@@ -3,6 +3,7 @@
 nav.jammy {
   min-height: 50px;
   background-color: #2c2d55;
+  padding-bottom: 5px;
 }
 
 nav.jammy ul {
@@ -30,8 +31,20 @@ nav.jammy li a:hover {
   height: 40px;
 }
 
-/** Footer section **/
+#preview {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+}
 
+#description {
+  position: relative;
+  top: -50px;
+  margin-bottom: -50px;
+}
+
+/** Footer section **/
 footer {
   color: white;
   background-color: #2c2d55;

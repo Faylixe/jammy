@@ -14,7 +14,6 @@
 ">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/jammy.css" type="text/css" />
   <link rel="shortcut icon" href="images/icon.png" />
 </head>
@@ -29,7 +28,7 @@
         <div id="navigation" class="collapse navbar-collapse">
           <ul>
             <li><a href="installation.html">Installation</a></li>
-            <li><a href="documentation.html">Documentation</a></li>
+            <li><a href="faq.html">FAQ</a></li>
             <li><a href="http://github.com/Faylixe/review.classdesign.jammy/wiki" target="_blank">Developer wiki</a></li>
           </ul>
         </div>
@@ -38,12 +37,23 @@
 </header>
 
     <div class="content">
-      <div class="container padded centered">
-    <!-- TODO Consider adding a carousel. -->
-    <img src="images/jammy.preview.png" class="preview center img-responsive" alt="Eclipse with Jammy"/>
+      <div class="container centered">
+  <div id="preview" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div id="perspective-slide" class="item active">
+        <img src="images/preview_perspective.png" class="center img-repsonsive" alt="Write solution quickly"/>
+      </div>
+      <div id="submission-slide"  class="item">
+        <img src="images/preview_submission.png" class="center img-repsonsive" alt="Submit your solution efficently"/>
+      </div>
+      <div id="dataset-slide" class="item">
+        <img src="images/preview_dataset.png" class="center img-repsonsive" alt="Easy debugging"/>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="blued">
+<div id="description" class="blued">
   <div class="container padded centered">
     <p class="big">
       Jammy is a set of <a href="https://eclipse.org" target="_blank">Eclipse</a> plugin for managing
@@ -51,9 +61,9 @@
     </p>
     <div class="row-fluid">
       <div class="col-md-3 col-md-offset-1 feature">
-        <img src="images/browser.png" class="img-responsive center" />
+        <img id="perspective-icon" src="images/browser-hover.png" class="img-responsive center" onmouseover="slideOn(0);" />
         <br/>
-        <span class="medium">Custom perspective</span>
+        <span class="medium" onmouseover="slideOn(0);">Custom perspective</span>
         <br/>
         <br/>
         <p>Including dedicated view such as problem description,
@@ -61,18 +71,18 @@
         </p>
       </div>
       <div class="col-md-3 col-md-offset-1 feature">
-        <img src="images/upload.png" class="img-responsive center" />
+        <img id="submission-icon" src="images/upload.png" class="img-responsive center" onmouseover="slideOn(1);" />
         <br/>
-        <span class="medium">Automatic submission</span>
+        <span class="medium" onmouseover="slideOn(1);">Automatic submission</span>
         <br/>
         <br/>
         <p>Downloads input, runs it, and uploads packaged output
           with source code without any effort.</p>
       </div>
       <div class="col-md-3 col-md-offset-1 feature">
-        <img src="images/compose.png" class="img-responsive center" />
+        <img id="dataset-icon" src="images/compose.png" class="img-responsive center" onmouseover="slideOn(2);"/>
         <br/>
-        <span class="medium">Sample dataset extraction</span>
+        <span class="medium" onmouseover="slideOn(2);">Sample dataset extraction</span>
         <br/>
         <br/>
         <p>Sample dataset is created from problem description
@@ -96,7 +106,7 @@
             you are using it in a real contest condition.
           </p>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 centered">
           <ul>
             <li><a href="https://github.com/Faylixe/review.classdesign.jammy" target="_blank">&gt;&nbsp;GitHub repository</a></li>
             <li><a href="http://classdesign.review" target="_blank">&gt;&nbsp;Author website</a></li>
@@ -106,6 +116,11 @@
       </div>
     </div>
 </footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="js/carousel.js"></script>
+
 
   </body>
 </html>
