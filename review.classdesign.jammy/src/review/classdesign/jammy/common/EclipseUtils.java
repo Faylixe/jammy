@@ -201,6 +201,7 @@ public final class EclipseUtils {
 	 * @return Current edited file.
 	 */
 	public static Optional<IFile> getCurrentFile() {
+		IFile file = null;
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		if (window != null) {
@@ -210,13 +211,12 @@ public final class EclipseUtils {
 				if (editor != null) {
 					final IEditorInput input = editor.getEditorInput();
 					if (input != null) {
-						final IFile file = (IFile) input.getAdapter(IFile.class);
-						return Optional.ofNullable(file);
+						file = (IFile) input.getAdapter(IFile.class);
 					}
 				}
 			}
 		}
-		return Optional.empty();
+		return Optional.ofNullable(file);
 	}
 
 }

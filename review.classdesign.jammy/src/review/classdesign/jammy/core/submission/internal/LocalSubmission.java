@@ -39,8 +39,9 @@ public final class LocalSubmission extends AbstractSubmission {
 	public LocalSubmission(final ProblemSolver solver) {
 		super(solver);
 		final StringBuilder builder = new StringBuilder();
-		builder.append(solver.getName());
-		builder.append(SAMPLE_SUFFIX);
+		builder
+			.append(solver.getName())
+			.append(SAMPLE_SUFFIX);
 		this.name = builder.toString().toLowerCase();
 	}
 
@@ -84,8 +85,9 @@ public final class LocalSubmission extends AbstractSubmission {
 		final IProject project = getSolver().getProject();
 		final IFolder folder = EclipseUtils.getFolder(project, OUTPUT_PATH);
 		final StringBuilder builder = new StringBuilder();
-		builder.append(getSolver().getName().toLowerCase());
-		builder.append(OUTPUT_EXTENSION);
+		builder
+			.append(getSolver().getName().toLowerCase())
+			.append(OUTPUT_EXTENSION);
 		return folder.getFile(builder.toString());
 	}
 

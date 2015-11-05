@@ -38,7 +38,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void start(final BundleContext context) throws Exception {
+	public void start(final BundleContext context) throws Exception { // NOPMD
 		super.start(context);
 		plugin = this;
 		template = Template.getTemplate("/templates/solution.template.java", JavaAddonPlugin.getDefault().getBundle());
@@ -46,7 +46,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void stop(final BundleContext context) throws Exception {
+	public void stop(final BundleContext context) throws Exception { // NOPMD
 		plugin = null;
 		super.stop(context);
 	}

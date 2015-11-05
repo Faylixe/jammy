@@ -51,6 +51,6 @@ public final class Session {
 	}
 
 	/** Instance that is used for representing non valid session.**/
-	protected static final Session EMPTY = new Session(null, null);
+	public static final Session EMPTY = new Session(null, null);
 
 }

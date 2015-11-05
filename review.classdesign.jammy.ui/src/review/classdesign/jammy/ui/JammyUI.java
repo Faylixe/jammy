@@ -51,7 +51,7 @@ public final class JammyUI extends AbstractUIPlugin {
 	 * Default constructor.
 	 */
 	public JammyUI() {
-		// Do nothing.
+		super();
 	}
 
 	/**
@@ -89,14 +89,14 @@ public final class JammyUI extends AbstractUIPlugin {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void start(final BundleContext context) throws Exception {
+	public void start(final BundleContext context) throws Exception { // NOPMD
 		super.start(context);
 		plugin = this;
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void stop(final BundleContext context) throws Exception {
+	public void stop(final BundleContext context) throws Exception { // NOPMD
 		plugin = null;
 		super.stop(context);
 	}

@@ -31,10 +31,11 @@ public final class GoogleSessionServiceFactory extends AbstractServiceFactory {
 			final Class serviceInterface,
 			final IServiceLocator parentLocator,
 			final IServiceLocator locator) {
+		Object result = null;
 		if (IGoogleSessionService.class.equals(serviceInterface)) {
-			return service;
+			result = service;
 		}
-		return null;
+		return result;
 	}
 
 }

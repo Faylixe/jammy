@@ -36,6 +36,7 @@ public final class FunctionalLabelProvider extends LabelProvider {
 	 * @param imageProvider Delegate function used to retrieve image.
 	 */
 	public FunctionalLabelProvider(final Function<Object, String> textProvider, final Function<Object, Image> imageProvider) {
+		super();
 		this.textProvider = textProvider;
 		this.imageProvider = imageProvider;
 	}

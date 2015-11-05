@@ -244,7 +244,7 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/** {@inheritDoc} **/
-	public void start(final BundleContext context) throws Exception {
+	public void start(final BundleContext context) throws Exception { // NOPMD
 		super.start(context);
 		final IPreferenceStore store = getPreferenceStore();
 		JammyPreferences.load(store);
@@ -255,7 +255,7 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/** {@inheritDoc} **/
-	public void stop(final BundleContext context) throws Exception {
+	public void stop(final BundleContext context) throws Exception { // NOPMD
 		plugin = null;
 		super.stop(context);
 		saveState();

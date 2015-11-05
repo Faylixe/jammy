@@ -37,8 +37,9 @@ public final class JavaManager implements ILanguageManager {
 	@Override
 	public IFile getSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final StringBuilder builder = new StringBuilder();
-		builder.append(problem.getNormalizedName());
-		builder.append(SOLVER_SUFFIX);
+		builder
+			.append(problem.getNormalizedName())
+			.append(SOLVER_SUFFIX);
 		final String name = builder.toString();
 		final IProject project = getProject(problem, monitor);
 		return new JavaSolverBuilder(project, monitor).build(name);
