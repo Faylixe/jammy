@@ -20,12 +20,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 
 	/** Unique plugin instance. **/
 	private static JavaAddonPlugin plugin;
-	
-	/** Default constructor. **/
-	public JavaAddonPlugin() {
-		// Do nothing.
-	}
-	
+
 	/**
 	 * Getter for the solver template.
 	 * 
@@ -47,7 +42,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 	/** {@inheritDoc} **/
 	@Override
 	public void stop(final BundleContext context) throws Exception { // NOPMD
-		plugin = null;
+		plugin = null; // NOPMD
 		super.stop(context);
 	}
 

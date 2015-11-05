@@ -27,10 +27,6 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	/** Field editor for the host name.**/
 	private StringFieldEditor hostname;
 
-	/** Field editor for the language. **/
-	private ComboFieldEditor language;
-
-
 	/**
 	 * Default constructor.
 	 * Binds this preferences page to the Jammy plugin preference store.
@@ -52,7 +48,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 			values[i][1] = language;
 			i++;
 		}
-		language = new ComboFieldEditor(
+		final ComboFieldEditor language = new ComboFieldEditor(
 				JammyPreferences.LANGUAGE_PROPERTY,
 				LANGUAGE_LABEL,
 				values,

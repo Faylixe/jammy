@@ -68,7 +68,7 @@ public interface ISubmissionService {
 	 * 
 	 * @return
 	 */
-	public static ISubmissionService get() {
+	static ISubmissionService get() {
 		final IServiceLocator locator = PlatformUI.getWorkbench();
 		final Object service = locator.getService(ISubmissionService.class);
 		return (ISubmissionService) service;

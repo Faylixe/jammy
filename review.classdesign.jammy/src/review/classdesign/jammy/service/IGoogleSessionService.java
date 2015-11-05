@@ -57,17 +57,17 @@ public interface IGoogleSessionService {
 	}
 
 	/** Title of the dialog displayed to notify user that connection is required. **/
-	public static final String TITLE = "Google session invalid";
+	static final String TITLE = "Google session invalid";
 
 	/** Message of the dialog displayed to notify user that connection is required. **/
-	public static final String MESSAGE = "You should have an active Google session to use this feature, would you like to log in now ?";
+	static final String MESSAGE = "You should have an active Google session to use this feature, would you like to log in now ?";
 
 	/**
 	 * TODO : Optimizes method design.
 	 * 
 	 * @return <tt>true</tt> if user is logged, <tt>false</tt> otherwise.
 	 */
-	public static boolean requireLogin() {
+	static boolean requireLogin() {
 		final GoogleSessionProvider provider = GoogleSessionProvider.get();
 		if (!provider.isLogged()) {
 			final IWorkbench workbench = PlatformUI.getWorkbench();

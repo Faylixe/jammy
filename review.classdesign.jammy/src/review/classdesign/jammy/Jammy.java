@@ -256,7 +256,7 @@ public class Jammy extends AbstractUIPlugin {
 
 	/** {@inheritDoc} **/
 	public void stop(final BundleContext context) throws Exception { // NOPMD
-		plugin = null;
+		plugin = null; // NOPMD
 		super.stop(context);
 		saveState();
 	}
