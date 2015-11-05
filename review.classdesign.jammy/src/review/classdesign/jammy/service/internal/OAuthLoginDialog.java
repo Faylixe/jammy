@@ -29,7 +29,13 @@ public final class OAuthLoginDialog extends Dialog {
 
 	/** Error message displayed when an error occurs during OAuth phase. **/
 	private static final String OAUTH_ERROR_MESSAGE = "An error occurs while retrieving OAuth widget.";
+
+	/** Initial dialog width. **/
+	private static final int WIDTH = 500;
 	
+	/** Initial dialog height. **/
+	private static final int HEIGHT = 400;
+
 	/** Logger instance that provides OAuth URL. **/
 	private final IGoogleLogger logger;
 
@@ -44,12 +50,6 @@ public final class OAuthLoginDialog extends Dialog {
 		this.logger = logger;
 		
 	}
-	
-	/** Initial dialog width. **/
-	private static final int WIDTH = 500;
-	
-	/** Initial dialog height. **/
-	private static final int HEIGHT = 400;
 
 	/** {@inheritDoc} **/
 	@Override

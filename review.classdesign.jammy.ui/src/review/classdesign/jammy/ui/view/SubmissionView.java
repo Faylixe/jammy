@@ -40,6 +40,9 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 	public static final String ID = "review.classdesign.jammy.view.submission";
 
 	/** **/
+	private static final String [] LABEL = { "Retrieving input", "Running solver", "Submitting output" };
+
+	/** **/
 	private static final int INPUT = 0;
 
 	/** **/
@@ -47,10 +50,28 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 
 	/** **/
 	private static final int OUTPUT = 2;
-	
+
 	/** **/
-	private static final String [] LABEL = { "Retrieving input", "Running solver", "Submitting output" };
-	
+	private static final int MINIMUM = 0;
+
+	/** **/
+	private static final int MAXIMUM = 3;
+
+	/** **/
+	private ProgressBar indicator;
+
+	/** **/
+	private TreeViewer viewer;
+
+	/** **/
+	private int state;
+
+	/** **/
+	private String currentSubmission;
+
+	/** **/
+	private SubmissionException error;
+
 	/**
 	 * 
 	 * @author fv
@@ -138,27 +159,6 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		}
 		
 	}
-	
-	/** **/
-	private static final int MINIMUM = 0;
-
-	/** **/
-	private static final int MAXIMUM = 3;
-
-	/** **/
-	private ProgressBar indicator;
-
-	/** **/
-	private TreeViewer viewer;
-
-	/** **/
-	private int state;
-
-	/** **/
-	private String currentSubmission;
-
-	/** **/
-	private SubmissionException error;
 
 	/** {@inheritDoc} **/
 	@Override

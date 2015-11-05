@@ -59,7 +59,7 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	 * @return List of contest available.
 	 */
 	private List<Problem> getProblems() {
-		return (contestInfo != null ? contestInfo.getProblems() : Collections.emptyList());
+		return (contestInfo == null ? Collections.emptyList() : contestInfo.getProblems());
 	}
 
 	/**

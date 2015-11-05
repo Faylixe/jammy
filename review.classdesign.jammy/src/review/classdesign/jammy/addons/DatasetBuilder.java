@@ -40,7 +40,10 @@ public final class DatasetBuilder {
 	
 	/** Path of the created test output file. **/
 	private static final String DATASET_OUTPUT_SUFFIX = ".test.out";
-	
+
+	/** Number of row used for dataset extraction. **/
+	private static final int DATASET_ROW = 2;
+
 	/** Error status thrown when problem dataset could not be found. **/
 	private static final IStatus IO_NOT_FOUND = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, "Problem dataset not found");
 
@@ -109,7 +112,7 @@ public final class DatasetBuilder {
 			throw new CoreException(IO_NOT_FOUND);
 		}
 		final Elements row = problemIO.first().getElementsByTag(HTMLConstant.TR);
-		if (row.size() < 2) {
+		if (row.size() < DATASET_ROW) {
 			throw new CoreException(IO_NOT_FOUND);
 		}
 		return row.get(1);
