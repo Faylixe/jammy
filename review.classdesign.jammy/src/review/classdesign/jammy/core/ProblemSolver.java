@@ -31,6 +31,18 @@ public final class ProblemSolver extends NamedObject {
 	/** Serialization index. **/
 	private static final long serialVersionUID = 1L;
 
+	/** Cache of all problem solver instances indexed by **/
+	private static final Map<Problem, SoftReference<ProblemSolver>> INSTANCES = new ConcurrentHashMap<>();
+
+	/** Task name for the project retrieval. **/
+	private static final String PROJECT_TASK = "Retrieves associated Java project";
+
+	/** Task name for the solver retrieval. **/
+	private static final String SOLVER_TASK = "Retrieves associated Java solver class file";
+
+	/** Task name for the dataset retrieval. **/
+	private static final String DATASET_TASK = "Retrieves associated sample dataset";
+	
 	/** Target solver class file. **/
 	private final IFile solver;
 
@@ -79,18 +91,6 @@ public final class ProblemSolver extends NamedObject {
 	public ProblemSampleDataset getSampleDataset() {
 		return dataset;
 	}
-
-	/** Cache of all problem solver instances indexed by **/
-	private static final Map<Problem, SoftReference<ProblemSolver>> INSTANCES = new ConcurrentHashMap<>();
-
-	/** Task name for the project retrieval. **/
-	private static final String PROJECT_TASK = "Retrieves associated Java project";
-
-	/** Task name for the solver retrieval. **/
-	private static final String SOLVER_TASK = "Retrieves associated Java solver class file";
-
-	/** Task name for the dataset retrieval. **/
-	private static final String DATASET_TASK = "Retrieves associated sample dataset";
 
 	/**
 	 * Static factory method that creates a {@link ProblemSolver} instance
