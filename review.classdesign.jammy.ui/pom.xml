@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>review.classdesign</groupId>
-  <artifactId>eview.classdesign.jammy.ui</artifactId>
+  <artifactId>review.classdesign.jammy.ui</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
