@@ -24,9 +24,6 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	/** Label for the language field. s**/
 	private static final String LANGUAGE_LABEL = "Language";
 
-	/** Field editor for the host name.**/
-	private StringFieldEditor hostname;
-
 	/**
 	 * Default constructor.
 	 * Binds this preferences page to the Jammy plugin preference store.
@@ -42,11 +39,11 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	private void createLanguage() {
 		final Set<String> languages = Jammy.getDefault().getLanguages();
 		final String [][] values = new String[languages.size()][2];
-		int i = 0;
+		int index = 0;
 		for (final String language : languages) {
-			values[i][0] = language;
-			values[i][1] = language;
-			i++;
+			values[index][0] = language;
+			values[index][1] = language;
+			index++;
 		}
 		final ComboFieldEditor language = new ComboFieldEditor(
 				JammyPreferences.LANGUAGE_PROPERTY,
@@ -60,7 +57,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	 * Creates and adds the hostname field to this page.
 	 */
 	private void createHostname() {
-		hostname = new StringFieldEditor(
+		final StringFieldEditor hostname = new StringFieldEditor(
 				JammyPreferences.HOSTNAME_PROPERTY,
 				HOSTNAME_LABEL,
 				getFieldEditorParent());

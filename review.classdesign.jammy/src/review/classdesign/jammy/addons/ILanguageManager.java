@@ -27,16 +27,16 @@ import review.classdesign.jammy.core.webservice.contest.Problem;
 public interface ILanguageManager {
 
 	/** Identifier of the associated OSGi extension. **/
-	static final String EXTENSION_ID = "review.classdesign.jammy.addons";
+	String EXTENSION_ID = "review.classdesign.jammy.addons";
 
 	/** Extension attribute name for the manager target language. **/
-	static final String LANGUAGE_ATTRIBUTE = "language";
+	String LANGUAGE_ATTRIBUTE = "language";
 
 	/** Extension attribute name for the manager implementation class. **/
-	static final String CLASS_ATTRIBUTE = "class";
+	String CLASS_ATTRIBUTE = "class";
 
 	/** Task name for the project creation. **/
-	static final String CREATE_PROJECT_TASK = "Creates %s project for current round";
+	String CREATE_PROJECT_TASK = "Creates %s project for current round";
 
 	/**
 	 * Retrieves the project associated to the given <tt>problem</tt> if exist.
