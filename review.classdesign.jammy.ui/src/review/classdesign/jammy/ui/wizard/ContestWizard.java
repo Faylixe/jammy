@@ -1,5 +1,6 @@
 package review.classdesign.jammy.ui.wizard;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -64,14 +65,15 @@ public final class ContestWizard extends Wizard {
 	 * @return List of contest available.
 	 */
 	private List<Contest> getContests() {
+		List<Contest> contest = null;
 		try {
 			// TODO : Consider using a job based retrieval.
-			return Contest.get();
+			contest = Contest.get();
 		}
-		catch (final Exception e) {
+		catch (final IOException e) {
 			// TODO : Log error.
 		}
-		return null;
+		return contest;
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package review.classdesign.jammy.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -78,9 +79,9 @@ public final class Contest extends NamedObject {
 	 * on Google Jam index page.
 	 * 
 	 * @return List of contest found.
-	 * @throws Exception If any error occurs while retrieving or parsing document.
+	 * @throws IOException If any error occurs while retrieving or parsing document.
 	 */
-	public static List<Contest> get() throws Exception {
+	public static List<Contest> get() throws IOException {
 		final Document document = Jsoup.parse(RequestUtils.get(JammyPreferences.getHostname() + CONTEST_INDEX));
 		final Elements years = document.getElementsByClass(CONTEST_CLASS_NAME);
 		final List<Contest> contests = new ArrayList<Contest>(years.size());

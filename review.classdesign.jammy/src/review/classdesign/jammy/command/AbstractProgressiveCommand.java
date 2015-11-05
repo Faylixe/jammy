@@ -19,7 +19,7 @@ public abstract class AbstractProgressiveCommand extends AbstractHandler impleme
 
 	/** {@inheritDoc} **/
 	@Override
-	public final Object execute(ExecutionEvent event) throws ExecutionException {
+	public final Object execute(final ExecutionEvent event) throws ExecutionException {
 		final ProgressMonitorDialog dialog = new ProgressMonitorDialog(null);
 		try {
 			dialog.run(true, false, this);

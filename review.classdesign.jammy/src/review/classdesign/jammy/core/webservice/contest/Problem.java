@@ -79,9 +79,10 @@ public final class Problem extends NamedObject {
 			if (!original.startsWith("https://")) {
 				final String hostname = JammyPreferences.getHostname();
 				final StringBuilder builder = new StringBuilder();
-				builder.append(hostname.endsWith("/") ? hostname.substring(0, -1) : hostname);
-				builder.append("/");
-				builder.append(original.startsWith("/") ? original.substring(1) : original);
+				builder
+					.append(hostname.endsWith("/") ? hostname.substring(0, -1) : hostname)
+					.append("/")
+					.append(original.startsWith("/") ? original.substring(1) : original);
 				image.attr(HTMLConstant.SRC, builder.toString());
 			}
 		}

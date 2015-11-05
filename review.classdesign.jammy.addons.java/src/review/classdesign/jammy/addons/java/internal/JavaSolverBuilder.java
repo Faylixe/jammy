@@ -49,10 +49,11 @@ public final class JavaSolverBuilder {
 	 */
 	private IFile getFile(final String name) {
 		final StringBuilder builder = new StringBuilder();
-		builder.append(JavaProjectBuilder.SOURCE_PATH);
-		builder.append("/");
-		builder.append(name);
-		builder.append(SOLVER_EXTENSION);
+		builder
+			.append(JavaProjectBuilder.SOURCE_PATH)
+			.append("/")
+			.append(name)
+			.append(SOLVER_EXTENSION);
 		return project.getFile(builder.toString());
 	}
 

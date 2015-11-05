@@ -49,7 +49,7 @@ public class ProcessSolverRunner implements ISolverRunner {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void run(String arguments, String output) throws CoreException {
+	public void run(final String arguments, final String output) throws CoreException {
 		final String path = solver.getFile().getLocation().toOSString();
 		final List<String> commands = Arrays.asList(command, path, arguments);
 		final ProcessBuilder builder = new ProcessBuilder(commands);

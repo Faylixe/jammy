@@ -85,7 +85,7 @@ public final class OAuthLoginDialog extends Dialog {
 
 	/** {@inheritDoc} **/
 	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
+	protected void createButtonsForButtonBar(final Composite parent) {
 		final Button button = createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 		button.addMouseListener(new MouseAdapter() {
 			/** {@inheritDoc} **/

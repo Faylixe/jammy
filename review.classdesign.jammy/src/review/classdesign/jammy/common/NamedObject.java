@@ -54,10 +54,11 @@ public class NamedObject implements Serializable {
 	 * @return Name of the given <tt>object</tt> if instance of {@link NamedObject}, <tt>null</tt> otherwise.
 	 */
 	public static String getName(final Object object) {
+		String name = null;
 		if (object instanceof NamedObject) {
-			return ((NamedObject) object).getName();
+			name = ((NamedObject) object).getName();
 		}
-		return null;
+		return name;
 	}
 
 }

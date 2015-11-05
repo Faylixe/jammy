@@ -36,6 +36,7 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	 * Binds this preferences page to the Jammy plugin preference store.
 	 */
 	public PreferencePage() {
+		super();
 		setPreferenceStore(Jammy.getDefault().getPreferenceStore());
 	}
 
