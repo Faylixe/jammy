@@ -4,9 +4,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>review.classdesign</groupId>
-    <artifactId>Jammy</artifactId>
+    <artifactId>jammy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>review.classdesign</groupId>
   <artifactId>jammy-core</artifactId>
