@@ -3,4 +3,4 @@
 
 # Jammy
 
-[Jammy](http://faylixe.github.io/review.classdesign.jammy/) is a set of eclipse plugin for managing Google Code Jam development.
+[Jammy](http://faylixe.github.io/jammy/) is a set of eclipse plugin for managing Google Code Jam development.
