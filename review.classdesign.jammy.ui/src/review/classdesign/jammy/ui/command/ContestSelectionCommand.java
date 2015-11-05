@@ -18,13 +18,6 @@ public final class ContestSelectionCommand extends AbstractWizardCommand {
 	/** Command identifier. **/
 	public static final String ID = "review.classdesign.jammy.command.contestselection";
 
-	/**
-	 * Default constructor.
-	 */
-	public ContestSelectionCommand() {
-		super();
-	}
-
 	/** {@inheritDoc} **/
 	@Override
 	protected Optional<IWizard> createWizard() {

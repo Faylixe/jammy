@@ -17,13 +17,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
  */
 public abstract class AbstractProgressiveCommand extends AbstractHandler implements IRunnableWithProgress {
 
-	/**
-	 * Default constructor.
-	 */
-	public AbstractProgressiveCommand() {
-		super();
-	}
-
 	/** {@inheritDoc} **/
 	@Override
 	public final Object execute(final ExecutionEvent event) throws ExecutionException {

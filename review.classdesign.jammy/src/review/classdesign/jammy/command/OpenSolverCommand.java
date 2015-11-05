@@ -18,13 +18,6 @@ public final class OpenSolverCommand extends AbstractProgressiveSolverCommand {
 	/** Task name for the file opening. **/
 	private static final String OPEN_FILE_TASK = "Opening solver class file";
 
-	/**
-	 * Default constructor.
-	 */
-	public OpenSolverCommand() {
-		super();
-	}
-
 	/** {@inheritDoc} **/
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) {
