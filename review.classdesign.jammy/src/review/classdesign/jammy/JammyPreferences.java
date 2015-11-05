@@ -33,6 +33,13 @@ public final class JammyPreferences {
 	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
 
 	/**
+	 * Private constructor for avoiding instantiation.
+	 */
+	private JammyPreferences() {
+		// Do nothing.
+	}
+
+	/**
 	 * Functional method that acts as a {@link IPropertyChangeListener}
 	 * in order to handle preferences changing, by saving the updated
 	 * preferences. 
