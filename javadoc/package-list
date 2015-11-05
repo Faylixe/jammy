@@ -2,14 +2,15 @@ review.classdesign.jammy
 review.classdesign.jammy.addons
 review.classdesign.jammy.addons.java
 review.classdesign.jammy.addons.java.internal
+review.classdesign.jammy.addons.python
 review.classdesign.jammy.command
 review.classdesign.jammy.common
 review.classdesign.jammy.core
-review.classdesign.jammy.core.builder
 review.classdesign.jammy.core.listener
 review.classdesign.jammy.core.submission
 review.classdesign.jammy.core.submission.internal
 review.classdesign.jammy.core.webservice
+review.classdesign.jammy.core.webservice.contest
 review.classdesign.jammy.service
 review.classdesign.jammy.service.factory
 review.classdesign.jammy.service.internal
