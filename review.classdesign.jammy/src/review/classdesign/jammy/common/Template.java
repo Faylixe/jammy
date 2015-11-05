@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -20,18 +21,18 @@ import review.classdesign.jammy.Jammy;
  */
 public final class Template {
 	
+	/** Normalization pattern used for creating project and file name. **/
+	private static final String PATTERN = "[^A-Za-z0-9]";
+
+	/** Bundle relative path of the HTML template file. **/
+	private static final String HTML_TEMPLATE_PATH = "/templates/problem.template.html";
+
 	/**
 	 * Private constructor for avoiding instantiation.
 	 */
 	private Template() {
 		// Do nothing.
 	}
-	
-	/** Normalization pattern used for creating project and file name. **/
-	private static final String PATTERN = "[^A-Za-z0-9]";
-
-	/** Bundle relative path of the HTML template file. **/
-	private static final String HTML_TEMPLATE_PATH = "/templates/problem.template.html";
 
 	/**
 	 * Normalizes the given <tt>name</tt> by removing
@@ -57,7 +58,8 @@ public final class Template {
 		final URL url = FileLocator.find(bundle, new Path(path), null);
 		final InputStream stream = url.openStream();	
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		return reader.lines().collect(Collectors.joining("\n"));
+		final Stream<String> lines = reader.lines();
+		return lines.collect(Collectors.joining("\n"));
 	}
 	
 	/**
@@ -67,7 +69,7 @@ public final class Template {
 	 * @throws IOException If any error occurs while reading template content.
 	 */
 	public static String getHTMLTemplate() throws IOException {
-		return getTemplate(HTML_TEMPLATE_PATH, Jammy.getDefault().getBundle());
+		return getTemplate(HTML_TEMPLATE_PATH, Jammy.getDefault().getBundle()); // NOPMD
 	}
 
 }
