@@ -32,6 +32,9 @@ public final class JavaProjectBuilder {
 
 	/** Path to use as binary folder. **/
 	private static final String BINARY_PATH = "bin";
+	
+	/** Task name for the Java project creation. **/
+	private static final String CREATE_PROJECT_TASK = "Creates Java project for current round";
 
 	/** Target project contribution is made for. **/
 	private final IProject project;
@@ -93,9 +96,6 @@ public final class JavaProjectBuilder {
 		javaProject.setOutputLocation(binaryFolder.getFullPath(), monitor);
 		javaProject.setRawClasspath(createClasspath(root.getPath()), monitor);
 	}
-	
-	/** Task name for the Java project creation. **/
-	private static final String CREATE_PROJECT_TASK = "Creates Java project for current round";
 
 	/**
 	 * Creates if not exist, and configures the given

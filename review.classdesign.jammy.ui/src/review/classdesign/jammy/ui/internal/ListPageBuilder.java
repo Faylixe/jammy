@@ -35,6 +35,21 @@ public final class ListPageBuilder {
 	/** Error message thrown when build page with <tt>null</tt> label provider. **/
 	private static final String LABEL_PROVIDER_NULL = "Label provider could not be null";
 
+	/** Name of the created page. **/
+	private final String name;
+
+	/** Description of the created page. **/
+	private String description;
+
+	/** Selection consumer that will handle user selection. **/
+	private Consumer<Object> consumer;
+
+	/** Content provider instance used by the created list. **/
+	private IContentProvider contentProvider;
+
+	/** Label provider instance used by the created list. **/
+	private IBaseLabelProvider labelProvider;
+
 	/**
 	 * Custom wizard page implementation that displays a list
 	 * based on the builder parameters.
@@ -103,21 +118,6 @@ public final class ListPageBuilder {
 		}
 		
 	}
-
-	/** Name of the created page. **/
-	private final String name;
-
-	/** Description of the created page. **/
-	private String description;
-
-	/** Selection consumer that will handle user selection. **/
-	private Consumer<Object> consumer;
-
-	/** Content provider instance used by the created list. **/
-	private IContentProvider contentProvider;
-
-	/** Label provider instance used by the created list. **/
-	private IBaseLabelProvider labelProvider;
 
 	/**
 	 * Default constructor.

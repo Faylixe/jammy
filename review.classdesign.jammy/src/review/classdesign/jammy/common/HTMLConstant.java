@@ -7,13 +7,6 @@ package review.classdesign.jammy.common;
  */
 public final class HTMLConstant {
 
-	/**
-	 * Private constructor for avoiding instantiation.
-	 */
-	private HTMLConstant() {
-		// Do nothing.
-	}
-
 	/** HTML tag H3. **/
 	public static final String H3 = "h3";
 	
@@ -34,5 +27,12 @@ public final class HTMLConstant {
 
 	/** HTML attribute SRC. **/
 	public static final String SRC = "src";
+
+	/**
+	 * Private constructor for avoiding instantiation.
+	 */
+	private HTMLConstant() {
+		// Do nothing.
+	}
 
 }

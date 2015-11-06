@@ -14,7 +14,10 @@ import com.google.api.client.http.HttpTransport;
  * @author fv
  */
 public final class Session {
-	
+
+	/** Instance that is used for representing non valid session.**/
+	public static final Session EMPTY = new Session(null, null);
+
 	/** Authentification credentials. **/
 	private final Credential credential;
 
@@ -49,8 +52,5 @@ public final class Session {
 	protected HttpRequestFactory createRequestFactory() {
 		return transport.createRequestFactory(credential);
 	}
-
-	/** Instance that is used for representing non valid session.**/
-	public static final Session EMPTY = new Session(null, null);
 
 }

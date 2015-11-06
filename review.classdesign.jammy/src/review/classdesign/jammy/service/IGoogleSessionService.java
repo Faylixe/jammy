@@ -22,6 +22,12 @@ import com.google.api.client.http.HttpRequestFactory;
  */
 public interface IGoogleSessionService {
 
+	/** Title of the dialog displayed to notify user that connection is required. **/
+	static final String TITLE = "Google session invalid";
+
+	/** Message of the dialog displayed to notify user that connection is required. **/
+	static final String MESSAGE = "You should have an active Google session to use this feature, would you like to log in now ?";
+
 	/**
 	 * Uses OAuth mechanism to create a persistent Google account
 	 * session that will be used for interacting with google services.
@@ -55,12 +61,6 @@ public interface IGoogleSessionService {
 		final Object service = locator.getService(IGoogleSessionService.class);
 		return (IGoogleSessionService) service;
 	}
-
-	/** Title of the dialog displayed to notify user that connection is required. **/
-	static final String TITLE = "Google session invalid";
-
-	/** Message of the dialog displayed to notify user that connection is required. **/
-	static final String MESSAGE = "You should have an active Google session to use this feature, would you like to log in now ?";
 
 	/**
 	 * TODO : Optimizes method design.

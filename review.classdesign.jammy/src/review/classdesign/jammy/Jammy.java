@@ -37,11 +37,13 @@ import review.classdesign.jammy.core.webservice.contest.Problem;
  */
 public class Jammy extends AbstractUIPlugin {
 
-	/** Plug-in ID. **/
-	public static final String PLUGIN_ID = "review.classdesign.jammy"; //$NON-NLS-1$
+	private static final String CONTEST_STATE = "current.contest";
 
 	/** Plug-in instance. **/
 	private static Jammy plugin;
+
+	/** Plug-in ID. **/
+	public static final String PLUGIN_ID = "review.classdesign.jammy"; //$NON-NLS-1$
 
 	/**
 	 * Empty object array in order to avoid empty array allocation duplication.
@@ -170,8 +172,6 @@ public class Jammy extends AbstractUIPlugin {
 	public Optional<Problem> getCurrentProblem() {
 		return Optional.ofNullable(currentProblem);
 	}
-	
-	private static final String CONTEST_STATE = "current.contest";
 
 	/**
 	 * 

@@ -28,6 +28,12 @@ public abstract class AbstractSubmission implements ISubmission {
 	/** Path of the output file for a given project. **/
 	protected static final String OUTPUT_PATH = "output";
 
+	/** Target problem solver this submission will work on. **/
+	private final ProblemSolver solver;
+
+	/** {@link ISubmissionService} instance used by this submission. **/
+	private final ISubmissionService service;
+
 	/**
 	 * Job implementation that checks for launch life cycle.
 	 * 
@@ -68,12 +74,6 @@ public abstract class AbstractSubmission implements ISubmission {
 		}
 	
 	}
-
-	/** Target problem solver this submission will work on. **/
-	private final ProblemSolver solver;
-
-	/** {@link ISubmissionService} instance used by this submission. **/
-	private final ISubmissionService service;
 
 	/**
 	 * Default constructor.

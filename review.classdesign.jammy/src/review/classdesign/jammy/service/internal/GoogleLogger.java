@@ -57,6 +57,9 @@ public final class GoogleLogger implements IGoogleLogger {
 	/** Error message displayed when an error occurs during OAuth login. **/
 	private static final String AUTHORIZATION_ERROR_MESSAGE = "An unexpected error occurs during OAuth login.";
 
+	/** Name used for the job task that wait for the code reception. **/
+	private static final String JOB_NAME = "receive-code";
+
 	/** {@link AuthorizationCodeFlow} instance used for managing OAuth login. **/
 	private final AuthorizationCodeFlow flow;
 
@@ -144,9 +147,6 @@ public final class GoogleLogger implements IGoogleLogger {
 		}
 		return Status.OK_STATUS;
 	}
-	
-	/** Name used for the job task that wait for the code reception. **/
-	private static final String JOB_NAME = "receive-code";
 	
 	/** {@inheritDoc} **/
 	@Override

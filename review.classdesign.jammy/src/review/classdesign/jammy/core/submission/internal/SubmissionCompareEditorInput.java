@@ -32,6 +32,12 @@ public final class SubmissionCompareEditorInput extends CompareEditorInput {
 	/** Label used for the right side of the compare editor. **/
 	private static final String RIGHT_LABEL = "Expected";
 
+	/** Actual file. **/
+	private final IFile actual;
+	
+	/** Expected file. **/
+	private final IFile expected;
+
 	/**
 	 * Item wrapper class for compared file.
 	 * 
@@ -76,12 +82,6 @@ public final class SubmissionCompareEditorInput extends CompareEditorInput {
 		
 	}
 
-	/** Actual file. **/
-	private final IFile actual;
-	
-	/** Expected file. **/
-	private final IFile expected;
-
 	/**
 	 * Default constructor.
 	 * 
@@ -118,4 +118,5 @@ public final class SubmissionCompareEditorInput extends CompareEditorInput {
 		configuration.setRightLabel(RIGHT_LABEL);
 		return new SubmissionCompareEditorInput(configuration, actual, expected);
 	}
+
 }

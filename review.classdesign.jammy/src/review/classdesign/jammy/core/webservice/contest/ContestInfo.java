@@ -33,6 +33,9 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 	/** Prefix used for contest project. **/
 	private static final String CONTEST_PROJECT_PREFIX = "jammy.";
 
+	/** Path of the ContestInfo request. **/
+	private static final String REQUEST = "/ContestInfo";
+
 	/** Boolean flag that indicates if this contest have analysis available. **/
 	@SerializedName("has_analysis")
 	private int analysis;
@@ -116,9 +119,6 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 		stream.registerValidation(this, 0);
 		stream.defaultReadObject();
 	}
-
-	/** Path of the ContestInfo request. **/
-	private static final String REQUEST = "/ContestInfo";
 
 	/**
 	 * Static factory method that builds a {@link ContestInfo} instance
