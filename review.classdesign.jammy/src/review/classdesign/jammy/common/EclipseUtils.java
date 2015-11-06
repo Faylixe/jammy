@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.commands.Command;
@@ -22,8 +21,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -202,31 +199,6 @@ public final class EclipseUtils {
 				showError(String.format(CANNOT_OPEN_FILE, file.getName()), e);
 			}
 		});
-	}
-
-	/**
-	 * Retrieves file instance that is currently edited.
-	 * File is returned as an {@link Optional} reference.
-	 * 
-	 * @return Current edited file.
-	 */
-	public static Optional<IFile> getCurrentFile() {
-		IFile file = null;
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		if (window != null) {
-			final IWorkbenchPage page = window.getActivePage();
-			if (page != null) {
-				final IEditorPart editor = page.getActiveEditor();
-				if (editor != null) {
-					final IEditorInput input = editor.getEditorInput();
-					if (input != null) {
-						file = (IFile) input.getAdapter(IFile.class);
-					}
-				}
-			}
-		}
-		return Optional.ofNullable(file);
 	}
 
 }
