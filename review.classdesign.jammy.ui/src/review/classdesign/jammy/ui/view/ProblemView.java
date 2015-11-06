@@ -91,9 +91,6 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 			EclipseUtils.executeCommand(ContestSelectionCommand.ID);
 			event.doit = false;
 		}
-		else {
-			// TODO : Open system browser here.
-		}
 	}
 
 	/** {@inheritDoc} **/

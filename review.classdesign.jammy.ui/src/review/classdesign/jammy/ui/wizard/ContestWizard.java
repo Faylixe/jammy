@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import org.eclipse.jface.wizard.Wizard;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.common.NamedObject;
 import review.classdesign.jammy.core.Contest;
 import review.classdesign.jammy.core.Round;
@@ -71,7 +72,7 @@ public final class ContestWizard extends Wizard {
 			contest = Contest.get();
 		}
 		catch (final IOException e) {
-			// TODO : Log error.
+			EclipseUtils.showError(e);
 		}
 		return contest;
 	}

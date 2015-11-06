@@ -103,7 +103,7 @@ public final class Problem extends NamedObject {
 		final StringBuilder builder = new StringBuilder();
 		for (final Element image : images) {
 			final String original = image.attr(HTMLConstant.SRC);
-			if (!original.startsWith("https://")) {
+			if (!original.startsWith("https://")) { // NOPMD
 				final String hostname = JammyPreferences.getHostname();
 				builder
 					.append(hostname.charAt(0) == '/' ? hostname.substring(0, -1) : hostname)

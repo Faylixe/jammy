@@ -125,7 +125,7 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	public static ProblemSolver get(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final SoftReference<ProblemSolver> reference = INSTANCES.get(problem);
-		final ProblemSolver solver;
+		ProblemSolver solver;
 		if (reference == null || reference.get() == null) {
 			solver = createSolver(problem, monitor);
 			INSTANCES.put(problem, new SoftReference<ProblemSolver>(solver));

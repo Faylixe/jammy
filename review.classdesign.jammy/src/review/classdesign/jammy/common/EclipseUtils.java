@@ -74,6 +74,16 @@ public final class EclipseUtils {
 	 * Handles the given <tt>exception</tt> by displaying
 	 * it to user using eclipse status.
 	 * 
+	 * @param execption Error caught that should be logged.
+	 */
+	public static void showError(final Exception exception) {
+		showError(exception.getMessage(), exception);
+	}
+
+	/**
+	 * Handles the given <tt>exception</tt> by displaying
+	 * it to user using eclipse status.
+	 * 
 	 * @param message Error message that should be displayed.
 	 * @param execption Error caught that should be logged.
 	 */

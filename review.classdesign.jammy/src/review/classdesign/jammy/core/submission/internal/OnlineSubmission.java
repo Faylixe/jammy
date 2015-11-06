@@ -20,7 +20,7 @@ public final class OnlineSubmission extends AbstractSubmission {
 	 * 
 	 * @param solver Target problem solver this submission will work on.
 	 */
-	public OnlineSubmission(ProblemSolver solver) {
+	public OnlineSubmission(final ProblemSolver solver) {
 		super(solver);
 	}
 
