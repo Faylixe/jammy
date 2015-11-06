@@ -43,7 +43,7 @@ public final class SubmissionCompareEditorInput extends CompareEditorInput {
 	 * 
 	 * @author fv
 	 */
-	private static final class Item extends BufferedContent implements ITypedElement {
+	private static final class Element extends BufferedContent implements ITypedElement {
 
 		/** Target file that is wrapped by this item. **/
 		private final IFile file;
@@ -53,7 +53,8 @@ public final class SubmissionCompareEditorInput extends CompareEditorInput {
 		 * 
 		 * @param file Target file that is wrapped by this item.
 		 */
-		private Item(final IFile file) {
+		private Element(final IFile file) {
+			super();
 			this.file = file;
 		}
 
@@ -99,7 +100,7 @@ public final class SubmissionCompareEditorInput extends CompareEditorInput {
 	/** {@inheritDoc} **/
 	@Override
 	protected Object prepareInput(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		return new DiffNode(new Item(actual), new Item(expected));
+		return new DiffNode(new Element(actual), new Element(expected));
 	}
 
 	/**
