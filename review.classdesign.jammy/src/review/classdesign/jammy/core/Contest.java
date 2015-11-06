@@ -75,6 +75,22 @@ public final class Contest extends NamedObject {
 	}
 
 	/**
+	 * 
+	 * @param year
+	 * @return
+	 */
+	private static Optional<Contest> createContest(final Element year) {
+		final Optional<String> name = getName(year);
+		if (name.isPresent()) {
+			final String contestName = name.get();
+			final List<Round> rounds = Round.getRounds(contestName, year);
+			final Contest contest = new Contest(contestName, rounds);
+			return Optional.of(contest);
+		}
+		return Optional.empty();
+	}
+
+	/**
 	 * Static factory method that retrieves all contest available
 	 * on Google Jam index page.
 	 * 
@@ -85,11 +101,12 @@ public final class Contest extends NamedObject {
 		final Document document = Jsoup.parse(RequestUtils.get(JammyPreferences.getHostname() + CONTEST_INDEX));
 		final Elements years = document.getElementsByClass(CONTEST_CLASS_NAME);
 		final List<Contest> contests = new ArrayList<Contest>(years.size());
-		for (final Element contest : years) {
-			getName(contest).ifPresent(name -> {
-				contests.add(new Contest(name, Round.getRounds(name, contest)));
-			});
-		}
+		years
+			.stream()
+			.map(Contest::createContest)
+			.filter(Optional::isPresent)
+			.map(Optional::get)
+			.forEach(contests::add);
 		return contests;
 	}
 
