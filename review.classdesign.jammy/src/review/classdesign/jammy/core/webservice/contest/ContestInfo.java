@@ -58,9 +58,10 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 	 */
 	private void createProjectName(final Round round) {
 		final StringBuilder builder = new StringBuilder(CONTEST_PROJECT_PREFIX);
-		builder.append(Template.normalize(round.getContestName()).toLowerCase());
-		builder.append(".");
-		builder.append(Template.normalize(round.getName()).toLowerCase());
+		builder
+			.append(Template.normalize(round.getContestName()).toLowerCase())
+			.append(".")
+			.append(Template.normalize(round.getName()).toLowerCase());
 		projectName = builder.toString();
 	}
 	
@@ -131,8 +132,7 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 	 */
 	public static ContestInfo get(final Round round) throws IOException {
 		final StringBuilder builder = new StringBuilder();
-		builder.append(round.getURL());
-		builder.append(REQUEST);
+		builder.append(round.getURL()).append(REQUEST);
 		final String json = RequestUtils.get(builder.toString());
 		final Gson parser = new GsonBuilder().registerTypeAdapter(Problem.class, new Deserializer()).create();
 		final ContestInfo info = parser.fromJson(json, ContestInfo.class);

@@ -40,7 +40,7 @@ public final class Session {
 	 * 
 	 * @return <tt>true</tt> if this session is not equals to {@link #EMPTY} session, <tt>false</tt> otherwise.
 	 */
-	protected boolean isPresent() {
+	public boolean isPresent() {
 		return (!EMPTY.equals(this));
 	}
 	
@@ -49,7 +49,7 @@ public final class Session {
 	 * 
 	 * @return Created request factory.
 	 */
-	protected HttpRequestFactory createRequestFactory() {
+	public HttpRequestFactory createRequestFactory() {
 		return transport.createRequestFactory(credential);
 	}
 

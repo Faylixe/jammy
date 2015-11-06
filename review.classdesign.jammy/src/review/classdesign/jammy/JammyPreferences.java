@@ -48,7 +48,7 @@ public final class JammyPreferences {
 	 * 
 	 * @param event Target property change event.
 	 */
-	protected static void propertyChange(final PropertyChangeEvent event) {
+	public static void propertyChange(final PropertyChangeEvent event) {
 		final IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
 		preferences.put(HOSTNAME_PROPERTY, getHostname());
 		try {
@@ -65,7 +65,7 @@ public final class JammyPreferences {
 	 * 
 	 * @param store Preference store to load preferences into.
 	 */
-	protected static void load(final IPreferenceStore store) {
+	public static void load(final IPreferenceStore store) {
 		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
 		store.setValue(HOSTNAME_PROPERTY, node.get(HOSTNAME_PROPERTY, DEFAULT_HOST));
 		store.setValue(LANGUAGE_PROPERTY, node.get(LANGUAGE_PROPERTY, DEFAULT_LANGUAGE));

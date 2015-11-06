@@ -90,7 +90,7 @@ public final class OAuthLoginDialog extends Dialog {
 		button.addMouseListener(new MouseAdapter() {
 			/** {@inheritDoc} **/
 			@Override
-			public void mouseDown(final MouseEvent e) {
+			public void mouseDown(final MouseEvent event) {
 				logger.cancel();
 			}
 		});

@@ -92,10 +92,11 @@ public final class DatasetBuilder {
 	 * @return Created file reference.
 	 */
 	private IFile getFile(final String suffix) {
-		final StringBuilder builder = new StringBuilder();
 		final String name = problem.getNormalizedName().toLowerCase();
-		builder.append(name);
-		builder.append(suffix);
+		final StringBuilder builder = new StringBuilder();
+		builder
+			.append(name)
+			.append(suffix);
 		return folder.getFile(builder.toString());
 	}
 

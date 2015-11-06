@@ -40,8 +40,9 @@ public abstract class AbstractProcessManager implements ILanguageManager {
 	public IFile getSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final IProject project = getProject(problem, monitor);
 		final StringBuilder builder = new StringBuilder();
-		builder.append(problem.getNormalizedName());
-		builder.append(getExtension());
+		builder
+			.append(problem.getNormalizedName())
+			.append(getExtension());
 		final IFile file = project.getFile(builder.toString());
 		if (!file.exists()) {
 			final String template = getTemplate(problem.getNormalizedName());
