@@ -133,7 +133,7 @@ public final class DatasetBuilder {
 		if (!input.exists() || !output.exists()) {
 			final Element row = extractDataset();
 			final Elements io = row.getElementsByTag(HTMLConstant.TD);
-			if (io.size() < 2) {
+			if (io.size() < DATASET_ROW) {
 				throw new CoreException(IO_NOT_FOUND);
 			}
 			createFile(input, io.first().text());

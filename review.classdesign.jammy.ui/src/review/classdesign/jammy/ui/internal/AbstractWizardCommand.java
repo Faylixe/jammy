@@ -47,7 +47,7 @@ public abstract class AbstractWizardCommand extends AbstractHandler {
 	 * @param monitor
 	 * @return
 	 */
-	private final IStatus onLoggedSession(final IProgressMonitor monitor) {
+	private final IStatus onLoggedSession(final IProgressMonitor monitor) { // NOPMD (Used as functional interface)
 		Display.getDefault().asyncExec(() -> {
 			// Retrieves current shell.
 			final IWorkbench workbench = PlatformUI.getWorkbench();

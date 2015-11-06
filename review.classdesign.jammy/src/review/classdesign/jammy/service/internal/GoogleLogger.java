@@ -137,7 +137,7 @@ public final class GoogleLogger implements IGoogleLogger {
 	 * @param monitor Monitor to use for tracking login progress.
 	 * @return {@link Status#OK_STATUS}
 	 */
-	private IStatus waitForCode(final IProgressMonitor monitor) {
+	private IStatus waitForCode(final IProgressMonitor monitor) { // NOPMD (Used as functional interface)
 		try {
 			final String code = receiver.waitForCode();
 			authorize(code);

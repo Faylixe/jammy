@@ -140,7 +140,7 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		@Override
 		public Object[] getChildren(final Object parentElement) {
 			if (parentElement.equals(currentSubmission)) {
-				return LABEL;
+				return LABEL; // NOPMD
 			}
 			return Jammy.CHILDLESS;
 		}

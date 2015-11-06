@@ -69,7 +69,7 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	 * @param element Problem instance to retrieve image from.
 	 * @return Image instance for the given problem.
 	 */
-	private Image getImage(final Object element) {
+	private Image getImage(final Object element) { // NOPMD (Used as functional interface)
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		// TODO : Consider using problem status (info -> discovery, error -> failed, task -> succsess)
 		return workbench.getSharedImages().getImage(SharedImages.IMG_OBJ_PROJECT);
