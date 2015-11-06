@@ -216,6 +216,7 @@ public final class SubmissionView extends ViewPart implements IDoubleClickListen
 	 * Default constructor.
 	 */
 	public SubmissionView() {
+		super();
 		this.listener = new SubmissionListener();
 	}
 

@@ -83,6 +83,134 @@ public class InitialValues { // NOPMD
 
 	/**
 	 * 
+	 * @return
+	 */
+	public String getAdmin() {
+		return admin;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getSeen() {
+		return seen;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getCS() {
+		return cs;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getToken() {
+		return token;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getInput() {
+		return input;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSnippet() {
+		return snippet;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isLogger() {
+		return logged;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLoginHTML() {
+		return loginHTML;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLogoutHTML() {
+		return logoutHTML;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isQualified() {
+		return qualified;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public long getLeft() {
+		return left;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public long getUntilStart() {
+		return untilStart;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public long getStart() {
+		return start;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * 
 	 * @param round
 	 * @return
 	 * @throws IOException 
