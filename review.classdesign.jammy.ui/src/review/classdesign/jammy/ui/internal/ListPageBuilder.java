@@ -39,16 +39,16 @@ public final class ListPageBuilder {
 	private final String name;
 
 	/** Description of the created page. **/
-	private String description;
+	private String description; // NOPMD
 
 	/** Selection consumer that will handle user selection. **/
 	private Consumer<Object> consumer;
 
 	/** Content provider instance used by the created list. **/
-	private IContentProvider contentProvider;
+	private IContentProvider contentProvider; // NOPMD
 
 	/** Label provider instance used by the created list. **/
-	private IBaseLabelProvider labelProvider;
+	private IBaseLabelProvider labelProvider; // NOPMD
 
 	/**
 	 * Custom wizard page implementation that displays a list
