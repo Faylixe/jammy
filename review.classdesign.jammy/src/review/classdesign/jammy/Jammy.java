@@ -21,7 +21,6 @@ import org.osgi.framework.BundleContext;
 
 import review.classdesign.jammy.addons.ILanguageManager;
 import review.classdesign.jammy.common.EclipseUtils;
-import review.classdesign.jammy.common.RequestUtils;
 import review.classdesign.jammy.common.SerializationUtils;
 import review.classdesign.jammy.core.Round;
 import review.classdesign.jammy.core.listener.IContestSelectionListener;
