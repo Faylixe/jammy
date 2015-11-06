@@ -88,7 +88,7 @@ public final class EclipseUtils {
 	 * @param execption Error caught that should be logged.
 	 */
 	public static void showError(final String message, final Exception execption) {
-		execption.printStackTrace();
+		execption.printStackTrace(); // NOPMD
 		final Status status = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, message, execption);
 		StatusManager.getManager().handle(status, StatusManager.SHOW);
 	}

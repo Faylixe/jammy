@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
+import review.classdesign.jammy.common.EclipseUtils;
+
 /**
  * Abstract handler implementation that is in charge of
  * creating and running a {@link Job}.
@@ -25,7 +27,7 @@ public abstract class AbstractProgressiveCommand extends AbstractHandler impleme
 			dialog.run(true, false, this);
 		}
 		catch (final InvocationTargetException | InterruptedException e) {
-			e.printStackTrace();
+			EclipseUtils.showError(e);
 		}
 		return null;
 	}

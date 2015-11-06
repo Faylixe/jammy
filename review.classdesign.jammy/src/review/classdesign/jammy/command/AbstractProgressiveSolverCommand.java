@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.webservice.contest.ContestInfo;
 import review.classdesign.jammy.core.webservice.contest.Problem;
@@ -30,7 +31,7 @@ public abstract class AbstractProgressiveSolverCommand extends AbstractProgressi
 				processSolver(solver, monitor);
 			}
 			catch (final CoreException e) {
-				e.printStackTrace();
+				EclipseUtils.showError(e);
 			}
 		}
 	}

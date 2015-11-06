@@ -140,7 +140,7 @@ public class Jammy extends AbstractUIPlugin {
 			InitialValues.get(round);
 		}
 		catch (final IOException e) {
-			e.printStackTrace();
+			EclipseUtils.showError(e);
 		}
 		fireContestSelectionChanged();
 	}

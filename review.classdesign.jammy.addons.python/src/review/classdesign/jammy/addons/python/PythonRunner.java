@@ -8,6 +8,7 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 
 import review.classdesign.jammy.addons.ISolverRunner;
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.core.ProblemSolver;
 
 /**
@@ -50,8 +51,7 @@ public final class PythonRunner implements ISolverRunner {
 			process = builder.start();
 		}
 		catch (final IOException e) {
-			// TODO : Throw error.
-			e.printStackTrace();
+			EclipseUtils.showError(e);
 		}
 	}
 
