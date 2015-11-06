@@ -34,7 +34,7 @@ import review.classdesign.jammy.ui.JammyUI;
  * 
  * @author fv
  */
-public final class SubmissionView extends ViewPart implements ISubmissionListener, IDoubleClickListener {
+public final class SubmissionView extends ViewPart implements IDoubleClickListener {
 
 	/** **/
 	public static final String ID = "review.classdesign.jammy.view.submission";
@@ -58,6 +58,9 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 	private static final int MAXIMUM = 3;
 
 	/** **/
+	private final SubmissionListener listener;
+
+	/** **/
 	private ProgressBar indicator;
 
 	/** **/
@@ -71,6 +74,53 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 
 	/** **/
 	private SubmissionException error;
+
+	/**
+	 * 
+	 * @author fv
+	 */
+	private class SubmissionListener implements ISubmissionListener {
+
+		/** {@inheritDoc} **/
+		@Override
+		public void submissionStarted(final ISubmission submission) {
+			state = INPUT;
+			currentSubmission = submission.getName();
+			update();
+			Display.getDefault().asyncExec(() -> {
+				viewer.expandToLevel(TreeViewer.ALL_LEVELS);
+			});
+		}
+
+		/** {@inheritDoc} **/
+		@Override
+		public void submissionFinished(final ISubmission submission) {
+			state = 4;
+			update();
+		}
+
+		/** {@inheritDoc} **/
+		@Override
+		public void executionStarted(final ISubmission submission) {
+			state = RUNNING;
+			update();
+		}
+
+		/** {@inheritDoc} **/
+		@Override
+		public void executionFinished(final ISubmission submission) {
+			state = OUTPUT;
+			update();
+		}
+
+		/** {@inheritDoc} **/
+		@Override
+		public void errorCaught(final ISubmission submission, final SubmissionException exception) {
+			error = exception;
+			update();
+		}
+	
+	}
 
 	/**
 	 * 
@@ -162,10 +212,17 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		
 	}
 
+	/**
+	 * Default constructor.
+	 */
+	public SubmissionView() {
+		this.listener = new SubmissionListener();
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public void createPartControl(final Composite parent) {
-		ISubmissionService.get().addSubmissionListener(this);
+		ISubmissionService.get().addSubmissionListener(listener);
 		final GridLayout layout = new GridLayout();
 		parent.setLayout(layout);
 		createProgressBar(parent);
@@ -214,7 +271,7 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 	@Override
 	public void dispose() {
 		super.dispose();
-		ISubmissionService.get().removeSubmissionListener(this);
+		ISubmissionService.get().removeSubmissionListener(listener);
 	}
 
 	/** {@inheritDoc} **/
@@ -223,6 +280,9 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		// Do nothing.
 	}
 
+	/**
+	 * 
+	 */
 	private void update() {
 		Display.getDefault().asyncExec(() -> {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -232,45 +292,6 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 			viewer.refresh();
 			indicator.setSelection(indicator.getSelection() + 1);
 		});
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void submissionStarted(final ISubmission submission) {
-		state = INPUT;
-		currentSubmission = submission.getName();
-		update();
-		Display.getDefault().asyncExec(() -> {
-			viewer.expandToLevel(TreeViewer.ALL_LEVELS);
-		});
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void submissionFinished(final ISubmission submission) {
-		state = 4;
-		update();
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void executionStarted(final ISubmission submission) {
-		state = RUNNING;
-		update();
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void executionFinished(final ISubmission submission) {
-		state = OUTPUT;
-		update();
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void errorCaught(final ISubmission submission, final SubmissionException exception) {
-		error = exception;
-		update();
 	}
 
 }

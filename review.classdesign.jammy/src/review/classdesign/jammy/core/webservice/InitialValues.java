@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author fv
  */
-public class InitialValues {
+public class InitialValues { // NOPMD
 
 	/** **/
 	private static final String REQUEST = "/do?cmd=GetInitialValues&zx=%s&csrfmiddlewaretoken=undefined";
