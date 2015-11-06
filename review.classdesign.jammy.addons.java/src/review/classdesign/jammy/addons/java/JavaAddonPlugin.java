@@ -3,7 +3,7 @@ package review.classdesign.jammy.addons.java;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import review.classdesign.jammy.common.Template;
+import review.classdesign.jammy.core.common.Template;
 
 /**
  * The activator class controls the plug-in life cycle

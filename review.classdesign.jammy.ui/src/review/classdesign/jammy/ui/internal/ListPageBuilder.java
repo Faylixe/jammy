@@ -16,7 +16,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import review.classdesign.jammy.Jammy;
+import review.classdesign.jammy.core.Jammy;
 
 /**
  * A {@link ListPageBuilder} allows to build a {@link WizardPage}

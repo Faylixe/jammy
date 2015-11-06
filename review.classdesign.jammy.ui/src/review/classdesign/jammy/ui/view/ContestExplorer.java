@@ -20,13 +20,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
-import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.command.OpenSolverCommand;
-import review.classdesign.jammy.common.EclipseUtils;
-import review.classdesign.jammy.common.NamedObject;
-import review.classdesign.jammy.core.listener.IContestSelectionListener;
-import review.classdesign.jammy.core.webservice.contest.ContestInfo;
-import review.classdesign.jammy.core.webservice.contest.Problem;
+import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.command.OpenSolverCommand;
+import review.classdesign.jammy.core.common.EclipseUtils;
+import review.classdesign.jammy.core.common.NamedObject;
+import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
+import review.classdesign.jammy.core.model.webservice.contest.ContestInfo;
+import review.classdesign.jammy.core.model.webservice.contest.Problem;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 

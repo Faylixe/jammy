@@ -11,7 +11,7 @@
 
   <modules>
     <!-- Jammy core -->
-    <module>review.classdesign.jammy</module>
+    <module>review.classdesign.jammy.core</module>
     <module>review.classdesign.jammy.ui</module>
     <module>review.classdesign.jammy.addons.java</module>
     <!-- TODO : Add extension and features -->

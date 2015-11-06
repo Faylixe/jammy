@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 
-import review.classdesign.jammy.addons.ISolverRunner;
-import review.classdesign.jammy.common.EclipseUtils;
-import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.addons.ISolverRunner;
+import review.classdesign.jammy.core.common.EclipseUtils;
+import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * 

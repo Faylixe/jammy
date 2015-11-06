@@ -12,10 +12,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
-import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.common.EclipseUtils;
-import review.classdesign.jammy.core.listener.IProblemSelectionListener;
-import review.classdesign.jammy.core.webservice.contest.Problem;
+import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.common.EclipseUtils;
+import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
+import review.classdesign.jammy.core.model.webservice.contest.Problem;
 import review.classdesign.jammy.ui.command.ContestSelectionCommand;
 
 /**

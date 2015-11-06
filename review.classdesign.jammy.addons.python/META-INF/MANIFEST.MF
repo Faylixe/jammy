@@ -7,7 +7,7 @@ Bundle-Activator: review.classdesign.jammy.addons.python.Activator
 Bundle-Vendor: Faylixe
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- review.classdesign.jammy;bundle-version="1.0.0",
+ review.classdesign.jammy.core;bundle-version="1.0.0",
  org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

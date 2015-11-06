@@ -1,6 +1,6 @@
 package review.classdesign.jammy.addons.python;
 
-import review.classdesign.jammy.addons.AbstractProcessManager;
+import review.classdesign.jammy.core.addons.AbstractProcessManager;
 
 /**
  * 

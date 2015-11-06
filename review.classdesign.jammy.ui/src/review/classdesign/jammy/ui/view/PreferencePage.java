@@ -8,8 +8,8 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import review.classdesign.jammy.Jammy;
-import review.classdesign.jammy.JammyPreferences;
+import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.JammyPreferences;
 
 /**
  * Preference page implementation for the Jammy plugin.

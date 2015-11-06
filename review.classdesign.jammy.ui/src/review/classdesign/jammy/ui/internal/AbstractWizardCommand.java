@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import review.classdesign.jammy.service.IGoogleSessionService;
+import review.classdesign.jammy.core.service.IGoogleSessionService;
 
 /**
  * Abstract command implementation that only run a {@link Wizard}
