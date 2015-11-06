@@ -21,6 +21,7 @@ public final class SubmissionServiceFactory extends AbstractServiceFactory {
 	 * Initializes service reference.
 	 */
 	public SubmissionServiceFactory() {
+		super();
 		this.service = new SubmissionService();
 	}
 

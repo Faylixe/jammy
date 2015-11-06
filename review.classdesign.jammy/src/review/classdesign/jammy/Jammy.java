@@ -69,6 +69,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Jammy() {
+		super();
 		this.contestListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
 		this.managers = new HashMap<>();

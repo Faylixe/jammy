@@ -21,6 +21,7 @@ public final class GoogleSessionServiceFactory extends AbstractServiceFactory {
 	 * Initializes service reference.
 	 */
 	public GoogleSessionServiceFactory() {
+		super();
 		this.service = new GoogleSessionService();
 	}
 
