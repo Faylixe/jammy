@@ -44,7 +44,7 @@ public class ProcessSolverRunner implements ISolverRunner {
 	/** {@inheritDoc} **/
 	@Override
 	public boolean isTerminated() {
-		return (process != null && !process.isAlive());
+		return process != null && !process.isAlive();
 	}
 
 	/** {@inheritDoc} **/

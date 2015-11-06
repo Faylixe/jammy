@@ -36,7 +36,7 @@ public final class PythonRunner implements ISolverRunner {
 	/** {@inheritDoc} **/
 	@Override
 	public boolean isTerminated() {
-		return (process != null && !process.isAlive());
+		return process != null && !process.isAlive();
 	}
 
 	/** {@inheritDoc} **/

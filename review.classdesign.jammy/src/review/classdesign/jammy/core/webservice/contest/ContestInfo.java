@@ -81,7 +81,7 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 	 * @return <tt>true</tt> if contest analysis is available, <tt>false</tt> otherwise.
 	 */
 	public boolean hasAnalysis() {
-		return (analysis == 1);
+		return analysis == 1;
 	}
 	
 	/**

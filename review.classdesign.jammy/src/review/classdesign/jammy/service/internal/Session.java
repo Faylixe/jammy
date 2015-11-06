@@ -41,7 +41,7 @@ public final class Session {
 	 * @return <tt>true</tt> if this session is not equals to {@link #EMPTY} session, <tt>false</tt> otherwise.
 	 */
 	public boolean isPresent() {
-		return (!EMPTY.equals(this));
+		return !EMPTY.equals(this);
 	}
 	
 	/**
