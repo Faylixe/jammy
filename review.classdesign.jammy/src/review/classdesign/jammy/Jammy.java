@@ -139,8 +139,6 @@ public class Jammy extends AbstractUIPlugin {
 		try {
 			currentContest = ContestInfo.get(round);
 			InitialValues.get(round);
-			System.out.println("======================");
-			System.out.println(RequestUtils.get("https://accounts.google.com/ServiceLogin?service=ah"));
 		}
 		catch (final IOException e) {
 			e.printStackTrace();
