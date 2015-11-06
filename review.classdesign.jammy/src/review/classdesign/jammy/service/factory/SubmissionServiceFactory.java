@@ -31,11 +31,7 @@ public final class SubmissionServiceFactory extends AbstractServiceFactory {
 			final Class serviceInterface,
 			final IServiceLocator parentLocator,
 			final IServiceLocator locator) {
-		Object result = null;
-		if (ISubmissionService.class.equals(serviceInterface)) {
-			result = service;
-		}
-		return result;
+		return ISubmissionService.class.equals(serviceInterface) ? service : null;
 	}
 
 }

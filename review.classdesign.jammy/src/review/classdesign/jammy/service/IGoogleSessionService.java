@@ -9,6 +9,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
+import review.classdesign.jammy.common.EclipseUtils;
 import review.classdesign.jammy.service.internal.GoogleSessionProvider;
 
 import com.google.api.client.http.HttpRequestFactory;
@@ -77,9 +78,8 @@ public interface IGoogleSessionService {
 				try {
 					service.login();
 				}
-				catch (final Exception e) {
-					e.printStackTrace();
-					return false;
+				catch (final IOException | GeneralSecurityException e) {
+					EclipseUtils.showError(e);
 				}
 			}
 		}
