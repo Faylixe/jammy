@@ -145,12 +145,11 @@ public final class ContestWizard extends Wizard {
 	/** {@inheritDoc} **/
 	@Override
 	public boolean performFinish() {
-		boolean finished = false;
 		if (round != null) {
 			Jammy.getDefault().setCurrentRound(round);
-			finished = true;
+			return true;
 		}
-		return finished;
+		return false;
 	}
 
 }
