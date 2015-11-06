@@ -107,7 +107,7 @@ public final class Problem extends NamedObject {
 				final String hostname = JammyPreferences.getHostname();
 				builder
 					.append(hostname.charAt(0) == '/' ? hostname.substring(0, -1) : hostname)
-					.append("/")
+					.append('/')
 					.append(original.charAt(0) == '/' ? original.substring(1) : original);
 				image.attr(HTMLConstant.SRC, builder.toString());
 				builder.delete(0, builder.length());

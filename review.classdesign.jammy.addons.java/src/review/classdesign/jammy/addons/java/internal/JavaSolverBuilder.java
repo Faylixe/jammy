@@ -51,7 +51,7 @@ public final class JavaSolverBuilder {
 		final StringBuilder builder = new StringBuilder();
 		builder
 			.append(JavaProjectBuilder.SOURCE_PATH)
-			.append("/")
+			.append('/')
 			.append(name)
 			.append(SOLVER_EXTENSION);
 		return project.getFile(builder.toString());

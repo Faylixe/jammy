@@ -60,7 +60,7 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 		final StringBuilder builder = new StringBuilder(CONTEST_PROJECT_PREFIX);
 		builder
 			.append(Template.normalize(round.getContestName()).toLowerCase())
-			.append(".")
+			.append('.')
 			.append(Template.normalize(round.getName()).toLowerCase());
 		projectName = builder.toString();
 	}
