@@ -192,7 +192,7 @@ public final class Problem extends NamedObject {
 	 * @see #inputs
 	 */
 	public List<ProblemInput> getProblemInputs() {
-		return (inputs != null ? Arrays.asList(inputs) : Collections.emptyList());
+		return (inputs == null ? Collections.emptyList() : Arrays.asList(inputs));
 	}
 
 }

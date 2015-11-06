@@ -72,7 +72,7 @@ public final class SubmissionService implements ISubmissionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void downloadInput(final ProblemInput input) {
-		
+		// TODO : Implements input download.
 	}
 
 }

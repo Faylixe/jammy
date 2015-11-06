@@ -100,7 +100,7 @@ public final class ContestInfo implements Serializable, ObjectInputValidation {
 	 * @return List of problem this contest exposes.
 	 */
 	public List<Problem> getProblems() {
-		return (problems != null ? Arrays.asList(problems) : Collections.emptyList());
+		return (problems == null ? Collections.emptyList() : Arrays.asList(problems));
 	}
 
 	/** {@inheritDoc} **/

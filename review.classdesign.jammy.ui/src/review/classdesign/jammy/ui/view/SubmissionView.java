@@ -97,11 +97,11 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 				return JammyUI.getImage(JammyUI.IMG_SUBMISSION_SUCCESS);
 			}
 			else if (currentState == state) {
-				if (error != null) {
-					return JammyUI.getImage(JammyUI.IMG_SUBMISSION_FAIL);
+				if (error == null) {
+					return JammyUI.getImage(JammyUI.IMG_SUBMISSION_RUN);
 				}
 				else {
-					return JammyUI.getImage(JammyUI.IMG_SUBMISSION_RUN);
+					return JammyUI.getImage(JammyUI.IMG_SUBMISSION_FAIL);
 				}
 			}
 			return JammyUI.getImage(JammyUI.IMG_SUBMISSION_TEST);
@@ -118,11 +118,13 @@ public final class SubmissionView extends ViewPart implements ISubmissionListene
 		/** {@inheritDoc} **/
 		@Override
 		public void dispose() {
+			// Do nothing.
 		}
 
 		/** {@inheritDoc} **/
 		@Override
 		public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
+			// Do nothing.
 		}
 
 		/** {@inheritDoc} **/
