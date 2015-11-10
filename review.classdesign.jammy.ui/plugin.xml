@@ -97,21 +97,30 @@
       <menuContribution
             allPopups="false"
             locationURI="popup:review.classdesign.jammy.menu.contest?after=contest.contribution">
-         <command
-               commandId="review.classdesign.jammy.command.opensolver"
-               label="Open problem solver"
-               style="push">
-         </command>
-         <command
-               commandId="review.classdesign.jammy.command.runtest"
-               label="Run sample dataset"
-               style="push">
-         </command>
-         <command
-               commandId="review.classdesign.jammy.command.opendataseteditor"
-               label="Edit dataset"
-               style="push">
-         </command>
+         <menu
+               label="Solver">
+            <command
+                  commandId="review.classdesign.jammy.command.opensolver"
+                  label="Open"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               label="Sample dataset">
+            <command
+                  commandId="review.classdesign.jammy.command.runtest"
+                  label="Run"
+                  style="push">
+            </command>
+            <command
+                  commandId="review.classdesign.jammy.command.opendataseteditor"
+                  label="Edit"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               label="Submission">
+         </menu>
       </menuContribution>
       <menuContribution
             allPopups="false"

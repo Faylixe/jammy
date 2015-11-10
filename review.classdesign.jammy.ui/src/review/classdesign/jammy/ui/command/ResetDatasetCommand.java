@@ -5,11 +5,10 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 /**
- * This command open.
  * 
  * @author fv
  */
-public final class OpenDatasetCommand extends AbstractHandler {
+public final class ResetDatasetCommand extends AbstractHandler {
 
 	/** {@inheritDoc} **/
 	@Override
