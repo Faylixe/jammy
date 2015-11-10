@@ -6,12 +6,16 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.compare.BufferedContent;
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareEditorInput;
+import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.ITypedElement;
+import org.eclipse.compare.rangedifferencer.RangeDifference;
 import org.eclipse.compare.structuremergeviewer.DiffNode;
+import org.eclipse.compare.structuremergeviewer.Differencer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IReusableEditor;
 
 /**
  * {@link CompareEditorInput} implementation for comparing
@@ -31,6 +35,9 @@ public final class DatasetEditorInput extends CompareEditorInput {
 
 	/** Label used for the right side of the compare editor. **/
 	private static final String RIGHT_LABEL = "Output";
+
+	/** **/
+	private static IReusableEditor CURRENT_EDITOR;
 
 	/** Dataset input file. **/
 	private final IFile input;
@@ -70,6 +77,7 @@ public final class DatasetEditorInput extends CompareEditorInput {
 			return file.getName();
 		}
 
+		/** {@inheritDoc} **/
 		@Override
 		public String getType() {
 			return ITypedElement.TEXT_TYPE;
@@ -100,7 +108,7 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	/** {@inheritDoc} **/
 	@Override
 	protected Object prepareInput(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		return new DiffNode(new Element(input), new Element(output));
+		return new DiffNode(null, Differencer.NO_CHANGE, null, new Element(input), new Element(output));
 	}
 
 	/**
@@ -111,13 +119,22 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	 * @param output Dataset output file to be edited.
 	 * @return Created input instance.
 	 */
-	public static DatasetEditorInput create(final IFile input, final IFile output) {
+	public static synchronized void openWith(final IFile input, final IFile output) {
 		final CompareConfiguration configuration = new CompareConfiguration();
 		configuration.setLeftEditable(true);
 		configuration.setRightEditable(true);
 		configuration.setLeftLabel(LEFT_LABEL);
 		configuration.setRightLabel(RIGHT_LABEL);
-		return new DatasetEditorInput(configuration, input, output);
+		configuration.setChangeIgnored(RangeDifference.CHANGE, true);
+		final DatasetEditorInput editorInput = new DatasetEditorInput(configuration, input, output);
+		if (CURRENT_EDITOR == null) {
+			CompareUI.openCompareEditor(editorInput, true);
+			// TODO : Retrieves current editor and set it as current ones.
+		}
+		else {
+			CompareUI.reuseCompareEditor(editorInput, CURRENT_EDITOR);
+		}
 	}
+	
 
 }

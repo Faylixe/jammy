@@ -17,6 +17,13 @@
             id="review.classdesign.jammy.command.refreshproblem"
             name="Refresh problem">
       </command>
+      <command
+            categoryId="review.classdesign.jammy.commands.category"
+            defaultHandler="review.classdesign.jammy.ui.command.OpenDatasetEditorCommand"
+            description="Open an editor for modifying dataset input and output files"
+            id="review.classdesign.jammy.command.opendataseteditor"
+            name="Edit dataset">
+      </command>
      </extension>
     <extension
          point="org.eclipse.ui.views">
@@ -98,6 +105,11 @@
          <command
                commandId="review.classdesign.jammy.command.runtest"
                label="Run sample dataset"
+               style="push">
+         </command>
+         <command
+               commandId="review.classdesign.jammy.command.opendataseteditor"
+               label="Edit dataset"
                style="push">
          </command>
       </menuContribution>

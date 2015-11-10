@@ -70,7 +70,7 @@ public final class LocalSubmission extends AbstractSubmission {
 			if (!EclipseUtils.isFileEquals(expected, actual)) {
 				// TODO : Add error message.
 				throw new SubmissionException("", () -> {
-					CompareUI.openCompareEditor(SubmissionCompareEditorInput.create(actual, expected), true);
+					CompareUI.openCompareDialog(SubmissionCompareEditorInput.create(actual, expected));
 				});
 			}
 		}
