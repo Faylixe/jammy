@@ -23,8 +23,6 @@ import review.classdesign.jammy.core.service.IGoogleSessionService;
  * Abstract command implementation that only run a {@link Wizard}
  * created by the {@link #createWizard()} abstract method.
  * 
- * TODO : Consider remerging abstract handler with contest selection handler.
- * 
  * @author fv
  */
 public abstract class AbstractWizardCommand extends AbstractHandler {

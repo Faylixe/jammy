@@ -146,7 +146,11 @@ public final class ContestWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		if (round != null) {
-			Jammy.getDefault().setCurrentRound(round);
+			EclipseUtils.createUIJob(monitor -> {
+				// TODO : Disable contest explorer view.
+				Jammy.getDefault().setCurrentRound(round);
+				// TODO : Reenable contestn
+			});
 			return true;
 		}
 		return false;

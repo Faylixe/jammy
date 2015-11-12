@@ -12,6 +12,7 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -98,9 +99,12 @@ public final class ListPageBuilder {
 			final IWizardPage next = wizard.getNextPage(this);
 			final IWizardContainer container = wizard.getContainer();
 			if (next != null) {
-				// TODO : 	Figure out how to finalize wizard workflow.
-				//			Using WizardDialog buttonPressed().
 				container.showPage(next);
+			}
+			else if (container instanceof WizardDialog) {
+				wizard.performFinish();
+				final WizardDialog dialog = (WizardDialog) container;
+				dialog.close();
 			}
 		}
 
