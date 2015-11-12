@@ -189,9 +189,7 @@ public final class EclipseUtils {
 	 */
 	public static void openFile(final IFile file) {
 		Display.getDefault().asyncExec(() -> {
-			final IWorkbench workbench = PlatformUI.getWorkbench();
-			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			final IWorkbenchPage page = window.getActivePage();
+			final IWorkbenchPage page = getActivePage();
 			try {
 				IDE.openEditor(page, file);
 			}
@@ -201,4 +199,14 @@ public final class EclipseUtils {
 		});
 	}
 
+	/**
+	 * Retrieves and returns the current active workbench page.
+	 * 
+	 * @return Current active workbench page.
+	 */
+	public static IWorkbenchPage getActivePage() {
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		return window.getActivePage();
+	}
 }

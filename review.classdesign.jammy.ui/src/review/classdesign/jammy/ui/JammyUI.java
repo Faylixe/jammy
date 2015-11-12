@@ -8,9 +8,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import review.classdesign.jammy.ui.internal.EditorCache;
 import review.classdesign.jammy.ui.view.SubmissionView;
 
 /**
@@ -85,6 +90,10 @@ public final class JammyUI extends AbstractUIPlugin {
 	public void start(final BundleContext context) throws Exception { // NOPMD
 		super.start(context);
 		plugin = this;
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		final IWorkbenchPage page = window.getActivePage();
+		page.addPartListener(EditorCache.getInstance());
 	}
 
 	/** {@inheritDoc} **/

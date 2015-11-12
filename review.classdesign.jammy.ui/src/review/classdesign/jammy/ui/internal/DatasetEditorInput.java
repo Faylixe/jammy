@@ -15,12 +15,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IReusableEditor;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
+
+import review.classdesign.jammy.core.common.EclipseUtils;
+import review.classdesign.jammy.core.model.ProblemSampleDataset;
+import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * {@link CompareEditorInput} implementation for comparing
@@ -33,16 +33,13 @@ import org.eclipse.ui.PlatformUI;
 public final class DatasetEditorInput extends CompareEditorInput {
 
 	/** Editor title. **/
-	private static final String TITLE = "Dataset editor";
+	private static final String TITLE = "%s - Dataset";
 
 	/** Label used for the left side of the compare editor. **/
 	private static final String LEFT_LABEL = "Input";
 
 	/** Label used for the right side of the compare editor. **/
 	private static final String RIGHT_LABEL = "Output";
-
-	/** **/
-	private static IReusableEditor CURRENT_EDITOR;
 
 	/** Dataset input file. **/
 	private final IFile input;
@@ -103,11 +100,12 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	 * @param input Dataset input file.
 	 * @param output Dataset output file.
 	 */
-	private DatasetEditorInput(final CompareConfiguration configuration, final IFile input, final IFile output) {
+	private DatasetEditorInput(final CompareConfiguration configuration, final ProblemSolver solver) {
 		super(configuration);
-		setTitle(TITLE);
-		this.input = input;
-		this.output = output;
+		final ProblemSampleDataset dataset = solver.getSampleDataset();
+		this.input = dataset.getInput();
+		this.output = dataset.getOutput();
+		setTitle(String.format(TITLE, solver.getName()));
 	}
 
 	/** {@inheritDoc} **/
@@ -117,39 +115,27 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	}
 
 	/**
-	 * 
-	 */
-	private static void getCurrentEditor() {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final IWorkbenchPage page = window.getActivePage();
-		for (final IEditorReference reference : page.getEditorReferences()) {
-			// TODO : Check if valid.
-		}
-	}
-
-	/**
 	 * Static factory method that creates a {@link DatasetEditorInput} from the given
 	 * <tt>actual</tt> and <tt>expected</tt> file.
 	 * 
-	 * @param input Dataset input file to be edited.
-	 * @param output Dataset output file to be edited.
+	 * @param solver Target solver to edit dataset for.
 	 * @return Created input instance.
 	 */
-	public static synchronized void openWith(final IFile input, final IFile output) {
+	public static synchronized void openFrom(final ProblemSolver solver) {
 		final CompareConfiguration configuration = new CompareConfiguration();
 		configuration.setLeftEditable(true);
 		configuration.setRightEditable(true);
 		configuration.setLeftLabel(LEFT_LABEL);
 		configuration.setRightLabel(RIGHT_LABEL);
 		configuration.setChangeIgnored(RangeDifference.CHANGE, true);
-		final DatasetEditorInput editorInput = new DatasetEditorInput(configuration, input, output);
-		if (CURRENT_EDITOR == null) {
+		final DatasetEditorInput editorInput = new DatasetEditorInput(configuration, solver);
+		final IReusableEditor editor = EditorCache.getInstance().getEditor(editorInput);
+		if (editor == null) {
 			CompareUI.openCompareEditor(editorInput, true);
-			// TODO : Retrieves current editor and set it as current ones.
 		}
 		else {
-			CompareUI.reuseCompareEditor(editorInput, CURRENT_EDITOR);
+			final IWorkbenchPage page = EclipseUtils.getActivePage();
+			page.activate(editor);
 		}
 	}
 	
