@@ -15,7 +15,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IReusableEditor;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * {@link CompareEditorInput} implementation for comparing
@@ -109,6 +114,18 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	@Override
 	protected Object prepareInput(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		return new DiffNode(null, Differencer.NO_CHANGE, null, new Element(input), new Element(output));
+	}
+
+	/**
+	 * 
+	 */
+	private static void getCurrentEditor() {
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		final IWorkbenchPage page = window.getActivePage();
+		for (final IEditorReference reference : page.getEditorReferences()) {
+			// TODO : Check if valid.
+		}
 	}
 
 	/**
