@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.commands.Command;
@@ -20,6 +21,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobFunction;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -46,6 +49,9 @@ public final class EclipseUtils {
 
 	/** Error message displayed when an error occurs while executing a command.**/
 	private static final String COMMAND_ERROR = "An error occurs while executing the command %s";
+
+	/** Default name used by job created by {@link #createUIJob(IJobFunction)} method. **/
+	private static final String DEFAULT_JOB_NAME = "Jammy job";
 
 	/** {@link NullProgressMonitor} instance shared in order to avoid instance duplication. **/
 	public static final IProgressMonitor NULL_MONITOR = new NullProgressMonitor();
@@ -181,6 +187,25 @@ public final class EclipseUtils {
 		}
 	}
 
+
+	/**
+	 * Creates and runs a UI thread based job that
+	 * runs the given <tt>delegate</tt> {@link Consumer}.
+	 * 
+	 * @param delegate Delegate consumer instance executed into our created job.
+	 * @return Created job instance.
+	 */
+	public static Job createUIJob(final Consumer<IProgressMonitor> delegate) {
+		final Job job = Job.create(DEFAULT_JOB_NAME, monitor -> {
+			Display.getDefault().asyncExec(() -> {
+				delegate.accept(monitor);
+			});
+			return Status.OK_STATUS;
+		});
+		job.schedule();
+		return job;
+	}
+
 	/**
 	 * Opens the given <tt>file</tt> into a default editor
 	 * based on file nature.
@@ -209,4 +234,5 @@ public final class EclipseUtils {
 		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		return window.getActivePage();
 	}
+
 }
