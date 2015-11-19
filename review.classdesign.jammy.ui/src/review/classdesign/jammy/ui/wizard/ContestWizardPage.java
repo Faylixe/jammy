@@ -1,10 +1,12 @@
 package review.classdesign.jammy.ui.wizard;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
@@ -17,6 +19,9 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import review.classdesign.jammy.core.common.NamedObject;
+import review.classdesign.jammy.core.model.Contest;
+
 /**
  * 
  * @author fv
@@ -27,7 +32,7 @@ public final class ContestWizardPage extends WizardPage {
 	private static final String JOB_NAME = "";
 
 	/** **/
-	private final ContestWizard parent;
+	private static final String PAGE_NAME = "";
 
 	/** **/
 	private ListViewer viewer;
@@ -74,6 +79,13 @@ public final class ContestWizardPage extends WizardPage {
 			return null;
 		}
 
+	}
+
+	/**
+	 * 
+	 */
+	public ContestWizardPage() {
+		super(PAGE_NAME);
 	}
 
 	/**
