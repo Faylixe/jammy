@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -138,9 +139,10 @@ public final class ContestWizardPage extends WizardPage {
 	/** {@inheritDoc} **/
 	@Override
 	public void createControl(final Composite parent) {
-		this.viewer = createListViewer(parent);
+		this.viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setLabelProvider(new ContestLabelProvider());
 		viewer.setContentProvider(new ContestContentProvider());
+		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addSelectionChangedListener(event -> onSelectionChanged(event::getSelection));
 		viewer.addDoubleClickListener(event -> {
 			onSelectionChanged(event::getSelection);
