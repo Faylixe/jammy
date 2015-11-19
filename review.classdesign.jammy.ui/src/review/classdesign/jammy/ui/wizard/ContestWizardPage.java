@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,8 +21,10 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.common.NamedObject;
 import review.classdesign.jammy.core.model.Contest;
+import review.classdesign.jammy.ui.JammyUI;
 
 /**
  * 
