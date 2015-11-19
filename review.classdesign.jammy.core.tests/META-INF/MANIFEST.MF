@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jammy core tests
+Bundle-SymbolicName: review.classdesign.jammy.core.tests
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: review.classdesign.jammy.core;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.junit
