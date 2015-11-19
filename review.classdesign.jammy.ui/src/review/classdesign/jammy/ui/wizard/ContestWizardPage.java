@@ -1,11 +1,21 @@
 package review.classdesign.jammy.ui.wizard;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * 
@@ -91,7 +101,7 @@ public final class ContestWizardPage extends WizardPage {
 	private void onSelectionChanged(final Supplier<ISelection> supplier) {
 		final IStructuredSelection selection = (IStructuredSelection) supplier.get();
 		final Object object = selection.getFirstElement();
-		consumer.accept(object);
+		// TODO : Finalizes object set operation.
 		setPageComplete(true);
 	}
 	
