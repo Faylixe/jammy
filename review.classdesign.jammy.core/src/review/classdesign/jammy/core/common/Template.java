@@ -1,22 +1,13 @@
 package review.classdesign.jammy.core.common;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.Bundle;
 
 import review.classdesign.jammy.core.Jammy;
 
 /**
  * Static toolbox that exposes methods for template managment.
  * 
+ * TODO : Consider merge this template content to the concerned class.
  * @author fv
  */
 public final class Template {
@@ -44,23 +35,6 @@ public final class Template {
 	public static String normalize(final String name) {
 		return name.replaceAll(PATTERN, "");
 	}
-
-	/**
-	 * Retrieves the template file content of the given <tt>path</tt>
-	 * using the given <tt>loader</tt> for retrieving the file stream.
-	 * 
-	 * @param path Path to retrieve template file from.
-	 * @param bundle Bundle the path is relative to.
-	 * @return Content read from the required template file.
-	 * @throws IOException If any error occurs while reading template content.
-	 */
-	public static String getTemplate(final String path, final Bundle bundle) throws IOException {
-		final URL url = FileLocator.find(bundle, new Path(path), null);
-		final InputStream stream = url.openStream();	
-		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		final Stream<String> lines = reader.lines();
-		return lines.collect(Collectors.joining("\n"));
-	}
 	
 	/**
 	 * Getter for the HTML template content.
@@ -69,7 +43,7 @@ public final class Template {
 	 * @throws IOException If any error occurs while reading template content.
 	 */
 	public static String getHTMLTemplate() throws IOException {
-		return getTemplate(HTML_TEMPLATE_PATH, Jammy.getDefault().getBundle()); // NOPMD
+		return EclipseUtils.getResource(HTML_TEMPLATE_PATH, Jammy.getDefault().getBundle()); // NOPMD
 	}
 
 }

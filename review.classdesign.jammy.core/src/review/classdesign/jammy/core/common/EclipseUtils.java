@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -17,9 +19,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
@@ -32,6 +36,7 @@ import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.osgi.framework.Bundle;
 
 import review.classdesign.jammy.core.Jammy;
 
@@ -70,6 +75,23 @@ public final class EclipseUtils {
 	public static String getCurrentUser() {
 		// TODO : Figure out how to retrieve current user nickname (triggering secure storage ?)
 		return "user";
+	}
+
+	/**
+	 * Retrieves the resource file content of the given <tt>path</tt>
+	 * using the given <tt>bundle</tt> for retrieving the file stream.
+	 * 
+	 * @param path Path to retrieve template file from.
+	 * @param bundle Bundle the path is relative to.
+	 * @return Content read from the required resource file.
+	 * @throws IOException If any error occurs while reading template content.
+	 */
+	public static String getResource(final String path, final Bundle bundle) throws IOException {
+		final URL url = FileLocator.find(bundle, new Path(path), null);
+		final InputStream stream = url.openStream();	
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		final Stream<String> lines = reader.lines();
+		return lines.collect(Collectors.joining("\n"));
 	}
 
 	/**

@@ -27,6 +27,9 @@ import review.classdesign.jammy.ui.internal.ListPageBuilder.ListPage;
  */
 public final class ContestWizard extends Wizard {
 
+	/** Error message displayed when contest could not be retrieved. **/
+	private static final String RETRIEVAL_ERROR = "An error occurs while retrieving contest (is hostname preference valid ?)";
+
 	/** Wizard title. **/
 	private static final String TITLE = "Google Code Jam contest selection";
 
@@ -72,7 +75,7 @@ public final class ContestWizard extends Wizard {
 			contest = Contest.get();
 		}
 		catch (final IOException e) {
-			EclipseUtils.showError(e);
+			EclipseUtils.showError(RETRIEVAL_ERROR, e);
 		}
 		return contest;
 	}
@@ -149,7 +152,7 @@ public final class ContestWizard extends Wizard {
 			EclipseUtils.createUIJob(monitor -> {
 				// TODO : Disable contest explorer view.
 				Jammy.getDefault().setCurrentRound(round);
-				// TODO : Reenable contestn
+				// TODO : Reenable contest
 			});
 			return true;
 		}

@@ -6,16 +6,17 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import review.classdesign.jammy.core.common.NamedObjectTest;
 import review.classdesign.jammy.core.common.RequestUtilsTest;
-import review.classdesign.jammy.core.common.SerializationUtilsTest;
-import review.classdesign.jammy.core.common.TemplateTest;
+import review.classdesign.jammy.core.model.ContestTest;
+import review.classdesign.jammy.core.model.RoundTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
 	// review.classdesign.jammy.core.common test cases.
 	NamedObjectTest.class,
 	RequestUtilsTest.class,
-	SerializationUtilsTest.class,
-	TemplateTest.class
+	// review.classdesign.jammy.core.model test cases.
+	ContestTest.class,
+	RoundTest.class
 })
 public final class AllTests {
 
