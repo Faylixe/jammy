@@ -15,7 +15,7 @@ import org.eclipse.ui.IWorkbenchPart;
 public final class EditorCache implements IPartListener {
 
 	/** **/
-	private static EditorCache INSTANCE;
+	private static EditorCache instance;
 
 	/** **/
 	private final Map<String, IReusableEditor> cache;
@@ -88,11 +88,11 @@ public final class EditorCache implements IPartListener {
 	 */
 	public static EditorCache getInstance() {
 		synchronized (EditorCache.class) {
-			if (INSTANCE == null) {
-				INSTANCE = new EditorCache();
+			if (instance == null) {
+				instance = new EditorCache();
 			}
 		}
-		return INSTANCE;
+		return instance;
 	}
 
 }

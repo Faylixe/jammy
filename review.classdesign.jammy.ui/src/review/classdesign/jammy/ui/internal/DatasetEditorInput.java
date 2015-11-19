@@ -121,7 +121,7 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	 * @param solver Target solver to edit dataset for.
 	 * @return Created input instance.
 	 */
-	public static synchronized void openFrom(final ProblemSolver solver) {
+	public static void openFrom(final ProblemSolver solver) {
 		final CompareConfiguration configuration = new CompareConfiguration();
 		configuration.setLeftEditable(true);
 		configuration.setRightEditable(true);
@@ -129,13 +129,15 @@ public final class DatasetEditorInput extends CompareEditorInput {
 		configuration.setRightLabel(RIGHT_LABEL);
 		configuration.setChangeIgnored(RangeDifference.CHANGE, true);
 		final DatasetEditorInput editorInput = new DatasetEditorInput(configuration, solver);
-		final IReusableEditor editor = EditorCache.getInstance().getEditor(editorInput);
-		if (editor == null) {
-			CompareUI.openCompareEditor(editorInput, true);
-		}
-		else {
-			final IWorkbenchPage page = EclipseUtils.getActivePage();
-			page.activate(editor);
+		synchronized (DatasetEditorInput.class) {
+			final IReusableEditor editor = EditorCache.getInstance().getEditor(editorInput);
+			if (editor == null) {
+				CompareUI.openCompareEditor(editorInput, true);
+			}
+			else {
+				final IWorkbenchPage page = EclipseUtils.getActivePage();
+				page.activate(editor);
+			}
 		}
 	}
 	

@@ -23,6 +23,7 @@ import review.classdesign.jammy.core.Jammy;
  * A {@link ListPageBuilder} allows to build a {@link WizardPage}
  * that aims to display a list of object.
  * 
+ * TODO : Consider merging with a single wizard implementation.
  * @author fv
  */
 public final class ListPageBuilder {
@@ -98,13 +99,13 @@ public final class ListPageBuilder {
 			final IWizard wizard = getWizard();
 			final IWizardPage next = wizard.getNextPage(this);
 			final IWizardContainer container = wizard.getContainer();
-			if (next != null) {
-				container.showPage(next);
-			}
-			else if (container instanceof WizardDialog) {
+			if (next == null && container instanceof WizardDialog) {
 				wizard.performFinish();
 				final WizardDialog dialog = (WizardDialog) container;
 				dialog.close();
+			}
+			else {
+				container.showPage(next);
 			}
 		}
 
