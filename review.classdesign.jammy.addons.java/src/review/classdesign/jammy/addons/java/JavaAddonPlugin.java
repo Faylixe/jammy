@@ -3,7 +3,7 @@ package review.classdesign.jammy.addons.java;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import review.classdesign.jammy.core.common.Template;
+import review.classdesign.jammy.core.common.EclipseUtils;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -36,7 +36,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 	public void start(final BundleContext context) throws Exception { // NOPMD
 		super.start(context);
 		plugin = this;
-		template = Template.getTemplate("/templates/solution.template.java", JavaAddonPlugin.getDefault().getBundle());
+		template = EclipseUtils.getResource("/templates/solution.template.java", JavaAddonPlugin.getDefault().getBundle());
 	}
 
 	/** {@inheritDoc} **/

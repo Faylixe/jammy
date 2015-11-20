@@ -21,20 +21,28 @@ public final class ContestTest {
 	/** Expected number of round for the retrieved contest. **/
 	private static final int ROUND = 4;
 
+	/** **/
+	private static Contest testInstance;
+
 	/**
+	 * Retrieves the contest instance that will
+	 * be used for testing. Such contest will be
+	 * the last, assuming the the last contest
+	 * will never change.
 	 * 
-	 * @return
+	 * @return Contest instance for testing.
 	 */
 	public static Contest getTestContests() {
-		Contest testContest = null;
-		try {
-			final List<Contest> contests = Contest.get();
-			testContest = contests.get(contests.size() - 1);
+		if (testInstance == null) {
+			try {
+				final List<Contest> contests = Contest.get();
+				testInstance = contests.get(contests.size() - 1);
+			}
+			catch (final IOException e) {
+				fail("Error occured while retrieving contests : " + e.getMessage());
+			}
 		}
-		catch (final IOException e) {
-			fail("Error occured while retrieving contests : " + e.getMessage());
-		}
-		return testContest;
+		return testInstance;
 	}
 
 	/**
