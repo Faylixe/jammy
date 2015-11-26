@@ -70,7 +70,6 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void logout() {
-		session = Session.EMPTY;
 		GoogleSessionProvider.get().setLogged(false);
 	}
 

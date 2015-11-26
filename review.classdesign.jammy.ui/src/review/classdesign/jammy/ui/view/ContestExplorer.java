@@ -6,7 +6,6 @@ import io.faylixe.googlecodejam.client.webservice.Problem;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.eclipse.jface.action.GroupMarker;
@@ -28,6 +27,7 @@ import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.command.OpenSolverCommand;
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
+import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 
@@ -47,11 +47,22 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	/** Menu contribution identifier. **/
 	public static final String MENU_CONTRIBUTION = "contest.contribution";
 
+	/** **/
+	private final IProblemSelectionListener listener;
+
 	/** Viewer instance this view expose. **/
 	private TableViewer viewer;
 
 	/** Current contest information. **/
 	private ContestInfo contestInfo;
+
+	/**
+	 * Default constructor.
+	 * Setups the required listener.
+	 */
+	public ContestExplorer() {
+		this.listener = Jammy.getDefault();
+	}
 
 	/**
 	 * Functional method that acts as a {@link Supplier} of available
@@ -91,7 +102,6 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	/** {@inheritDoc} **/
 	@Override
 	public void createPartControl(final Composite parent) {
-		Jammy.getDefault().addContestSelectionListener(this);
 		viewer = new TableViewer(parent);
 		viewer.setContentProvider(new FunctionalContentProvider(this::getProblems));
 		viewer.setLabelProvider(new FunctionalLabelProvider(ContestExplorer::getName, this::getImage));
@@ -100,10 +110,7 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		});
 		viewer.addSelectionChangedListener(this);
 		createContextualMenu();
-		final Optional<ContestInfo> contest = Jammy.getDefault().getCurrentContest();
-		if (contest.isPresent()) {
-			contestSelected(contest.get());
-		}
+		Jammy.getDefault().addContestSelectionListener(this);
 	}
 
 	/**
@@ -127,7 +134,7 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		final Object object = selection.getFirstElement();
 		if (object instanceof Problem) {
 			final Problem problem = (Problem) object;
-			Jammy.getDefault().setCurrentProblem(problem);
+			listener.problemSelected(problem);
 		}
 	}
 

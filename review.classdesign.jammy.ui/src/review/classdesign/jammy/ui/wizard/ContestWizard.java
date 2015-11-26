@@ -1,8 +1,10 @@
 package review.classdesign.jammy.ui.wizard;
 
+import io.faylixe.googlecodejam.client.CodeJamSession;
 import io.faylixe.googlecodejam.client.Contest;
 import io.faylixe.googlecodejam.client.Round;
 import io.faylixe.googlecodejam.client.common.NamedObject;
+import io.faylixe.googlecodejam.client.executor.IHTTPRequestExecutor;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -12,9 +14,9 @@ import java.util.function.Supplier;
 
 import org.eclipse.jface.wizard.Wizard;
 
-import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.JammyPreferences;
 import review.classdesign.jammy.core.common.EclipseUtils;
+import review.classdesign.jammy.core.model.listener.ISessionListener;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 import review.classdesign.jammy.ui.internal.ListPageBuilder;
@@ -48,6 +50,12 @@ public final class ContestWizard extends Wizard {
 	/** Round page description. **/
 	private static final String ROUND_DESCRIPTION = "Please select any round";
 
+	/** **/
+	private final IHTTPRequestExecutor executor;
+
+	/** **/
+	private final ISessionListener listener;
+
 	/** Selected contest. **/
 	private Contest contest;
 
@@ -59,10 +67,15 @@ public final class ContestWizard extends Wizard {
 
 	/**
 	 * Default constructor.
+	 * 
+	 * @param executor
+	 * @param listener
 	 */
-	public ContestWizard() {
+	public ContestWizard(final IHTTPRequestExecutor executor, final ISessionListener listener) {
 		super();
 		setWindowTitle(TITLE);
+		this.executor = executor;
+		this.listener = listener;
 	}
 
 	/**
@@ -165,9 +178,13 @@ public final class ContestWizard extends Wizard {
 	public boolean performFinish() {
 		if (round != null) {
 			EclipseUtils.createUIJob(monitor -> {
-				// TODO : Disable contest explorer view.
-				Jammy.getDefault().setCurrentRound(round);
-				// TODO : Reenable contest
+				try {
+					final CodeJamSession session = CodeJamSession.createSession(executor, round);
+					listener.sessionChanged(session);
+				}
+				catch (final IOException e) {
+					EclipseUtils.showError(e);
+				}
 			});
 			return true;
 		}

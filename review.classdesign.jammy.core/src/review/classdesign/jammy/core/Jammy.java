@@ -29,6 +29,7 @@ import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.common.SerializationUtils;
 import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
 import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
+import review.classdesign.jammy.core.model.listener.ISessionListener;
 import review.classdesign.jammy.core.service.IGoogleSessionService;
 
 /**
@@ -36,7 +37,7 @@ import review.classdesign.jammy.core.service.IGoogleSessionService;
  * 
  * @author fv
  */
-public class Jammy extends AbstractUIPlugin {
+public class Jammy extends AbstractUIPlugin implements ISessionListener, IProblemSelectionListener {
 
 	private static final String CONTEST_STATE = "current.contest";
 
@@ -53,12 +54,6 @@ public class Jammy extends AbstractUIPlugin {
 	public static final Object [] CHILDLESS = new Object[0];
 
 	/** **/
-	private ContestInfo currentContest;
-	
-	/** **/
-	private Problem currentProblem;
-
-	/** **/
 	private final List<IContestSelectionListener> contestListeners;
 
 	/** **/
@@ -66,6 +61,13 @@ public class Jammy extends AbstractUIPlugin {
 
 	/** **/
 	private final Map<String, ILanguageManager> managers;
+
+	/** **/
+	private CodeJamSession session;
+
+	/** **/
+	private Problem problem;
+
 
 	/**
 	 * The constructor
@@ -76,7 +78,21 @@ public class Jammy extends AbstractUIPlugin {
 		this.problemListeners = new ArrayList<>();
 		this.managers = new HashMap<>();
 	}
-	
+
+	/** {@inheritDoc} **/
+	@Override
+	public void sessionChanged(final CodeJamSession session) {
+		this.session = session;
+		fireContestSelectionChanged();
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void problemSelected(final Problem problem) {
+		this.problem = problem;
+		fireProblemSelectionChanged();
+	}
+
 	/**
 	 * Adds the given {@link IContestSelectionListener} to the listener list.
 	 * 
@@ -84,6 +100,9 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public void addContestSelectionListener(final IContestSelectionListener listener) {
 		contestListeners.add(listener);
+		if (session != null) {
+			listener.contestSelected(session.getContestInfo());
+		}
 	}
 
 	/**
@@ -102,6 +121,7 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public void addProblemSelectionListener(final IProblemSelectionListener listener) {
 		problemListeners.add(listener);
+		// TODO : Trigger listener with current problem if any.
 	}
 	
 	/**
@@ -119,7 +139,7 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	private void fireContestSelectionChanged() {
 		for (final IContestSelectionListener listener : contestListeners) {
-			listener.contestSelected(currentContest);
+			listener.contestSelected(session.getContestInfo());
 		}
 	}
 	
@@ -129,49 +149,8 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	private void fireProblemSelectionChanged() {
 		for (final IProblemSelectionListener listener : problemListeners) {
-			listener.problemSelected(currentProblem);
+			listener.problemSelected(problem);
 		}
-	}
-
-	/**
-	 * 
-	 * @param round
-	 */
-	public void setCurrentRound(final Round round) {
-		try {
-			final IGoogleSessionService service = IGoogleSessionService.get();
-			final CodeJamSession session = service.getSession();
-			currentContest = session.getContestInfo();
-		}
-		catch (final IOException e) {
-			EclipseUtils.showError(e);
-		}
-		fireContestSelectionChanged();
-	}
-
-	/**
-	 * 
-	 * @param problem
-	 */
-	public void setCurrentProblem(final Problem problem) {
-		currentProblem = Objects.requireNonNull(problem);
-		fireProblemSelectionChanged();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Optional<ContestInfo> getCurrentContest() {
-		return Optional.ofNullable(currentContest);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Optional<Problem> getCurrentProblem() {
-		return Optional.ofNullable(currentProblem);
 	}
 
 	/**
@@ -183,7 +162,8 @@ public class Jammy extends AbstractUIPlugin {
 		final File file = contest.toFile();
 		if (file.exists()) {
 			try {
-				currentContest = SerializationUtils.deserialize(file, ContestInfo.class);
+				currentContest = SerializationUtils.deserialize(file, ContestInfo.class); 
+				// TODO : Consider serializing JamSession ?
 				fireContestSelectionChanged();
 			}
 			catch (final IOException | ClassNotFoundException e) {

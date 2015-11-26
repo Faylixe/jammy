@@ -2,8 +2,6 @@ package review.classdesign.jammy.ui.view;
 
 import io.faylixe.googlecodejam.client.webservice.Problem;
 
-import java.util.Optional;
-
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -51,15 +49,9 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 	public void createPartControl(final Composite parent) {
 		final Jammy jammy = Jammy.getDefault();
 		browser = new Browser(parent, SWT.NONE);
+		browser.setText(CONTEST_NOT_SELECTED_CONTENT);
 		browser.addLocationListener(this);
 		jammy.addProblemSelectionListener(this);
-		final Optional<Problem> problem = jammy.getCurrentProblem();
-		if (problem.isPresent()) {
-			problemSelected(problem.get());
-		}
-		else {
-			browser.setText(CONTEST_NOT_SELECTED_CONTENT);
-		}
 		final IActionBars bars = getViewSite().getActionBars();
 		final IToolBarManager manager = bars.getToolBarManager();
 		manager.add(new GroupMarker(MENU_CONTRIBUTION));
