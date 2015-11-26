@@ -1,5 +1,7 @@
 package review.classdesign.jammy.core.addons;
 
+import io.faylixe.googlecodejam.client.webservice.Problem;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -19,7 +21,6 @@ import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.common.HTMLConstant;
 import review.classdesign.jammy.core.model.ProblemSampleDataset;
-import review.classdesign.jammy.core.model.webservice.contest.Problem;
 
 /**
  * A {@link DatasetBuilder} provides tools for extracting and

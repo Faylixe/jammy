@@ -1,6 +1,6 @@
 package review.classdesign.jammy.core.model.listener;
 
-import review.classdesign.jammy.core.model.webservice.contest.ContestInfo;
+import io.faylixe.googlecodejam.client.webservice.ContestInfo;
 
 /** 
  * Listener that is used for notifying

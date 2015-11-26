@@ -1,5 +1,7 @@
 package review.classdesign.jammy.core.service.internal;
 
+import io.faylixe.googlecodejam.client.CodeJamSession;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Optional;
@@ -8,8 +10,6 @@ import java.util.function.Consumer;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-
-import com.google.api.client.http.HttpRequestFactory;
 
 import review.classdesign.jammy.core.service.IGoogleLogger;
 import review.classdesign.jammy.core.service.IGoogleSessionService;
@@ -23,14 +23,20 @@ import review.classdesign.jammy.core.service.IGoogleSessionService;
 public final class GoogleSessionService implements IGoogleSessionService {
 
 	/** Current user session. **/
-	private Session session;
+	private CodeJamSession session;
 
 	/**
 	 * Default constructor.
 	 * Initializes current session as an empty one.
 	 */
 	public GoogleSessionService() {
-		this.session = Session.EMPTY;
+		// TODO : Set session.
+	}
+	
+	/** {@inheritDoc} **/
+	@Override
+	public CodeJamSession getSession() {
+		return session;
 	}
 
 	/**
@@ -39,9 +45,9 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	 * 
 	 * @param session Session to be consumed.
 	 */
-	private void setSession(final Session session) {
+	private void setSession(final CodeJamSession session) {
 		this.session = session;
-		if (session.isPresent()) {
+		if (session != null) {
 			GoogleSessionProvider.get().setLogged(true);
 		}
 	}
@@ -49,7 +55,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void login() throws IOException, GeneralSecurityException {
-		if (!session.isPresent()) {
+		if (session == null) {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final Shell shell = workbench.getDisplay().getActiveShell();
 			final IGoogleLogger logger = GoogleLogger.createLogger(this::setSession);
@@ -66,15 +72,6 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	public void logout() {
 		session = Session.EMPTY;
 		GoogleSessionProvider.get().setLogged(false);
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public Optional<HttpRequestFactory> createRequestFactory() {
-		if (!session.isPresent()) {
-			return Optional.empty();
-		}
-		return Optional.of(session.createRequestFactory());
 	}
 
 }

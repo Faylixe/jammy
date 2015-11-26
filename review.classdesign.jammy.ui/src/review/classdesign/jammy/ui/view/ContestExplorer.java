@@ -1,5 +1,9 @@
 package review.classdesign.jammy.ui.view;
 
+import io.faylixe.googlecodejam.client.common.NamedObject;
+import io.faylixe.googlecodejam.client.webservice.ContestInfo;
+import io.faylixe.googlecodejam.client.webservice.Problem;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,10 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.command.OpenSolverCommand;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.common.NamedObject;
 import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
-import review.classdesign.jammy.core.model.webservice.contest.ContestInfo;
-import review.classdesign.jammy.core.model.webservice.contest.Problem;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 
@@ -75,13 +76,25 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		return workbench.getSharedImages().getImage(SharedImages.IMG_OBJ_PROJECT);
 	}
 
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
+	private static String getName(final Object object) {
+		if (object instanceof NamedObject) {
+			return ((NamedObject) object).getName();
+		}
+		return null;
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public void createPartControl(final Composite parent) {
 		Jammy.getDefault().addContestSelectionListener(this);
 		viewer = new TableViewer(parent);
 		viewer.setContentProvider(new FunctionalContentProvider(this::getProblems));
-		viewer.setLabelProvider(new FunctionalLabelProvider(NamedObject::getName, this::getImage));
+		viewer.setLabelProvider(new FunctionalLabelProvider(ContestExplorer::getName, this::getImage));
 		viewer.addDoubleClickListener(event -> {
 			EclipseUtils.executeCommand(OpenSolverCommand.ID);
 		});

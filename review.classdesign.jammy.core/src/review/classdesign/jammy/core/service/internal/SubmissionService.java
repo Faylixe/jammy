@@ -1,12 +1,13 @@
 package review.classdesign.jammy.core.service.internal;
 
+import io.faylixe.googlecodejam.client.webservice.ProblemInput;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import review.classdesign.jammy.core.model.listener.ISubmissionListener;
 import review.classdesign.jammy.core.model.submission.ISubmission;
 import review.classdesign.jammy.core.model.submission.SubmissionException;
-import review.classdesign.jammy.core.model.webservice.contest.ProblemInput;
 import review.classdesign.jammy.core.service.ISubmissionService;
 
 /**

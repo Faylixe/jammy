@@ -1,8 +1,9 @@
 package review.classdesign.jammy.core.service;
 
+import io.faylixe.googlecodejam.client.CodeJamSession;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Optional;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbench;
@@ -11,8 +12,6 @@ import org.eclipse.ui.services.IServiceLocator;
 
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.service.internal.GoogleSessionProvider;
-
-import com.google.api.client.http.HttpRequestFactory;
 
 /**
  * This interface defines behavior of our Google Session service.
@@ -39,17 +38,15 @@ public interface IGoogleSessionService {
 	void login() throws IOException, GeneralSecurityException;
 
 	/**
+	 * 
+	 * @return
+	 */
+	CodeJamSession getSession();
+
+	/**
 	 * Destroy the current logged OAuth session.
 	 */
 	void logout();
-
-	/**
-	 * Creates and returns a {@link HttpRequestFactory} using internal session.
-	 * 
-	 * @return Created request factory.
-	 * @throws IllegalStateException If login step hasn't be performed before.
-	 */
-	Optional<HttpRequestFactory> createRequestFactory();
 
 	/**
 	 * Static method that allows service instance quick access

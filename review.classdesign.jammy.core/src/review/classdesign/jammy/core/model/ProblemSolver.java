@@ -1,5 +1,8 @@
 package review.classdesign.jammy.core.model;
 
+import io.faylixe.googlecodejam.client.common.NamedObject;
+import io.faylixe.googlecodejam.client.webservice.Problem;
+
 import java.lang.ref.SoftReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,8 +16,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.addons.DatasetBuilder;
 import review.classdesign.jammy.core.addons.ILanguageManager;
-import review.classdesign.jammy.core.common.NamedObject;
-import review.classdesign.jammy.core.model.webservice.contest.Problem;
 
 /**
  * A {@link ProblemSolver} is an object that

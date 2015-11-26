@@ -1,5 +1,10 @@
 package review.classdesign.jammy.core;
 
+import io.faylixe.googlecodejam.client.CodeJamSession;
+import io.faylixe.googlecodejam.client.Round;
+import io.faylixe.googlecodejam.client.webservice.ContestInfo;
+import io.faylixe.googlecodejam.client.webservice.Problem;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,12 +27,9 @@ import org.osgi.framework.BundleContext;
 import review.classdesign.jammy.core.addons.ILanguageManager;
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.common.SerializationUtils;
-import review.classdesign.jammy.core.model.Round;
 import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
 import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
-import review.classdesign.jammy.core.model.webservice.InitialValues;
-import review.classdesign.jammy.core.model.webservice.contest.ContestInfo;
-import review.classdesign.jammy.core.model.webservice.contest.Problem;
+import review.classdesign.jammy.core.service.IGoogleSessionService;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -137,8 +139,9 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public void setCurrentRound(final Round round) {
 		try {
-			currentContest = ContestInfo.get(round);
-			InitialValues.get(round);
+			final IGoogleSessionService service = IGoogleSessionService.get();
+			final CodeJamSession session = service.getSession();
+			currentContest = session.getContestInfo();
 		}
 		catch (final IOException e) {
 			EclipseUtils.showError(e);

@@ -1,8 +1,14 @@
 package review.classdesign.jammy.ui.wizard;
 
+import io.faylixe.googlecodejam.client.Contest;
+import io.faylixe.googlecodejam.client.common.NamedObject;
+
+
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.function.Supplier;
+
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
@@ -21,9 +27,9 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+
 import review.classdesign.jammy.core.Jammy;
-import review.classdesign.jammy.core.common.NamedObject;
-import review.classdesign.jammy.core.model.Contest;
+import review.classdesign.jammy.core.JammyPreferences;
 import review.classdesign.jammy.ui.JammyUI;
 
 /**
@@ -77,7 +83,7 @@ public final class ContestWizardPage extends WizardPage {
 		@Override
 		public Object[] getElements(final Object inputElement) {
 			if (inputElement instanceof List) {
-				 final List<Object> contests = (List<Object>) inputElement;
+				 final List<?> contests = (List<?>) inputElement;
 				 return contests.toArray();
 			}
 			return null;
@@ -98,10 +104,10 @@ public final class ContestWizardPage extends WizardPage {
 	private void retrieveContest() {
 		final Job job = Job.create(JOB_NAME, monitor -> {
 			try {
-				final List<Contest> contest = Contest.get();
+				final List<Contest> contest = Contest.get(JammyPreferences.getHostname());
 				viewer.setInput(contest);
 			}
-			catch (final IOException e) {
+			catch (final IOException | GeneralSecurityException e) {
 				return new Status(IStatus.ERROR, JammyUI.PLUGIN_ID, e.getMessage(), e);
 			}
 			return Status.OK_STATUS;

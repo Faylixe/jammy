@@ -1,6 +1,11 @@
 package review.classdesign.jammy.ui.wizard;
 
+import io.faylixe.googlecodejam.client.Contest;
+import io.faylixe.googlecodejam.client.Round;
+import io.faylixe.googlecodejam.client.common.NamedObject;
+
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -8,10 +13,8 @@ import java.util.function.Supplier;
 import org.eclipse.jface.wizard.Wizard;
 
 import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.JammyPreferences;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.common.NamedObject;
-import review.classdesign.jammy.core.model.Contest;
-import review.classdesign.jammy.core.model.Round;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 import review.classdesign.jammy.ui.internal.ListPageBuilder;
@@ -72,9 +75,9 @@ public final class ContestWizard extends Wizard {
 		List<Contest> contest = null;
 		try {
 			// TODO : Consider using a job based retrieval.
-			contest = Contest.get();
+			contest = Contest.get(JammyPreferences.getHostname());
 		}
-		catch (final IOException e) {
+		catch (final IOException | GeneralSecurityException e) {
 			EclipseUtils.showError(RETRIEVAL_ERROR, e);
 		}
 		return contest;
@@ -110,6 +113,18 @@ public final class ContestWizard extends Wizard {
 	}
 
 	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
+	private static String getName(final Object object) {
+		if (object instanceof NamedObject) {
+			return ((NamedObject) object).getName();
+		}
+		return null;
+	}
+
+	/**
 	 * Creates the contest selection page.
 	 * 
 	 * @return Created wizard page.
@@ -118,7 +133,7 @@ public final class ContestWizard extends Wizard {
 		return new ListPageBuilder(CONTEST_NAME)
 				.description(CONTEST_DESCRIPTION)
 				.contentProvider(new FunctionalContentProvider(this::getContests))
-				.labelProvider(new FunctionalLabelProvider(NamedObject::getName))
+				.labelProvider(new FunctionalLabelProvider(ContestWizard::getName))
 				.selectionConsumer(this::setContest)
 				.build();
 	}
@@ -132,7 +147,7 @@ public final class ContestWizard extends Wizard {
 		return new ListPageBuilder(ROUND_NAME)
 				.description(ROUND_DESCRIPTION)
 				.contentProvider(new FunctionalContentProvider(this::getRounds))
-				.labelProvider(new FunctionalLabelProvider(NamedObject::getName))
+				.labelProvider(new FunctionalLabelProvider(ContestWizard::getName))
 				.selectionConsumer(this::setRound)
 				.build();
 	}

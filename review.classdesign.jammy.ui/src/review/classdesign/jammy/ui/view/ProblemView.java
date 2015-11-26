@@ -1,5 +1,7 @@
 package review.classdesign.jammy.ui.view;
 
+import io.faylixe.googlecodejam.client.webservice.Problem;
+
 import java.util.Optional;
 
 import org.eclipse.jface.action.GroupMarker;
@@ -15,7 +17,6 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
-import review.classdesign.jammy.core.model.webservice.contest.Problem;
 import review.classdesign.jammy.ui.command.ContestSelectionCommand;
 
 /**

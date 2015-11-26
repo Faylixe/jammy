@@ -1,5 +1,8 @@
 package review.classdesign.jammy.core.service.internal;
 
+import io.faylixe.googlecodejam.client.CodeJamSession;
+import io.faylixe.googlecodejam.client.executor.OAuthHTTPRequestExecutorBuilder;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,9 +45,6 @@ public final class GoogleLogger implements IGoogleLogger {
 	/** Default path of the JSON secret file. **/
 	private static final String SECRET_PATH = "/client_secret.json";
 
-	/** Default factory used to parse JSON data. **/
-	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
 	/** Scopes of the created session. **/
 	private static final Collection<String> SCOPES = Collections.singleton("https://www.googleapis.com/auth/youtube");
 
@@ -60,14 +60,11 @@ public final class GoogleLogger implements IGoogleLogger {
 	/** Name used for the job task that wait for the code reception. **/
 	private static final String JOB_NAME = "receive-code";
 
-	/** {@link AuthorizationCodeFlow} instance used for managing OAuth login. **/
-	private final AuthorizationCodeFlow flow;
-
-	/** Jetty server uses for token response handling. **/
-	private final LocalServerReceiver receiver;
+	/** **/
+	private final OAuthHTTPRequestExecutorBuilder builder;
 
 	/** Session consumer used when session is created. **/
-	private final Consumer<Session> sessionConsumer;
+	private final Consumer<CodeJamSession> sessionConsumer;
 	
 	/** Listeners that are triggered when authorization is completed. **/
 	private final Collection<Runnable> listeners;
@@ -82,9 +79,8 @@ public final class GoogleLogger implements IGoogleLogger {
 	 * @param builder Flow builder used to create flow instance.
 	 * @param sessionConsumer Session consumer used when session is created.
 	 */
-	private GoogleLogger(final Builder builder, final Consumer<Session> sessionConsumer) {
-		this.flow = builder.build();
-		this.receiver = new LocalServerReceiver();
+	private GoogleLogger(final Consumer<CodeJamSession> sessionConsumer) {
+		this.builder = OAuthHTTPRequestExecutorBuilder.builder(JammyPreferences.getHostname, getClass().getResourceAsStream(SECRET_PATH)); 
 		this.listeners = new ArrayList<>(1);
 		this.sessionConsumer = sessionConsumer;
 	}
@@ -173,19 +169,6 @@ public final class GoogleLogger implements IGoogleLogger {
 		final Builder builder = new GoogleAuthorizationCodeFlow.Builder(transport, JSON_FACTORY, getSecret(), SCOPES);
 		// TODO : Consider using secure storage for session.
 		return new GoogleLogger(builder, sessionConsumer);
-	}
-
-	/**
-	 * Static tool method that retrieves google client secret
-	 * instance from internal JSON file.
-	 * 
-	 * @return {@link GoogleClientSecrets} instance created.
-	 * @throws IOException If any error occurs while reading JSON file.
-	 */
-	private static GoogleClientSecrets getSecret() throws IOException {
-		final InputStream stream = GoogleLogger.class.getResourceAsStream(SECRET_PATH);
-		final InputStreamReader reader = new InputStreamReader(stream);
-		return GoogleClientSecrets.load(JSON_FACTORY, reader);
 	}
 
 }

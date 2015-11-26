@@ -1,12 +1,13 @@
 package review.classdesign.jammy.core.addons;
 
+import io.faylixe.googlecodejam.client.webservice.Problem;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.core.model.ProblemSolver;
-import review.classdesign.jammy.core.model.webservice.contest.Problem;
 
 /**
  * An {@link ILanguageManager} is in charge of managing
