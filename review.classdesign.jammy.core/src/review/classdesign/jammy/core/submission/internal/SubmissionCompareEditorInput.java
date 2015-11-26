@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.model.submission.internal;
+package review.classdesign.jammy.core.submission.internal;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;

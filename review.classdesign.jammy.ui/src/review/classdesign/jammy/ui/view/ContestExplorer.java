@@ -26,8 +26,8 @@ import org.eclipse.ui.part.ViewPart;
 import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.command.OpenSolverCommand;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
-import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
+import review.classdesign.jammy.core.listener.IContestSelectionListener;
+import review.classdesign.jammy.core.listener.IProblemSelectionListener;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 

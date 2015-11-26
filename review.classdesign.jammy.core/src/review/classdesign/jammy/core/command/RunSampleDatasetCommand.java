@@ -5,9 +5,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import review.classdesign.jammy.core.model.ProblemSolver;
-import review.classdesign.jammy.core.model.submission.ISubmission;
-import review.classdesign.jammy.core.model.submission.internal.LocalSubmission;
+import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.internal.LocalSubmission;
 
 /**
  * Command that run the target solver using the sample dataset.

@@ -7,7 +7,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.core.model.ProblemSolver;
+import review.classdesign.jammy.core.ProblemSolver;
 
 /**
  * An {@link ILanguageManager} is in charge of managing

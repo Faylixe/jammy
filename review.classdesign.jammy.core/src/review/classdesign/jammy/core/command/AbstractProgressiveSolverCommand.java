@@ -9,8 +9,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * 

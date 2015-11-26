@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.model.submission;
+package review.classdesign.jammy.core.submission;
 
 /**
  * Exception extension for error related to solver submission.

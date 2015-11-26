@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.model.submission.internal;
+package review.classdesign.jammy.core.submission.internal;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -7,12 +7,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.addons.ILanguageManager;
 import review.classdesign.jammy.core.addons.ISolverRunner;
-import review.classdesign.jammy.core.model.ProblemSolver;
-import review.classdesign.jammy.core.model.submission.ISubmission;
-import review.classdesign.jammy.core.model.submission.SubmissionException;
 import review.classdesign.jammy.core.service.ISubmissionService;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
  * Abstract {@link ISubmission} implementation that language extension

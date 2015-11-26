@@ -1,10 +1,10 @@
-package review.classdesign.jammy.core.model.submission;
+package review.classdesign.jammy.core.submission;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.core.model.ProblemSolver;
+import review.classdesign.jammy.core.ProblemSolver;
 
 /**
  * This interface represents the action of submitting

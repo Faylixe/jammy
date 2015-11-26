@@ -15,8 +15,8 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.addons.ISolverRunner;
-import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * {@link ISolverRunner} implementation for Java language.

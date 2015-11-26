@@ -26,7 +26,6 @@ Export-Package: io.faylixe.googlecodejam.client,
  review.classdesign.jammy.core.addons,
  review.classdesign.jammy.core.command,
  review.classdesign.jammy.core.common,
- review.classdesign.jammy.core.model,
- review.classdesign.jammy.core.model.listener,
- review.classdesign.jammy.core.model.submission,
- review.classdesign.jammy.core.service
+ review.classdesign.jammy.core.listener,
+ review.classdesign.jammy.core.service,
+ review.classdesign.jammy.core.submission

@@ -18,9 +18,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IReusableEditor;
 import org.eclipse.ui.IWorkbenchPage;
 
+import review.classdesign.jammy.core.ProblemSampleDataset;
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.model.ProblemSampleDataset;
-import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * {@link CompareEditorInput} implementation for comparing

@@ -2,8 +2,8 @@ package review.classdesign.jammy.core.command;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * Default handler used for opening a solver file.

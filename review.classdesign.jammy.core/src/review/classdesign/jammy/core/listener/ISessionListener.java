@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.model.listener;
+package review.classdesign.jammy.core.listener;
 
 import io.faylixe.googlecodejam.client.CodeJamSession;
 

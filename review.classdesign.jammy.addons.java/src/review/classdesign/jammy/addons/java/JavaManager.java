@@ -8,9 +8,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import review.classdesign.jammy.addons.java.internal.JavaProjectBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverBuilder;
 import review.classdesign.jammy.addons.java.internal.JavaSolverRunner;
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.addons.ILanguageManager;
 import review.classdesign.jammy.core.addons.ISolverRunner;
-import review.classdesign.jammy.core.model.ProblemSolver;
 import review.classdesign.jammy.core.model.webservice.contest.ContestInfo;
 import review.classdesign.jammy.core.model.webservice.contest.Problem;
 

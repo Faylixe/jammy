@@ -27,9 +27,9 @@ import org.osgi.framework.BundleContext;
 import review.classdesign.jammy.core.addons.ILanguageManager;
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.common.SerializationUtils;
-import review.classdesign.jammy.core.model.listener.IContestSelectionListener;
-import review.classdesign.jammy.core.model.listener.IProblemSelectionListener;
-import review.classdesign.jammy.core.model.listener.ISessionListener;
+import review.classdesign.jammy.core.listener.IContestSelectionListener;
+import review.classdesign.jammy.core.listener.IProblemSelectionListener;
+import review.classdesign.jammy.core.listener.ISessionListener;
 import review.classdesign.jammy.core.service.IGoogleSessionService;
 
 /**
@@ -121,7 +121,9 @@ public class Jammy extends AbstractUIPlugin implements ISessionListener, IProble
 	 */
 	public void addProblemSelectionListener(final IProblemSelectionListener listener) {
 		problemListeners.add(listener);
-		// TODO : Trigger listener with current problem if any.
+		if (problem != null) {
+			listener.problemSelected(problem);
+		}
 	}
 	
 	/**
@@ -177,11 +179,11 @@ public class Jammy extends AbstractUIPlugin implements ISessionListener, IProble
 	 */
 	private void saveState() {
 		final IPath state = getStateLocation();
-		if (currentContest != null) {
+		if (session != null) {
 			// Save current contest.
 			final IPath contest = state.append(CONTEST_STATE);
 			try {
-				SerializationUtils.serialize(currentContest, contest.toFile());
+				SerializationUtils.serialize(session, contest.toFile());
 			}
 			catch (final IOException e) {
 				EclipseUtils.showError(e.getMessage(), e);

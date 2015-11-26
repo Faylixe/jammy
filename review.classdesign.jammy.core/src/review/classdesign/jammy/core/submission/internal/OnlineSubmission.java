@@ -1,11 +1,11 @@
-package review.classdesign.jammy.core.model.submission.internal;
+package review.classdesign.jammy.core.submission.internal;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.core.model.ProblemSolver;
-import review.classdesign.jammy.core.model.submission.SubmissionException;
+import review.classdesign.jammy.core.ProblemSolver;
+import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
  * Online submission that consists in downloading problem input,

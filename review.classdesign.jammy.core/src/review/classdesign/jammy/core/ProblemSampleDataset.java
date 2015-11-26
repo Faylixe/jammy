@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.model;
+package review.classdesign.jammy.core;
 
 import org.eclipse.core.resources.IFile;
 

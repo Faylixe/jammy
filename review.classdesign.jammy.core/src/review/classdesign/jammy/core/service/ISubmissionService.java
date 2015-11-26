@@ -5,9 +5,9 @@ import io.faylixe.googlecodejam.client.webservice.ProblemInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
-import review.classdesign.jammy.core.model.listener.ISubmissionListener;
-import review.classdesign.jammy.core.model.submission.ISubmission;
-import review.classdesign.jammy.core.model.submission.SubmissionException;
+import review.classdesign.jammy.core.listener.ISubmissionListener;
+import review.classdesign.jammy.core.submission.ISubmission;
+import review.classdesign.jammy.core.submission.SubmissionException;
 
 /**
  * TODO : Service javadoc.

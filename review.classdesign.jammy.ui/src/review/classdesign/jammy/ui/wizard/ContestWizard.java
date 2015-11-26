@@ -16,7 +16,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import review.classdesign.jammy.core.JammyPreferences;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.model.listener.ISessionListener;
+import review.classdesign.jammy.core.listener.ISessionListener;
 import review.classdesign.jammy.ui.internal.FunctionalContentProvider;
 import review.classdesign.jammy.ui.internal.FunctionalLabelProvider;
 import review.classdesign.jammy.ui.internal.ListPageBuilder;

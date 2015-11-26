@@ -18,9 +18,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import review.classdesign.jammy.core.Jammy;
+import review.classdesign.jammy.core.ProblemSampleDataset;
 import review.classdesign.jammy.core.common.EclipseUtils;
 import review.classdesign.jammy.core.common.HTMLConstant;
-import review.classdesign.jammy.core.model.ProblemSampleDataset;
 
 /**
  * A {@link DatasetBuilder} provides tools for extracting and

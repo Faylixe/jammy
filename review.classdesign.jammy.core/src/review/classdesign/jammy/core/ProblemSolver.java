@@ -1,4 +1,4 @@
-package review.classdesign.jammy.core.model;
+package review.classdesign.jammy.core;
 
 import io.faylixe.googlecodejam.client.common.NamedObject;
 import io.faylixe.googlecodejam.client.webservice.Problem;
@@ -13,7 +13,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import review.classdesign.jammy.core.Jammy;
 import review.classdesign.jammy.core.addons.DatasetBuilder;
 import review.classdesign.jammy.core.addons.ILanguageManager;
 

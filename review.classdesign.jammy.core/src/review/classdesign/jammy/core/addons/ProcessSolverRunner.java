@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 
+import review.classdesign.jammy.core.ProblemSolver;
 import review.classdesign.jammy.core.common.EclipseUtils;
-import review.classdesign.jammy.core.model.ProblemSolver;
 
 /**
  * {@link ISolverRunner} implementation used for language
