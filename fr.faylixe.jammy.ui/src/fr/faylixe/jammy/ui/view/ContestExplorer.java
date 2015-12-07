@@ -20,13 +20,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE.SharedImages;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.command.OpenSolverCommand;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.NamedObject;
 import fr.faylixe.jammy.core.model.listener.IContestSelectionListener;
-import fr.faylixe.jammy.core.model.webservice.contest.ContestInfo;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 import fr.faylixe.jammy.ui.internal.FunctionalContentProvider;
 import fr.faylixe.jammy.ui.internal.FunctionalLabelProvider;
 

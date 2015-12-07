@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.webservice.contest.ContestInfo;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 
 /**
  * 

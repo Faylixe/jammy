@@ -12,10 +12,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.model.listener.IProblemSelectionListener;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 import fr.faylixe.jammy.ui.command.ContestSelectionCommand;
 
 /**

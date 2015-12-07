@@ -3,10 +3,10 @@ package fr.faylixe.jammy.core.service.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.model.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.model.submission.ISubmission;
 import fr.faylixe.jammy.core.model.submission.SubmissionException;
-import fr.faylixe.jammy.core.model.webservice.contest.ProblemInput;
 import fr.faylixe.jammy.core.service.ISubmissionService;
 
 /**

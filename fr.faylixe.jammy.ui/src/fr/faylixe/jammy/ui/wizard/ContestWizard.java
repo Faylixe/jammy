@@ -7,11 +7,11 @@ import java.util.function.Supplier;
 
 import org.eclipse.jface.wizard.Wizard;
 
+import fr.faylixe.googlecodejam.client.Contest;
+import fr.faylixe.googlecodejam.client.Round;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.NamedObject;
-import fr.faylixe.jammy.core.model.Contest;
-import fr.faylixe.jammy.core.model.Round;
 import fr.faylixe.jammy.ui.internal.FunctionalContentProvider;
 import fr.faylixe.jammy.ui.internal.FunctionalLabelProvider;
 import fr.faylixe.jammy.ui.internal.ListPageBuilder;
@@ -70,13 +70,13 @@ public final class ContestWizard extends Wizard {
 	 */
 	private List<Contest> getContests() {
 		List<Contest> contest = null;
-		try {
-			// TODO : Consider using a job based retrieval.
-			contest = Contest.get();
-		}
-		catch (final IOException e) {
-			EclipseUtils.showError(RETRIEVAL_ERROR, e);
-		}
+//		try {
+//			// TODO : Consider using a job based retrieval.
+//			//contest = Contest.get();
+//		}
+//		catch (final IOException e) {
+//			EclipseUtils.showError(RETRIEVAL_ERROR, e);
+//		}
 		return contest;
 	}
 	

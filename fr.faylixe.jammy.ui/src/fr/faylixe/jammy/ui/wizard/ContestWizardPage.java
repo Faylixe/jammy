@@ -23,8 +23,9 @@ import org.eclipse.swt.widgets.Composite;
 
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.NamedObject;
-import fr.faylixe.jammy.core.model.Contest;
 import fr.faylixe.jammy.ui.JammyUI;
+
+import fr.faylixe.googlecodejam.client.Contest;
 
 /**
  * 
@@ -97,13 +98,13 @@ public final class ContestWizardPage extends WizardPage {
 	 */
 	private void retrieveContest() {
 		final Job job = Job.create(JOB_NAME, monitor -> {
-			try {
-				final List<Contest> contest = Contest.get();
+//			try {
+				final List<Contest> contest = null;// Contest.get();
 				viewer.setInput(contest);
-			}
-			catch (final IOException e) {
-				return new Status(IStatus.ERROR, JammyUI.PLUGIN_ID, e.getMessage(), e);
-			}
+//			}
+//			catch (final IOException e) {
+//				return new Status(IStatus.ERROR, JammyUI.PLUGIN_ID, e.getMessage(), e);
+//			}
 			return Status.OK_STATUS;
 		});
 		job.schedule();

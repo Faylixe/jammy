@@ -3,10 +3,10 @@ package fr.faylixe.jammy.core.service;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
+import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.model.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.model.submission.ISubmission;
 import fr.faylixe.jammy.core.model.submission.SubmissionException;
-import fr.faylixe.jammy.core.model.webservice.contest.ProblemInput;
 
 /**
  * TODO : Service javadoc.

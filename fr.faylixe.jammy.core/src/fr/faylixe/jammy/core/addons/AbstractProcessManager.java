@@ -10,8 +10,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 
 /**
  * Abstract {@link ILanguageManager} implementation tat aims to run solver
@@ -24,7 +24,7 @@ public abstract class AbstractProcessManager implements ILanguageManager {
 	/** {@inheritDoc} **/
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		final String name = problem.getParent().getProjectName();
+		final String name = problem.getName(); // TODO : Reimplement old getProjectName();
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProject project = workspace.getRoot().getProject(name + ".python");
 		if (!project.exists()) {

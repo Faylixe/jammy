@@ -5,14 +5,14 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.addons.java.internal.JavaProjectBuilder;
 import fr.faylixe.jammy.addons.java.internal.JavaSolverBuilder;
 import fr.faylixe.jammy.addons.java.internal.JavaSolverRunner;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
 import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.webservice.contest.ContestInfo;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 
 /**
  * {@link ILanguageManager} implementation for Java language,
@@ -29,7 +29,7 @@ public final class JavaManager implements ILanguageManager {
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final ContestInfo info = problem.getParent();
-		final String name = info.getProjectName();
+		final String name = info.toString();// TODO : Reimplement old getProjectName();
 		return JavaProjectBuilder.build(name, monitor);
 	}
 

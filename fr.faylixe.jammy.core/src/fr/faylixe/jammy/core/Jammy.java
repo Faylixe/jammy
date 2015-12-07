@@ -19,15 +19,15 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import fr.faylixe.googlecodejam.client.Round;
+import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
+import fr.faylixe.googlecodejam.client.webservice.InitialValues;
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.SerializationUtils;
-import fr.faylixe.jammy.core.model.Round;
 import fr.faylixe.jammy.core.model.listener.IContestSelectionListener;
 import fr.faylixe.jammy.core.model.listener.IProblemSelectionListener;
-import fr.faylixe.jammy.core.model.webservice.InitialValues;
-import fr.faylixe.jammy.core.model.webservice.contest.ContestInfo;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -136,13 +136,13 @@ public class Jammy extends AbstractUIPlugin {
 	 * @param round
 	 */
 	public void setCurrentRound(final Round round) {
-		try {
-			currentContest = ContestInfo.get(round);
-			InitialValues.get(round);
-		}
-		catch (final IOException e) {
-			EclipseUtils.showError(e);
-		}
+//		try {
+//			//currentContest = ContestInfo.get(round);
+//			//InitialValues.get(round);
+//		}
+//		catch (final IOException e) {
+//			EclipseUtils.showError(e);
+//		}
 		fireContestSelectionChanged();
 	}
 

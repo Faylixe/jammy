@@ -1,6 +1,6 @@
 package fr.faylixe.jammy.core.model.listener;
 
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 
 /**
  * Listener that is used for notifying

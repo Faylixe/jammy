@@ -5,7 +5,7 @@
   <parent>
     <groupId>fr.faylixe</groupId>
     <artifactId>jammy</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <groupId>fr.faylixe</groupId>
   <artifactId>fr.faylixe.jammy.addons.java</artifactId>

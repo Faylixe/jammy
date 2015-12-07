@@ -5,8 +5,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.webservice.contest.Problem;
 
 /**
  * An {@link ILanguageManager} is in charge of managing
