@@ -5,21 +5,21 @@
          point="org.eclipse.ui.commands">
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.ui.command.ContestSelectionCommand"
+            defaultHandler="fr.faylixe.jammy.ui.command.ContestSelectionCommand"
             description="Start the contest selection wizard"
             id="review.classdesign.jammy.command.contestselection"
             name="Select contest">
       </command>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.ui.command.RefreshProblemCommand"
+            defaultHandler="fr.faylixe.jammy.ui.command.RefreshProblemCommand"
             description="Reload the currently selected problem data"
             id="review.classdesign.jammy.command.refreshproblem"
             name="Refresh problem">
       </command>
       <command
             categoryId="review.classdesign.jammy.commands.category"
-            defaultHandler="review.classdesign.jammy.ui.command.OpenDatasetEditorCommand"
+            defaultHandler="fr.faylixe.jammy.ui.command.OpenDatasetEditorCommand"
             description="Open an editor for modifying dataset input and output files"
             id="review.classdesign.jammy.command.opendataseteditor"
             name="Edit dataset">
@@ -33,7 +33,7 @@
       </category>
       <view
             category="review.classdesign.jammy.view.category"
-            class="review.classdesign.jammy.ui.view.SubmissionView"
+            class="fr.faylixe.jammy.ui.view.SubmissionView"
             icon="resources/icons/submission.view.png"
             id="review.classdesign.jammy.view.submission"
             name="Submission"
@@ -41,7 +41,7 @@
       </view>
       <view
             category="review.classdesign.jammy.view.category"
-            class="review.classdesign.jammy.ui.view.ProblemView"
+            class="fr.faylixe.jammy.ui.view.ProblemView"
             icon="resources/icons/problem.view.png"
             id="review.classdesign.jammy.view.problem"
             name="Problem description"
@@ -52,7 +52,7 @@
       </view>
       <view
             category="review.classdesign.jammy.view.category"
-            class="review.classdesign.jammy.ui.view.ContestExplorer"
+            class="fr.faylixe.jammy.ui.view.ContestExplorer"
             icon="resources/icons/contest.view.png"
             id="review.classdesign.jammy.view.contest"
             name="Contest Explorer"
@@ -65,7 +65,7 @@
     <extension
           point="org.eclipse.ui.preferencePages">
        <page
-             class="review.classdesign.jammy.ui.view.PreferencePage"
+             class="fr.faylixe.jammy.ui.view.PreferencePage"
              id="review.classdesign.jammy.preferences.root"
              name="Jammy">
        </page>
@@ -73,7 +73,7 @@
     <extension
           point="org.eclipse.ui.perspectives">
        <perspective
-             class="review.classdesign.jammy.ui.JammyPerspectiveFactory"
+             class="fr.faylixe.jammy.ui.JammyPerspectiveFactory"
              icon="resources/icons/jammy.png"
              id="review.classdesign.jammy.perspective"
              name="Jammy">

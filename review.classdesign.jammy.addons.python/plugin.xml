@@ -4,7 +4,7 @@
    <extension
          point="review.classdesign.jammy.addons">
       <review.classdesign.jammy.addons.manager
-            class="review.classdesign.jammy.addons.python.PythonManager"
+            class="fr.faylixe.jammy.addons.python.PythonManager"
             language="Python">
       </review.classdesign.jammy.addons.manager>
    </extension>

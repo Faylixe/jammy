@@ -4,16 +4,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>review.classdesign</groupId>
+  <groupId>fr.faylixe</groupId>
   <artifactId>jammy</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
     <!-- Jammy core -->
-    <module>review.classdesign.jammy.core</module>
-    <module>review.classdesign.jammy.ui</module>
-    <module>review.classdesign.jammy.addons.java</module>
+    <module>fr.faylixe.jammy.core</module>
+    <module>fr.faylixe.jammy.ui</module>
+    <module>fr.faylixe.jammy.addons.java</module>
     <!-- TODO : Add extension and features -->
   </modules>
 

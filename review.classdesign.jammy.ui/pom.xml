@@ -3,12 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>review.classdesign</groupId>
+    <groupId>fr.faylixe</groupId>
     <artifactId>jammy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>review.classdesign</groupId>
-  <artifactId>review.classdesign.jammy.ui</artifactId>
+  <groupId>fr.faylixe</groupId>
+  <artifactId>fr.faylixe.jammy.ui</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

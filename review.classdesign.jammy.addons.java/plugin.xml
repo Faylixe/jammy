@@ -4,7 +4,7 @@
    <extension
          point="review.classdesign.jammy.addons">
       <review.classdesign.jammy.addons.manager
-            class="review.classdesign.jammy.addons.java.JavaManager"
+            class="fr.faylixe.jammy.addons.java.JavaManager"
             language="Java">
       </review.classdesign.jammy.addons.manager>
    </extension>

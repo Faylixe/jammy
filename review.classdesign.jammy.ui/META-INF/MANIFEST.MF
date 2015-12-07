@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: fr.faylixe.jammy.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: review.classdesign.jammy.ui.JammyUI
+Bundle-Activator: fr.faylixe.jammy.ui.JammyUI
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  fr.faylixe.jammy.core;bundle-version="1.0.0",

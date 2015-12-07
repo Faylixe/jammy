@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Java
 Bundle-SymbolicName: fr.faylixe.jammy.addons.java;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: review.classdesign.jammy.addons.java.JavaAddonPlugin
+Bundle-Activator: fr.faylixe.jammy.addons.java.JavaAddonPlugin
 Bundle-Vendor: Faylixe
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
