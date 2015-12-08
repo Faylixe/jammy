@@ -1,21 +1,12 @@
 package fr.faylixe.jammy.ui.wizard;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Supplier;
-
 import org.eclipse.jface.wizard.Wizard;
 
 import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
+import fr.faylixe.googlecodejam.client.executor.HTTPRequestExecutor;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.common.NamedObject;
-import fr.faylixe.jammy.ui.internal.FunctionalContentProvider;
-import fr.faylixe.jammy.ui.internal.FunctionalLabelProvider;
-import fr.faylixe.jammy.ui.internal.ListPageBuilder;
-import fr.faylixe.jammy.ui.internal.ListPageBuilder.ListPage;
 
 /** 
  * {@link ContestWizard} allows to select
@@ -27,127 +18,38 @@ import fr.faylixe.jammy.ui.internal.ListPageBuilder.ListPage;
  */
 public final class ContestWizard extends Wizard {
 
-	/** Error message displayed when contest could not be retrieved. **/
-	private static final String RETRIEVAL_ERROR = "An error occurs while retrieving contest (is hostname preference valid ?)";
-
 	/** Wizard title. **/
 	private static final String TITLE = "Google Code Jam contest selection";
 
-	/** Contest page name. **/
-	private static final String CONTEST_NAME = "Round selection";
+	/** Page dedicated to contest selection. **/
+	private final ContestWizardPage contestPage;
 
-	/** Contest page description. **/
-	private static final String CONTEST_DESCRIPTION = "Please select a Jam contest";
-
-	/** Round page name. **/
-	private static final String ROUND_NAME = "Round selection";
-
-	/** Round page description. **/
-	private static final String ROUND_DESCRIPTION = "Please select any round";
-
-	/** Selected contest. **/
-	private Contest contest;
-
-	/** Selected round. **/
-	private Round round;
-	
-	/** **/
-	private ListPage roundPage;
+	/** Page dedicated to round selection. **/
+	private final RoundWizardPage roundPage;	
 
 	/**
 	 * Default constructor.
+	 * 
+	 * @param executor Executor instance used for retrieving contest.
 	 */
-	public ContestWizard() {
+	public ContestWizard(final HTTPRequestExecutor executor) {
 		super();
 		setWindowTitle(TITLE);
-	}
-
-	/**
-	 * Functional method that acts as a {@link Supplier} of available
-	 * contest.
-	 * 
-	 * @return List of contest available.
-	 */
-	private List<Contest> getContests() {
-		List<Contest> contest = null;
-//		try {
-//			// TODO : Consider using a job based retrieval.
-//			//contest = Contest.get();
-//		}
-//		catch (final IOException e) {
-//			EclipseUtils.showError(RETRIEVAL_ERROR, e);
-//		}
-		return contest;
-	}
-	
-	/**
-	 * Functional method that acts as a {@link Supplier} of available
-	 * round.
-	 * 
-	 * @return List of contest available.
-	 */
-	private List<Round> getRounds() {
-		return (contest == null ? Collections.emptyList() : contest.getRounds());
-	}
-
-	/**
-	 * Sets the selected contest.
-	 * 
-	 * @param contest Contest instance that has been selected.
-	 */
-	private void setContest(final Object contest) {
-		this.contest = (Contest) contest;
-		roundPage.refresh();
-	}
-	
-	/**
-	 * Sets the selected round.
-	 * 
-	 * @param round Round instance that has been selected.
-	 */
-	private void setRound(final Object round) {
-		this.round = (Round) round;
-	}
-
-	/**
-	 * Creates the contest selection page.
-	 * 
-	 * @return Created wizard page.
-	 */
-	private ListPage createContestPage() {
-		return new ListPageBuilder(CONTEST_NAME)
-				.description(CONTEST_DESCRIPTION)
-				.contentProvider(new FunctionalContentProvider(this::getContests))
-				.labelProvider(new FunctionalLabelProvider(NamedObject::getName))
-				.selectionConsumer(this::setContest)
-				.build();
-	}
-	
-	/**
-	 * Creates the round selection page.
-	 * 
-	 * @return Created wizard page.
-	 */
-	private ListPage createRoundPage() {
-		return new ListPageBuilder(ROUND_NAME)
-				.description(ROUND_DESCRIPTION)
-				.contentProvider(new FunctionalContentProvider(this::getRounds))
-				.labelProvider(new FunctionalLabelProvider(NamedObject::getName))
-				.selectionConsumer(this::setRound)
-				.build();
+		this.roundPage = new RoundWizardPage();
+		this.contestPage = new ContestWizardPage(executor, roundPage);
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void addPages() {
-		addPage(createContestPage());
-		roundPage = createRoundPage();
+		addPage(contestPage);
 		addPage(roundPage);
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public boolean performFinish() {
+		final Round round = roundPage.getSelectedRound();
 		if (round != null) {
 			EclipseUtils.createUIJob(monitor -> {
 				// TODO : Disable contest explorer view.

@@ -15,10 +15,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import fr.faylixe.googlecodejam.client.common.HTMLConstant;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.common.HTMLConstant;
 import fr.faylixe.jammy.core.model.ProblemSampleDataset;
 
 /**

@@ -10,11 +10,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.addons.DatasetBuilder;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
-import fr.faylixe.jammy.core.common.NamedObject;
 
 /**
  * A {@link ProblemSolver} is an object that

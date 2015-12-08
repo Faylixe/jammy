@@ -21,7 +21,8 @@ public final class ContestSelectionCommand extends AbstractWizardCommand {
 	/** {@inheritDoc} **/
 	@Override
 	protected Optional<IWizard> createWizard() {
-		return Optional.of(new ContestWizard());
+		// TODO : Retrieve HTTPExecutorInstance here !.
+		return Optional.of(new ContestWizard(null));
 	}
 
 }

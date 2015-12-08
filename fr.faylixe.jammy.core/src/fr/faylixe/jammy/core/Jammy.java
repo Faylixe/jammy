@@ -19,9 +19,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import fr.faylixe.googlecodejam.client.CodeJamSession;
 import fr.faylixe.googlecodejam.client.Round;
 import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
-import fr.faylixe.googlecodejam.client.webservice.InitialValues;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
@@ -49,6 +49,9 @@ public class Jammy extends AbstractUIPlugin {
 	 * This objects is also used a root element for both contest and round selection view.
 	 */
 	public static final Object [] CHILDLESS = new Object[0];
+
+	/** **/
+	private CodeJamSession session;
 
 	/** **/
 	private ContestInfo currentContest;

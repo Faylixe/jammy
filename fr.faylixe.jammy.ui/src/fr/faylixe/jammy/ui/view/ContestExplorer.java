@@ -25,7 +25,6 @@ import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.command.OpenSolverCommand;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.common.NamedObject;
 import fr.faylixe.jammy.core.model.listener.IContestSelectionListener;
 import fr.faylixe.jammy.ui.internal.FunctionalContentProvider;
 import fr.faylixe.jammy.ui.internal.FunctionalLabelProvider;
@@ -81,7 +80,8 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		Jammy.getDefault().addContestSelectionListener(this);
 		viewer = new TableViewer(parent);
 		viewer.setContentProvider(new FunctionalContentProvider(this::getProblems));
-		viewer.setLabelProvider(new FunctionalLabelProvider(NamedObject::getName, this::getImage));
+		// TODO : Remove FunctionalLabelProvider
+		//viewer.setLabelProvider(new FunctionalLabelProvider(NamedObject::getName, this::getImage));
 		viewer.addDoubleClickListener(event -> {
 			EclipseUtils.executeCommand(OpenSolverCommand.ID);
 		});
