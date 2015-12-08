@@ -2,16 +2,15 @@ package fr.faylixe.jammy.core.service.internal;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-import com.google.api.client.http.HttpRequestFactory;
-
-import fr.faylixe.jammy.core.service.IGoogleLogger;
+import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
+import fr.faylixe.googlecodejam.client.executor.SeleniumCookieSupplier;
+import fr.faylixe.jammy.core.JammyPreferences;
 import fr.faylixe.jammy.core.service.IGoogleSessionService;
 
 /**
@@ -42,32 +41,23 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void login() throws IOException, GeneralSecurityException {
-//		if (!session.isPresent()) {
-//			final IWorkbench workbench = PlatformUI.getWorkbench();
-//			final Shell shell = workbench.getDisplay().getActiveShell();
-//			final IGoogleLogger logger = GoogleLogger.createLogger(this::setSession);
-//			final OAuthLoginDialog dialog = new OAuthLoginDialog(shell, logger);
-//			logger.addListener(() -> {
-//				workbench.getDisplay().asyncExec(dialog::close);
-//			});
-//			dialog.open();
-//		}
+		final Job loggingJob = Job.create("", monitor -> {
+			final StringBuilder builder = new StringBuilder();
+			builder.append(JammyPreferences.getHostname());
+			builder.append("/codejam");
+			final SeleniumCookieSupplier cookieSupplier = new SeleniumCookieSupplier(builder.toString(), FirefoxDriver::new);
+			final String cookie = cookieSupplier.get();
+			HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
+			// TODO : Set created session.
+			return Status.OK_STATUS;
+		});
+		loggingJob.schedule();
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void logout() {
-//		session = Session.EMPTY;
 		GoogleSessionProvider.get().setLogged(false);
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public Optional<HttpRequestFactory> createRequestFactory() {
-//		if (!session.isPresent()) {
-//			return Optional.empty();
-//		}
-		return null; //Optional.of(session.createRequestFactory());
 	}
 
 }

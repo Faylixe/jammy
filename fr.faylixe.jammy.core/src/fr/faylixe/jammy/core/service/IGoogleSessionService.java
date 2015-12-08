@@ -2,14 +2,11 @@ package fr.faylixe.jammy.core.service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Optional;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
-
-import com.google.api.client.http.HttpRequestFactory;
 
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.service.internal.GoogleSessionProvider;
@@ -42,14 +39,6 @@ public interface IGoogleSessionService {
 	 * Destroy the current logged OAuth session.
 	 */
 	void logout();
-
-	/**
-	 * Creates and returns a {@link HttpRequestFactory} using internal session.
-	 * 
-	 * @return Created request factory.
-	 * @throws IllegalStateException If login step hasn't be performed before.
-	 */
-	Optional<HttpRequestFactory> createRequestFactory();
 
 	/**
 	 * Static method that allows service instance quick access

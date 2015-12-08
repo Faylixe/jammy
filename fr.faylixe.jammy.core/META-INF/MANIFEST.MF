@@ -15,7 +15,7 @@ Require-Bundle: javax.servlet;bundle-version="3.0.0",
  org.eclipse.ui.workbench
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: googlecodejam-client-1.1.1-jar-with-dependencies.jar,
+Bundle-ClassPath: googlecodejam-client-1.1.2-jar-with-dependencies.jar,
  .
 Export-Package: fr.faylixe.googlecodejam.client,
  fr.faylixe.googlecodejam.client.common,

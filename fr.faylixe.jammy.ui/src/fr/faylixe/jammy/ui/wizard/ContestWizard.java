@@ -4,7 +4,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
-import fr.faylixe.googlecodejam.client.executor.HTTPRequestExecutor;
+import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
@@ -32,7 +32,7 @@ public final class ContestWizard extends Wizard {
 	 * 
 	 * @param executor Executor instance used for retrieving contest.
 	 */
-	public ContestWizard(final HTTPRequestExecutor executor) {
+	public ContestWizard(final HttpRequestExecutor executor) {
 		super();
 		setWindowTitle(TITLE);
 		this.roundPage = new RoundWizardPage();

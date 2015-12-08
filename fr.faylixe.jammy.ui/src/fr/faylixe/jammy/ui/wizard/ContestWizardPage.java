@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import fr.faylixe.jammy.ui.JammyUI;
 import fr.faylixe.googlecodejam.client.Contest;
-import fr.faylixe.googlecodejam.client.executor.HTTPRequestExecutor;
+import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 
 /**
  * <p>WizardPage implementation for contest selection.</p>
@@ -33,7 +33,7 @@ public final class ContestWizardPage extends AbstractWizardPage {
 	private static final String PAGE_DESCRIPTION = "Please select a Jam contest";
 	
 	/** Executor instance used for retrieving {@link Contest}. **/
-	private final HTTPRequestExecutor executor;
+	private final HttpRequestExecutor executor;
 
 	/** Consumer that will use selected contest. **/
 	private final Consumer<Contest> contestConsumer;
@@ -44,7 +44,7 @@ public final class ContestWizardPage extends AbstractWizardPage {
 	 * @param executor Executor instance used for retrieving {@link Contest}.
 	 * @param contestConsumer Consumer that will use selected contest. 
 	 */
-	public ContestWizardPage(final HTTPRequestExecutor executor, final Consumer<Contest> contestConsumer) {
+	public ContestWizardPage(final HttpRequestExecutor executor, final Consumer<Contest> contestConsumer) {
 		super(PAGE_NAME);
 		setDescription(PAGE_DESCRIPTION);
 		this.executor = executor;
