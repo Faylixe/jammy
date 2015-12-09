@@ -21,6 +21,14 @@ import fr.faylixe.jammy.core.ProblemSolver;
  */
 public abstract class AbstractProcessManager implements ILanguageManager {
 
+	/**
+	 * 
+	 * @param problem
+	 */
+	private void createProjectName(final Problem problem) {
+		// TODO :
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {

@@ -107,7 +107,6 @@ public final class JavaProjectBuilder {
 	 */
 	public static IProject build(final String name, final IProgressMonitor monitor) throws CoreException {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		// TODO : Append "-java" to the project name in order to avoid project name conflict between language. 
 		final IProject project = workspace.getRoot().getProject(name);
 		if (!project.exists()) {
 			monitor.subTask(CREATE_PROJECT_TASK);

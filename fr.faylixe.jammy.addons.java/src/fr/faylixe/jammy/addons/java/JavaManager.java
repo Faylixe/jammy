@@ -5,11 +5,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.addons.java.internal.JavaProjectBuilder;
 import fr.faylixe.jammy.addons.java.internal.JavaSolverBuilder;
 import fr.faylixe.jammy.addons.java.internal.JavaSolverRunner;
+import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
@@ -25,12 +25,24 @@ public final class JavaManager implements ILanguageManager {
 	/** Suffix used for solver class file. **/
 	private static final String SOLVER_SUFFIX = "Solver";
 
+	/** **/
+	private static final String PROJECT_SUFFIX = "-java";
+
+	/** {@inheritDoc} **/
+	@Override
+	public String buildProjectName(final String contestName) {
+		return new StringBuilder(PROJECT_PREFIX)
+			.append(contestName)
+			.append(PROJECT_SUFFIX)
+			.toString();
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		final ContestInfo info = problem.getParent();
-		final String name = info.toString();// TODO : Reimplement old getProjectName();
-		return JavaProjectBuilder.build(name, monitor);
+		final String contestName = Jammy.getDefault().getContestName();
+		final String projectName = buildProjectName(contestName);
+		return JavaProjectBuilder.build(projectName, monitor);
 	}
 
 	/** {@inheritDoc} **/

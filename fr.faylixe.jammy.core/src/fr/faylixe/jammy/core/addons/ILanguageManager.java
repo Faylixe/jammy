@@ -38,6 +38,16 @@ public interface ILanguageManager {
 	/** Task name for the project creation. **/
 	String CREATE_PROJECT_TASK = "Creates %s project for current round";
 
+	/** **/
+	String PROJECT_PREFIX = "codejam-";
+
+	/**
+	 * 
+	 * @param contestName
+	 * @return
+	 */
+	String buildProjectName(String contestName);
+
 	/**
 	 * Retrieves the project associated to the given <tt>problem</tt> if exist.
 	 * Creates it using the given <tt>monitor</tt> otherwise.
