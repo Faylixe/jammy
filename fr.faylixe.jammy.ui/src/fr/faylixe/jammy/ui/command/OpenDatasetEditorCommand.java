@@ -4,8 +4,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.command.AbstractProgressiveSolverCommand;
-import fr.faylixe.jammy.core.model.ProblemSolver;
 import fr.faylixe.jammy.ui.internal.DatasetEditorInput;
 
 /**

@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.model;
+package fr.faylixe.jammy.core;
 
 import java.lang.ref.SoftReference;
 import java.util.Map;
@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
-import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.addons.DatasetBuilder;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 

@@ -15,8 +15,8 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
-import fr.faylixe.jammy.core.model.ProblemSolver;
 
 /**
  * {@link ISolverRunner} implementation for Java language.

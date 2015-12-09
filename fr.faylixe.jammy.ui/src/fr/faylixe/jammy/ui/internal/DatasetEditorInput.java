@@ -18,9 +18,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IReusableEditor;
 import org.eclipse.ui.IWorkbenchPage;
 
+import fr.faylixe.jammy.core.ProblemSampleDataset;
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.model.ProblemSampleDataset;
-import fr.faylixe.jammy.core.model.ProblemSolver;
 
 /**
  * {@link CompareEditorInput} implementation for comparing

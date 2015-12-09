@@ -18,8 +18,8 @@ import org.jsoup.select.Elements;
 import fr.faylixe.googlecodejam.client.common.HTMLConstant;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.core.ProblemSampleDataset;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.model.ProblemSampleDataset;
 
 /**
  * A {@link DatasetBuilder} provides tools for extracting and

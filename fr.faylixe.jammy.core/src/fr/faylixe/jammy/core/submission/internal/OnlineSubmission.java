@@ -1,11 +1,11 @@
-package fr.faylixe.jammy.core.model.submission.internal;
+package fr.faylixe.jammy.core.submission.internal;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.submission.SubmissionException;
+import fr.faylixe.jammy.core.ProblemSolver;
+import fr.faylixe.jammy.core.submission.SubmissionException;
 
 /**
  * Online submission that consists in downloading problem input,

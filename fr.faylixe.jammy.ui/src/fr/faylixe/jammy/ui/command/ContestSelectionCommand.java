@@ -1,10 +1,18 @@
 package fr.faylixe.jammy.ui.command;
 
-import java.util.Optional;
-
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
-import fr.faylixe.jammy.ui.internal.AbstractWizardCommand;
+import fr.faylixe.jammy.core.service.IGoogleSessionService;
 import fr.faylixe.jammy.ui.wizard.ContestWizard;
 
 /**
@@ -13,16 +21,31 @@ import fr.faylixe.jammy.ui.wizard.ContestWizard;
  * 
  * @author fv
  */
-public final class ContestSelectionCommand extends AbstractWizardCommand {
+public final class ContestSelectionCommand extends AbstractHandler {
 
 	/** Command identifier. **/
 	public static final String ID = "review.classdesign.jammy.command.contestselection";
 
+	/** Name of the created job. **/
+	private static final String JOB_NAME = "Contest Selection";
+
 	/** {@inheritDoc} **/
 	@Override
-	protected Optional<IWizard> createWizard() {
-		// TODO : Retrieve HTTPExecutorInstance here !.
-		return Optional.of(new ContestWizard(null));
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		if (IGoogleSessionService.requireLogin()) {
+			final Job job = Job.create(JOB_NAME, monitor -> {
+				Display.getDefault().asyncExec(() -> {
+					final IWorkbench workbench = PlatformUI.getWorkbench();
+					final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
+					final IWizard wizard = new ContestWizard(null);
+					final WizardDialog dialog = new WizardDialog(shell, wizard);
+					dialog.open();
+				});
+				return Status.OK_STATUS;
+			});
+			job.schedule();
+		}
+		return null;
 	}
 
 }

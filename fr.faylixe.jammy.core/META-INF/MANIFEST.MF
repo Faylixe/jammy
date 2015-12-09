@@ -16,7 +16,8 @@ Require-Bundle: javax.servlet;bundle-version="3.0.0",
  fr.faylixe.googlecodejam.client
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
+Bundle-ClassPath: googlecodejam-client-1.1.2-jar-with-dependencies.jar,
+ .
 Export-Package: fr.faylixe.googlecodejam.client,
  fr.faylixe.googlecodejam.client.common,
  fr.faylixe.googlecodejam.client.executor,
@@ -25,7 +26,6 @@ Export-Package: fr.faylixe.googlecodejam.client,
  fr.faylixe.jammy.core.addons,
  fr.faylixe.jammy.core.command,
  fr.faylixe.jammy.core.common,
- fr.faylixe.jammy.core.model,
- fr.faylixe.jammy.core.model.listener,
- fr.faylixe.jammy.core.model.submission,
- fr.faylixe.jammy.core.service
+ fr.faylixe.jammy.core.listener,
+ fr.faylixe.jammy.core.service,
+ fr.faylixe.jammy.core.submission

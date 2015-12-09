@@ -16,6 +16,7 @@ public final class RefreshProblemCommand extends AbstractHandler {
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		
 		// TODO : Reload contest info ?
 		return null;
 	}

@@ -2,7 +2,6 @@ package fr.faylixe.jammy.core.service.internal;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
@@ -29,10 +28,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	}
 
 	/**
-	 * Session setter. This methods aims to be used as
-	 * a {@link Session} {@link Consumer}.
-	 * 
-	 * @param session Session to be consumed.
+	 * Session setter.
 	 */
 	private void setSession() {
 		GoogleSessionProvider.get().setLogged(true);
@@ -41,6 +37,7 @@ public final class GoogleSessionService implements IGoogleSessionService {
 	/** {@inheritDoc} **/
 	@Override
 	public void login() throws IOException, GeneralSecurityException {
+		// TODO : Open blocking dialog.
 		final Job loggingJob = Job.create("", monitor -> {
 			final StringBuilder builder = new StringBuilder();
 			builder.append(JammyPreferences.getHostname());
@@ -49,6 +46,8 @@ public final class GoogleSessionService implements IGoogleSessionService {
 			final String cookie = cookieSupplier.get();
 			HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
 			// TODO : Set created session.
+			// TODO : Close blocking dialog.
+			setSession();
 			return Status.OK_STATUS;
 		});
 		loggingJob.schedule();

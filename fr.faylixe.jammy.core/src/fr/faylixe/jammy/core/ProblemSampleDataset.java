@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.model;
+package fr.faylixe.jammy.core;
 
 import org.eclipse.core.resources.IFile;
 

@@ -1,15 +1,12 @@
 package fr.faylixe.jammy.core.command;
 
-import java.util.Optional;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.model.ProblemSolver;
 
 /**
  * 
@@ -20,10 +17,8 @@ public abstract class AbstractProgressiveSolverCommand extends AbstractProgressi
 	/** {@inheritDoc} **/
 	@Override
 	public void run(final IProgressMonitor monitor) {
-		final Optional<Problem> currentProblem = Jammy.getDefault().getCurrentProblem();
-		final Optional<ContestInfo> currentContest = Jammy.getDefault().getCurrentContest();
-		if (currentContest.isPresent() && currentProblem.isPresent()) {
-			final Problem problem = currentProblem.get();
+		final Problem problem = Jammy.getDefault().getCurrentProblem();
+		if (problem != null) {
 			try {
 				monitor.beginTask(getTaskName(), IProgressMonitor.UNKNOWN);
 				final ProblemSolver solver = ProblemSolver.get(problem, monitor);

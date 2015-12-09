@@ -10,9 +10,9 @@ import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.addons.java.internal.JavaProjectBuilder;
 import fr.faylixe.jammy.addons.java.internal.JavaSolverBuilder;
 import fr.faylixe.jammy.addons.java.internal.JavaSolverRunner;
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
-import fr.faylixe.jammy.core.model.ProblemSolver;
 
 /**
  * {@link ILanguageManager} implementation for Java language,

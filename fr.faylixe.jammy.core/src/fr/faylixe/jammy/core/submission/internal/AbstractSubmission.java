@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.model.submission.internal;
+package fr.faylixe.jammy.core.submission.internal;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -7,12 +7,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
-import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.submission.ISubmission;
-import fr.faylixe.jammy.core.model.submission.SubmissionException;
 import fr.faylixe.jammy.core.service.ISubmissionService;
+import fr.faylixe.jammy.core.submission.ISubmission;
+import fr.faylixe.jammy.core.submission.SubmissionException;
 
 /**
  * Abstract {@link ISubmission} implementation that language extension

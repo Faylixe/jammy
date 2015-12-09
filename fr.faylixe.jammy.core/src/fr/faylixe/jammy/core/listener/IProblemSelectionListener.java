@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.model.listener;
+package fr.faylixe.jammy.core.listener;
 
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 

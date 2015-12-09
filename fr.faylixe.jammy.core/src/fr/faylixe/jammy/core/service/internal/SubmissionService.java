@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
-import fr.faylixe.jammy.core.model.listener.ISubmissionListener;
-import fr.faylixe.jammy.core.model.submission.ISubmission;
-import fr.faylixe.jammy.core.model.submission.SubmissionException;
+import fr.faylixe.jammy.core.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.service.ISubmissionService;
+import fr.faylixe.jammy.core.submission.ISubmission;
+import fr.faylixe.jammy.core.submission.SubmissionException;
 
 /**
  * TODO : Service javadoc.

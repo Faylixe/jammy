@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.faylixe.googlecodejam.client.webservice.Problem;
-import fr.faylixe.jammy.core.model.ProblemSolver;
+import fr.faylixe.jammy.core.ProblemSolver;
 
 /**
  * Abstract {@link ILanguageManager} implementation tat aims to run solver

@@ -1,10 +1,10 @@
-package fr.faylixe.jammy.core.model.submission;
+package fr.faylixe.jammy.core.submission;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.faylixe.jammy.core.model.ProblemSolver;
+import fr.faylixe.jammy.core.ProblemSolver;
 
 /**
  * This interface represents the action of submitting

@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.model.submission.internal;
+package fr.faylixe.jammy.core.submission.internal;
 
 import java.io.IOException;
 
@@ -10,10 +10,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.jammy.core.ProblemSampleDataset;
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.model.ProblemSampleDataset;
-import fr.faylixe.jammy.core.model.ProblemSolver;
-import fr.faylixe.jammy.core.model.submission.SubmissionException;
+import fr.faylixe.jammy.core.submission.SubmissionException;
 
 /**
  * Submission that aims to use local dataset file.

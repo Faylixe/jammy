@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -21,13 +19,14 @@ import org.osgi.framework.BundleContext;
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
 import fr.faylixe.googlecodejam.client.Round;
+import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.SerializationUtils;
-import fr.faylixe.jammy.core.model.listener.IContestSelectionListener;
-import fr.faylixe.jammy.core.model.listener.IProblemSelectionListener;
+import fr.faylixe.jammy.core.listener.IContestSelectionListener;
+import fr.faylixe.jammy.core.listener.IProblemSelectionListener;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -36,6 +35,7 @@ import fr.faylixe.jammy.core.model.listener.IProblemSelectionListener;
  */
 public class Jammy extends AbstractUIPlugin {
 
+	/** Path of the contest state which is save when plugin is stopped. **/
 	private static final String CONTEST_STATE = "current.contest";
 
 	/** Plug-in instance. **/
@@ -50,23 +50,23 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public static final Object [] CHILDLESS = new Object[0];
 
-	/** **/
-	private CodeJamSession session;
-
-	/** **/
-	private ContestInfo currentContest;
-	
-	/** **/
-	private Problem currentProblem;
-
-	/** **/
+	/** Listeners that are triggered when the currently selected round change. **/
 	private final List<IContestSelectionListener> contestListeners;
 
-	/** **/
+	/** Listeners that are triggered when the currently selected problem change. **/
 	private final List<IProblemSelectionListener> problemListeners;
 
 	/** **/
 	private final Map<String, ILanguageManager> managers;
+
+	/** Current session used for interracting with code jam platform. **/
+	private CodeJamSession session;
+
+	/**
+	 * {@link Problem} instance that is currently selected
+	 * by user and which acts as the contextual problem.
+	 */
+	private Problem selectedProblem;
 
 	/**
 	 * The constructor
@@ -85,6 +85,9 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public void addContestSelectionListener(final IContestSelectionListener listener) {
 		contestListeners.add(listener);
+		if (session != null) {
+			listener.contestSelected(session.getContestInfo());
+		}
 	}
 
 	/**
@@ -103,6 +106,9 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public void addProblemSelectionListener(final IProblemSelectionListener listener) {
 		problemListeners.add(listener);
+		if (session != null) {
+			listener.problemSelected(null); // TODO : Retrieve selected problem.
+		}
 	}
 	
 	/**
@@ -117,10 +123,12 @@ public class Jammy extends AbstractUIPlugin {
 	/**
 	 * Notifies all {@link IContestSelectionListener} instance
 	 * registered that the current round has changed.
+	 * 
+	 * @param contestInfo Information about the currently selected contest.
 	 */
-	private void fireContestSelectionChanged() {
+	private void fireContestSelectionChanged(final ContestInfo contestInfo) {
 		for (final IContestSelectionListener listener : contestListeners) {
-			listener.contestSelected(currentContest);
+			listener.contestSelected(contestInfo);
 		}
 	}
 	
@@ -130,7 +138,7 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	private void fireProblemSelectionChanged() {
 		for (final IProblemSelectionListener listener : problemListeners) {
-			listener.problemSelected(currentProblem);
+			listener.problemSelected(selectedProblem);
 		}
 	}
 
@@ -139,43 +147,42 @@ public class Jammy extends AbstractUIPlugin {
 	 * @param round
 	 */
 	public void setCurrentRound(final Round round) {
-//		try {
-//			//currentContest = ContestInfo.get(round);
-//			//InitialValues.get(round);
-//		}
-//		catch (final IOException e) {
-//			EclipseUtils.showError(e);
-//		}
-		fireContestSelectionChanged();
+		if (round != null) {
+			// TODO : Retrieve executor from service.
+			final HttpRequestExecutor executor = null;
+			try {
+				session = CodeJamSession.createSession(executor, round);
+				fireContestSelectionChanged(session.getContestInfo());
+			}
+			catch (final IOException e) {
+				EclipseUtils.showError(e);
+			}
+		}
 	}
 
 	/**
+	 * Sets the currently selected problem.
 	 * 
-	 * @param problem
+	 * @param problem The newly selected problem.
 	 */
-	public void setCurrentProblem(final Problem problem) {
-		currentProblem = Objects.requireNonNull(problem);
+	public void setSelectedProblem(final Problem problem) {
+		selectedProblem = problem;
 		fireProblemSelectionChanged();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Optional<ContestInfo> getCurrentContest() {
-		return Optional.ofNullable(currentContest);
 	}
 	
 	/**
+	 * Getter for the currently selected {@link Problem}.
 	 * 
-	 * @return
+	 * @return The selected {@link Problem} instance, or <tt>null</tt> if no problem has been selected.
+	 * @see #selectedProblem
 	 */
-	public Optional<Problem> getCurrentProblem() {
-		return Optional.ofNullable(currentProblem);
+	public Problem getCurrentProblem() {
+		return selectedProblem;
 	}
 
 	/**
-	 * 
+	 * Loads this plugin inner state.
+	 * Such states consists in a serialized form of the current session.
 	 */
 	private void loadState() {
 		final IPath state = getStateLocation();
@@ -183,8 +190,8 @@ public class Jammy extends AbstractUIPlugin {
 		final File file = contest.toFile();
 		if (file.exists()) {
 			try {
-				currentContest = SerializationUtils.deserialize(file, ContestInfo.class);
-				fireContestSelectionChanged();
+				session = SerializationUtils.deserialize(file, CodeJamSession.class);
+				fireContestSelectionChanged(session.getContestInfo());
 			}
 			catch (final IOException | ClassNotFoundException e) {
 				EclipseUtils.showError(e.getMessage(), e);
@@ -193,15 +200,16 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
-	 * 
+	 * Saves this plugin current state. Which
+	 * consists in serializing the current session.
 	 */
 	private void saveState() {
 		final IPath state = getStateLocation();
-		if (currentContest != null) {
+		if (session != null) {
 			// Save current contest.
-			final IPath contest = state.append(CONTEST_STATE);
+			final IPath sessionPath = state.append(CONTEST_STATE);
 			try {
-				SerializationUtils.serialize(currentContest, contest.toFile());
+				SerializationUtils.serialize(session, sessionPath.toFile());
 			}
 			catch (final IOException e) {
 				EclipseUtils.showError(e.getMessage(), e);
@@ -258,8 +266,8 @@ public class Jammy extends AbstractUIPlugin {
 	/** {@inheritDoc} **/
 	public void stop(final BundleContext context) throws Exception { // NOPMD
 		plugin = null; // NOPMD
-		super.stop(context);
 		saveState();
+		super.stop(context);
 	}
 
 	/**

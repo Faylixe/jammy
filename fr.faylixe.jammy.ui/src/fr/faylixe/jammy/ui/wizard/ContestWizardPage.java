@@ -21,7 +21,7 @@ import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
  * 
  * @author fv
  */
-public final class ContestWizardPage extends AbstractWizardPage {
+public final class ContestWizardPage extends AbstractListWizardPage {
 
 	/** Contest retrieval job name. **/
 	private static final String JOB_NAME = "Extract contest";
@@ -45,8 +45,7 @@ public final class ContestWizardPage extends AbstractWizardPage {
 	 * @param contestConsumer Consumer that will use selected contest. 
 	 */
 	public ContestWizardPage(final HttpRequestExecutor executor, final Consumer<Contest> contestConsumer) {
-		super(PAGE_NAME);
-		setDescription(PAGE_DESCRIPTION);
+		super(PAGE_NAME, PAGE_DESCRIPTION);
 		this.executor = executor;
 		this.contestConsumer = contestConsumer;
 	}

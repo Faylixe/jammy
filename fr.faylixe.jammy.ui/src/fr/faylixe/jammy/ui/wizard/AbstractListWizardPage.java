@@ -1,12 +1,9 @@
 package fr.faylixe.jammy.ui.wizard;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
@@ -15,79 +12,37 @@ import org.eclipse.swt.widgets.Composite;
 
 import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.ui.internal.NamedObjectContentProvider;
+import fr.faylixe.jammy.ui.internal.NamedObjectLabelProvider;
 
 /**
+ * Abstract {@link WizardPage} implementation that aims
+ * to display a list of {@link NamedObject}.
  * 
  * @author fv
  */
-public abstract class AbstractWizardPage extends WizardPage {
+public abstract class AbstractListWizardPage extends WizardPage {
 
 	/** Viewer instance that displays the list of the contest. **/
 	private ListViewer viewer;
 
 	/**
-	 * Custom label provider used for displaying
-	 * a list of named object.
+	 * Default constructor.
 	 * 
-	 * @author fv
+	 * @param pageName Name of the page.
+	 * @param pageDescription Description of the page.
 	 */
-	protected static class NamedLabelProvider extends LabelProvider {
-
-		/** {@inheritDoc} **/
-		@Override
-		public String getText(final Object element) {
-			if (element instanceof NamedObject) {
-				final NamedObject object = (NamedObject) element;
-				return object.getName();
-			}
-			return element.toString();
-		}
-
-	}
-	
-	/**
-	 * Custom content provider used for displaying
-	 * a list of named object.
-	 * 
-	 * @author fv
-	 */
-	protected final class NamedContentProvider implements IStructuredContentProvider {
-		
-		/** {@inheritDoc} **/
-		@Override
-		public void dispose() {
-			// Do nothing.
-		}
-
-		/** {@inheritDoc} **/
-		@Override
-		public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-			// Do nothing.
-		}
-
-		/** {@inheritDoc} **/
-		@Override
-		public Object[] getElements(final Object inputElement) {
-			if (inputElement instanceof List) {
-				 final List<?> contests = (List<?>) inputElement;
-				 return contests.toArray();
-			}
-			return null;
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param pageName
-	 */
-	protected AbstractWizardPage(final String pageName) {
+	protected AbstractListWizardPage(final String pageName, final String pageDescription) {
 		super(pageName);
+		setDescription(pageDescription);
 	}
 	
 	/**
+	 * Decoration method that calls, inner viewer
+	 * {@link Viewer#setInput(Object)} method.
 	 * 
-	 * @param input
+	 * @param input Input to set.
+	 * @see Viewer#setInput(Object)
 	 */
 	protected final void setInput(final Object input) {
 		viewer.setInput(input);
@@ -121,10 +76,10 @@ public abstract class AbstractWizardPage extends WizardPage {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void createControl(Composite parent) {
+	public void createControl(final Composite parent) {
 		this.viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setLabelProvider(new NamedLabelProvider());
-		viewer.setContentProvider(new NamedContentProvider());
+		viewer.setLabelProvider(NamedObjectLabelProvider.getInstance());
+		viewer.setContentProvider(NamedObjectContentProvider.getInstance());
 		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addSelectionChangedListener(event -> onSelectionChanged(event::getSelection));
 		viewer.addDoubleClickListener(event -> {

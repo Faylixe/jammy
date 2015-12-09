@@ -2,8 +2,8 @@ package fr.faylixe.jammy.core.command;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.model.ProblemSolver;
 
 /**
  * Default handler used for opening a solver file.

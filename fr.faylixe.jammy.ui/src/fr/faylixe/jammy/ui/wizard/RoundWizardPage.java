@@ -15,7 +15,7 @@ import fr.faylixe.googlecodejam.client.Round;
  * 
  * @author fv
  */
-public final class RoundWizardPage extends AbstractWizardPage implements Consumer<Contest> {
+public final class RoundWizardPage extends AbstractListWizardPage implements Consumer<Contest> {
 
 	/** Name of this page. **/
 	private static final String PAGE_NAME = "Round selection. ";
@@ -30,8 +30,7 @@ public final class RoundWizardPage extends AbstractWizardPage implements Consume
 	 * Default constructor.
 	 */
 	public RoundWizardPage() {
-		super(PAGE_NAME);
-		setDescription(PAGE_DESCRIPTION);
+		super(PAGE_NAME, PAGE_DESCRIPTION);
 	}
 
 	/**
