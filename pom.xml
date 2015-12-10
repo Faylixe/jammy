@@ -34,6 +34,11 @@
 			<artifactId>googlecodejam-client-osgi</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<dependency>
+    	<groupId>org.apache.servicemix.bundles</groupId>
+    	<artifactId>org.apache.servicemix.bundles.cglib-2.1_3</artifactId>
+    	<version>1.0.0-rc1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
