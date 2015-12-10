@@ -7,11 +7,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import fr.faylixe.jammy.core.ProblemSolver;
 
 /**
- * This interface represents the action of submitting
+ * <p>This interface represents the action of submitting
  * a {@link ProblemSolver} as a valid problem solution.
  * It consists in running the solver with an input dataset
  * and to analyze result using reference output or online
- * dataset submission service.
+ * dataset submission service.</p>
  * 
  * @author fv
  */
@@ -35,6 +35,13 @@ public interface ISubmission {
 	 * @throws CoreException If any error occurs while submitting.
 	 */
 	void start(IProgressMonitor monitor) throws CoreException;
+
+	/**
+	 * Getter for the target problem solver.
+	 * 
+	 * @return Target problem solver this submission will work on.
+	 */
+	ProblemSolver getSolver();
 
 	/**
 	 * Returns the output file associated to this submission.

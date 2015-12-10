@@ -82,12 +82,12 @@ public final class JammyUI extends AbstractUIPlugin {
 	 * @return Retrieves image if exist, <tt>null</tt> otherwise.
 	 */
 	public static Image getImage(final String name) {
-		return getDefault().getImageRegistry().get(name);
+		return getInstance().getImageRegistry().get(name);
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void start(final BundleContext context) throws Exception { // NOPMD
+	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 		final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -98,17 +98,19 @@ public final class JammyUI extends AbstractUIPlugin {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void stop(final BundleContext context) throws Exception { // NOPMD
+	public void stop(final BundleContext context) throws Exception {
 		plugin = null; // NOPMD
 		super.stop(context);
 	}
 
 	/**
-	 * Getter for the plugin instance.
-	 *
-	 * @return Unique plugin instance, or <tt>null</tt> if the plugin has not been activated.
+	 * Getter for the plugin unique instance.
+	 * Such instance could be <tt>null</tt>
+	 * if the bundle has not been started.
+	 * 
+	 * @return Plugin instance.
 	 */
-	public static JammyUI getDefault() {
+	public static JammyUI getInstance() {
 		return plugin;
 	}
 

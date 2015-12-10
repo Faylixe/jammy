@@ -27,6 +27,9 @@ public final class ContestWizard extends Wizard {
 	/** Page dedicated to round selection. **/
 	private final RoundWizardPage roundPage;	
 
+	/** Request executor that is supposed to be authenticated. **/
+	private final HttpRequestExecutor executor;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -35,6 +38,7 @@ public final class ContestWizard extends Wizard {
 	public ContestWizard(final HttpRequestExecutor executor) {
 		super();
 		setWindowTitle(TITLE);
+		this.executor = executor;
 		this.roundPage = new RoundWizardPage();
 		this.contestPage = new ContestWizardPage(executor, roundPage);
 	}
@@ -50,10 +54,10 @@ public final class ContestWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		final Round round = roundPage.getSelectedRound();
-		if (round != null) {
+		if (executor != null && round != null) {
 			EclipseUtils.createUIJob(monitor -> {
 				// TODO : Disable contest explorer view.
-				Jammy.getDefault().setCurrentRound(round);
+				Jammy.getInstance().createSession(executor, round);
 				// TODO : Reenable contest
 			});
 			return true;

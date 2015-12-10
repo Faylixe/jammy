@@ -12,8 +12,8 @@ import fr.faylixe.jammy.core.addons.DatasetBuilder;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 
 /**
- * A {@link ProblemSolver} is an object that
- * for a given {@link Problem} instance provides :
+ * <p>A {@link ProblemSolver} is an object that
+ * for a given {@link Problem} instance provides :</p>
  * <ul>
  * 	<li>An associated {@link IFile} which correspond to the solver source code</li>
  * 	<li>An associated {@link ProblemSampleDataset} which contains testing input and output.</li>
@@ -25,7 +25,6 @@ public final class ProblemSolver extends NamedObject {
 
 	/** Serialization index. **/
 	private static final long serialVersionUID = 1L;
-
 
 	/** Task name for the project retrieval. **/
 	private static final String PROJECT_TASK = "Retrieves associated Java project";
@@ -88,7 +87,8 @@ public final class ProblemSolver extends NamedObject {
 	/**
 	 * Static factory method that creates a {@link ProblemSolver} instance
 	 * from the given <tt>problem</tt> instance. Creates project, solver, and
-	 * dataset.
+	 * dataset. This method only aims to be used by the {@link ProblemSolverFactory}
+	 * class.
 	 * 
 	 * @param problem Problem to build solver from.
 	 * @param monitor Monitor instance used for each builder involved.
@@ -97,7 +97,7 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	protected static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		monitor.subTask(PROJECT_TASK);
-		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager(); // TODO : Ensure solver is created again when language change.
+		final ILanguageManager manager = Jammy.getInstance().getCurrentLanguageManager(); // TODO : Ensure solver is created again when language change.
 		final IProject project = manager.getProject(problem, monitor);
 		monitor.subTask(SOLVER_TASK);
 		final IFile file = manager.getSolver(problem, monitor);

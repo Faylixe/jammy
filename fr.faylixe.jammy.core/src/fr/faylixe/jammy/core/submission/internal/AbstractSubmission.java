@@ -85,13 +85,9 @@ public abstract class AbstractSubmission implements ISubmission {
 		this.service = ISubmissionService.get();
 	}
 
-	/**
-	 * Getter for the target problem solver.
-	 * 
-	 * @return Target problem solver this submission will work on.
-	 * @see #solver
-	 */
-	protected final ProblemSolver getSolver() {
+	/** {@inheritDoc} **/
+	@Override
+	public final ProblemSolver getSolver() {
 		return solver;
 	}
 
@@ -106,7 +102,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * @throws CoreException If any error occurs while running solver instance.
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
-		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager();
+		final ILanguageManager manager = Jammy.getInstance().getCurrentLanguageManager();
 		final ISolverRunner execution = manager.getRunner(solver, monitor);
 		execution.run(arguments, getOutput().getLocation().toString());
 		service.fireExecutionStarted(this);

@@ -52,14 +52,14 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 		final IActionBars bars = getViewSite().getActionBars();
 		final IToolBarManager manager = bars.getToolBarManager();
 		manager.add(new GroupMarker(MENU_CONTRIBUTION));
-		Jammy.getDefault().addProblemSelectionListener(this);
+		Jammy.getInstance().addProblemSelectionListener(this);
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void dispose() {
 		super.dispose();
-		Jammy.getDefault().removeProblemSelectionListener(this);
+		Jammy.getInstance().removeProblemSelectionListener(this);
 	}
 
 	/** {@inheritDoc} **/

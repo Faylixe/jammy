@@ -3,8 +3,8 @@ package fr.faylixe.jammy.core;
 import org.eclipse.core.resources.IFile;
 
 /**
- * Simple POJO class that contains a dataset which consists
- * in an input and an output file.
+ * <p>Simple POJO class that contains a dataset which consists
+ * in an input and an output file.</p>Ò
  * 
  * @author fv
  */

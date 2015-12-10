@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -29,14 +28,16 @@ import fr.faylixe.jammy.core.listener.IContestSelectionListener;
 import fr.faylixe.jammy.core.listener.IProblemSelectionListener;
 
 /**
- * The activator class controls the plug-in life cycle.
+ * <p>Jammy plugin entry point, which is used
+ * in order to access to the current code jam session,
+ * available language manager and selected problem instance.</p>
  * 
  * @author fv
  */
 public class Jammy extends AbstractUIPlugin {
 
-	/** Plug-in ID. **/
-	public static final String PLUGIN_ID = "review.classdesign.jammy"; //$NON-NLS-1$
+	/** Plugin ID. **/
+	public static final String PLUGIN_ID = "review.classdesign.jammy";
 
 	/** Path of the contest state which is save when plugin is stopped. **/
 	private static final String CONTEST_STATE = "current.contest";
@@ -56,7 +57,7 @@ public class Jammy extends AbstractUIPlugin {
 	/** Listeners that are triggered when the currently selected problem change. **/
 	private final List<IProblemSelectionListener> problemListeners;
 
-	/** **/
+	/** Language manager instance available. **/
 	private final Map<String, ILanguageManager> managers;
 
 	/** Current session used for interracting with code jam platform. **/
@@ -69,7 +70,7 @@ public class Jammy extends AbstractUIPlugin {
 	private Problem selectedProblem;
 
 	/**
-	 * The constructor
+	 * Default constructor
 	 */
 	public Jammy() {
 		super();
@@ -107,7 +108,7 @@ public class Jammy extends AbstractUIPlugin {
 	public void addProblemSelectionListener(final IProblemSelectionListener listener) {
 		problemListeners.add(listener);
 		if (session != null) {
-			listener.problemSelected(null); // TODO : Retrieve selected problem.
+			listener.problemSelected(selectedProblem);
 		}
 	}
 	
@@ -143,13 +144,15 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Creates a new code jam session using the given
+	 * <tt>executor</tt> and <tt>round</tt>, and sets it
+	 * as the current session.
 	 * 
-	 * @param round
+	 * @param executor Logged request executor used for session creation.
+	 * @param round Selected round to use as contextual round.
 	 */
-	public void setCurrentRound(final Round round) {
+	public void createSession(final HttpRequestExecutor executor, final Round round) {
 		if (round != null) {
-			// TODO : Retrieve executor from service.
-			final HttpRequestExecutor executor = null;
 			try {
 				session = CodeJamSession.createSession(executor, round);
 				fireContestSelectionChanged(session.getContestInfo());
@@ -181,8 +184,9 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Getter for the contest name.
 	 * 
-	 * @return
+	 * @return The name of the current context, or <tt>null</tt> if the current session is not set.
 	 */
 	public String getContestName() {
 		return session == null ? null : session.getName();
@@ -192,13 +196,13 @@ public class Jammy extends AbstractUIPlugin {
 	 * Loads this plugin inner state.
 	 * Such states consists in a serialized form of the current session.
 	 */
-	private void loadState() {
+	private void loadPluginState() {
 		final IPath state = getStateLocation();
-		final IPath contest = state.append(CONTEST_STATE);
-		final File file = contest.toFile();
-		if (file.exists()) {
+		final IPath sessionPath = state.append(CONTEST_STATE);
+		final File sessionFile = sessionPath.toFile();
+		if (sessionFile.exists()) {
 			try {
-				session = SerializationUtils.deserialize(file, CodeJamSession.class);
+				session = SerializationUtils.deserialize(sessionFile, CodeJamSession.class);
 				fireContestSelectionChanged(session.getContestInfo());
 			}
 			catch (final IOException | ClassNotFoundException e) {
@@ -211,7 +215,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * Saves this plugin current state. Which
 	 * consists in serializing the current session.
 	 */
-	private void saveState() {
+	private void savePluginState() {
 		final IPath state = getStateLocation();
 		if (session != null) {
 			// Save current contest.
@@ -226,9 +230,11 @@ public class Jammy extends AbstractUIPlugin {
 	}
 	
 	/**
-	 * 
+	 * This method lookup for every {@link ILanguageManager}
+	 * implementation registered through associated extension
+	 * point, and creates an instance for each of them.
 	 */
-	private void loadManagers() {
+	private void loadLanguageManagers() {
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
 		final IConfigurationElement [] elements = registry.getConfigurationElementsFor(ILanguageManager.EXTENSION_ID);
 		for (final IConfigurationElement element : elements) {
@@ -244,8 +250,10 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Retrieves and returns the currently selected
+	 * language manager.
 	 * 
-	 * @return
+	 * @return Currently language manager instance selected.
 	 */
 	public ILanguageManager getCurrentLanguageManager() {
 		final String language = JammyPreferences.getCurrentLanguage();
@@ -253,37 +261,39 @@ public class Jammy extends AbstractUIPlugin {
 	}
 	
 	/**
+	 * Getter for available language manager
+	 * identifier available.
 	 * 
-	 * @return
+	 * @return Set of language supported relative to their associated manager.
 	 */
 	public Set<String> getLanguages() {
 		return managers.keySet();
 	}
 
 	/** {@inheritDoc} **/
-	public void start(final BundleContext context) throws Exception { // NOPMD
+	public void start(final BundleContext context) throws Exception {
 		super.start(context);
-		final IPreferenceStore store = getPreferenceStore();
-		JammyPreferences.load(store);
-		loadManagers();
-		loadState();
-		store.addPropertyChangeListener(JammyPreferences::propertyChange);
+		JammyPreferences.load(getPreferenceStore());
+		loadLanguageManagers();
+		loadPluginState();
 		plugin = this;
 	}
 
 	/** {@inheritDoc} **/
-	public void stop(final BundleContext context) throws Exception { // NOPMD
+	public void stop(final BundleContext context) throws Exception {
 		plugin = null; // NOPMD
-		saveState();
+		savePluginState();
 		super.stop(context);
 	}
 
 	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
+	 * Getter for the plugin unique instance.
+	 * Such instance could be <tt>null</tt>
+	 * if the bundle has not been started.
+	 * 
+	 * @return Plugin instance.
 	 */
-	public static Jammy getDefault() {
+	public static Jammy getInstance() {
 		return plugin;
 	}
 

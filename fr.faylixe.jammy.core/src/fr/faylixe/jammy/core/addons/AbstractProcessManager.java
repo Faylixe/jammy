@@ -26,7 +26,7 @@ public abstract class AbstractProcessManager implements ILanguageManager {
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		final String contestName = Jammy.getDefault().getContestName();
+		final String contestName = Jammy.getInstance().getContestName();
 		final String projectName = buildProjectName(contestName);
 		final IProject project = workspace.getRoot().getProject(projectName);
 		if (!project.exists()) {

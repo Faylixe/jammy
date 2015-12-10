@@ -16,7 +16,7 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.submission.SubmissionException;
 
 /**
- * Submission that aims to use local dataset file.
+ * <p>Submission that aims to use local dataset file.</p>
  * 
  * @author fv
  */
@@ -45,8 +45,7 @@ public final class LocalSubmission extends AbstractSubmission {
 		this.name = builder.toString().toLowerCase();
 	}
 
-	/** {@inheritDoc} 
-	 * @throws CoreException **/
+	/** {@inheritDoc} **/
 	@Override
 	public void start(final IProgressMonitor monitor) throws CoreException {
 		getService().fireSubmissionStarted(this);

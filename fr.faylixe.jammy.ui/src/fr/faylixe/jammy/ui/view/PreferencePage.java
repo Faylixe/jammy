@@ -30,14 +30,14 @@ public final class PreferencePage extends FieldEditorPreferencePage implements I
 	 */
 	public PreferencePage() {
 		super();
-		setPreferenceStore(Jammy.getDefault().getPreferenceStore());
+		setPreferenceStore(Jammy.getInstance().getPreferenceStore());
 	}
 
 	/**
 	 * Creates and adds the language field to this page.
 	 */
 	private void createLanguage() {
-		final Set<String> languages = Jammy.getDefault().getLanguages();
+		final Set<String> languages = Jammy.getInstance().getLanguages();
 		final String [][] values = new String[languages.size()][2];
 		int index = 0;
 		for (final String language : languages) {

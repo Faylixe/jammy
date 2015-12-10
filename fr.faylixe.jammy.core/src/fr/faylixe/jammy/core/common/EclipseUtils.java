@@ -1,6 +1,7 @@
 package fr.faylixe.jammy.core.common;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,7 +9,6 @@ import java.net.URL;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -38,7 +38,6 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.osgi.framework.Bundle;
-
 
 import fr.faylixe.jammy.core.Jammy;
 
@@ -144,6 +143,15 @@ public final class EclipseUtils {
 			final String content = bufferedReader.lines().collect(Collectors.joining("\n"));
 			return content;
 		}
+	}
+
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public static File toFile(final IFile file) {
+		return null;
 	}
 
 	/**

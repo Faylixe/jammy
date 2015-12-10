@@ -40,7 +40,7 @@ public final class JavaManager implements ILanguageManager {
 	/** {@inheritDoc} **/
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		final String contestName = Jammy.getDefault().getContestName();
+		final String contestName = Jammy.getInstance().getContestName();
 		final String projectName = buildProjectName(contestName);
 		return JavaProjectBuilder.build(projectName, monitor);
 	}

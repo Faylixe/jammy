@@ -1,9 +1,11 @@
 package fr.faylixe.jammy.core.service;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
-import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.submission.ISubmission;
 import fr.faylixe.jammy.core.submission.SubmissionException;
@@ -61,8 +63,16 @@ public interface ISubmissionService {
 	/** 
 	 * 
 	 * @param input
+	 * @return
+	 * @throws IOException 
 	 */
-	void downloadInput(final ProblemInput input);
+	Path downloadInput(ISubmission submission) throws IOException;
+
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	void submit(ISubmission submission) throws IOException;
 
 	/**
 	 * 

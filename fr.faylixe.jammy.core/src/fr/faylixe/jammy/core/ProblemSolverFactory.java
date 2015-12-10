@@ -12,19 +12,22 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
 
 /**
+ * <p>{@link ProblemSolverFactory} is a singleton
+ * responsible for creating and storing {@link ProblemSolver}
+ * instance.</p>
  * 
  * @author fv
  */
 public final class ProblemSolverFactory implements ILanguageManagerListener {
 
-	/** **/
+	/** Unique factory instance. **/
 	private static ProblemSolverFactory instance;
 
 	/** Cache of all problem solver instances indexed by **/
 	private final Map<Problem, SoftReference<ProblemSolver>> solvers;
 
 	/**
-	 * 
+	 * Default constructor.
 	 */
 	private ProblemSolverFactory() {
 		this.solvers = new ConcurrentHashMap<>();
@@ -60,8 +63,10 @@ public final class ProblemSolverFactory implements ILanguageManagerListener {
 	}
 
 	/**
+	 * Returns the unique factory instance,
+	 * and creates it if not exists.
 	 * 
-	 * @return
+	 * @return Unique factory instance.
 	 */
 	public static ProblemSolverFactory getInstance() {
 		synchronized (ProblemSolverFactory.class) {

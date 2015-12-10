@@ -50,7 +50,7 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		});
 		viewer.addSelectionChangedListener(this);
 		createContextualMenu();
-		Jammy.getDefault().addContestSelectionListener(this);
+		Jammy.getInstance().addContestSelectionListener(this);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		final Object object = selection.getFirstElement();
 		if (object instanceof Problem) {
 			final Problem problem = (Problem) object;
-			Jammy.getDefault().setSelectedProblem(problem);
+			Jammy.getInstance().setSelectedProblem(problem);
 		}
 	}
 

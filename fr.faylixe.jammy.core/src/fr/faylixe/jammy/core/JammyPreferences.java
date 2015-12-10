@@ -10,12 +10,13 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.osgi.service.prefs.BackingStoreException;
 
+import fr.faylixe.googlecodejam.client.executor.Request;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
 
 /**
- * This class contains set of tools methods that are
- * used to manipulate plugin preferences.
+ * <p>This class contains set of tools methods that are
+ * used to manipulate plugin preferences.</p>
  * 
  * @author fv
  */
@@ -27,16 +28,13 @@ public final class JammyPreferences {
 	/** Preference key for the target language. **/
 	public static final String LANGUAGE_PROPERTY = "review.classdesign.jammy.language";
 
-	/** Default host name value to use. **/
-	private static final String DEFAULT_HOST = "https://code.google.com";
-
 	/** Default language value to use. **/
 	private static final String DEFAULT_LANGUAGE = "Java";
 
 	/** Error message displayed when an error occurs while saving preferences. **/
 	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
 
-	/** **/
+	/** Collection of listener that would be notified when current language manager is changing. **/
 	private static final List<ILanguageManagerListener> LISTENERS = new ArrayList<ILanguageManagerListener>();
 
 	/**
@@ -47,16 +45,20 @@ public final class JammyPreferences {
 	}
 
 	/**
+	 * Adds the given <tt>listener</tt> instance to
+	 * the listener list.
 	 * 
-	 * @param listener
+	 * @param listener Listener instance to add.
 	 */
 	public static void addLanguageManagerListener(final ILanguageManagerListener listener) {
 		LISTENERS.add(listener);
 	}
 
 	/**
+	 * Removes the given <tt>listener</tt> instance of
+	 * the listener list.
 	 * 
-	 * @param listener
+	 * @param listener Listener instance to remove.
 	 */
 	public static void removeLanguageManagerListener(final ILanguageManagerListener listener) {
 		LISTENERS.remove(listener);
@@ -96,8 +98,9 @@ public final class JammyPreferences {
 	 */
 	public static void load(final IPreferenceStore store) {
 		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
-		store.setValue(HOSTNAME_PROPERTY, node.get(HOSTNAME_PROPERTY, DEFAULT_HOST));
+		store.setValue(HOSTNAME_PROPERTY, node.get(HOSTNAME_PROPERTY, Request.DEFAULT_HOSTNAME));
 		store.setValue(LANGUAGE_PROPERTY, node.get(LANGUAGE_PROPERTY, DEFAULT_LANGUAGE));
+		store.addPropertyChangeListener(JammyPreferences::propertyChange);
 	}
 
 	/**
@@ -106,7 +109,7 @@ public final class JammyPreferences {
 	 * @return The language property of the preferences.
 	 */
 	public static String getCurrentLanguage() {
-		final IPreferenceStore store = Jammy.getDefault().getPreferenceStore();
+		final IPreferenceStore store = Jammy.getInstance().getPreferenceStore();
 		return store.getString(LANGUAGE_PROPERTY);
 	}
 
@@ -116,7 +119,7 @@ public final class JammyPreferences {
 	 * @return The hostname property of the preferences.
 	 */
 	public static String getHostname() {
-		final IPreferenceStore store = Jammy.getDefault().getPreferenceStore();
+		final IPreferenceStore store = Jammy.getInstance().getPreferenceStore();
 		return store.getString(HOSTNAME_PROPERTY);
 	}
 
