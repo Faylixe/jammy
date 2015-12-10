@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>fr.faylixe</groupId>
 			<artifactId>googlecodejam-client-osgi</artifactId>
-			<version>1.2.8</version>
+			<version>1.2.9</version>
 		</dependency>
 	</dependencies>
 
