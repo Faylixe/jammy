@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.faylixe.googlecodejam.client.webservice.Problem;
+import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSolver;
 
 /**
@@ -21,20 +22,13 @@ import fr.faylixe.jammy.core.ProblemSolver;
  */
 public abstract class AbstractProcessManager implements ILanguageManager {
 
-	/**
-	 * 
-	 * @param problem
-	 */
-	private void createProjectName(final Problem problem) {
-		// TODO :
-	}
-
 	/** {@inheritDoc} **/
 	@Override
 	public IProject getProject(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		final String name = problem.getName(); // TODO : Reimplement old getProjectName();
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		final IProject project = workspace.getRoot().getProject(name + ".python");
+		final String contestName = Jammy.getDefault().getContestName();
+		final String projectName = buildProjectName(contestName);
+		final IProject project = workspace.getRoot().getProject(projectName);
 		if (!project.exists()) {
 			monitor.subTask(String.format(CREATE_PROJECT_TASK, ""));
 			project.create(monitor);

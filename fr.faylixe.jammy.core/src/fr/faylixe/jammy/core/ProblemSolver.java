@@ -1,9 +1,5 @@
 package fr.faylixe.jammy.core;
 
-import java.lang.ref.SoftReference;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -30,8 +26,6 @@ public final class ProblemSolver extends NamedObject {
 	/** Serialization index. **/
 	private static final long serialVersionUID = 1L;
 
-	/** Cache of all problem solver instances indexed by **/
-	private static final Map<Problem, SoftReference<ProblemSolver>> INSTANCES = new ConcurrentHashMap<>();
 
 	/** Task name for the project retrieval. **/
 	private static final String PROJECT_TASK = "Retrieves associated Java project";
@@ -101,7 +95,7 @@ public final class ProblemSolver extends NamedObject {
 	 * @return Created solver instance.
 	 * @throws CoreException If any error occurs while creating solver.
 	 */
-	private static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
+	protected static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		monitor.subTask(PROJECT_TASK);
 		final ILanguageManager manager = Jammy.getDefault().getCurrentLanguageManager(); // TODO : Ensure solver is created again when language change.
 		final IProject project = manager.getProject(problem, monitor);
@@ -110,29 +104,6 @@ public final class ProblemSolver extends NamedObject {
 		monitor.subTask(DATASET_TASK);
 		final ProblemSampleDataset dataset = new DatasetBuilder(problem, project, monitor).build();
 		return new ProblemSolver(problem.getNormalizedName(), file, dataset);
-	}
-
-	/**
-	 * {@link ProblemSolver} instances access method. If the required instance
-	 * does not exist, or has been garbaged, then a new instance is created and put
-	 * into the local cache.
-	 * 
-	 * @param problem Problem to get solver instance from.
-	 * @param monitor Monitor instance used if solver creation is required.
-	 * @return Retrieved instance.
-	 * @throws CoreException If any error occurs while creating required instance.
-	 */
-	public static ProblemSolver get(final Problem problem, final IProgressMonitor monitor) throws CoreException {
-		final SoftReference<ProblemSolver> reference = INSTANCES.get(problem);
-		ProblemSolver solver;
-		if (reference == null || reference.get() == null) {
-			solver = createSolver(problem, monitor);
-			INSTANCES.put(problem, new SoftReference<ProblemSolver>(solver));
-		}
-		else {
-			solver = reference.get();
-		}
-		return solver;
 	}
 
 }

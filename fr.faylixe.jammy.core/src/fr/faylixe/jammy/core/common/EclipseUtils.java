@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -37,6 +38,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.osgi.framework.Bundle;
+
 
 import fr.faylixe.jammy.core.Jammy;
 
@@ -242,6 +244,16 @@ public final class EclipseUtils {
 			catch (final PartInitException e) {
 				showError(String.format(CANNOT_OPEN_FILE, file.getName()), e);
 			}
+		});
+	}
+	
+	/**
+	 * Closes all opened editor.
+	 */
+	public static void closeAllFile() {
+		Display.getDefault().asyncExec(() -> {
+			final IWorkbenchPage page = getActivePage();
+			page.closeAllEditors(true);
 		});
 	}
 

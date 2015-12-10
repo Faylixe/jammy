@@ -1,5 +1,8 @@
 package fr.faylixe.jammy.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -8,6 +11,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.osgi.service.prefs.BackingStoreException;
 
 import fr.faylixe.jammy.core.common.EclipseUtils;
+import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
 
 /**
  * This class contains set of tools methods that are
@@ -32,6 +36,9 @@ public final class JammyPreferences {
 	/** Error message displayed when an error occurs while saving preferences. **/
 	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
 
+	/** **/
+	private static final List<ILanguageManagerListener> LISTENERS = new ArrayList<ILanguageManagerListener>();
+
 	/**
 	 * Private constructor for avoiding instantiation.
 	 */
@@ -40,17 +47,39 @@ public final class JammyPreferences {
 	}
 
 	/**
+	 * 
+	 * @param listener
+	 */
+	public static void addLanguageManagerListener(final ILanguageManagerListener listener) {
+		LISTENERS.add(listener);
+	}
+
+	/**
+	 * 
+	 * @param listener
+	 */
+	public static void removeLanguageManagerListener(final ILanguageManagerListener listener) {
+		LISTENERS.remove(listener);
+	}
+
+	/**
 	 * Functional method that acts as a {@link IPropertyChangeListener}
 	 * in order to handle preferences changing, by saving the updated
 	 * preferences. 
-	 * 
-	 * TODO : Trigger a single save by preference page validation in UI ?.
 	 * 
 	 * @param event Target property change event.
 	 */
 	public static void propertyChange(final PropertyChangeEvent event) {
 		final IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
-		preferences.put(HOSTNAME_PROPERTY, getHostname());
+		if (LANGUAGE_PROPERTY.equals(event.getProperty())) {
+			preferences.put(LANGUAGE_PROPERTY, event.getNewValue().toString());
+			for (final ILanguageManagerListener listener : LISTENERS) {
+				listener.languageManagerChanged();
+			}
+		}
+		else if (HOSTNAME_PROPERTY.equals(event.getProperty())) {
+			preferences.put(HOSTNAME_PROPERTY, event.getNewValue().toString());			
+		}
 		try {
 			preferences.flush();
 		}

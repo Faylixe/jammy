@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSolver;
+import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /**
@@ -21,7 +22,8 @@ public abstract class AbstractProgressiveSolverCommand extends AbstractProgressi
 		if (problem != null) {
 			try {
 				monitor.beginTask(getTaskName(), IProgressMonitor.UNKNOWN);
-				final ProblemSolver solver = ProblemSolver.get(problem, monitor);
+				final ProblemSolverFactory factory = ProblemSolverFactory.getInstance();
+				final ProblemSolver solver = factory.getSolver(problem, monitor);
 				monitor.subTask(getTaskName());
 				processSolver(solver, monitor);
 			}
