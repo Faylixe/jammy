@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>fr.faylixe</groupId>
 			<artifactId>googlecodejam-client-osgi</artifactId>
-			<version>1.2.25/version>
+			<version>1.2.25</version>
 		</dependency>
 	</dependencies>
 	<build>
