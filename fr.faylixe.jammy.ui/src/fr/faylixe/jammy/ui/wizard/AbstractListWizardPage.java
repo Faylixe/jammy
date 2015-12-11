@@ -79,14 +79,14 @@ public abstract class AbstractListWizardPage extends WizardPage {
 	public void createControl(final Composite parent) {
 		this.viewer = new ListViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setLabelProvider(NamedObjectLabelProvider.getInstance());
-		viewer.setContentProvider(NamedObjectContentProvider.getInstance());
-		viewer.setInput(Jammy.CHILDLESS);
+		viewer.setContentProvider(NamedObjectContentProvider.getInstance());		
 		viewer.addSelectionChangedListener(event -> onSelectionChanged(event::getSelection));
 		viewer.addDoubleClickListener(event -> {
 			onSelectionChanged(event::getSelection);
 			onDoubleClick();
 		});
 		setControl(viewer.getControl());
+		viewer.setInput(Jammy.CHILDLESS);
 		setPageComplete(false);
 	}
 

@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.launching,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
- fr.faylixe.googlecodejam.client;bundle-version="1.2.5"
+ fr.faylixe.googlecodejam.client;bundle-version="1.2.28"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

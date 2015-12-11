@@ -44,7 +44,7 @@ public final class JammyUI extends AbstractUIPlugin {
 	public static final String IMG_SUBMISSION_SUCCESS = "success";
 
 	/** Path of the bundle relative folder which contains {@link SubmissionView} icons. **/
-	private static final IPath ICONS_PATH = new Path("/resources/icons/tests/");
+	private static final IPath ICONS_PATH = new Path("icons/tests/");
 
 	/** Extension used for plugin icon. **/
 	private static final String ICON_EXTENSION = ".gif";

@@ -34,7 +34,7 @@
       <view
             category="review.classdesign.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.SubmissionView"
-            icon="resources/icons/submission.view.png"
+            icon="src/icons/submission.view.png"
             id="review.classdesign.jammy.view.submission"
             name="Submission"
             restorable="true">
@@ -42,7 +42,7 @@
       <view
             category="review.classdesign.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.ProblemView"
-            icon="resources/icons/problem.view.png"
+            icon="src/icons/problem.view.png"
             id="review.classdesign.jammy.view.problem"
             name="Problem description"
             restorable="true">
@@ -53,7 +53,7 @@
       <view
             category="review.classdesign.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.ContestExplorer"
-            icon="resources/icons/contest.view.png"
+            icon="src/icons/contest.view.png"
             id="review.classdesign.jammy.view.contest"
             name="Contest Explorer"
             restorable="true">
@@ -74,7 +74,7 @@
           point="org.eclipse.ui.perspectives">
        <perspective
              class="fr.faylixe.jammy.ui.JammyPerspectiveFactory"
-             icon="resources/icons/jammy.png"
+             icon="src/icons/jammy.png"
              id="review.classdesign.jammy.perspective"
              name="Jammy">
        </perspective>
