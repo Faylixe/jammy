@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
+import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 import fr.faylixe.jammy.core.service.IGoogleSessionService;
 import fr.faylixe.jammy.ui.wizard.ContestWizard;
 
@@ -32,12 +33,14 @@ public final class ContestSelectionCommand extends AbstractHandler {
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		if (IGoogleSessionService.requireLogin()) {
+		final HttpRequestExecutor executor = IGoogleSessionService.requireLogin();
+		if (executor != null) {
+			System.out.println(executor.getHostname());
 			final Job job = Job.create(JOB_NAME, monitor -> {
 				Display.getDefault().asyncExec(() -> {
 					final IWorkbench workbench = PlatformUI.getWorkbench();
 					final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
-					final IWizard wizard = new ContestWizard(null);
+					final IWizard wizard = new ContestWizard(executor);
 					final WizardDialog dialog = new WizardDialog(shell, wizard);
 					dialog.open();
 				});

@@ -8,6 +8,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
+import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.service.internal.GoogleSessionProvider;
 
@@ -30,10 +31,11 @@ public interface IGoogleSessionService {
 	 * Uses OAuth mechanism to create a persistent Google account
 	 * session that will be used for interacting with google services.
 	 * 
+	 * @return Created logged {@link HttpRequestExecutor} instance.
 	 * @throws IOException If any error occurs while creating session.
 	 * @throws GeneralSecurityException If any error occurs during the OAuth phase.
 	 */
-	void login() throws IOException, GeneralSecurityException;
+	HttpRequestExecutor login() throws IOException, GeneralSecurityException;
 
 	/**
 	 * Destroy the current logged OAuth session.
@@ -57,7 +59,7 @@ public interface IGoogleSessionService {
 	 * 
 	 * @return <tt>true</tt> if user is logged, <tt>false</tt> otherwise.
 	 */
-	static boolean requireLogin() {
+	static HttpRequestExecutor requireLogin() {
 		final GoogleSessionProvider provider = GoogleSessionProvider.get();
 		if (!provider.isLogged()) {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -65,14 +67,15 @@ public interface IGoogleSessionService {
 			if (shouldLog) {
 				final IGoogleSessionService service = get();
 				try {
-					service.login();
+					return service.login();
 				}
 				catch (final IOException | GeneralSecurityException e) {
 					EclipseUtils.showError(e);
 				}
 			}
 		}
-		return provider.isLogged();
+		// Retrieve ?
+		return null; //provider.isLogged();
 	}
 
 }

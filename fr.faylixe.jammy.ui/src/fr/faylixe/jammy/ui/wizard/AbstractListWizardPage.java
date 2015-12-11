@@ -11,7 +11,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import fr.faylixe.googlecodejam.client.common.NamedObject;
-import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.ui.internal.NamedObjectContentProvider;
 import fr.faylixe.jammy.ui.internal.NamedObjectLabelProvider;
 
@@ -86,7 +85,6 @@ public abstract class AbstractListWizardPage extends WizardPage {
 			onDoubleClick();
 		});
 		setControl(viewer.getControl());
-		viewer.setInput(Jammy.CHILDLESS);
 		setPageComplete(false);
 	}
 

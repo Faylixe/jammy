@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.Status;
@@ -11,6 +12,8 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
+
+import org.eclipse.swt.widgets.Display;
 
 import fr.faylixe.jammy.ui.JammyUI;
 import fr.faylixe.googlecodejam.client.Contest;
@@ -57,7 +60,9 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 		final Job job = Job.create(JOB_NAME, monitor -> {
 			try {
 				final List<Contest> contest = Contest.get(executor);
-				setInput(contest);
+				Display.getDefault().asyncExec(() -> {
+					setInput(contest);
+				});
 			}
 			catch (final IOException e) {
 				return new Status(IStatus.ERROR, JammyUI.PLUGIN_ID, e.getMessage(), e);
