@@ -10,6 +10,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
@@ -66,6 +67,12 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 							EclipseUtils.getActiveShell(),
 							CONTEST_ERROR_TITLE,
 							e.getMessage());
+					final IWizard wizard = getWizard();
+					final IWizardContainer container = wizard.getContainer();
+					if (container instanceof WizardDialog) {
+						final WizardDialog dialog = (WizardDialog) container;
+						dialog.close();
+					}
 				});
 			}
 			return Status.OK_STATUS;

@@ -28,6 +28,15 @@ public final class JammySourceProvider extends AbstractSourceProvider {
 	public void dispose() {
 		// Do nothing.
 	}
+	
+	/**
+	 * Indicates if the plugin is authenticated.
+	 * 
+	 * @return <tt>true</tt> if plugin is authenticated, <tt>false</tt> otherwise.
+	 */
+	public boolean isLogged() {
+		return logged;
+	}
 
 	/**
 	 * Sets the logged state of the plugin.

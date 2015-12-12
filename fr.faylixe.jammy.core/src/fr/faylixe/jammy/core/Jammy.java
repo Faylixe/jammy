@@ -61,7 +61,7 @@ public class Jammy extends AbstractUIPlugin {
 	private static final String LOGIN_INFORMATION_TITLE = "Login required";
 
 	/** Message of the information dialog for logging phase. **/
-	private static final String LOGIN_INFORMATION_MESSAGE = "";
+	private static final String LOGIN_INFORMATION_MESSAGE = "You will be redirected to the login dialog.";
 
 	/** Exception thrown when login failed. **/
 	private static final IOException LOGIN_EXCEPTION = new IOException("Cannot retrieve contest list : not authenticated.");
@@ -211,7 +211,7 @@ public class Jammy extends AbstractUIPlugin {
 		}
 		return executor != null;
 	}
-	
+
 	/**
 	 * Destroy the current session. 
 	 */
@@ -243,12 +243,14 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public List<Contest> getContests() throws IOException {
 		if (executor == null) {
-			MessageDialog.openInformation(
+			Display.getDefault().syncExec(() -> {
+				MessageDialog.openInformation(
 					EclipseUtils.getActiveShell(),
 					LOGIN_INFORMATION_TITLE,
 					LOGIN_INFORMATION_MESSAGE);
-			final boolean logged = login();
-			if (!logged) {
+				login();
+			});
+			if (!JammySourceProvider.get().isLogged()) {
 				throw LOGIN_EXCEPTION;
 			}
 		}
