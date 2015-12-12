@@ -9,17 +9,20 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ * Custom dialog implementation, which 
+ * aims to be used by login process.
+ *
  * @author fv
  */
 public final class LoginDialog extends Dialog {
 
-	/** **/
+	/** Message displayed into the dialog. **/
 	private static final String MESSAGE = "Firefox web browser will open, please authenticate to Google Code Jam with it.";
 
 	/**
+	 * Default constructor.
 	 * 
-	 * @param shell
+	 * @param shell Shell used.
 	 */
 	public LoginDialog(final Shell shell) {
 		super(shell);

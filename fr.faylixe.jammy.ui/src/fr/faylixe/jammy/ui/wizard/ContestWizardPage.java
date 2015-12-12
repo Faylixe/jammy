@@ -4,21 +4,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-
-
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
-
 import org.eclipse.swt.widgets.Display;
 
-
 import fr.faylixe.jammy.core.Jammy;
-import fr.faylixe.jammy.ui.JammyUI;
+import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.googlecodejam.client.Contest;
 
 /**
@@ -36,6 +32,9 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 
 	/** Page description. **/
 	private static final String PAGE_DESCRIPTION = "Please select a Jam contest";
+
+	/** Title of the error dialog displayed when contest retrieval failed. **/
+	private static final String CONTEST_ERROR_TITLE = "Contest retrieval failed";
 
 	/** Consumer that will use selected contest. **/
 	private final Consumer<Contest> contestConsumer;
@@ -62,7 +61,12 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 				});
 			}
 			catch (final IOException e) {
-				return new Status(IStatus.ERROR, JammyUI.PLUGIN_ID, e.getMessage(), e);
+				Display.getDefault().asyncExec(() -> {
+					MessageDialog.openError(
+							EclipseUtils.getActiveShell(),
+							CONTEST_ERROR_TITLE,
+							e.getMessage());
+				});
 			}
 			return Status.OK_STATUS;
 		});

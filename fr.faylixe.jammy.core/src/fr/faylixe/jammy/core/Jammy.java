@@ -53,7 +53,7 @@ public class Jammy extends AbstractUIPlugin {
 	/** Path of the contest state which is save when plugin is stopped. **/
 	private static final String CONTEST_STATE = "current.contest";
 
-	/** **/
+	/** Name of the login job. **/
 	private static final String LOGIN_JOB_NAME = "Authenticating to codejam platform";
 
 	/** Title of the information dialog for logging phase. **/
@@ -61,6 +61,9 @@ public class Jammy extends AbstractUIPlugin {
 
 	/** Message of the information dialog for logging phase. **/
 	private static final String LOGIN_INFORMATION_MESSAGE = "";
+
+	/** Exception thrown when login failed. **/
+	private static final IOException LOGIN_EXCEPTION = new IOException("Cannot retrieve contest list : not authenticated.");
 
 	/** Plug-in instance. **/
 	private static Jammy plugin;
@@ -83,7 +86,7 @@ public class Jammy extends AbstractUIPlugin {
 	/** Current session used for interracting with code jam platform. **/
 	private CodeJamSession session;
 
-	/** **/
+	/** Logged executor instance used for retrieving contest or creating session. **/
 	private HttpRequestExecutor executor;
 
 	/**
@@ -227,9 +230,12 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Shortcut method for accessing contest list. This method
+	 * required user to be already authenticated to codejam
+	 * platform. If not, user will be prompted for login.
 	 * 
-	 * @return
-	 * @throws IOException 
+	 * @return List of contest available.
+	 * @throws IOException If any error while retrieving contest, or if user failed his authentification.
 	 */
 	public List<Contest> getContests() throws IOException {
 		if (executor == null) {
@@ -239,7 +245,7 @@ public class Jammy extends AbstractUIPlugin {
 					LOGIN_INFORMATION_MESSAGE);
 			final boolean logged = login();
 			if (!logged) {
-				// TODO : Throws custom IOException.
+				throw LOGIN_EXCEPTION;
 			}
 		}
 		return Contest.get(executor);
