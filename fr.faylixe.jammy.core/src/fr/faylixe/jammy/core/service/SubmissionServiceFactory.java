@@ -1,10 +1,9 @@
-package fr.faylixe.jammy.core.service.factory;
+package fr.faylixe.jammy.core.service;
 
 import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
-import fr.faylixe.jammy.core.service.ISubmissionService;
-import fr.faylixe.jammy.core.service.internal.SubmissionService;
+import fr.faylixe.jammy.core.internal.SubmissionService;
 
 /**
  * Factory {@link ISubmissionService} class.

@@ -34,6 +34,7 @@ import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.SerializationUtils;
+import fr.faylixe.jammy.core.internal.JammySourceProvider;
 import fr.faylixe.jammy.core.internal.LoginDialog;
 import fr.faylixe.jammy.core.listener.IContestSelectionListener;
 import fr.faylixe.jammy.core.listener.IProblemSelectionListener;
@@ -185,6 +186,7 @@ public class Jammy extends AbstractUIPlugin {
 			if (cookie != null) {
 				this.executor = HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
 			}
+			JammySourceProvider.get().setLogged(true);
 			Display.getDefault().asyncExec(() -> dialog.close());
 			return Status.OK_STATUS;
 		};
@@ -217,6 +219,7 @@ public class Jammy extends AbstractUIPlugin {
 		this.executor = null;
 		this.session = null;
 		// TODO : Call session listener.
+		JammySourceProvider.get().setLogged(false);
 	}
 	
 	/**
@@ -226,6 +229,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return <tt>true</tt> if user is logged to the service, <tt>false</tt> otherwise.
 	 */
 	public boolean isLogged() {
+		// TODO : Consider updating source from this result.
 		return session != null && session.isLogged();
 	}
 

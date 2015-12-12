@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.service.internal;
+package fr.faylixe.jammy.core.internal;
 
 import java.io.File;
 import java.io.IOException;
