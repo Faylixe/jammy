@@ -23,16 +23,19 @@ import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
 public final class JammyPreferences {
 
 	/** Preference key for the target host name.  **/
-	public static final String HOSTNAME_PROPERTY = "review.classdesign.jammy.hostname";
+	public static final String HOSTNAME_PROPERTY = "fr.faylixe.jammy.hostname";
 
 	/** Preference key for the target language. **/
-	public static final String LANGUAGE_PROPERTY = "review.classdesign.jammy.language";
+	public static final String LANGUAGE_PROPERTY = "fr.faylixe.jammy.language";
 
 	/** Default language value to use. **/
 	private static final String DEFAULT_LANGUAGE = "Java";
 
 	/** Error message displayed when an error occurs while saving preferences. **/
 	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
+
+	/** **/
+	private static final String TARGET_PAGE = "/codejam";
 
 	/** Collection of listener that would be notified when current language manager is changing. **/
 	private static final List<ILanguageManagerListener> LISTENERS = new ArrayList<ILanguageManagerListener>();
@@ -121,6 +124,17 @@ public final class JammyPreferences {
 	public static String getHostname() {
 		final IPreferenceStore store = Jammy.getInstance().getPreferenceStore();
 		return store.getString(HOSTNAME_PROPERTY);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getLoginTargetURL() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(getHostname());
+		builder.append(TARGET_PAGE);
+		return builder.toString();
 	}
 
 }

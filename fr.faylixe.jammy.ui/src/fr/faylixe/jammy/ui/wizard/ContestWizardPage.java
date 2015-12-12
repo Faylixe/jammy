@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.Status;
@@ -15,9 +16,10 @@ import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.swt.widgets.Display;
 
+
+import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.ui.JammyUI;
 import fr.faylixe.googlecodejam.client.Contest;
-import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 
 /**
  * <p>WizardPage implementation for contest selection.</p>
@@ -34,9 +36,6 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 
 	/** Page description. **/
 	private static final String PAGE_DESCRIPTION = "Please select a Jam contest";
-	
-	/** Executor instance used for retrieving {@link Contest}. **/
-	private final HttpRequestExecutor executor;
 
 	/** Consumer that will use selected contest. **/
 	private final Consumer<Contest> contestConsumer;
@@ -44,12 +43,10 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param executor Executor instance used for retrieving {@link Contest}.
 	 * @param contestConsumer Consumer that will use selected contest. 
 	 */
-	public ContestWizardPage(final HttpRequestExecutor executor, final Consumer<Contest> contestConsumer) {
+	public ContestWizardPage(final Consumer<Contest> contestConsumer) {
 		super(PAGE_NAME, PAGE_DESCRIPTION);
-		this.executor = executor;
 		this.contestConsumer = contestConsumer;
 	}
 
@@ -59,7 +56,7 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 	private void retrieveContest() {
 		final Job job = Job.create(JOB_NAME, monitor -> {
 			try {
-				final List<Contest> contest = Contest.get(executor);
+				final List<Contest> contest = Jammy.getInstance().getContests();
 				Display.getDefault().asyncExec(() -> {
 					setInput(contest);
 				});

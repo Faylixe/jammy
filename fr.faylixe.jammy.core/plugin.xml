@@ -7,23 +7,10 @@
    <extension
          point="org.eclipse.ui.services">
       <serviceFactory
-            factoryClass="fr.faylixe.jammy.core.service.factory.GoogleSessionServiceFactory">
-         <service
-               serviceClass="fr.faylixe.jammy.core.service.IGoogleSessionService">
-         </service>
-      </serviceFactory>
-      <serviceFactory
             factoryClass="fr.faylixe.jammy.core.service.factory.SubmissionServiceFactory">
          <service
                serviceClass="fr.faylixe.jammy.core.service.ISubmissionService"></service>
       </serviceFactory>
-      <sourceProvider
-            provider="fr.faylixe.jammy.core.service.internal.GoogleSessionProvider">
-         <variable
-               name="review.classdesign.jammy.logged"
-               priorityLevel="workbench">
-         </variable>
-      </sourceProvider>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

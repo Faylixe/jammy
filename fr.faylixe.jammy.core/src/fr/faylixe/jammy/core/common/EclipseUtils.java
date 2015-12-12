@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -218,7 +219,6 @@ public final class EclipseUtils {
 		}
 	}
 
-
 	/**
 	 * Creates and runs a UI thread based job that
 	 * runs the given <tt>delegate</tt> {@link Consumer}.
@@ -274,6 +274,17 @@ public final class EclipseUtils {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		return window.getActivePage();
+	}
+
+	/**
+	 * Retrieves and returns the current active shell.
+	 * 
+	 * @return Current active shell.
+	 */
+	public static Shell getActiveShell() {
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		final Display display = workbench.getDisplay();
+		return display.getActiveShell();
 	}
 
 }

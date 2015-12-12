@@ -4,7 +4,6 @@ import org.eclipse.jface.wizard.Wizard;
 
 import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
-import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
@@ -27,20 +26,14 @@ public final class ContestWizard extends Wizard {
 	/** Page dedicated to round selection. **/
 	private final RoundWizardPage roundPage;	
 
-	/** Request executor that is supposed to be authenticated. **/
-	private final HttpRequestExecutor executor;
-
 	/**
 	 * Default constructor.
-	 * 
-	 * @param executor Executor instance used for retrieving contest.
 	 */
-	public ContestWizard(final HttpRequestExecutor executor) {
+	public ContestWizard() {
 		super();
 		setWindowTitle(TITLE);
-		this.executor = executor;
 		this.roundPage = new RoundWizardPage();
-		this.contestPage = new ContestWizardPage(executor, roundPage);
+		this.contestPage = new ContestWizardPage(roundPage);
 	}
 
 	/** {@inheritDoc} **/
@@ -54,10 +47,10 @@ public final class ContestWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		final Round round = roundPage.getSelectedRound();
-		if (executor != null && round != null) {
+		if (round != null) {
 			EclipseUtils.createUIJob(monitor -> {
 				// TODO : Disable contest explorer view.
-				Jammy.getInstance().createSession(executor, round);
+				Jammy.getInstance().createSession(round);
 				// TODO : Reenable contest
 			});
 			return true;

@@ -13,17 +13,28 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobFunction;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.osgi.framework.BundleContext;
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
+import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
 import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
+import fr.faylixe.googlecodejam.client.executor.SeleniumCookieSupplier;
 import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.SerializationUtils;
+import fr.faylixe.jammy.core.internal.LoginDialog;
 import fr.faylixe.jammy.core.listener.IContestSelectionListener;
 import fr.faylixe.jammy.core.listener.IProblemSelectionListener;
 
@@ -37,10 +48,19 @@ import fr.faylixe.jammy.core.listener.IProblemSelectionListener;
 public class Jammy extends AbstractUIPlugin {
 
 	/** Plugin ID. **/
-	public static final String PLUGIN_ID = "review.classdesign.jammy";
+	public static final String PLUGIN_ID = "fr.faylixe.core.jammy";
 
 	/** Path of the contest state which is save when plugin is stopped. **/
 	private static final String CONTEST_STATE = "current.contest";
+
+	/** **/
+	private static final String LOGIN_JOB_NAME = "Authenticating to codejam platform";
+
+	/** Title of the information dialog for logging phase. **/
+	private static final String LOGIN_INFORMATION_TITLE = "Login required";
+
+	/** Message of the information dialog for logging phase. **/
+	private static final String LOGIN_INFORMATION_MESSAGE = "";
 
 	/** Plug-in instance. **/
 	private static Jammy plugin;
@@ -62,6 +82,9 @@ public class Jammy extends AbstractUIPlugin {
 
 	/** Current session used for interracting with code jam platform. **/
 	private CodeJamSession session;
+
+	/** **/
+	private HttpRequestExecutor executor;
 
 	/**
 	 * {@link Problem} instance that is currently selected
@@ -144,6 +167,85 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Factory method that creates an {@link IJobFunction}
+	 * which is in charge of retrieving a login cookie from
+	 * the given <tt>cookieSupplier</tt> and closing the
+	 * given <tt>dialog</tt> once it is done.
+	 * 
+	 * @param dialog Dialog to close once the job is finished.
+	 * @param cookieSupplier Supplier that will be called during the created job.
+	 * @return Created job function.
+	 */
+	private IJobFunction createLoginJob(final Dialog dialog, final SeleniumCookieSupplier cookieSupplier) {
+		return monitor -> {
+			final String cookie = cookieSupplier.get();
+			if (cookie != null) {
+				this.executor = HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
+			}
+			Display.getDefault().asyncExec(() -> dialog.close());
+			return Status.OK_STATUS;
+		};
+	}
+
+	/**
+	 * Starts a login dialog which will wait for a login job
+	 * to be finished. Such job will use {@link SeleniumCookieSupplier}
+	 * from API in order to build a valid {@link HttpRequestExecutor} instance.
+	 * 
+	 * @return <tt>true</tt> if the login was a success, <tt>false</tt> otherwise.
+	 */
+	public boolean login() {
+		final Dialog dialog = new LoginDialog(null);
+		final String url = JammyPreferences.getLoginTargetURL();
+		final SeleniumCookieSupplier cookieSupplier = new SeleniumCookieSupplier(url, FirefoxDriver::new);
+		final Job job = Job.create(LOGIN_JOB_NAME, createLoginJob(dialog, cookieSupplier));
+		job.schedule();
+		final int result = dialog.open();
+		if (result == Window.CANCEL) {
+			cookieSupplier.cancel();
+		}
+		return executor != null;
+	}
+	
+	/**
+	 * Destroy the current session. 
+	 */
+	public void logout() {
+		this.executor = null;
+		this.session = null;
+		// TODO : Call session listener.
+	}
+	
+	/**
+	 * Indicates if user is currently logged to
+	 * the code jam service or not.
+	 * 
+	 * @return <tt>true</tt> if user is logged to the service, <tt>false</tt> otherwise.
+	 */
+	public boolean isLogged() {
+		return session != null && session.isLogged();
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @throws IOException 
+	 */
+	public List<Contest> getContests() throws IOException {
+		if (executor == null) {
+			MessageDialog.openInformation(
+					EclipseUtils.getActiveShell(),
+					LOGIN_INFORMATION_TITLE,
+					LOGIN_INFORMATION_MESSAGE);
+			final boolean logged = login();
+			if (!logged) {
+				// TODO : Throws custom IOException.
+			}
+		}
+		return Contest.get(executor);
+	}
+
+	/**
 	 * Creates a new code jam session using the given
 	 * <tt>executor</tt> and <tt>round</tt>, and sets it
 	 * as the current session.
@@ -151,10 +253,10 @@ public class Jammy extends AbstractUIPlugin {
 	 * @param executor Logged request executor used for session creation.
 	 * @param round Selected round to use as contextual round.
 	 */
-	public void createSession(final HttpRequestExecutor executor, final Round round) {
-		if (round != null) {
+	public void createSession(final Round round) {
+		if (executor != null && round != null) {
 			try {
-				session = CodeJamSession.createSession(executor, round);
+				this.session = CodeJamSession.createSession(executor, round);
 				fireContestSelectionChanged(session.getContestInfo());
 			}
 			catch (final IOException e) {
@@ -281,7 +383,7 @@ public class Jammy extends AbstractUIPlugin {
 
 	/** {@inheritDoc} **/
 	public void stop(final BundleContext context) throws Exception {
-		plugin = null; // NOPMD
+		plugin = null;
 		savePluginState();
 		super.stop(context);
 	}
