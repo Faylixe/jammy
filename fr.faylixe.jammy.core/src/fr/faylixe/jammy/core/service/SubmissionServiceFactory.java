@@ -3,7 +3,7 @@ package fr.faylixe.jammy.core.service;
 import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
-import fr.faylixe.jammy.core.internal.SubmissionService;
+import fr.faylixe.jammy.core.internal.submission.SubmissionService;
 
 /**
  * Factory {@link ISubmissionService} class.

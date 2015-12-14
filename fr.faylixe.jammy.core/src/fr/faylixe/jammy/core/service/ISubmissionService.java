@@ -7,8 +7,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
-import fr.faylixe.jammy.core.submission.ISubmission;
-import fr.faylixe.jammy.core.submission.SubmissionException;
 
 /**
  * TODO : Service javadoc.

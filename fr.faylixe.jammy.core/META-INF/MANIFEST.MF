@@ -23,5 +23,4 @@ Export-Package: fr.faylixe.jammy.core,
  fr.faylixe.jammy.core.command,
  fr.faylixe.jammy.core.common,
  fr.faylixe.jammy.core.listener,
- fr.faylixe.jammy.core.service,
- fr.faylixe.jammy.core.submission
+ fr.faylixe.jammy.core.service

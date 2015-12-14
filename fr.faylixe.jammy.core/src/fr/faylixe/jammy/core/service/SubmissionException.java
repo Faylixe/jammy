@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.submission;
+package fr.faylixe.jammy.core.service;
 
 /**
  * Exception extension for error related to solver submission.

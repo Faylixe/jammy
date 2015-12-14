@@ -1,18 +1,23 @@
-package fr.faylixe.jammy.core.submission.internal;
+package fr.faylixe.jammy.core.internal.submission;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
+import fr.faylixe.jammy.core.common.EclipseUtils;
+import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.ISubmissionService;
-import fr.faylixe.jammy.core.submission.ISubmission;
-import fr.faylixe.jammy.core.submission.SubmissionException;
+import fr.faylixe.jammy.core.service.SubmissionException;
 
 /**
  * Abstract {@link ISubmission} implementation that language extension
@@ -20,7 +25,10 @@ import fr.faylixe.jammy.core.submission.SubmissionException;
  * 
  * @author fv
  */
-public abstract class AbstractSubmission implements ISubmission {
+public abstract class AbstractSubmission extends NamedObject implements ISubmission {
+
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
 
 	/** Job name used for {@link LaunchMonitorJob} instances. **/
 	private static final String JOB_NAME = "Solver execution listener";
@@ -79,8 +87,10 @@ public abstract class AbstractSubmission implements ISubmission {
 	 * Default constructor.
 	 * 
 	 * @param solver Target problem solver this submission will work on.
+	 * @param name Name of this submission.
 	 */
-	protected AbstractSubmission(final ProblemSolver solver) {
+	protected AbstractSubmission(final ProblemSolver solver, final String name) {
+		super(name);
 		this.solver = solver;
 		this.service = ISubmissionService.get();
 	}
@@ -89,6 +99,24 @@ public abstract class AbstractSubmission implements ISubmission {
 	@Override
 	public final ProblemSolver getSolver() {
 		return solver;
+	}
+
+	/**
+	 * Retrieves and returns the output file
+	 * relative to the given <tt>extension</tt>
+	 * 
+	 * @param extension Extension of the output file to retrieve.
+	 * @return Output file of this submission.
+	 * @throws CoreException If any error occurs while retrieving file.
+	 */
+	protected final IFile getOutputFile(final String extension) throws CoreException {
+		final IProject project = getSolver().getProject();
+		final IFolder folder = EclipseUtils.getFolder(project, OUTPUT_PATH);
+		final StringBuilder builder = new StringBuilder();
+		builder
+			.append(getSolver().getName().toLowerCase())
+			.append(extension);
+		return folder.getFile(builder.toString());
 	}
 
 	/**
@@ -104,7 +132,7 @@ public abstract class AbstractSubmission implements ISubmission {
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
 		final ILanguageManager manager = Jammy.getInstance().getCurrentLanguageManager();
 		final ISolverRunner execution = manager.getRunner(solver, monitor);
-		execution.run(arguments, getOutput().getLocation().toString());
+		execution.run(arguments, getOutputFile().getLocation().toString());
 		service.fireExecutionStarted(this);
 		startJob(execution);
 	}

@@ -97,7 +97,7 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	protected static ProblemSolver createSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		monitor.subTask(PROJECT_TASK);
-		final ILanguageManager manager = Jammy.getInstance().getCurrentLanguageManager(); // TODO : Ensure solver is created again when language change.
+		final ILanguageManager manager = Jammy.getInstance().getCurrentLanguageManager();
 		final IProject project = manager.getProject(problem, monitor);
 		monitor.subTask(SOLVER_TASK);
 		final IFile file = manager.getSolver(problem, monitor);

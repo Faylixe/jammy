@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.submission.internal;
+package fr.faylixe.jammy.core.internal.submission;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;

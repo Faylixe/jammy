@@ -1,19 +1,18 @@
-package fr.faylixe.jammy.core.submission.internal;
+package fr.faylixe.jammy.core.internal.submission;
 
 import java.io.IOException;
 
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSampleDataset;
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.submission.SubmissionException;
+import fr.faylixe.jammy.core.service.SubmissionException;
 
 /**
  * <p>Submission that aims to use local dataset file.</p>
@@ -22,14 +21,35 @@ import fr.faylixe.jammy.core.submission.SubmissionException;
  */
 public final class LocalSubmission extends AbstractSubmission {
 
+	/** Serialization index. **/
+	private static final long serialVersionUID = 1L;
+
 	/** Extension used for local submission output file. **/
 	private static final String OUTPUT_EXTENSION = ".sample.out";
 
 	/** Suffix used for local submission name. **/
 	private static final String SAMPLE_SUFFIX = " - sample";
 
-	/** Name of this submission.**/
-	private final String name;
+	/** Error message thrown when solver output does not match expected one. **/
+	private static final String OUTPUT_MISMATCH = "Solver output does not match the expected one.";
+
+	/** Exception thrown when local input file is not found. **/
+	private static final SubmissionException FILE_NOT_EXIST = new SubmissionException("Sample input file not found.");
+
+	/**
+	 * Static factory that build submission name based
+	 * on the given problem <tt>solver</tt>.
+	 * 
+	 * @param solver {@link ProblemSolver} to build name from.
+	 * @return Built name.
+	 */
+	private static String buildName(final ProblemSolver solver) {
+		final StringBuilder builder = new StringBuilder();
+		builder
+			.append(solver.getName())
+			.append(SAMPLE_SUFFIX);
+		return builder.toString().toLowerCase();
+	}
 
 	/**
 	 * Default constructor.
@@ -37,25 +57,24 @@ public final class LocalSubmission extends AbstractSubmission {
 	 * @param solver Target problem solver this submission will work on.
 	 */
 	public LocalSubmission(final ProblemSolver solver) {
-		super(solver);
-		final StringBuilder builder = new StringBuilder();
-		builder
-			.append(solver.getName())
-			.append(SAMPLE_SUFFIX);
-		this.name = builder.toString().toLowerCase();
+		super(solver , buildName(solver));
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void start(final IProgressMonitor monitor) throws CoreException {
+	public void start(final IProgressMonitor monitor) throws SubmissionException {
 		getService().fireSubmissionStarted(this);
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
 		final IFile input = dataset.getInput();
 		if (!input.exists()) {
-			// TODO : Add error message.
-			throw EclipseUtils.createException("");
+			throw FILE_NOT_EXIST;
 		}
-		run(input.getLocation().toOSString(), monitor);
+		try {
+			run(input.getLocation().toOSString(), monitor);
+		}
+		catch (final CoreException e) {
+			throw new SubmissionException(e);
+		}
 	}
 
 	/** {@inheritDoc} **/
@@ -63,12 +82,11 @@ public final class LocalSubmission extends AbstractSubmission {
 	public void submit(final IProgressMonitor monitor) throws SubmissionException {
 		final IFile expected = getSolver().getSampleDataset().getOutput();
 		try {
-			final IFile actual = getOutput();
+			final IFile actual = getOutputFile();
 			expected.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			actual.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			if (!EclipseUtils.isFileEquals(expected, actual)) {
-				// TODO : Add error message.
-				throw new SubmissionException("", () -> {
+				throw new SubmissionException(OUTPUT_MISMATCH, () -> {
 					CompareUI.openCompareDialog(SubmissionCompareEditorInput.create(actual, expected));
 				});
 			}
@@ -80,20 +98,15 @@ public final class LocalSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public IFile getOutput() throws CoreException {
-		final IProject project = getSolver().getProject();
-		final IFolder folder = EclipseUtils.getFolder(project, OUTPUT_PATH);
-		final StringBuilder builder = new StringBuilder();
-		builder
-			.append(getSolver().getName().toLowerCase())
-			.append(OUTPUT_EXTENSION);
-		return folder.getFile(builder.toString());
+	public ProblemInput getProblemInput() {
+		// Returns null as it does not use any problem input instance.
+		return null;
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public String getName() {
-		return name;
+	public IFile getOutputFile() throws CoreException {
+		return getOutputFile(OUTPUT_EXTENSION);
 	}
 
 }

@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.internal;
+package fr.faylixe.jammy.core.internal.submission;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,14 +8,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.CoreException;
+
 import fr.faylixe.googlecodejam.client.CodeJamSession;
-import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ISessionListener;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
+import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.ISubmissionService;
-import fr.faylixe.jammy.core.submission.ISubmission;
-import fr.faylixe.jammy.core.submission.SubmissionException;
+import fr.faylixe.jammy.core.service.SubmissionException;
 
 /**
  * TODO : Service javadoc.
@@ -101,10 +102,10 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 		if (session == null) {
 			throw SESSION_NOT_PRESENT;
 		}
-		final InputStream stream = session.download(null);
+		final InputStream stream = session.download(submission.getProblemInput());
 		final Path path = Files.createTempFile(INPUT_PREFIX, INPUT_SUFFIX);
 		Files.copy(stream, path);
-		return path;
+		return path.toAbsolutePath();
 	}
 	
 	/** {@inheritDoc} **/
@@ -113,11 +114,15 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 		if (session == null) {
 			throw SESSION_NOT_PRESENT;
 		}
-		final ProblemInput input = null;
-		final File output = EclipseUtils.toFile(null);//submission.getOutput());
-		final File source = EclipseUtils.toFile(submission.getSolver().getFile());
-		session.submit(input, output, source);
-		// TODO : Handle result.
+		try {
+			final File output = EclipseUtils.toFile(submission.getOutputFile());
+			final File source = EclipseUtils.toFile(submission.getSolver().getFile());
+			session.submit(submission.getProblemInput(), output, source);
+			// TODO : Handle result.
+		}
+		catch (final CoreException e) {
+			throw new IOException(e);
+		}
 	}
 
 }

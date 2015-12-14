@@ -1,7 +1,7 @@
 package fr.faylixe.jammy.core.listener;
 
-import fr.faylixe.jammy.core.submission.ISubmission;
-import fr.faylixe.jammy.core.submission.SubmissionException;
+import fr.faylixe.jammy.core.service.ISubmission;
+import fr.faylixe.jammy.core.service.SubmissionException;
 
 /**
  * Listener that is used for notifying

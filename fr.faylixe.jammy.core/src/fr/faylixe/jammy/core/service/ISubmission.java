@@ -1,9 +1,10 @@
-package fr.faylixe.jammy.core.submission;
+package fr.faylixe.jammy.core.service;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSolver;
 
 /**
@@ -34,7 +35,7 @@ public interface ISubmission {
 	 * @param monitor Monitor instance used for submission execution.
 	 * @throws CoreException If any error occurs while submitting.
 	 */
-	void start(IProgressMonitor monitor) throws CoreException;
+	void start(IProgressMonitor monitor) throws SubmissionException;
 
 	/**
 	 * Getter for the target problem solver.
@@ -44,13 +45,19 @@ public interface ISubmission {
 	ProblemSolver getSolver();
 
 	/**
+	 * 
+	 * @return
+	 */
+	ProblemInput getProblemInput();
+
+	/**
 	 * Returns the output file associated to this submission.
 	 * Such file contains the console content from our solver execution.
 	 * 
 	 * @return File that contains our submission output content.
 	 * @throws CoreException If any error occurs while retrieving output file.
 	 */
-	IFile getOutput() throws CoreException;
+	IFile getOutputFile() throws CoreException;
 
 	/**
 	 * Getter for this submission name.

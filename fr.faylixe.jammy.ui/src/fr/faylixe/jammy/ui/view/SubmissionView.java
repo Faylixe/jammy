@@ -24,9 +24,9 @@ import org.eclipse.ui.part.ViewPart;
 
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
+import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.ISubmissionService;
-import fr.faylixe.jammy.core.submission.ISubmission;
-import fr.faylixe.jammy.core.submission.SubmissionException;
+import fr.faylixe.jammy.core.service.SubmissionException;
 import fr.faylixe.jammy.ui.JammyUI;
 
 /**
