@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.ui.wizard;
+package fr.faylixe.jammy.ui.wizard.contest;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
+import fr.faylixe.jammy.ui.wizard.AbstractListWizardPage;
 import fr.faylixe.googlecodejam.client.Contest;
 
 /**

@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import fr.faylixe.jammy.ui.wizard.ContestWizard;
+import fr.faylixe.jammy.ui.wizard.contest.ContestWizard;
 
 /**
  * Default handler used for Jammy contest selection

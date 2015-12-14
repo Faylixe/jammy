@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.ui.wizard;
+package fr.faylixe.jammy.ui.wizard.contest;
 
 import org.eclipse.jface.wizard.Wizard;
 

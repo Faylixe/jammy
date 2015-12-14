@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.internal.submission.LocalSubmission;
+import fr.faylixe.jammy.core.internal.submission.OnlineSubmission;
 import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.SubmissionException;
 
@@ -25,7 +26,7 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 	/** {@inheritDoc} **/
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
-		final ISubmission submission = new LocalSubmission(solver);
+		final ISubmission submission = new OnlineSubmission(solver, null); // TODO : Retrieve problem input.
 		// TODO : 	Implements ISchedulingRule in order to avoid submission conflict.
 		// 			Consider down the job layer with rule to the submit() method (even with submission service).
 		final Job job = Job.create("", submissionMonitor -> {

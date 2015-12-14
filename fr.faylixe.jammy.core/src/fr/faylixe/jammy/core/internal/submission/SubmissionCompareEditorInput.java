@@ -17,8 +17,6 @@ import org.eclipse.swt.graphics.Image;
  * {@link CompareEditorInput} implementation for comparing
  * problem output files.
  * 
- * TODO : Check for setMessage() and setAncestorLabel() content.
- * 
  * @author fv
  */
 public final class SubmissionCompareEditorInput extends CompareEditorInput {

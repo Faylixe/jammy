@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.ui.wizard;
+package fr.faylixe.jammy.ui.wizard.contest;
 
 import java.util.function.Consumer;
 
@@ -9,6 +9,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 
 import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
+import fr.faylixe.jammy.ui.wizard.AbstractListWizardPage;
 
 /**
  * <p>WizardPage implementation for round selection.</p>
