@@ -43,7 +43,7 @@ public final class %s {
 		final int n = scanner.nextInt();
 		final %s solver = new %s(scanner);
 		for (int i = 0; i < n; i++) {
-			System.out.print("Case #" + i + " : ");
+			System.out.print("Case #" + (i + 1) + ": ");
 			solver.solve();
 		}
 		scanner.close();
