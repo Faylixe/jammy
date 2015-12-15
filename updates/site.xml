@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/fr.faylixe.jammy.feature_1.0.0.201512151604.jar" id="fr.faylixe.jammy.feature" version="1.0.0.201512151604"/>
+   <feature url="features/fr.faylixe.jammy.feature_1.0.0.201512151628.jar" id="fr.faylixe.jammy.feature" version="1.0.0.201512151628">
+      <category name="fr.faylixe.jammy.category"/>
+   </feature>
+   <category-def name="fr.faylixe.jammy.category" label="Jammy">
+      <description>
+         Main plugin related to Jammy application
+      </description>
+   </category-def>
 </site>
