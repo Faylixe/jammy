@@ -13,7 +13,7 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
 public final class OpenSolverCommand extends AbstractProgressiveSolverCommand {
 
 	/** Command identifier. **/
-	public static final String ID = "review.classdesign.jammy.command.opensolver";
+	public static final String ID = "fr.faylixe.jammy.command.opensolver";
 
 	/** Task name for the file opening. **/
 	private static final String OPEN_FILE_TASK = "Opening solver class file";

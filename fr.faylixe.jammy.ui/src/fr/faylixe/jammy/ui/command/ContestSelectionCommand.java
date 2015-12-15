@@ -23,7 +23,7 @@ import fr.faylixe.jammy.ui.wizard.contest.ContestWizard;
 public final class ContestSelectionCommand extends AbstractHandler {
 
 	/** Command identifier. **/
-	public static final String ID = "review.classdesign.jammy.command.contestselection";
+	public static final String ID = "fr.faylixe.jammy.command.contestselection";
 
 	/** Name of the created job. **/
 	private static final String JOB_NAME = "Contest Selection";

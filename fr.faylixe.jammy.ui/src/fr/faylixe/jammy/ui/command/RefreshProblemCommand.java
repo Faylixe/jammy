@@ -11,7 +11,7 @@ import org.eclipse.core.commands.ExecutionException;
 public final class RefreshProblemCommand extends AbstractHandler {
 
 	/** Command identifier. **/
-	public static final String ID = "review.classdesign.jammy.command.refreshproblem";
+	public static final String ID = "fr.faylixe.jammy.command.refreshproblem";
 
 	/** {@inheritDoc} **/
 	@Override

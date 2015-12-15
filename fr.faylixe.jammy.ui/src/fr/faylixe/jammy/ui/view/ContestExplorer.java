@@ -28,10 +28,10 @@ import fr.faylixe.jammy.ui.internal.NamedObjectLabelProvider;
 public final class ContestExplorer extends ViewPart implements IContestSelectionListener, ISelectionChangedListener {
 
 	/** Identifier of this view. **/
-	public static final String VIEW_ID = "review.classdesign.jammy.view.contest";
+	public static final String VIEW_ID = "fr.faylixe.jammy.view.contest";
 
 	/** Identifier of the contextual menu registered. **/
-	public static final String MENU_ID = "review.classdesign.jammy.menu.contest";
+	public static final String MENU_ID = "fr.faylixe.jammy.menu.contest";
 
 	/** Menu contribution identifier. **/
 	public static final String MENU_CONTRIBUTION = "contest.contribution";

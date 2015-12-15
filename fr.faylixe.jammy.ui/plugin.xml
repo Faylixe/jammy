@@ -4,46 +4,53 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            categoryId="review.classdesign.jammy.commands.category"
+            categoryId="fr.faylixe.jammy.commands.category"
             defaultHandler="fr.faylixe.jammy.ui.command.ContestSelectionCommand"
             description="Start the contest selection wizard"
-            id="review.classdesign.jammy.command.contestselection"
+            id="fr.faylixe.jammy.command.contestselection"
             name="Select contest">
       </command>
       <command
-            categoryId="review.classdesign.jammy.commands.category"
+            categoryId="fr.faylixe.jammy.commands.category"
             defaultHandler="fr.faylixe.jammy.ui.command.RefreshProblemCommand"
             description="Reload the currently selected problem data"
-            id="review.classdesign.jammy.command.refreshproblem"
+            id="fr.faylixe.jammy.command.refreshproblem"
             name="Refresh problem">
       </command>
       <command
-            categoryId="review.classdesign.jammy.commands.category"
+            categoryId="fr.faylixe.jammy.commands.category"
             defaultHandler="fr.faylixe.jammy.ui.command.OpenDatasetEditorCommand"
             description="Open an editor for modifying dataset input and output files"
-            id="review.classdesign.jammy.command.opendataseteditor"
+            id="fr.faylixe.jammy.command.opendataseteditor"
             name="Edit dataset">
+      </command>
+      <command
+            categoryId="fr.faylixe.jammy.commands.category"
+            defaultHandler="fr.faylixe.jammy.ui.command.RunOnlineDatasetCommand"
+            description="Open submission wizard and starts submission."
+            id="fr.faylixe.jammy.command.runonlinedataset"
+            name="Run online dataset">
       </command>
      </extension>
     <extension
          point="org.eclipse.ui.views">
       <category
-            id="review.classdesign.jammy.view.category"
+            id="fr.faylixe.jammy.view.category"
             name="Jammy">
       </category>
       <view
-            category="review.classdesign.jammy.view.category"
+            category="fr.faylixe.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.SubmissionView"
             icon="src/icons/submission.view.png"
-            id="review.classdesign.jammy.view.submission"
+            id="fr.faylixe.jammy.view.submission"
             name="Submission"
             restorable="true">
       </view>
       <view
-            category="review.classdesign.jammy.view.category"
+            category="fr.faylixe.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.ProblemView"
             icon="src/icons/problem.view.png"
-            id="review.classdesign.jammy.view.problem"
+            id="fr.faylixe.jammy.view.problem"
             name="Problem description"
             restorable="true">
          <description>
@@ -51,10 +58,10 @@
          </description>
       </view>
       <view
-            category="review.classdesign.jammy.view.category"
+            category="fr.faylixe.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.ContestExplorer"
             icon="src/icons/contest.view.png"
-            id="review.classdesign.jammy.view.contest"
+            id="fr.faylixe.jammy.view.contest"
             name="Contest Explorer"
             restorable="true">
          <description>
@@ -66,7 +73,7 @@
           point="org.eclipse.ui.preferencePages">
        <page
              class="fr.faylixe.jammy.ui.view.PreferencePage"
-             id="review.classdesign.jammy.preferences.root"
+             id="fr.faylixe.jammy.preferences.root"
              name="Jammy">
        </page>
     </extension>
@@ -75,7 +82,7 @@
        <perspective
              class="fr.faylixe.jammy.ui.JammyPerspectiveFactory"
              icon="src/icons/jammy.png"
-             id="review.classdesign.jammy.perspective"
+             id="fr.faylixe.jammy.perspective"
              name="Jammy">
        </perspective>
     </extension>
@@ -87,8 +94,8 @@
          <menu
                label="Jammy">
             <command
-                  commandId="review.classdesign.jammy.command.contestselection"
-                  id="review.classdesign.jammy.contribution.select.contest"
+                  commandId="fr.faylixe.jammy.command.contestselection"
+                  id="fr.faylixe.jammy.contribution.select.contest"
                   label="Select contest"
                   style="push">
             </command>
@@ -96,11 +103,11 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:review.classdesign.jammy.menu.contest?after=contest.contribution">
+            locationURI="popup:fr.faylixe.jammy.menu.contest?after=contest.contribution">
          <menu
                label="Solver">
             <command
-                  commandId="review.classdesign.jammy.command.opensolver"
+                  commandId="fr.faylixe.jammy.command.opensolver"
                   label="Open"
                   style="push">
             </command>
@@ -108,25 +115,27 @@
          <menu
                label="Sample dataset">
             <command
-                  commandId="review.classdesign.jammy.command.runtest"
+                  commandId="fr.faylixe.jammy.command.runtest"
                   label="Run"
                   style="push">
             </command>
             <command
-                  commandId="review.classdesign.jammy.command.opendataseteditor"
+                  commandId="fr.faylixe.jammy.command.opendataseteditor"
                   label="Edit"
                   style="push">
             </command>
          </menu>
-         <menu
-               label="Submission">
-         </menu>
+         <command
+               commandId="fr.faylixe.jammy.command.runonlinedataset"
+               label="Submit"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:review.classdesign.jammy.view.problem?after=problem.contribution">
+            locationURI="toolbar:fr.faylixe.jammy.view.problem?after=problem.contribution">
          <command
-               commandId="review.classdesign.jammy.command.refreshproblem"
+               commandId="fr.faylixe.jammy.command.refreshproblem"
                icon="IMG_ELCL_SYNCED"
                label="Refresh problem"
                style="push">

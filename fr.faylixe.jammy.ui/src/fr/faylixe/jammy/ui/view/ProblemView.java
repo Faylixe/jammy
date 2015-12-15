@@ -31,7 +31,7 @@ public final class ProblemView extends ViewPart implements IProblemSelectionList
 	private static final String CONTEST_NOT_SELECTED_CONTENT = "<a href=\"" + ACTION_URL + "\">Please select a contest first.</a>";
 
 	/** View ID.**/
-	public static final String ID = "review.classdesign.jammy.view.problem";
+	public static final String ID = "fr.faylixe.jammy.view.problem";
 
 	/** Menu contribution identifier. **/
 	public static final String MENU_CONTRIBUTION = "problem.contribution";

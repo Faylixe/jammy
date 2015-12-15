@@ -200,7 +200,10 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return <tt>true</tt> if the login was a success, <tt>false</tt> otherwise.
 	 */
 	public boolean login() {
-		final Dialog dialog = new LoginDialog(null);
+		final Dialog dialog = new LoginDialog(null,
+				JammyPreferences.getLoginTargetURL(),
+				"",
+				null);
 		final String url = JammyPreferences.getLoginTargetURL();
 		final SeleniumCookieSupplier cookieSupplier = new SeleniumCookieSupplier(url, FirefoxDriver::new);
 		final Job job = Job.create(LOGIN_JOB_NAME, createLoginJob(dialog, cookieSupplier));

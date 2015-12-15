@@ -26,7 +26,7 @@ import fr.faylixe.jammy.ui.view.SubmissionView;
 public final class JammyUI extends AbstractUIPlugin {
 
 	/** Plugin identifier. **/
-	public static final String PLUGIN_ID = "review.classdesign.jammy.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "fr.faylixe.jammy.ui"; //$NON-NLS-1$
 
 	/** Constant value used for identifying {@link SubmissionView} suite icon. **/
 	public static final String IMG_SUBMISSION_SUITE = "suite";
@@ -44,7 +44,7 @@ public final class JammyUI extends AbstractUIPlugin {
 	public static final String IMG_SUBMISSION_SUCCESS = "success";
 
 	/** Path of the bundle relative folder which contains {@link SubmissionView} icons. **/
-	private static final IPath ICONS_PATH = new Path("/icons/tests/");
+	private static final IPath ICONS_PATH = new Path("icons/tests/");
 
 	/** Extension used for plugin icon. **/
 	private static final String ICON_EXTENSION = ".gif";

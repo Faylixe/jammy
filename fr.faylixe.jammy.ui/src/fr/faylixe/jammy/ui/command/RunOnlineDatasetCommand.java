@@ -3,6 +3,7 @@ package fr.faylixe.jammy.ui.command;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -29,14 +30,16 @@ public final class RunOnlineDatasetCommand extends AbstractProgressiveSolverComm
 	/** {@inheritDoc} **/
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
-		final Problem problem = Jammy.getInstance().getSelectedProblem();
-		final SubmissionWizard wizard = new SubmissionWizard(
-				problem,
-				input -> ISubmission.runAsJob(new OnlineSubmission(solver, input)));
-		final WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
+		Display.getDefault().asyncExec(() -> {
+			final IWorkbench workbench = PlatformUI.getWorkbench();
+			final Shell shell = workbench.getActiveWorkbenchWindow().getShell();
+			final Problem problem = Jammy.getInstance().getSelectedProblem();
+			final SubmissionWizard wizard = new SubmissionWizard(
+					problem,
+					input -> ISubmission.runAsJob(new OnlineSubmission(solver, input)));
+			final WizardDialog dialog = new WizardDialog(shell, wizard);
+			dialog.open();
+		});
 	}
 
 	/** {@inheritDoc} **/

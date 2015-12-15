@@ -37,7 +37,7 @@ import fr.faylixe.jammy.ui.JammyUI;
 public final class SubmissionView extends ViewPart implements IDoubleClickListener {
 
 	/** **/
-	public static final String ID = "review.classdesign.jammy.view.submission";
+	public static final String ID = "fr.faylixe.jammy.view.submission";
 
 	/** **/
 	private static final String [] LABEL = { "Retrieving input", "Running solver", "Submitting output" };
