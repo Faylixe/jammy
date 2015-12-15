@@ -1,10 +1,8 @@
 package fr.faylixe.jammy.ui;
 
+import java.io.IOException;
 import java.net.URL;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -44,7 +42,7 @@ public final class JammyUI extends AbstractUIPlugin {
 	public static final String IMG_SUBMISSION_SUCCESS = "success";
 
 	/** Path of the bundle relative folder which contains {@link SubmissionView} icons. **/
-	private static final IPath ICONS_PATH = new Path("icons/tests/");
+	private static final String ICONS_PATH = "/icons/tests/";
 
 	/** Extension used for plugin icon. **/
 	private static final String ICON_EXTENSION = ".gif";
@@ -57,10 +55,15 @@ public final class JammyUI extends AbstractUIPlugin {
 	 * for the given image <tt>name</tt>.
 	 * 
 	 * @return Created image descriptor.
+	 * @throws IOException 
 	 */
 	private ImageDescriptor createImageDescriptor(final String name) {
-		final IPath path = ICONS_PATH.append(name + ICON_EXTENSION);
-		final URL url = FileLocator.find(getBundle(), path, null);
+		final String path =	new StringBuilder(ICONS_PATH)
+			.append(name)
+			.append(ICON_EXTENSION)
+			.toString();
+		final URL url = getClass().getResource(path);
+		System.out.println(url);
 		return ImageDescriptor.createFromURL(url);
 	}
 
@@ -99,7 +102,7 @@ public final class JammyUI extends AbstractUIPlugin {
 	/** {@inheritDoc} **/
 	@Override
 	public void stop(final BundleContext context) throws Exception {
-		plugin = null; // NOPMD
+		plugin = null;
 		super.stop(context);
 	}
 
