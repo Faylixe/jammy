@@ -2,19 +2,16 @@ package fr.faylixe.jammy.core.command;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import fr.faylixe.jammy.core.ProblemSolver;
-import fr.faylixe.jammy.core.internal.submission.LocalSubmission;
-import fr.faylixe.jammy.core.internal.submission.OnlineSubmission;
 import fr.faylixe.jammy.core.service.ISubmission;
-import fr.faylixe.jammy.core.service.SubmissionException;
+import fr.faylixe.jammy.core.service.LocalSubmission;
 
 /**
- * Command that run the target solver using the sample dataset.
+ * <p>Command that run the target solver using the sample dataset.
  * A {@link LocalSubmission} instance is created and scheduled
- * through a {@link Job}
+ * through a {@link Job}</p>
  * 
  * @author fv
  */
@@ -26,20 +23,7 @@ public final class RunSampleDatasetCommand extends AbstractProgressiveSolverComm
 	/** {@inheritDoc} **/
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
-		final ISubmission submission = new OnlineSubmission(solver, null); // TODO : Retrieve problem input.
-		// TODO : 	Implements ISchedulingRule in order to avoid submission conflict.
-		// 			Consider down the job layer with rule to the submit() method (even with submission service).
-		final Job job = Job.create("", submissionMonitor -> {
-			try {
-				submission.start(submissionMonitor);
-			}
-			catch (final SubmissionException e) {
-				// TODO : Propagate error.
-			}
-			return Status.OK_STATUS;
-		});
-		//job.setRule(this);
-		job.schedule();
+		ISubmission.runAsJob(new LocalSubmission(solver));
 	}
 
 	/** {@inheritDoc} **/

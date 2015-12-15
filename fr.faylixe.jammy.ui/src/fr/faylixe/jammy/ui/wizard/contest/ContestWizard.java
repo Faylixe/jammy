@@ -8,10 +8,10 @@ import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /** 
- * {@link ContestWizard} allows to select
+ * <p>{@link ContestWizard} allows to select
  * a {@link Contest} and a {@link Round} that
  * will act as a current context for Jammy related
- * components.
+ * components.</p>
  *
  * @author fv
  */

@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.internal.submission;
+package fr.faylixe.jammy.core.service;
 
 import java.io.IOException;
 
@@ -12,7 +12,8 @@ import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSampleDataset;
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.service.SubmissionException;
+import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;
+import fr.faylixe.jammy.core.internal.submission.SubmissionCompareEditorInput;
 
 /**
  * <p>Submission that aims to use local dataset file.</p>

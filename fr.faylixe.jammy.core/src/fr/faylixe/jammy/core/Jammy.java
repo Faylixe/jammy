@@ -293,7 +293,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return The selected {@link Problem} instance, or <tt>null</tt> if no problem has been selected.
 	 * @see #selectedProblem
 	 */
-	public Problem getCurrentProblem() {
+	public Problem getSelectedProblem() {
 		return selectedProblem;
 	}
 

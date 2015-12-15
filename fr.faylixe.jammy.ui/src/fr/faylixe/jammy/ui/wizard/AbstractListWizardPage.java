@@ -6,6 +6,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -57,6 +60,19 @@ public abstract class AbstractListWizardPage extends WizardPage {
 		final Object object = selection.getFirstElement();
 		onSelectionChanged(object);
 		setPageComplete(true);
+	}
+	
+	/**
+	 * 
+	 */
+	protected final void closeWizard() {
+		final IWizard wizard = getWizard();
+		final IWizardContainer container = wizard.getContainer();
+		if (container instanceof WizardDialog) {
+			wizard.performFinish();
+			final WizardDialog dialog = (WizardDialog) container;
+			dialog.close();
+		}
 	}
 
 	/**

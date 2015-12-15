@@ -18,7 +18,7 @@ public abstract class AbstractProgressiveSolverCommand extends AbstractProgressi
 	/** {@inheritDoc} **/
 	@Override
 	public void run(final IProgressMonitor monitor) {
-		final Problem problem = Jammy.getInstance().getCurrentProblem();
+		final Problem problem = Jammy.getInstance().getSelectedProblem();
 		if (problem != null) {
 			try {
 				monitor.beginTask(getTaskName(), IProgressMonitor.UNKNOWN);

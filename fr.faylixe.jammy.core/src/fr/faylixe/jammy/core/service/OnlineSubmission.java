@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.internal.submission;
+package fr.faylixe.jammy.core.service;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -9,8 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSolver;
-import fr.faylixe.jammy.core.service.ISubmissionService;
-import fr.faylixe.jammy.core.service.SubmissionException;
+import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;
 
 /**
  * <p>Online submission that consists in downloading problem input,

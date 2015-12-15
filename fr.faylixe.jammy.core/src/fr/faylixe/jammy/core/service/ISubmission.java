@@ -3,6 +3,8 @@ package fr.faylixe.jammy.core.service;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSolver;
@@ -65,5 +67,25 @@ public interface ISubmission {
 	 * @return Submission name.
 	 */
 	String getName();
+
+	/**
+	 * 
+	 * @param submission
+	 */
+	static void runAsJob(final ISubmission submission) {
+		// TODO : 	Implements ISchedulingRule in order to avoid submission conflict.
+		// 			Consider down the job layer with rule to the submit() method (even with submission service).
+		final Job job = Job.create("", submissionMonitor -> {
+			try {
+				submission.start(submissionMonitor);
+			}
+			catch (final SubmissionException e) {
+				// TODO : Propagate error.
+			}
+			return Status.OK_STATUS;
+		});
+		//job.setRule(this);
+		job.schedule();
+	}
 
 }

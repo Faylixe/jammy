@@ -2,11 +2,6 @@ package fr.faylixe.jammy.ui.wizard.contest;
 
 import java.util.function.Consumer;
 
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.IWizardContainer;
-import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.WizardDialog;
-
 import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
 import fr.faylixe.jammy.ui.wizard.AbstractListWizardPage;
@@ -60,14 +55,7 @@ public final class RoundWizardPage extends AbstractListWizardPage implements Con
 	/** {@inheritDoc} **/
 	@Override
 	protected void onDoubleClick() {
-		final IWizard wizard = getWizard();
-		final IWizardPage next = wizard.getNextPage(this);
-		final IWizardContainer container = wizard.getContainer();
-		if (next == null && container instanceof WizardDialog) {
-			wizard.performFinish();
-			final WizardDialog dialog = (WizardDialog) container;
-			dialog.close();
-		}
+		closeWizard();
 	}
 
 }
