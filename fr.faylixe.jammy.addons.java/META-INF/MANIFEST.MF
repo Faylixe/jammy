@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.ui,
  fr.faylixe.googlecodejam.client;bundle-version="1.2.31"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Export-Package: fr.faylixe.jammy.addons.java
