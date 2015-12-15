@@ -32,6 +32,7 @@ import fr.faylixe.jammy.core.internal.JammySourceProvider;
 import fr.faylixe.jammy.core.internal.LoginDialog;
 import fr.faylixe.jammy.core.listener.IContestSelectionListener;
 import fr.faylixe.jammy.core.listener.IProblemSelectionListener;
+import fr.faylixe.jammy.core.listener.ISessionListener;
 
 /**
  * <p>Jammy plugin entry point, which is used
@@ -69,6 +70,9 @@ public class Jammy extends AbstractUIPlugin {
 	/** Listeners that are triggered when the currently selected problem change. **/
 	private final List<IProblemSelectionListener> problemListeners;
 
+	/** Listeners that are triggered when the current session change. **/
+	private final List<ISessionListener> sessionListeners;
+
 	/** Language manager instance available. **/
 	private final Map<String, ILanguageManager> managers;
 
@@ -91,6 +95,7 @@ public class Jammy extends AbstractUIPlugin {
 		super();
 		this.contestListeners = new ArrayList<>();
 		this.problemListeners = new ArrayList<>();
+		this.sessionListeners = new ArrayList<>();
 		this.managers = new HashMap<>();
 	}
 	
@@ -137,6 +142,27 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Adds the given {@link ISessionListener} to the listener list.
+	 * 
+	 * @param listener Listener instance to register.
+	 */
+	public void addSessionListener(final ISessionListener listener) {
+		sessionListeners.add(listener);
+		if (session != null) {
+			listener.sessionChanged(session);
+		}
+	}
+	
+	/**
+	 * Removes the given {@link ISessionListener} of the listener list.
+	 * 
+	 * @param listener Listener instance to unregister.
+	 */
+	public void removeSessionListener(final ISessionListener listener) {
+		sessionListeners.remove(listener);
+	}
+
+	/**
 	 * Notifies all {@link IContestSelectionListener} instance
 	 * registered that the current round has changed.
 	 * 
@@ -155,6 +181,16 @@ public class Jammy extends AbstractUIPlugin {
 	private void fireProblemSelectionChanged() {
 		for (final IProblemSelectionListener listener : problemListeners) {
 			listener.problemSelected(selectedProblem);
+		}
+	}
+
+	/**
+	 * Notifies all {@link ISessionListener} instance
+	 * registered that the current session has changed.
+	 */
+	private void fireSessionChanged() {
+		for (final ISessionListener listener : sessionListeners) {
+			listener.sessionChanged(session);
 		}
 	}
 
@@ -231,6 +267,8 @@ public class Jammy extends AbstractUIPlugin {
 		if (executor != null && round != null) {
 			try {
 				this.session = CodeJamSession.createSession(executor, round);
+				setSelectedProblem(session.getContestInfo().getProblem(0));
+				fireSessionChanged();
 				fireContestSelectionChanged(session.getContestInfo());
 			}
 			catch (final IOException e) {

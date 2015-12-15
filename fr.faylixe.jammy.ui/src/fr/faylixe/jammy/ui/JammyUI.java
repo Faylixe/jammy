@@ -63,7 +63,6 @@ public final class JammyUI extends AbstractUIPlugin {
 			.append(ICON_EXTENSION)
 			.toString();
 		final URL url = getClass().getResource(path);
-		System.out.println(url);
 		return ImageDescriptor.createFromURL(url);
 	}
 

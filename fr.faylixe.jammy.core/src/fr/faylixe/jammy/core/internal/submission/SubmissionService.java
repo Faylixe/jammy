@@ -11,6 +11,7 @@ import java.util.Collection;
 import org.eclipse.core.runtime.CoreException;
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
+import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ISessionListener;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
@@ -26,7 +27,7 @@ import fr.faylixe.jammy.core.service.SubmissionException;
 public final class SubmissionService implements ISubmissionService, ISessionListener {
 
 	/** **/
-	private static final IOException SESSION_NOT_PRESENT = new IOException("");
+	public static final IOException SESSION_NOT_PRESENT = new IOException("");
 
 	/** **/
 	private static final String INPUT_PREFIX = "";
@@ -46,6 +47,7 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 	 */
 	public SubmissionService() {
 		this.listeners = new ArrayList<ISubmissionListener>();
+		Jammy.getInstance().addSessionListener(this);
 	}
 
 	/** {@inheritDoc} **/

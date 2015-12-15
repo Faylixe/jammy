@@ -3,13 +3,16 @@ package fr.faylixe.jammy.core.service;
 import java.io.IOException;
 import java.nio.file.Path;
 
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSolver;
-import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;
+import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;import fr.faylixe.jammy.core.internal.submission.SubmissionService;
+
 
 /**
  * <p>Online submission that consists in downloading problem input,
@@ -72,19 +75,37 @@ public final class OnlineSubmission extends AbstractSubmission {
 			throw new SubmissionException(e);
 		}
 	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws SubmissionException
+	 */
+	private Path getPath() throws SubmissionException {
+		try {
+			return getService().downloadInput(this);
+		}
+		catch (final IOException e) {
+			throw new SubmissionException(e.getMessage(), () -> {
+				if (e.equals(SubmissionService.SESSION_NOT_PRESENT)) {
+					// TODO : Dispatch error message.
+				}
+			});
+		}
+	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void start(final IProgressMonitor monitor) throws SubmissionException {
-		final ISubmissionService service = getService();
-		service.fireSubmissionStarted(this);
+		getService().fireSubmissionStarted(this);
+		final Path path = getPath();
 		try {
-			final Path path = service.downloadInput(this);
 			run(path.toString(), monitor);
 		}
-		catch (final IOException | CoreException e) {
-			// TODO : Consider building a debuging runnable.
-			throw new SubmissionException(e);
+		catch (final CoreException e) {
+			throw new SubmissionException(e.getMessage(), () -> {
+				
+			});
 		}
 	}
 

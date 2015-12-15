@@ -19,10 +19,12 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.ISubmissionService;
@@ -289,6 +291,12 @@ public final class SubmissionView extends ViewPart implements IDoubleClickListen
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			final IWorkbenchPage page = window.getActivePage();
+			try {
+				page.showView(ID);
+			}
+			catch (final PartInitException e) {
+				EclipseUtils.showError(e); // TODO : Customize error message.
+			}
 			page.activate(SubmissionView.this);
 			page.bringToTop(SubmissionView.this);
 			viewer.refresh();
