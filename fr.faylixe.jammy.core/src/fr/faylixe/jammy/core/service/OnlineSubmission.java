@@ -38,10 +38,10 @@ public final class OnlineSubmission extends AbstractSubmission {
 	 * @param input Problem input to build name from.
 	 * @return Built name.
 	 */
-	private static String buildName(final ProblemInput input) {
+	public static String buildName(final ProblemInput input) {
 		final StringBuilder builder = new StringBuilder();
 		builder
-			.append(input.getProblem().getNormalizedName())
+			.append(input.getProblem().getName())
 			.append(NAME_SEPARATOR)
 			.append(input.getName());
 			// TODO : Consider appending attempt number.

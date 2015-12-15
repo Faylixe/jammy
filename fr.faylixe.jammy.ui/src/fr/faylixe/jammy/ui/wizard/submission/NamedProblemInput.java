@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
+import fr.faylixe.jammy.core.service.OnlineSubmission;
 
 /**
  * <p>Adapter class that allows a given delegate {@link ProblemInput}
@@ -21,22 +22,12 @@ public final class NamedProblemInput extends NamedObject {
 	private final ProblemInput input;
 
 	/**
-	 * Builds the associated name for this input.
-	 * 
-	 * @param input Problem input to build name from.
-	 * @return Built name.
-	 */
-	private static String buildInputName(final ProblemInput input) {
-		return null;
-	}
-
-	/**
 	 * Default constructor.
 	 *
 	 * @param input Delegate problem input instance.
 	 */
 	private NamedProblemInput(final ProblemInput input) {
-		super(buildInputName(input));
+		super(OnlineSubmission.buildName(input));
 		this.input = input;
 	}
 	
