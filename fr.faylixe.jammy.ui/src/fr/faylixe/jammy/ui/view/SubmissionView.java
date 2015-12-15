@@ -290,6 +290,7 @@ public final class SubmissionView extends ViewPart implements IDoubleClickListen
 			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			final IWorkbenchPage page = window.getActivePage();
 			page.activate(SubmissionView.this);
+			page.bringToTop(SubmissionView.this);
 			viewer.refresh();
 			indicator.setSelection(indicator.getSelection() + 1);
 		});
