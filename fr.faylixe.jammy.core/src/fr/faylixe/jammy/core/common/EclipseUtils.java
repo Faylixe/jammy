@@ -152,7 +152,7 @@ public final class EclipseUtils {
 	 * @return
 	 */
 	public static File toFile(final IFile file) {
-		return null;
+		return file.getRawLocation().makeAbsolute().toFile();
 	}
 
 	/**

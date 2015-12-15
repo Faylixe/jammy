@@ -317,7 +317,9 @@ public class Jammy extends AbstractUIPlugin {
 		if (sessionFile.exists()) {
 			try {
 				session = SerializationUtils.deserialize(sessionFile, CodeJamSession.class);
+				fireSessionChanged();
 				fireContestSelectionChanged(session.getContestInfo());
+				setSelectedProblem(session.getContestInfo().getProblem(0));
 			}
 			catch (final IOException | ClassNotFoundException e) {
 				EclipseUtils.showError(e.getMessage(), e);

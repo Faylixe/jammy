@@ -29,15 +29,14 @@ public interface ISubmission {
 	 * @param monitor Monitor instance used for submission.
 	 * @return <tt>true</tt> if this submission is a success, <tt>false</tt> otherwise.
 	 */
-	void submit(IProgressMonitor monitor) throws SubmissionException;
+	boolean submit(IProgressMonitor monitor);
 
 	/**
 	 * Starts this submission.
 	 * 
 	 * @param monitor Monitor instance used for submission execution.
-	 * @throws CoreException If any error occurs while submitting.
 	 */
-	void start(IProgressMonitor monitor) throws SubmissionException;
+	void start(IProgressMonitor monitor);
 
 	/**
 	 * Getter for the target problem solver.
@@ -75,13 +74,8 @@ public interface ISubmission {
 	static void runAsJob(final ISubmission submission) {
 		// TODO : 	Implements ISchedulingRule in order to avoid submission conflict.
 		// 			Consider down the job layer with rule to the submit() method (even with submission service).
-		final Job job = Job.create("", submissionMonitor -> {
-			try {
-				submission.start(submissionMonitor);
-			}
-			catch (final SubmissionException e) {
-				// TODO : Propagate error.
-			}
+		final Job job = Job.create("", submissionMonitor -> { // TODO : Add job name
+			submission.start(submissionMonitor);
 			return Status.OK_STATUS;
 		});
 		//job.setRule(this);

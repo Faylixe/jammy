@@ -1,11 +1,13 @@
 package fr.faylixe.jammy.core.service;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IServiceLocator;
 
+import fr.faylixe.googlecodejam.client.webservice.SubmitResponse;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
 
 /**
@@ -61,17 +63,26 @@ public interface ISubmissionService {
 	/** 
 	 * 
 	 * @param input
+	 * @param monitor
+	 * 
 	 * @return
 	 * @throws IOException 
 	 */
-	Path downloadInput(ISubmission submission) throws IOException;
+	IFile downloadInput(ISubmission submission, IProgressMonitor monitor) throws IOException;
 
 	/**
 	 * 
 	 * @throws IOException
 	 */
-	void submit(ISubmission submission) throws IOException;
+	SubmitResponse submit(ISubmission submission) throws IOException;
 
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 */
+	String buildFilename(ISubmission input) throws IOException;
+	
 	/**
 	 * 
 	 * @return

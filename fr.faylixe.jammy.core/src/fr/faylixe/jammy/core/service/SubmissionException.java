@@ -1,5 +1,9 @@
 package fr.faylixe.jammy.core.service;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+
+import fr.faylixe.jammy.core.common.EclipseUtils;
+
 /**
  * Exception extension for error related to solver submission.
  * Such exception are runnable when a callback action is supported.
@@ -11,8 +15,8 @@ public final class SubmissionException extends Exception implements Runnable {
 	/** Serialization index. **/
 	private static final long serialVersionUID = 1L;
 
-	/** Default runnable instance used as delegate which does nothing. **/
-	private static final Runnable DEFAULT_RUNNABLE = () -> {};
+	/** **/
+	private static final String ERROR_TITLE = "Submission error";
 
 	/** Delegate runnable instance used. **/
 	private final Runnable delegate;
@@ -25,7 +29,12 @@ public final class SubmissionException extends Exception implements Runnable {
 	 */
 	public SubmissionException(final String message) {
 		super(message);
-		this.delegate = DEFAULT_RUNNABLE;
+		this.delegate = () -> {
+			MessageDialog.openError(
+					EclipseUtils.getActiveShell(), 
+					ERROR_TITLE,
+					message);
+		};
 	}
 
 	/**
@@ -36,7 +45,12 @@ public final class SubmissionException extends Exception implements Runnable {
 	 */
 	public SubmissionException(final Throwable throwable) {
 		super(throwable);
-		this.delegate = DEFAULT_RUNNABLE;
+		this.delegate = () -> {
+			MessageDialog.openError(
+					EclipseUtils.getActiveShell(),
+					ERROR_TITLE, 
+					throwable.getMessage());
+		};
 	}
 	
 	/**

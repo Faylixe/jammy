@@ -63,37 +63,44 @@ public final class LocalSubmission extends AbstractSubmission {
 
 	/** {@inheritDoc} **/
 	@Override
-	public void start(final IProgressMonitor monitor) throws SubmissionException {
-		getService().fireSubmissionStarted(this);
+	public void start(final IProgressMonitor monitor) {
+		final ISubmissionService service = getService();
+		service.fireSubmissionStarted(this);
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
 		final IFile input = dataset.getInput();
-		if (!input.exists()) {
-			throw FILE_NOT_EXIST;
+		if (input.exists()) {
+			try {
+				run(input.getLocation().toOSString(), monitor);
+			}
+			catch (final CoreException e) {
+				service.fireErrorCaught(this, new SubmissionException(e));
+			}
 		}
-		try {
-			run(input.getLocation().toOSString(), monitor);
-		}
-		catch (final CoreException e) {
-			throw new SubmissionException(e);
+		else {
+			service.fireErrorCaught(this, FILE_NOT_EXIST);			
 		}
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void submit(final IProgressMonitor monitor) throws SubmissionException {
+	public boolean submit(final IProgressMonitor monitor) {
+		final ISubmissionService service = getService();
 		final IFile expected = getSolver().getSampleDataset().getOutput();
 		try {
 			final IFile actual = getOutputFile();
 			expected.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			actual.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			if (!EclipseUtils.isFileEquals(expected, actual)) {
-				throw new SubmissionException(OUTPUT_MISMATCH, () -> {
+				service.fireErrorCaught(this, new SubmissionException(OUTPUT_MISMATCH, () -> {
 					CompareUI.openCompareDialog(SubmissionCompareEditorInput.create(actual, expected));
-				});
+				}));
+				return false;
 			}
+			return true;
 		}
 		catch (final IOException | CoreException e) {
-			throw new SubmissionException(e);
+			service.fireErrorCaught(this, new SubmissionException(e));
+			return false;
 		}
 	}
 

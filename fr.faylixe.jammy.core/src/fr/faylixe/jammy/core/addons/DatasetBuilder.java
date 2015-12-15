@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -19,7 +18,6 @@ import fr.faylixe.googlecodejam.client.common.HTMLConstant;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSampleDataset;
-import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /**
  * A {@link DatasetBuilder} provides tools for extracting and
@@ -28,9 +26,6 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
  * @author fv
  */
 public final class DatasetBuilder {
-
-	/** Path of the input folder in which dataset will be written. **/
-	private static final String INPUT_PATH = "input";
 
 	/** Classname of the DIV that contains our testing dataset. **/
 	private static final String IO_CLASSNAME = "problem-io-wrapper";
@@ -47,9 +42,6 @@ public final class DatasetBuilder {
 	/** Error status thrown when problem dataset could not be found. **/
 	private static final IStatus IO_NOT_FOUND = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, "Problem dataset not found");
 
-	/** Target project contribution is made for. **/
-	private final IProject project;
-
 	/** Monitor instance used for project creation. **/
 	private final IProgressMonitor monitor;
 
@@ -57,19 +49,19 @@ public final class DatasetBuilder {
 	private final Problem problem;
 
 	/** Target folder in which dataset will be written. **/
-	private IFolder folder;
+	private final IFolder folder;
 
 	/**
 	 * Default constructor. 
 	 * 
 	 * @param problem Problem instance dataset is built from.
-	 * @param project Target java project to be created.
+	 * @param folder Target folder in which dataset will be written.
 	 * @param monitor Monitor instance used for project creation.
 	 */
-	public DatasetBuilder(final Problem problem, final IProject project, final IProgressMonitor monitor) {
-		this.project = project;
+	public DatasetBuilder(final Problem problem, final IFolder folder, final IProgressMonitor monitor) {
 		this.monitor = monitor;
 		this.problem = problem;
+		this.folder = folder;
 	}
 
 	/**
@@ -127,7 +119,6 @@ public final class DatasetBuilder {
 	 * @throws CoreException If any error occurs while creating dataset files.
 	 */
 	public ProblemSampleDataset build() throws CoreException {
-		folder = EclipseUtils.getFolder(project, INPUT_PATH);
 		final IFile input = getFile(DATASET_INPUT_SUFFIX);
 		final IFile output = getFile(DATASET_OUTPUT_SUFFIX);
 		if (!input.exists() || !output.exists()) {

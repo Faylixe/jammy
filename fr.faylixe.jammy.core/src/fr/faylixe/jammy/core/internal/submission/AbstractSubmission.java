@@ -17,7 +17,6 @@ import fr.faylixe.jammy.core.addons.ISolverRunner;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.ISubmissionService;
-import fr.faylixe.jammy.core.service.SubmissionException;
 
 /**
  * Abstract {@link ISubmission} implementation that language extension
@@ -67,12 +66,8 @@ public abstract class AbstractSubmission extends NamedObject implements ISubmiss
 		protected IStatus run(final IProgressMonitor monitor) {
 			if (execution.isTerminated()) {
 				service.fireExecutionFinished(AbstractSubmission.this);
-				try {
-					submit(monitor);
+				if (submit(monitor)) {
 					service.fireSubmissionFinished(AbstractSubmission.this);
-				}
-				catch (final SubmissionException e) {
-					service.fireErrorCaught(AbstractSubmission.this, e);
 				}
 			}
 			else {

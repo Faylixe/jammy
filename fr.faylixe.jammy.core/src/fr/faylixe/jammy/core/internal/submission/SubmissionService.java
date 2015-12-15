@@ -3,14 +3,16 @@ package fr.faylixe.jammy.core.internal.submission;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
+import fr.faylixe.googlecodejam.client.webservice.SubmitResponse;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ISessionListener;
@@ -27,13 +29,7 @@ import fr.faylixe.jammy.core.service.SubmissionException;
 public final class SubmissionService implements ISubmissionService, ISessionListener {
 
 	/** **/
-	public static final IOException SESSION_NOT_PRESENT = new IOException("");
-
-	/** **/
-	private static final String INPUT_PREFIX = "";
-
-	/** **/
-	private static final String INPUT_SUFFIX = "";
+	public static final IOException SESSION_NOT_PRESENT = new IOException("You must be logged to download or submit data");
 
 	/** **/
 	private final Collection<ISubmissionListener> listeners;
@@ -100,27 +96,45 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 
 	/** {@inheritDoc} **/
 	@Override
-	public Path downloadInput(final ISubmission submission) throws IOException {
+	public String buildFilename(final ISubmission submission) throws IOException {
+		if (session == null) {
+			throw SESSION_NOT_PRESENT;
+		}
+		return session.buildFilename(submission.getProblemInput());
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public IFile downloadInput(final ISubmission submission, final IProgressMonitor monitor) throws IOException {
 		if (session == null) {
 			throw SESSION_NOT_PRESENT;
 		}
 		final InputStream stream = session.download(submission.getProblemInput());
-		final Path path = Files.createTempFile(INPUT_PREFIX, INPUT_SUFFIX);
-		Files.copy(stream, path);
-		return path.toAbsolutePath();
+		final IFolder folder = submission.getSolver().getDatasetFolder();
+		final IFile file = folder.getFile(buildFilename(submission));
+		try {
+			if (file.exists()) {
+				file.delete(true, monitor);
+			}
+			file.create(stream, true, monitor);
+			return file;
+		}
+		catch (final CoreException e) {
+			e.printStackTrace();
+			throw new IOException(e);
+		}
 	}
 	
 	/** {@inheritDoc} **/
 	@Override
-	public void submit(final ISubmission submission) throws IOException {
+	public SubmitResponse submit(final ISubmission submission) throws IOException {
 		if (session == null) {
 			throw SESSION_NOT_PRESENT;
 		}
 		try {
 			final File output = EclipseUtils.toFile(submission.getOutputFile());
 			final File source = EclipseUtils.toFile(submission.getSolver().getFile());
-			session.submit(submission.getProblemInput(), output, source);
-			// TODO : Handle result.
+			return session.submit(submission.getProblemInput(), output, source);
 		}
 		catch (final CoreException e) {
 			throw new IOException(e);

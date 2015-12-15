@@ -1,18 +1,15 @@
 package fr.faylixe.jammy.core.service;
 
 import java.io.IOException;
-import java.nio.file.Path;
-
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
+import fr.faylixe.googlecodejam.client.webservice.SubmitResponse;
 import fr.faylixe.jammy.core.ProblemSolver;
-import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;import fr.faylixe.jammy.core.internal.submission.SubmissionService;
-
+import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;
 
 /**
  * <p>Online submission that consists in downloading problem input,
@@ -27,6 +24,9 @@ public final class OnlineSubmission extends AbstractSubmission {
 	
 	/** Separator between problem normalized name and input name. **/
 	private static final String NAME_SEPARATOR = " - ";
+
+	/** **/
+	private static final String EXTENSION = ".out";
 
 	/** Target problem input this submission is working on. **/
 	private final ProblemInput input;
@@ -61,51 +61,40 @@ public final class OnlineSubmission extends AbstractSubmission {
 		super(solver, buildName(input));
 		this.input = input;
 		final StringBuilder extensionBuilder = new StringBuilder();
-		// TODO : Build extension based on file input.
+		// TODO : Build extension based on file input
+		extensionBuilder.append(EXTENSION);
 		this.extension = extensionBuilder.toString();
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void submit(final IProgressMonitor monitor) throws SubmissionException {
+	public boolean submit(final IProgressMonitor monitor) {
+		final ISubmissionService service = getService();
 		try {
-			getService().submit(this);
+			final SubmitResponse response = service.submit(this);
+			if (!response.isSuccess()) {
+				service.fireErrorCaught(this, new SubmissionException(response.getMessage()));
+				return false;
+			}
+			return true;
 		}
 		catch (final IOException e) {
-			throw new SubmissionException(e);
-		}
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @throws SubmissionException
-	 */
-	private Path getPath() throws SubmissionException {
-		try {
-			return getService().downloadInput(this);
-		}
-		catch (final IOException e) {
-			throw new SubmissionException(e.getMessage(), () -> {
-				if (e.equals(SubmissionService.SESSION_NOT_PRESENT)) {
-					// TODO : Dispatch error message.
-				}
-			});
+			service.fireErrorCaught(this, new SubmissionException(e));
+			return false;
 		}
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void start(final IProgressMonitor monitor) throws SubmissionException {
-		getService().fireSubmissionStarted(this);
-		final Path path = getPath();
+	public void start(final IProgressMonitor monitor) {
+		final ISubmissionService service = getService();
+		service.fireSubmissionStarted(this);
 		try {
-			run(path.toString(), monitor);
+			final IFile file = service.downloadInput(this, monitor);
+			run(file.getLocation().toOSString(), monitor);
 		}
-		catch (final CoreException e) {
-			throw new SubmissionException(e.getMessage(), () -> {
-				
-			});
+		catch (final IOException | CoreException e) {
+			service.fireErrorCaught(this, new SubmissionException(e));
 		}
 	}
 

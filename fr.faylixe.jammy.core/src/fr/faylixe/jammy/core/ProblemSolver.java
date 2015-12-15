@@ -1,6 +1,7 @@
 package fr.faylixe.jammy.core;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -10,6 +11,7 @@ import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.DatasetBuilder;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
+import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /**
  * <p>A {@link ProblemSolver} is an object that
@@ -34,9 +36,15 @@ public final class ProblemSolver extends NamedObject {
 
 	/** Task name for the dataset retrieval. **/
 	private static final String DATASET_TASK = "Retrieves associated sample dataset";
-	
+
+	/** Path of the input folder in which dataset will be written. **/
+	private static final String DATASET_PATH = "input";
+
 	/** Target solver class file. **/
 	private final IFile solver;
+	
+	/** Target folder for dataset file.**/
+	private final IFolder datasetFolder;
 
 	/** Sample dataset associated to this solver. **/
 	private final ProblemSampleDataset dataset;
@@ -46,12 +54,14 @@ public final class ProblemSolver extends NamedObject {
 	 * 
 	 * @param name Name of the target project.
 	 * @param solver Target solver class file. 
+	 * @param datasetFolder Folder in which dataset file are contained.
 	 * @param dataset Sample dataset associated to this solver.
 	 */
-	private ProblemSolver(final String name, final IFile solver, final ProblemSampleDataset dataset) {
+	private ProblemSolver(final String name, final IFile solver, final IFolder datasetFolder, final ProblemSampleDataset dataset) {
 		super(name);
 		this.solver = solver;
 		this.dataset = dataset;
+		this.datasetFolder = datasetFolder;
 	}
 
 	/**
@@ -62,6 +72,16 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	public IFile getFile() {
 		return solver;
+	}
+	
+	/**
+	 * Getter for the dataset folder.
+	 * 
+	 * @return Target dataset folder.
+	 * @see #datasetFolder
+	 */
+	public IFolder getDatasetFolder() {
+		return datasetFolder;
 	}
 
 	/**
@@ -102,8 +122,9 @@ public final class ProblemSolver extends NamedObject {
 		monitor.subTask(SOLVER_TASK);
 		final IFile file = manager.getSolver(problem, monitor);
 		monitor.subTask(DATASET_TASK);
-		final ProblemSampleDataset dataset = new DatasetBuilder(problem, project, monitor).build();
-		return new ProblemSolver(problem.getNormalizedName(), file, dataset);
+		final IFolder datasetFolder = EclipseUtils.getFolder(project, DATASET_PATH);
+		final ProblemSampleDataset dataset = new DatasetBuilder(problem, datasetFolder, monitor).build();
+		return new ProblemSolver(problem.getNormalizedName(), file, datasetFolder, dataset);
 	}
 
 }
