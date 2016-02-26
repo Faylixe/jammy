@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -14,10 +16,12 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
 import fr.faylixe.googlecodejam.client.Contest;
@@ -245,11 +249,17 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public List<Contest> getContests() throws IOException {
 		if (executor == null) {
+			final AtomicReference<IOException> caughtError = new AtomicReference<IOException>(LOGIN_EXCEPTION);
 			Display.getDefault().syncExec(() -> {
-				login();
+				try {
+					login();
+				}
+				catch (final SWTError e) {
+					caughtError.set(new IOException(e));
+				}
 			});
 			if (!JammySourceProvider.get().isLogged()) {
-				throw LOGIN_EXCEPTION;
+				throw caughtError.get();
 			}
 		}
 		return Contest.get(executor);

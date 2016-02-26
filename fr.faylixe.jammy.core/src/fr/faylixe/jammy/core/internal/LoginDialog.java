@@ -84,7 +84,7 @@ public final class LoginDialog extends Dialog implements LocationListener {
 	@Override
 	protected Control createDialogArea(final Composite parent) {
 		final Composite container = (Composite) super.createDialogArea(parent);
-		final Browser browser = new Browser(container, SWT.BORDER | SWT.MOZILLA);
+		final Browser browser = new Browser(container, SWT.BORDER);
 		browser.setLayoutData(new GridData(GridData.FILL_BOTH));
 		browser.addLocationListener(this);
 		browser.setUrl(source);
