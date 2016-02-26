@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/fr.faylixe.jammy_1.0.0.201602261416.jar" id="fr.faylixe.jammy" version="1.0.0.201602261416">
+      <category name="Core"/>
+   </feature>
+   <category-def name="Core" label="Core">
+      <description>
+         Jammy core plugin
+      </description>
+   </category-def>
+</site>
