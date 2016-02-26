@@ -219,21 +219,21 @@
    </url>
 
    <plugin
-         id="review.classdesign.jammy"
+         id="fr.faylixe.jammy.addons.java"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="review.classdesign.jammy.addons.java"
+         id="fr.faylixe.jammy.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="review.classdesign.jammy.ui"
+         id="fr.faylixe.jammy.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

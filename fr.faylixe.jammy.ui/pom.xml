@@ -6,10 +6,10 @@
 	<parent>
 		<groupId>fr.faylixe</groupId>
 		<artifactId>jammy</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<groupId>fr.faylixe</groupId>
 	<artifactId>fr.faylixe.jammy.ui</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>eclipse-plugin</packaging>
 </project>
