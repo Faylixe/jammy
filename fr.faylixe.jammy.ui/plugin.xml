@@ -41,7 +41,7 @@
       <view
             category="fr.faylixe.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.SubmissionView"
-            icon="platform:/plugin/fr.faylixe.jammy.ui/icons/submission.view.png"
+            icon="icons/view/submission.png"
             id="fr.faylixe.jammy.view.submission"
             name="Submission"
             restorable="true">
@@ -49,7 +49,7 @@
       <view
             category="fr.faylixe.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.ProblemView"
-            icon="platform:/bundle/fr.faylixe.jammy.ui/icons/problem.view.png"
+            icon="icons/view/problem.png"
             id="fr.faylixe.jammy.view.problem"
             name="Problem description"
             restorable="true">
@@ -60,7 +60,7 @@
       <view
             category="fr.faylixe.jammy.view.category"
             class="fr.faylixe.jammy.ui.view.ContestExplorer"
-            icon="platform:/bundle/fr.faylixe.jammy.ui/icons/contest.view.png"
+            icon="icons/view/contest.png"
             id="fr.faylixe.jammy.view.contest"
             name="Contest Explorer"
             restorable="true">
@@ -81,7 +81,7 @@
           point="org.eclipse.ui.perspectives">
        <perspective
              class="fr.faylixe.jammy.ui.JammyPerspectiveFactory"
-             icon="platform:/bundle/fr.faylixe.jammy.ui/icons/jammy.png"
+             icon="icons/jammy.png"
              id="fr.faylixe.jammy.perspective"
              name="Jammy">
        </perspective>
@@ -136,7 +136,7 @@
             locationURI="toolbar:fr.faylixe.jammy.view.problem?after=problem.contribution">
          <command
                commandId="fr.faylixe.jammy.command.refreshproblem"
-               icon="IMG_ELCL_SYNCED"
+               icon="icons/refresh.gif"
                label="Refresh problem"
                style="push">
          </command>

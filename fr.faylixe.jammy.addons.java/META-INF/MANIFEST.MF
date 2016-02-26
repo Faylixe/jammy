@@ -12,8 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
  org.eclipse.debug.core,
- org.eclipse.debug.ui,
- fr.faylixe.googlecodejam.client;bundle-version="1.2.31"
+ org.eclipse.debug.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: fr.faylixe.jammy.addons.java
