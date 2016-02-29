@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/fr.faylixe.jammy_1.0.0.201602261422.jar" id="fr.faylixe.jammy" version="1.0.0.201602261422">
+   <feature url="features/fr.faylixe.jammy_1.0.0.201602291453.jar" id="fr.faylixe.jammy" version="1.0.0.201602291453">
       <category name="Core"/>
    </feature>
    <category-def name="Core" label="Core">
