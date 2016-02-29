@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="review.classdesign.jammy.addons" name="Jammy Addons" schema="schema/review.classdesign.jammy.addons.exsd"/>
+   <extension-point id="fr.faylixe.jammy.addons" name="Jammy Addons" schema="schema/fr.faylixe.jammy.addons.exsd"/>
 
  
    <extension

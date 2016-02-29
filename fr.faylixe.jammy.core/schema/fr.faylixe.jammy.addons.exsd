@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="review.classdesign.jammy" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="fr.faylixe.jammy" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="review.classdesign.jammy" id="review.classdesign.jammy.addons" name="Jammy Addons"/>
+         <meta.schema plugin="fr.faylixe.jammy" id="fr.faylixe.jammy.addons" name="Jammy Addons"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="review.classdesign.jammy.addons.manager"/>
+            <element ref="fr.faylixe.jammy.addons.manager"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +47,7 @@
       </complexType>
    </element>
 
-   <element name="review.classdesign.jammy.addons.manager">
+   <element name="fr.faylixe.jammy.addons.manager">
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>

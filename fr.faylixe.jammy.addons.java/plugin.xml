@@ -2,11 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="review.classdesign.jammy.addons">
-      <review.classdesign.jammy.addons.manager
+         point="fr.faylixe.jammy.addons">
+      <fr.faylixe.jammy.addons.manager
             class="fr.faylixe.jammy.addons.java.JavaManager"
             language="Java">
-      </review.classdesign.jammy.addons.manager>
+      </fr.faylixe.jammy.addons.manager>
    </extension>
 
 </plugin>
