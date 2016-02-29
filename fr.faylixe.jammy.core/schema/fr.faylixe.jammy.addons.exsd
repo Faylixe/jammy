@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":review.classdesign.jammy.ILanguageManager"/>
+                  <meta.attribute kind="java" basedOn=":fr.faylixe.jammy.core.addons.ILanguageManager"/>
                </appinfo>
             </annotation>
          </attribute>

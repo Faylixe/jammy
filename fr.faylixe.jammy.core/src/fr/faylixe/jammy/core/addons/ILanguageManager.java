@@ -27,7 +27,7 @@ import fr.faylixe.jammy.core.ProblemSolver;
 public interface ILanguageManager {
 
 	/** Identifier of the associated OSGi extension. **/
-	String EXTENSION_ID = "review.classdesign.jammy.addons";
+	String EXTENSION_ID = "fr.faylixe.jammy.addons";
 
 	/** Extension attribute name for the manager target language. **/
 	String LANGUAGE_ATTRIBUTE = "language";
