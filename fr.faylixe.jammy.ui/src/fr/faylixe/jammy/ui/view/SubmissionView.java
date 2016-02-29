@@ -256,6 +256,7 @@ public final class SubmissionView extends ViewPart implements IDoubleClickListen
 		viewer.setLabelProvider(new StateLabelProvider());
 		viewer.setInput(Jammy.CHILDLESS);
 		viewer.addDoubleClickListener(this);
+		viewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
 	/** {@inheritDoc} **/
