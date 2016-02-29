@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- libs/googlecodejam-client-1.2.6.jar
+ libs/googlecodejam-client-1.2.8.jar
 Export-Package: fr.faylixe.googlecodejam.client,
  fr.faylixe.googlecodejam.client.common,
  fr.faylixe.googlecodejam.client.executor,

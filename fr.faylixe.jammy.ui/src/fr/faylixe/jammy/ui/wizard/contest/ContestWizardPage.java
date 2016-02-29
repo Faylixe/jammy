@@ -63,6 +63,7 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 				});
 			}
 			catch (final IOException e) {
+				e.printStackTrace();
 				Display.getDefault().asyncExec(() -> {
 					MessageDialog.openError(
 							EclipseUtils.getActiveShell(),

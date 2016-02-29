@@ -2,6 +2,9 @@ package fr.faylixe.jammy.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +12,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWTError;
@@ -22,6 +26,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.google.api.client.util.SecurityUtils;
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
 import fr.faylixe.googlecodejam.client.Contest;
@@ -211,7 +216,12 @@ public class Jammy extends AbstractUIPlugin {
 				LOGIN_URL,
 				JammyPreferences.getLoginTargetURL(),
 				cookie -> {
-					this.executor = HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
+					try {
+						this.executor = HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
+					}
+					catch (final IOException | GeneralSecurityException e) {
+						EclipseUtils.showError(e);
+					}
 					JammySourceProvider.get().setLogged(true);	
 				});
 		dialog.open();
@@ -282,6 +292,7 @@ public class Jammy extends AbstractUIPlugin {
 				fireContestSelectionChanged(session.getContestInfo());
 			}
 			catch (final IOException e) {
+				e.printStackTrace();
 				EclipseUtils.showError(e);
 			}
 		}
@@ -399,6 +410,7 @@ public class Jammy extends AbstractUIPlugin {
 	/** {@inheritDoc} **/
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
+		loadCertificate();
 		JammyPreferences.load(getPreferenceStore());
 		loadLanguageManagers();
 		loadPluginState();
@@ -410,6 +422,20 @@ public class Jammy extends AbstractUIPlugin {
 		plugin = null;
 		savePluginState();
 		super.stop(context);
+	}
+
+	/** **/
+	private static final String CERTIFICATE_PATH = "google.jks";
+
+	/**
+	 * 
+	 * @throws IOException 
+	 * @throws GeneralSecurityException
+	 */
+	private void loadCertificate() throws IOException, GeneralSecurityException {
+		final KeyStore store = SecurityUtils.getJavaKeyStore();
+		final InputStream stream = FileLocator.openStream(getBundle(), new Path(CERTIFICATE_PATH), true);
+		SecurityUtils.loadKeyStore(store, stream, "notasecret");
 	}
 
 	/**
