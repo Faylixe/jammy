@@ -192,4 +192,18 @@
          </command>
       </menuContribution>
    </extension>
+    <extension
+          point="org.eclipse.ui.decorators">
+       <decorator
+             class="fr.faylixe.jammy.ui.view.ContestExplorerLabelDecorator"
+             id="fr.faylixe.jammy.ui.decorator"
+             label="Contest explorer decorator"
+             lightweight="true">
+          <enablement>
+             <objectClass
+                   name="fr.faylixe.googlecodejam.client.webservice.ProblemInput">
+             </objectClass>
+          </enablement>
+       </decorator>
+    </extension>
 </plugin>

@@ -8,10 +8,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.eclipse.core.runtime.CoreException;
@@ -22,6 +25,7 @@ import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
+import fr.faylixe.jammy.core.listener.IProblemStateListener;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.SubmissionException;
@@ -44,6 +48,12 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	/** Error message displayed when loading attempts mapping failed. **/
 	private static final String LOAD_FAIL = "An error occurs while loading problem attempt mapping";
 
+	/** Exception thrown when the loaded set is not valid. **/
+	private static final Exception SET_NOT_VALID = new Exception("An error occurs when loading solver state : Not valid passed set");
+
+	/** Exception thrown when the loaded map is not valid. **/
+	private static final Exception MAP_NOT_VALID = new Exception("An error occurs when loading solver state : Not valid attempt map");
+
 	/** Error message displayed when saving attempts mapping failed. **/
 	private static final String SAVE_FAIL = "An error occurs while saving problem attempt mapping";
 
@@ -59,6 +69,9 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	/** Problem submission that was successful. **/
 	private final Set<String> passed;
 
+	/** Listener for problem state; **/
+	private final List<IProblemStateListener> listeners;
+
 	/**
 	 * Default constructor.
 	 */
@@ -66,6 +79,32 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 		this.passed = new HashSet<>();
 		this.solvers = new ConcurrentHashMap<>();
 		this.attempts = new ConcurrentHashMap<>();
+		this.listeners = new ArrayList<>();
+	}
+
+	/**
+	 * Adds the given <tt>listener</tt> to this factory.
+	 * 
+	 * @param listener Listener to add.
+	 */
+	public void addListener(final IProblemStateListener listener) {
+		listeners.add(listener);
+	}
+
+	/**
+	 * Removes the given <tt>listener</tt> from this factory.
+	 * 
+	 * @param listener Listener to remove.
+	 */
+	public void removeListener(final IProblemStateListener listener) {
+		listeners.remove(listener);
+	}
+
+	/**
+	 * Notifies all listeners that problem state has changed.
+	 */
+	private void fireProblemStateChanged() {
+		listeners.forEach(IProblemStateListener::problemStateChanged);
 	}
 
 	/** {@inheritDoc} **/
@@ -132,45 +171,111 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	public void setProblemAttempt(final ProblemInput input, final int attempt) {
 		attempts.put(getKey(input), attempt);
 		saveState();
+		fireProblemStateChanged();
+	}
+
+	/**
+	 * Adds the given <tt>input</tt> to the passed set.
+	 * 
+	 * @param input Input to add.
+	 */
+	public void setPassed(final ProblemInput input) {
+		passed.add(getKey(input));
+		saveState();
+		fireProblemStateChanged();
+	}
+
+	/**
+	 * Indicates if the given <tt>input</tt> has been passed or not.
+	 *  
+	 * @param input Input to check if passed of not.
+	 * @return <tt>true</tt> if the given <tt>input</tt> is passed, <tt>false</tt> otherwise.
+	 */
+	public boolean isPassed(final ProblemInput input) {
+		return passed.contains(input);
 	}
 
 	/**
 	 * Loads the attempt mapping from the plugin state location.
 	 */
 	private void loadState() {
-		final IPath path = Jammy.getInstance().getStateLocation();
-		final IPath attemptPath = path.append(ATTEMPT_PATH);
-		final File file = attemptPath.toFile();
-		if (file.exists()) {
-			try {
-				final InputStream stream = new FileInputStream(file);
-				final Object object = SerializationUtils.deserialize(stream);
-				if (object instanceof Map) {
-					final Map<?, ?> attemptMap = (Map<?, ?>) object;
-					for (final Object key : attemptMap.keySet()) {
-						final int value = (int) attemptMap.get(key);
-						attempts.put(key.toString(), value);
-					}
-				}
-			}
-			catch (final IOException e) {
-				EclipseUtils.showError(LOAD_FAIL, e);
-			}
+		loadSerializedState(PASSED_PATH, this::loadPassed);
+		loadSerializedState(ATTEMPT_PATH, this::loadAttempt);
+		fireProblemStateChanged();
+	}
+	
+	/**
+	 * Loads the object from the given file <tt>name</tt> using
+	 * the given <tt>consumer</tt>.
+	 * 
+	 * @param name Name of the state file to load.
+	 * @param consumer Consumer that is in charge of loading the read object.
+	 */
+	private void loadSerializedState(final String name, final Consumer<Object> consumer) {
+		final IPath stateLocation = Jammy.getInstance().getStateLocation();
+		final IPath serializablePath = stateLocation.append(name);
+		final File file = serializablePath.toFile();
+		try (final InputStream stream = new FileInputStream(file)) {
+			final Object object = SerializationUtils.deserialize(stream);
+			consumer.accept(object);
+		}
+		catch (final IOException e) {
+			EclipseUtils.showError(LOAD_FAIL, e);
+		}
+	}
+	
+	/**
+	 * Loads passed set entry from the given <tt>object</tt>.
+	 * 
+	 * @param object Object to load passed set from.
+	 */
+	private void loadPassed(final Object object) {
+		if (!(object instanceof Set)) {
+			EclipseUtils.showError(SET_NOT_VALID);
+		}
+		final Set<?> set = (Set<?>) object;
+		for (final Object key : set) {
+			passed.add(key.toString());
+		}
+	}
+	
+	/**
+	 * Loads attempts map entry from the given <tt>object</tt>.
+	 * 
+	 * @param object Object to load attempts entry from.
+	 */
+	private void loadAttempt(final Object object) {
+		if (!(object instanceof Map)) {
+			EclipseUtils.showError(MAP_NOT_VALID);
+		}
+		final Map<?, ?> map = (Map<?, ?>) object;
+		for (final Object key : map.keySet()) {
+			final int value = (int) map.get(key);
+			attempts.put(key.toString(), value);
 		}
 	}
 	
 
 	/**
-	 * Saves the attempt mapping from the plugin state location.
+	 * Saves this factory state.
 	 */
 	private void saveState() {
-		final IPath path = Jammy.getInstance().getStateLocation();
-		final IPath passedPath = path.append(PASSED_PATH);
-		final IPath attemptPath = path.append(ATTEMPT_PATH);
-		final File file = attemptPath.toFile();
-		try {
-			final OutputStream stream = new FileOutputStream(file);
-			SerializationUtils.serialize((Serializable) attempts, stream);
+		saveSerializableState(PASSED_PATH, (Serializable) passed);
+		saveSerializableState(ATTEMPT_PATH, (Serializable) attempts);
+	}
+	
+	/**
+	 * Saves the given <tt>serializable</tt> to the plugin state.
+	 * 
+	 * @param name Name of the file to save.
+	 * @param serializable Serializable object to save.
+	 */
+	private void saveSerializableState(final String name, final Serializable serializable) {
+		final IPath stateLocation = Jammy.getInstance().getStateLocation();
+		final IPath serializablePath = stateLocation.append(name);
+		final File file = serializablePath.toFile();
+		try (final OutputStream stream = new FileOutputStream(file)) {
+			SerializationUtils.serialize(serializable, stream);
 		}
 		catch (final IOException e) {
 			EclipseUtils.showError(SAVE_FAIL, e);

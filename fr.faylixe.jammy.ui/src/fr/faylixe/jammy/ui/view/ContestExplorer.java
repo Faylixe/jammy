@@ -3,6 +3,7 @@ package fr.faylixe.jammy.ui.view;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
+import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -10,16 +11,18 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.core.command.OpenSolverCommand;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.IContestSelectionListener;
+import fr.faylixe.jammy.core.listener.IProblemStateListener;
 import fr.faylixe.jammy.ui.internal.ContestExplorerContentProvider;
-import fr.faylixe.jammy.ui.internal.ContestExplorerLabelDecorator;
 import fr.faylixe.jammy.ui.internal.ContestExplorerLabelProvider;
 
 /**
@@ -27,7 +30,7 @@ import fr.faylixe.jammy.ui.internal.ContestExplorerLabelProvider;
  * 
  * @author fv
  */
-public final class ContestExplorer extends ViewPart implements IContestSelectionListener, ISelectionChangedListener {
+public final class ContestExplorer extends ViewPart implements IContestSelectionListener, ISelectionChangedListener, IProblemStateListener {
 
 	/** Identifier of this view. **/
 	public static final String VIEW_ID = "fr.faylixe.jammy.view.contest";
@@ -40,19 +43,29 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 
 	/** Viewer instance this view expose. **/
 	private TableViewer viewer;
-
+	
 	/** {@inheritDoc} **/
 	@Override
 	public void createPartControl(final Composite parent) {
 		viewer = new TableViewer(parent);
 		viewer.setContentProvider(new ContestExplorerContentProvider());
-		viewer.setLabelProvider(new DecoratingLabelProvider(new ContestExplorerLabelProvider(), new ContestExplorerLabelDecorator()));
+		final ILabelDecorator decorator = PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator();
+		viewer.setLabelProvider(new DecoratingLabelProvider(new ContestExplorerLabelProvider(), decorator));
 		viewer.addDoubleClickListener(event -> {
 			EclipseUtils.executeCommand(OpenSolverCommand.ID);
 		});
 		viewer.addSelectionChangedListener(this);
 		createContextualMenu();
 		Jammy.getInstance().addContestSelectionListener(this);
+		ProblemSolverFactory.getInstance().addListener(this);
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void dispose() {
+		super.dispose();
+		Jammy.getInstance().removeContestSelectionListener(this);
+		ProblemSolverFactory.getInstance().removeListener(this);
 	}
 
 	/**
@@ -94,6 +107,14 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	public void setFocus() {
 		if (viewer != null) {
 			viewer.getControl().setFocus();
+		}
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void problemStateChanged() {
+		if (viewer != null) {
+			viewer.refresh();
 		}
 	}
 
