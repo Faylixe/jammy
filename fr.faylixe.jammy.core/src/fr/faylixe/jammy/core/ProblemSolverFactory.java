@@ -215,12 +215,14 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 		final IPath stateLocation = Jammy.getInstance().getStateLocation();
 		final IPath serializablePath = stateLocation.append(name);
 		final File file = serializablePath.toFile();
-		try (final InputStream stream = new FileInputStream(file)) {
-			final Object object = SerializationUtils.deserialize(stream);
-			consumer.accept(object);
-		}
-		catch (final IOException e) {
-			EclipseUtils.showError(LOAD_FAIL, e);
+		if (file.exists()) {
+			try (final InputStream stream = new FileInputStream(file)) {
+				final Object object = SerializationUtils.deserialize(stream);
+				consumer.accept(object);
+			}
+			catch (final IOException e) {
+				EclipseUtils.showError(LOAD_FAIL, e);
+			}
 		}
 	}
 	

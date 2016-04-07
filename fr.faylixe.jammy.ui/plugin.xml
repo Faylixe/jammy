@@ -31,8 +31,8 @@
       </command>
       <command
             categoryId="fr.faylixe.jammy.commands.category"
-            defaultHandler="fr.faylixe.jammy.ui.command.RunOnlineDatasetCommand"
-            description="Open submission wizard and starts submission."
+            defaultHandler="fr.faylixe.jammy.ui.command.RunInputCommand"
+            description="Run a submission for the given input selection."
             id="fr.faylixe.jammy.command.runonlinedataset"
             name="Run online dataset">
       </command>
@@ -161,6 +161,24 @@
                   label="Open"
                   style="push">
             </command>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="fr.faylixe.googlecodejam.client.webservice.Problem">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
          </menu>
          <menu
                label="Sample dataset">
@@ -174,11 +192,47 @@
                   label="Edit"
                   style="push">
             </command>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="fr.faylixe.googlecodejam.client.webservice.Problem">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
          </menu>
          <command
                commandId="fr.faylixe.jammy.command.runonlinedataset"
                label="Submit"
                style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="fr.faylixe.googlecodejam.client.webservice.ProblemInput">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
          </command>
       </menuContribution>
       <menuContribution

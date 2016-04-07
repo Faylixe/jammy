@@ -8,7 +8,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
@@ -42,12 +42,12 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	public static final String MENU_CONTRIBUTION = "contest.contribution";
 
 	/** Viewer instance this view expose. **/
-	private TableViewer viewer;
+	private TreeViewer viewer;
 	
 	/** {@inheritDoc} **/
 	@Override
 	public void createPartControl(final Composite parent) {
-		viewer = new TableViewer(parent);
+		viewer = new TreeViewer(parent);
 		viewer.setContentProvider(new ContestExplorerContentProvider());
 		final ILabelDecorator decorator = PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator();
 		viewer.setLabelProvider(new DecoratingLabelProvider(new ContestExplorerLabelProvider(), decorator));
@@ -96,8 +96,8 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	/** {@inheritDoc} **/
 	@Override
 	public void contestSelected(final ContestInfo contestInfo) {
-		if (viewer != null && !viewer.getTable().isDisposed()) {
-			viewer.setInput(contestInfo.getProblems());
+		if (viewer != null && !viewer.getTree().isDisposed()) {
+			viewer.setInput(contestInfo);
 			viewer.setSelection(new StructuredSelection(contestInfo.getProblems().get(0)));
 		}
 	}

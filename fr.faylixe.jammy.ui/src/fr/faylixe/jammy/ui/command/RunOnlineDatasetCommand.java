@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;
@@ -30,6 +31,7 @@ public final class RunOnlineDatasetCommand extends AbstractProgressiveSolverComm
 	/** {@inheritDoc} **/
 	@Override
 	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
+		// HandlerUtil.getActiveMenuSelection(get);
 		Display.getDefault().asyncExec(() -> {
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final Shell shell = workbench.getActiveWorkbenchWindow().getShell();

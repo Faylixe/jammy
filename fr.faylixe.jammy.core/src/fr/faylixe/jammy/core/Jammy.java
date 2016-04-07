@@ -53,6 +53,9 @@ public class Jammy extends AbstractUIPlugin {
 	/** Path of the contest state which is save when plugin is stopped. **/
 	private static final String CONTEST_STATE = "current.contest";
 
+	/** Initial login URL to navigate to with web driver. **/
+	private static final String LOGIN_URL = "https://www.google.com/accounts/ServiceLogin?service=ah&passive=true&continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3D";
+
 	/** Exception thrown when login failed. **/
 	private static final IOException LOGIN_EXCEPTION = new IOException("Cannot retrieve contest list : not authenticated.");
 
@@ -207,8 +210,12 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return <tt>true</tt> if the login was a success, <tt>false</tt> otherwise.
 	 */
 	public boolean login() {
+		final String url = new StringBuilder(LOGIN_URL)
+			.append(Request.getHostname())
+			.append("/codejam")
+			.toString();
 		final Dialog dialog = new LoginDialog(null,
-				Request.getHostname(),
+				url,
 				JammyPreferences.getLoginTargetURL(),
 				cookie -> {
 					try {
