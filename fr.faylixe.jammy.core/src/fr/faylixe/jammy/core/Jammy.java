@@ -26,6 +26,7 @@ import fr.faylixe.googlecodejam.client.CodeJamSession;
 import fr.faylixe.googlecodejam.client.Contest;
 import fr.faylixe.googlecodejam.client.Round;
 import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
+import fr.faylixe.googlecodejam.client.executor.Request;
 import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
@@ -48,9 +49,6 @@ public class Jammy extends AbstractUIPlugin {
 
 	/** Plugin ID. **/
 	public static final String PLUGIN_ID = "fr.faylixe.core.jammy";
-
-	/** Initial login URL to navigate to with web driver. **/
-	private static final String LOGIN_URL = "https://www.google.com/accounts/ServiceLogin?service=ah&passive=true&continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttps://code.google.com/codejam&ltmpl=";
 
 	/** Path of the contest state which is save when plugin is stopped. **/
 	private static final String CONTEST_STATE = "current.contest";
@@ -90,6 +88,9 @@ public class Jammy extends AbstractUIPlugin {
 	 * by user and which acts as the contextual problem.
 	 */
 	private Problem selectedProblem;
+
+	/** **/
+	private String cookie;
 
 	/**
 	 * Default constructor
@@ -207,10 +208,11 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	public boolean login() {
 		final Dialog dialog = new LoginDialog(null,
-				LOGIN_URL,
+				Request.getHostname(),
 				JammyPreferences.getLoginTargetURL(),
 				cookie -> {
 					try {
+						this.cookie = cookie;
 						this.executor = HttpRequestExecutor.create(JammyPreferences.getHostname(), cookie);
 					}
 					catch (final IOException | GeneralSecurityException e) {
@@ -221,6 +223,15 @@ public class Jammy extends AbstractUIPlugin {
 		dialog.open();
 		return executor != null;
 	}
+	
+	/**
+	 * Getter for the SACSID cookie.
+	 * 
+	 * @return Cookie value is logged, <tt>false</tt> otherwise.
+	 */
+	public String getCookie() {
+		return cookie;
+	}
 
 	/**
 	 * Destroy the current session. 
@@ -228,6 +239,7 @@ public class Jammy extends AbstractUIPlugin {
 	public void logout() {
 		this.executor = null;
 		this.session = null;
+		this.cookie = null;
 		// TODO : Call session listener.
 		JammySourceProvider.get().setLogged(false);
 	}

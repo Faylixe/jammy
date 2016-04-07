@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -12,8 +13,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.faylixe.googlecodejam.client.CodeJamSession;
+import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.googlecodejam.client.webservice.SubmitResponse;
 import fr.faylixe.jammy.core.Jammy;
+import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.ISessionListener;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
@@ -37,11 +40,15 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 	/** **/
 	private CodeJamSession session;
 
+	/** **/
+	private final AtomicBoolean locked;
+
 	/**
 	 * Default constructor.
 	 * 
 	 */
 	public SubmissionService() {
+		this.locked = new AtomicBoolean(false);
 		this.listeners = new ArrayList<ISubmissionListener>();
 		Jammy.getInstance().addSessionListener(this);
 	}
@@ -100,7 +107,9 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 		if (session == null) {
 			throw SESSION_NOT_PRESENT;
 		}
-		return session.buildFilename(submission.getProblemInput());
+		final ProblemInput input = submission.getProblemInput();
+		final int attempt = ProblemSolverFactory.getInstance().getProblemAttempt(input);
+		return session.buildFilename(input, attempt);
 	}
 
 	/** {@inheritDoc} **/
@@ -109,7 +118,9 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 		if (session == null) {
 			throw SESSION_NOT_PRESENT;
 		}
-		final InputStream stream = session.download(submission.getProblemInput());
+		final ProblemInput input = submission.getProblemInput();
+		final int attempt = ProblemSolverFactory.getInstance().getProblemAttempt(input);
+		final InputStream stream = session.download(input, attempt);
 		final IFolder folder = submission.getSolver().getDatasetFolder();
 		final IFile file = folder.getFile(buildFilename(submission));
 		try {
@@ -139,6 +150,18 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 		catch (final CoreException e) {
 			throw new IOException(e);
 		}
+	}
+	
+	/** {@inheritDoc} **/
+	@Override
+	public synchronized boolean lock() {
+		return true;
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void unlock() {
+		
 	}
 
 }

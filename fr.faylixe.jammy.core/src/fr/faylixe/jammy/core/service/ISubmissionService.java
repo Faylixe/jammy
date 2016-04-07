@@ -85,6 +85,16 @@ public interface ISubmissionService {
 	
 	/**
 	 * 
+	 */
+	boolean lock();
+
+	/**
+	 * 
+	 */
+	void unlock();
+
+	/**
+	 * 
 	 * @return
 	 */
 	static ISubmissionService get() {

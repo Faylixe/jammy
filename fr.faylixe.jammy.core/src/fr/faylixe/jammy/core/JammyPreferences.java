@@ -101,7 +101,7 @@ public final class JammyPreferences {
 	 */
 	public static void load(final IPreferenceStore store) {
 		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(Jammy.PLUGIN_ID);
-		store.setValue(HOSTNAME_PROPERTY, node.get(HOSTNAME_PROPERTY, Request.DEFAULT_HOSTNAME));
+		store.setValue(HOSTNAME_PROPERTY, node.get(HOSTNAME_PROPERTY, Request.getHostname()));
 		store.setValue(LANGUAGE_PROPERTY, node.get(LANGUAGE_PROPERTY, DEFAULT_LANGUAGE));
 		store.addPropertyChangeListener(JammyPreferences::propertyChange);
 	}

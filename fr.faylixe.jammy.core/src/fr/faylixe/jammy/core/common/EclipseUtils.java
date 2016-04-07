@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -58,6 +59,9 @@ public final class EclipseUtils {
 
 	/** Default name used by job created by {@link #createUIJob(IJobFunction)} method. **/
 	private static final String DEFAULT_JOB_NAME = "Jammy job";
+
+	/** **/
+	private static final String NOT_NUMBER = "Input should be a number only";
 
 	/** {@link NullProgressMonitor} instance shared in order to avoid instance duplication. **/
 	public static final IProgressMonitor NULL_MONITOR = new NullProgressMonitor();
@@ -285,6 +289,21 @@ public final class EclipseUtils {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		final Display display = workbench.getDisplay();
 		return display.getActiveShell();
+	}
+
+	/**
+	 * Functional method that acts as {@link IInputValidator} instance.
+	 * 
+	 * @param input Input text to validate.
+	 * @return <tt>null</tt> if the given <tt>text</tt> is a valid number, otherwise an error message.
+	 */
+	public static String isNumberValid(final String input) {
+		for (final char character : input.toCharArray()) {
+			if (!Character.isDigit(character)) {
+				return NOT_NUMBER;
+			}
+		}
+		return null;
 	}
 
 }

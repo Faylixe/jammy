@@ -20,7 +20,7 @@ import fr.faylixe.jammy.ui.wizard.contest.ContestWizard;
  * 
  * @author fv
  */
-public final class ContestSelectionCommand extends AbstractHandler {
+public final class ArchiveContestSelectionCommand extends AbstractHandler {
 
 	/** Command identifier. **/
 	public static final String ID = "fr.faylixe.jammy.command.contestselection";

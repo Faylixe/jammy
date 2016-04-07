@@ -5,10 +5,15 @@
          point="org.eclipse.ui.commands">
       <command
             categoryId="fr.faylixe.jammy.commands.category"
-            defaultHandler="fr.faylixe.jammy.ui.command.ContestSelectionCommand"
+            defaultHandler="fr.faylixe.jammy.ui.command.ArchiveContestSelectionCommand"
             description="Start the contest selection wizard"
             id="fr.faylixe.jammy.command.contestselection"
             name="Select contest">
+      </command>
+      <command
+            defaultHandler="fr.faylixe.jammy.ui.command.IdentifierContestSelectionCommand"
+            id="fr.faylixe.jammy.command.identifiercontestselection"
+            name="Select the current round using contest id">
       </command>
       <command
             categoryId="fr.faylixe.jammy.commands.category"
@@ -94,11 +99,56 @@
          <menu
                label="Jammy">
             <command
-                  commandId="fr.faylixe.jammy.command.contestselection"
-                  id="fr.faylixe.jammy.contribution.select.contest"
-                  label="Select contest"
+                  commandId="fr.faylixe.jammy.command.login"
+                  label="Login"
                   style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="fr.faylixe.jammy.logged">
+                     <equals
+                           value="false">
+                     </equals>
+                  </with>
+               </visibleWhen>
             </command>
+            <command
+                  commandId="fr.faylixe.jammy.command.logout"
+                  label="Logout"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="fr.faylixe.jammy.logged">
+                     <equals
+                           value="true">
+                     </equals>
+                  </with>
+               </visibleWhen>
+            </command>
+            <menu
+                  label="Contest">
+               <command
+                     commandId="fr.faylixe.jammy.command.contestselection"
+                     id="fr.faylixe.jammy.contribution.select.contest"
+                     label="Select from archive"
+                     style="push">
+               </command>
+               <command
+                     commandId="fr.faylixe.jammy.command.identifiercontestselection"
+                     label="Select from contest id"
+                     style="push">
+               </command>
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="fr.faylixe.jammy.logged">
+                     <equals
+                           value="true">
+                     </equals>
+                  </with>
+               </visibleWhen>
+            </menu>
          </menu>
       </menuContribution>
       <menuContribution

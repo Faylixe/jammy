@@ -92,7 +92,7 @@ public final class ProblemSolver extends NamedObject {
 	 */
 	public IProject getProject() {
 		return solver.getProject();
-	} 
+	}
 
 	/**
 	 * Getter for the solver sample dataset.

@@ -2,6 +2,7 @@ package fr.faylixe.jammy.ui.view;
 
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -17,8 +18,9 @@ import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.command.OpenSolverCommand;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.listener.IContestSelectionListener;
-import fr.faylixe.jammy.ui.internal.NamedObjectContentProvider;
-import fr.faylixe.jammy.ui.internal.NamedObjectLabelProvider;
+import fr.faylixe.jammy.ui.internal.ContestExplorerContentProvider;
+import fr.faylixe.jammy.ui.internal.ContestExplorerLabelDecorator;
+import fr.faylixe.jammy.ui.internal.ContestExplorerLabelProvider;
 
 /**
  * View that exposes currently selected contest's available problem.
@@ -43,8 +45,8 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 	@Override
 	public void createPartControl(final Composite parent) {
 		viewer = new TableViewer(parent);
-		viewer.setContentProvider(NamedObjectContentProvider.getInstance());
-		viewer.setLabelProvider(NamedObjectLabelProvider.getInstance());
+		viewer.setContentProvider(new ContestExplorerContentProvider());
+		viewer.setLabelProvider(new DecoratingLabelProvider(new ContestExplorerLabelProvider(), new ContestExplorerLabelDecorator()));
 		viewer.addDoubleClickListener(event -> {
 			EclipseUtils.executeCommand(OpenSolverCommand.ID);
 		});
