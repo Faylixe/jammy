@@ -1,10 +1,10 @@
 package fr.faylixe.jammy.core.service;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
@@ -19,7 +19,7 @@ import fr.faylixe.jammy.core.ProblemSolver;
  * 
  * @author fv
  */
-public interface ISubmission extends ISchedulingRule {
+public interface ISubmission {
 
 	/**
 	 * Indicates if this submission has run successfully or not.
@@ -68,18 +68,6 @@ public interface ISubmission extends ISchedulingRule {
 	 */
 	String getName();
 
-	/** {@inheritDoc} **/
-	@Override
-	default boolean isConflicting(final ISchedulingRule rule) {
-		return rule instanceof ISubmission;
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	default boolean contains(final ISchedulingRule rule) {
-		return false;
-	}
-
 	/**
 	 * 
 	 * @param submission
@@ -89,7 +77,7 @@ public interface ISubmission extends ISchedulingRule {
 			submission.start(submissionMonitor);
 			return Status.OK_STATUS;
 		});
-		job.setRule(submission);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 

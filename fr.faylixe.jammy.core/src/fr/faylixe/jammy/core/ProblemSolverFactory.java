@@ -28,7 +28,9 @@ import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
 import fr.faylixe.jammy.core.listener.IProblemStateListener;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.service.ISubmission;
+import fr.faylixe.jammy.core.service.OnlineSubmission;
 import fr.faylixe.jammy.core.service.SubmissionException;
+import fr.faylixe.jammy.core.service.SubmissionException.Type;
 
 /**
  * <p>{@link ProblemSolverFactory} is a singleton
@@ -303,13 +305,17 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	/** {@inheritDoc} **/
 	@Override
 	public void errorCaught(final ISubmission submission, final SubmissionException error) {
-		// Do nothing.
+		if (submission instanceof OnlineSubmission && Type.FAIL.equals(error.getType())) {
+			final ProblemInput input = submission.getProblemInput();
+			final int attempt = getProblemAttempt(input);
+			setProblemAttempt(input, attempt + 1);
+		}
 	}
 	
 	/** {@inheritDoc} **/
 	@Override
 	public void submissionStarted(final ISubmission submission) {
-		// TODO : Start timer.
+		// Do nothing.
 	}
 
 	/** {@inheritDoc} **/
@@ -320,14 +326,17 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 
 	/** {@inheritDoc} **/
 	@Override
-	public void submissionFinished(final ISubmission submission) {
+	public void executionFinished(final ISubmission submission) {
 		// Do nothing.
 	}
 
 	/** {@inheritDoc} **/
 	@Override
-	public void executionFinished(final ISubmission submission) {
-		// Do nothing.
+	public void submissionFinished(final ISubmission submission) {
+		if (submission instanceof OnlineSubmission) {
+			// Submission is a success here : we mark the problem input as passed.
+			setPassed(submission.getProblemInput());
+		}
 	}
 
 }

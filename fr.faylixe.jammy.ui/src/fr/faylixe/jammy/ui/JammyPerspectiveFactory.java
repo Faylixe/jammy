@@ -38,7 +38,7 @@ public final class JammyPerspectiveFactory implements IPerspectiveFactory {
 		final String editor = layout.getEditorArea();
 		// Create left views.
 		final IFolderLayout left = layout.createFolder(NAVIGATOR_ID, IPageLayout.LEFT, 0.26f, editor);
-		left.addView(ContestExplorer.VIEW_ID);
+		left.addView(ContestExplorer.ID);
 		left.addView(SubmissionView.ID);
 		// Create bottom views.
 		final IFolderLayout bottom = layout.createFolder(VIEW_ID, IPageLayout.BOTTOM, 0.60f, editor);
@@ -52,7 +52,7 @@ public final class JammyPerspectiveFactory implements IPerspectiveFactory {
 	 * @param layout Layout instance to use for configuring created perspective.
 	 */
 	private void addViewShortcut(final IPageLayout layout) {
-		layout.addShowViewShortcut(ContestExplorer.VIEW_ID);
+		layout.addShowViewShortcut(ContestExplorer.ID);
 		layout.addShowViewShortcut(ProblemView.ID);
 	}
 

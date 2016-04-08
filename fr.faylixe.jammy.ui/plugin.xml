@@ -64,7 +64,7 @@
       </view>
       <view
             category="fr.faylixe.jammy.view.category"
-            class="fr.faylixe.jammy.ui.view.Explorer"
+            class="fr.faylixe.jammy.ui.view.ContestExplorer"
             icon="icons/view/contest.png"
             id="fr.faylixe.jammy.view.contest"
             name="Contest Explorer"

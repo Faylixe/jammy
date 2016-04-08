@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.googlecodejam.client.webservice.SubmitResponse;
 import fr.faylixe.jammy.core.ProblemSolver;
-import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;
+import fr.faylixe.jammy.core.service.SubmissionException.Type;
 
 /**
  * <p>Online submission that consists in downloading problem input,
@@ -73,13 +73,13 @@ public final class OnlineSubmission extends AbstractSubmission {
 		try {
 			final SubmitResponse response = service.submit(this);
 			if (!response.isSuccess()) {
-				service.fireErrorCaught(this, new SubmissionException(response.getMessage()));
+				service.fireErrorCaught(this, new SubmissionException(response.getMessage(), Type.FAIL));
 				return false;
 			}
 			return true;
 		}
 		catch (final IOException e) {
-			service.fireErrorCaught(this, new SubmissionException(e));
+			service.fireErrorCaught(this, new SubmissionException(e, Type.ERROR));
 			return false;
 		}
 	}
@@ -94,7 +94,7 @@ public final class OnlineSubmission extends AbstractSubmission {
 			run(file.getLocation().toOSString(), monitor);
 		}
 		catch (final IOException | CoreException e) {
-			service.fireErrorCaught(this, new SubmissionException(e));
+			service.fireErrorCaught(this, new SubmissionException(e, Type.ERROR));
 		}
 	}
 

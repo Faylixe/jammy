@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.core.internal.submission;
+package fr.faylixe.jammy.core.service;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -15,8 +15,6 @@ import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.service.ISubmission;
-import fr.faylixe.jammy.core.service.ISubmissionService;
 
 /**
  * Abstract {@link ISubmission} implementation that language extension

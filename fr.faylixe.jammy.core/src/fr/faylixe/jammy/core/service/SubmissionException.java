@@ -12,6 +12,21 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
  */
 public final class SubmissionException extends Exception implements Runnable {
 
+	/**
+	 * Enumeration of exception type.
+	 * 
+	 * @author fv
+	 */
+	public static enum Type {
+		
+		/** Error during the submission process. **/
+		ERROR,
+
+		/** Fail indicates an error in the submission data. **/
+		FAIL
+
+	}
+
 	/** Serialization index. **/
 	private static final long serialVersionUID = 1L;
 
@@ -21,13 +36,17 @@ public final class SubmissionException extends Exception implements Runnable {
 	/** Delegate runnable instance used. **/
 	private final Runnable delegate;
 
+	/** Error type. **/
+	private final Type type;
+
 	/**
 	 * Message based constructor with no callback action.
 	 * 
 	 * @param message Error message.
+	 * @param type Error type.
 	 * @see Exception#Exception(String)
 	 */
-	public SubmissionException(final String message) {
+	public SubmissionException(final String message, final Type type) {
 		super(message);
 		this.delegate = () -> {
 			MessageDialog.openError(
@@ -35,15 +54,17 @@ public final class SubmissionException extends Exception implements Runnable {
 					ERROR_TITLE,
 					message);
 		};
+		this.type = type;
 	}
 
 	/**
 	 * {@link Throwable} based constructor with no callback action.
 	 * 
 	 * @param throwable Exception wrapped by this one.
+	 * @param type Error type.
 	 * @see Exception#Exception(Throwable)
 	 */
-	public SubmissionException(final Throwable throwable) {
+	public SubmissionException(final Throwable throwable, final Type type) {
 		super(throwable);
 		this.delegate = () -> {
 			MessageDialog.openError(
@@ -51,6 +72,7 @@ public final class SubmissionException extends Exception implements Runnable {
 					ERROR_TITLE, 
 					throwable.getMessage());
 		};
+		this.type = type;
 	}
 	
 	/**
@@ -59,16 +81,27 @@ public final class SubmissionException extends Exception implements Runnable {
 	 * 
 	 * @param message Error message.
 	 * @param action Delegate instance to used when {@link #run()} method is called.
+	 * @param type Error type.
 	 */
-	public SubmissionException(final String message, final Runnable delegate) {
+	public SubmissionException(final String message, final Runnable delegate, final Type type) {
 		super(message);
 		this.delegate = delegate;
+		this.type = type;
 	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void run() {
 		delegate.run();
+	}
+
+	/**
+	 * Type getter.
+	 * 
+	 * @return Error type.
+	 */
+	public Type getType() {
+		return type;
 	}
 
 }

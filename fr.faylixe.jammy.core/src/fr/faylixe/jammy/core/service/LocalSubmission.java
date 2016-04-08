@@ -12,8 +12,8 @@ import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSampleDataset;
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.common.EclipseUtils;
-import fr.faylixe.jammy.core.internal.submission.AbstractSubmission;
-import fr.faylixe.jammy.core.internal.submission.SubmissionCompareEditorInput;
+import fr.faylixe.jammy.core.internal.SubmissionCompareEditorInput;
+import fr.faylixe.jammy.core.service.SubmissionException.Type;
 
 /**
  * <p>Submission that aims to use local dataset file.</p>
@@ -35,7 +35,7 @@ public final class LocalSubmission extends AbstractSubmission {
 	private static final String OUTPUT_MISMATCH = "Solver output does not match the expected one.";
 
 	/** Exception thrown when local input file is not found. **/
-	private static final SubmissionException FILE_NOT_EXIST = new SubmissionException("Sample input file not found.");
+	private static final SubmissionException FILE_NOT_EXIST = new SubmissionException("Sample input file not found.", Type.ERROR);
 
 	/**
 	 * Static factory that build submission name based
@@ -77,7 +77,7 @@ public final class LocalSubmission extends AbstractSubmission {
 				run(input.getLocation().toOSString(), monitor);
 			}
 			catch (final CoreException e) {
-				service.fireErrorCaught(this, new SubmissionException(e));
+				service.fireErrorCaught(this, new SubmissionException(e, Type.ERROR));
 			}
 		}
 		else {
@@ -102,13 +102,13 @@ public final class LocalSubmission extends AbstractSubmission {
 			if (!EclipseUtils.isFileEquals(expected, actual)) {
 				service.fireErrorCaught(this, new SubmissionException(OUTPUT_MISMATCH, () -> {
 					CompareUI.openCompareDialog(SubmissionCompareEditorInput.create(actual, expected));
-				}));
+				}, Type.FAIL));
 				return false;
 			}
 			return true;
 		}
 		catch (final IOException | CoreException e) {
-			service.fireErrorCaught(this, new SubmissionException(e));
+			service.fireErrorCaught(this, new SubmissionException(e, Type.ERROR));
 			return false;
 		}
 	}
