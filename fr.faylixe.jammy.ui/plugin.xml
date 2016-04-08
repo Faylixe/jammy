@@ -179,32 +179,6 @@
             allPopups="false"
             locationURI="popup:fr.faylixe.jammy.view.contest?after=additions">
          <menu
-               label="Solver">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="selection">
-                  <and>
-                     <count
-                           value="1">
-                     </count>
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="fr.faylixe.googlecodejam.client.webservice.Problem">
-                        </instanceof>
-                     </iterate>
-                  </and>
-               </with>
-            </visibleWhen>
-            <command
-                  commandId="fr.faylixe.jammy.command.opensolver"
-                  label="Open"
-                  style="push">
-            </command>
-         </menu>
-         <menu
                label="Sample dataset">
             <visibleWhen
                   checkEnabled="false">
@@ -270,6 +244,29 @@
                            operator="and">
                         <instanceof
                               value="fr.faylixe.googlecodejam.client.webservice.ProblemInput">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="fr.faylixe.jammy.command.opensolver"
+               label="Open solver"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="fr.faylixe.googlecodejam.client.webservice.Problem">
                         </instanceof>
                      </iterate>
                   </and>

@@ -54,6 +54,12 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	/** Dataset output file. **/
 	private final IFile output;
 
+	/** Input editor element. **/
+	private Element inputElement;
+
+	/** Output editor element. **/
+	private Element outputElement;
+
 	/**
 	 * Item wrapper class for compared file.
 	 * 
@@ -97,7 +103,7 @@ public final class DatasetEditorInput extends CompareEditorInput {
 		public InputStream createStream() throws CoreException {
 			return file.getContents();
 		}
-		
+
 	}
 
 	/**
@@ -118,7 +124,20 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	/** {@inheritDoc} **/
 	@Override
 	protected Object prepareInput(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		return new DiffNode(null, Differencer.NO_CHANGE, null, new Element(input), new Element(output));
+		this.inputElement = new Element(input);
+		this.outputElement = new Element(output);
+		return new DiffNode(null, Differencer.NO_CHANGE, null, inputElement, outputElement);
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	public void saveChanges(final IProgressMonitor monitor) throws CoreException {
+		if (inputElement != null) {
+			input.setContents(inputElement.getContents(), true, true, monitor);
+		}
+		if (outputElement != null) {
+			output.setContents(outputElement.getContents(), true, true, monitor);
+		}
 	}
 
 	/**
