@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
@@ -18,7 +19,7 @@ import fr.faylixe.jammy.core.ProblemSolver;
  * 
  * @author fv
  */
-public interface ISubmission {
+public interface ISubmission extends ISchedulingRule {
 
 	/**
 	 * Indicates if this submission has run successfully or not.
@@ -67,18 +68,28 @@ public interface ISubmission {
 	 */
 	String getName();
 
+	/** {@inheritDoc} **/
+	@Override
+	default boolean isConflicting(final ISchedulingRule rule) {
+		return rule instanceof ISubmission;
+	}
+
+	/** {@inheritDoc} **/
+	@Override
+	default boolean contains(final ISchedulingRule rule) {
+		return false;
+	}
+
 	/**
 	 * 
 	 * @param submission
 	 */
 	static void runAsJob(final ISubmission submission) {
-		// TODO : 	Implements ISchedulingRule in order to avoid submission conflict.
-		// 			Consider down the job layer with rule to the submit() method (even with submission service).
-		final Job job = Job.create("", submissionMonitor -> { // TODO : Add job name
+		final Job job = Job.create(submission.getName(), submissionMonitor -> {
 			submission.start(submissionMonitor);
 			return Status.OK_STATUS;
 		});
-		//job.setRule(this);
+		job.setRule(submission);
 		job.schedule();
 	}
 

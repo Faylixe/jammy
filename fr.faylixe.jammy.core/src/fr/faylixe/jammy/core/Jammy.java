@@ -92,7 +92,7 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	private Problem selectedProblem;
 
-	/** **/
+	/** SACSID Cookie instance. **/
 	private String cookie;
 
 	/**
@@ -212,7 +212,7 @@ public class Jammy extends AbstractUIPlugin {
 	public boolean login() {
 		final String url = new StringBuilder(LOGIN_URL)
 			.append(Request.getHostname())
-			.append("/codejam")
+			.append(JammyPreferences.TARGET_PAGE)
 			.toString();
 		final Dialog dialog = new LoginDialog(null,
 				url,

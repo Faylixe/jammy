@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -40,15 +39,10 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 	/** **/
 	private CodeJamSession session;
 
-	/** **/
-	private final AtomicBoolean locked;
-
 	/**
 	 * Default constructor.
-	 * 
 	 */
 	public SubmissionService() {
-		this.locked = new AtomicBoolean(false);
 		this.listeners = new ArrayList<ISubmissionListener>();
 		Jammy.getInstance().addSessionListener(this);
 	}
@@ -150,18 +144,6 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 		catch (final CoreException e) {
 			throw new IOException(e);
 		}
-	}
-	
-	/** {@inheritDoc} **/
-	@Override
-	public synchronized boolean lock() {
-		return true;
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	public void unlock() {
-		
 	}
 
 }

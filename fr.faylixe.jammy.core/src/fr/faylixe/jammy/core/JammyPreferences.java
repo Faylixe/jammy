@@ -22,6 +22,9 @@ import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
  */
 public final class JammyPreferences {
 
+	/** **/
+	public static final String TARGET_PAGE = "/codejam";
+
 	/** Preference key for the target host name.  **/
 	public static final String HOSTNAME_PROPERTY = "fr.faylixe.jammy.hostname";
 
@@ -33,9 +36,6 @@ public final class JammyPreferences {
 
 	/** Error message displayed when an error occurs while saving preferences. **/
 	private static final String PREFERENCE_SAVE_ERROR = "An unexpected error occurs while saving Jammy preferences.";
-
-	/** **/
-	private static final String TARGET_PAGE = "/codejam";
 
 	/** Collection of listener that would be notified when current language manager is changing. **/
 	private static final List<ILanguageManagerListener> LISTENERS = new ArrayList<ILanguageManagerListener>();

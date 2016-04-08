@@ -82,16 +82,6 @@ public interface ISubmissionService {
 	 * @return
 	 */
 	String buildFilename(ISubmission input) throws IOException;
-	
-	/**
-	 * 
-	 */
-	boolean lock();
-
-	/**
-	 * 
-	 */
-	void unlock();
 
 	/**
 	 * 

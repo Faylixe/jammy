@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.Jammy;

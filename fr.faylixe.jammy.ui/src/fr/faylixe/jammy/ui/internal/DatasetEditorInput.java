@@ -14,6 +14,7 @@ import org.eclipse.compare.structuremergeviewer.Differencer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IReusableEditor;
 import org.eclipse.ui.IWorkbenchPage;
@@ -31,6 +32,12 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
  * @author fv
  */
 public final class DatasetEditorInput extends CompareEditorInput {
+
+	/** Error title displayed when sample dataset can not be found. **/
+	private static final String DATASET_NOT_FOUND_TITLE = "Sample dataset not found";
+
+	/** Error message displayed when sample dataset can not be found. **/
+	private static final String DATASET_NOT_FOUND_MESSAGE = "The sample dataset is not available for this problem";
 
 	/** Editor title. **/
 	private static final String TITLE = "%s - Dataset";
@@ -122,6 +129,10 @@ public final class DatasetEditorInput extends CompareEditorInput {
 	 * @return Created input instance.
 	 */
 	public static void openFrom(final ProblemSolver solver) {
+		if (solver.getSampleDataset() == null) {
+			MessageDialog.openError(EclipseUtils.getActiveShell(), DATASET_NOT_FOUND_TITLE, DATASET_NOT_FOUND_MESSAGE);
+			return;
+		}
 		final CompareConfiguration configuration = new CompareConfiguration();
 		configuration.setLeftEditable(true);
 		configuration.setRightEditable(true);

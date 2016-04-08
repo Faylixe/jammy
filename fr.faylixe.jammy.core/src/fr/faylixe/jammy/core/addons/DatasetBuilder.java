@@ -7,8 +7,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +14,6 @@ import org.jsoup.select.Elements;
 
 import fr.faylixe.googlecodejam.client.common.HTMLConstant;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
-import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSampleDataset;
 
 /**
@@ -38,9 +35,6 @@ public final class DatasetBuilder {
 
 	/** Number of row used for dataset extraction. **/
 	private static final int DATASET_ROW = 2;
-
-	/** Error status thrown when problem dataset could not be found. **/
-	private static final IStatus IO_NOT_FOUND = new Status(IStatus.ERROR, Jammy.PLUGIN_ID, "Problem dataset not found");
 
 	/** Monitor instance used for project creation. **/
 	private final IProgressMonitor monitor;
@@ -96,17 +90,16 @@ public final class DatasetBuilder {
 	 * Extracts and returns the dataset from the problem body.
 	 * 
 	 * @return HTML row element that contains our problem dataset.
-	 * @throws CoreException If any error occurs while extracing dataset.
 	 */
-	private Element extractDataset() throws CoreException {
+	private Element extractDataset() {
 		final Document document = (Document) Jsoup.parse(problem.getBody());
 		final Elements problemIO = document.getElementsByClass(IO_CLASSNAME);
 		if (problemIO.isEmpty()) {
-			throw new CoreException(IO_NOT_FOUND);
+			return null;
 		}
 		final Elements row = problemIO.first().getElementsByTag(HTMLConstant.TR);
 		if (row.size() < DATASET_ROW) {
-			throw new CoreException(IO_NOT_FOUND);
+			return null;
 		}
 		return row.get(1);
 		
@@ -123,9 +116,12 @@ public final class DatasetBuilder {
 		final IFile output = getFile(DATASET_OUTPUT_SUFFIX);
 		if (!input.exists() || !output.exists()) {
 			final Element row = extractDataset();
+			if (row == null) {
+				return null;
+			}
 			final Elements io = row.getElementsByTag(HTMLConstant.TD);
 			if (io.size() < DATASET_ROW) {
-				throw new CoreException(IO_NOT_FOUND);
+				return null;
 			}
 			createFile(input, io.first().text());
 			createFile(output, io.get(1).text());

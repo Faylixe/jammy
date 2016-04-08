@@ -67,6 +67,10 @@ public final class LocalSubmission extends AbstractSubmission {
 		final ISubmissionService service = getService();
 		service.fireSubmissionStarted(this);
 		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
+		if (dataset == null) {
+			service.fireErrorCaught(this, FILE_NOT_EXIST);
+			return;
+		}
 		final IFile input = dataset.getInput();
 		if (input.exists()) {
 			try {
@@ -85,7 +89,12 @@ public final class LocalSubmission extends AbstractSubmission {
 	@Override
 	public boolean submit(final IProgressMonitor monitor) {
 		final ISubmissionService service = getService();
-		final IFile expected = getSolver().getSampleDataset().getOutput();
+		final ProblemSampleDataset dataset = getSolver().getSampleDataset();
+		if (dataset == null) {
+			service.fireErrorCaught(this, FILE_NOT_EXIST);
+			return false;
+		}
+		final IFile expected = dataset.getOutput();
 		try {
 			final IFile actual = getOutputFile();
 			expected.refreshLocal(IResource.DEPTH_INFINITE, monitor);
