@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.navigator.CommonViewer;
 
@@ -25,6 +26,9 @@ public final class ContestExplorer extends CommonNavigator  implements IContestS
 	/** View identifier. **/
 	public static final String ID = "fr.faylixe.jammy.view.contest";
 
+	/** Explorer root input. **/
+	private Object input;
+
 	/** {@inheritDoc} **/
 	@Override
 	public void dispose() {
@@ -42,13 +46,21 @@ public final class ContestExplorer extends CommonNavigator  implements IContestS
 		ProblemSolverFactory.getInstance().addListener(this);
 		return viewer;
 	}
+	
+	/** {@inheritDoc} **/
+	@Override
+	protected Object getInitialInput() {
+		return input;
+	}
 
 	/** {@inheritDoc} **/
 	@Override
 	public void problemStateChanged() {
 		final CommonViewer viewer = getCommonViewer();
 		if (viewer != null) {
-			viewer.refresh();
+			Display.getDefault().asyncExec(() -> {
+				viewer.refresh();
+			});
 		}
 	}
 
@@ -65,6 +77,7 @@ public final class ContestExplorer extends CommonNavigator  implements IContestS
 	/** {@inheritDoc} **/
 	@Override
 	public void contestSelected(final ContestInfo contest) {
+		this.input = contest;
 		final CommonViewer viewer = getCommonViewer();
 		if (viewer != null && !viewer.getTree().isDisposed()) {
 			viewer.setInput(contest);

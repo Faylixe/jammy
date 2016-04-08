@@ -3,8 +3,8 @@ package fr.faylixe.jammy.core.internal;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -43,7 +43,7 @@ public final class SubmissionService implements ISubmissionService, ISessionList
 	 * Default constructor.
 	 */
 	public SubmissionService() {
-		this.listeners = new ArrayList<ISubmissionListener>();
+		this.listeners = new HashSet<ISubmissionListener>();
 		Jammy.getInstance().addSessionListener(this);
 	}
 

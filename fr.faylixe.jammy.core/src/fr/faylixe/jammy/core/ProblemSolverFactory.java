@@ -28,6 +28,7 @@ import fr.faylixe.jammy.core.listener.ILanguageManagerListener;
 import fr.faylixe.jammy.core.listener.IProblemStateListener;
 import fr.faylixe.jammy.core.listener.ISubmissionListener;
 import fr.faylixe.jammy.core.service.ISubmission;
+import fr.faylixe.jammy.core.service.ISubmissionService;
 import fr.faylixe.jammy.core.service.OnlineSubmission;
 import fr.faylixe.jammy.core.service.SubmissionException;
 import fr.faylixe.jammy.core.service.SubmissionException.Type;
@@ -286,22 +287,6 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 		}
 	}
 
-	/**
-	 * Returns the unique factory instance,
-	 * and creates it if not exists.
-	 * 
-	 * @return Unique factory instance.
-	 */
-	public static ProblemSolverFactory getInstance() {
-		synchronized (ProblemSolverFactory.class) {
-			if (instance == null) {
-				instance = new ProblemSolverFactory();
-				instance.loadState();
-			}
-		}
-		return instance;
-	}
-
 	/** {@inheritDoc} **/
 	@Override
 	public void errorCaught(final ISubmission submission, final SubmissionException error) {
@@ -337,6 +322,24 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 			// Submission is a success here : we mark the problem input as passed.
 			setPassed(submission.getProblemInput());
 		}
+	}
+
+	/**
+	 * Returns the unique factory instance,
+	 * and creates it if not exists.
+	 * 
+	 * @return Unique factory instance.
+	 */
+	public static ProblemSolverFactory getInstance() {
+		synchronized (ProblemSolverFactory.class) {
+			if (instance == null) {
+				instance = new ProblemSolverFactory();
+				instance.loadState();
+				final ISubmissionService service = ISubmissionService.get();
+				service.addSubmissionListener(instance);	
+			}
+		}
+		return instance;
 	}
 
 }

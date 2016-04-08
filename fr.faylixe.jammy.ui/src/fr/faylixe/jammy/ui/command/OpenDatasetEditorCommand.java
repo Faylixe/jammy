@@ -2,6 +2,7 @@ package fr.faylixe.jammy.ui.command;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 
 import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.ProblemSolver;
@@ -25,7 +26,9 @@ public final class OpenDatasetEditorCommand extends AbstractProblemCommand {
 			final ProblemSolverFactory factory = ProblemSolverFactory.getInstance();
 			try {
 				final ProblemSolver solver = factory.getSolver(problem, monitor);
-				DatasetEditorInput.openFrom(solver);
+				Display.getDefault().asyncExec(() -> {
+					DatasetEditorInput.openFrom(solver);
+				});
 			}
 			catch (final CoreException e) {
 				EclipseUtils.showError(e);
