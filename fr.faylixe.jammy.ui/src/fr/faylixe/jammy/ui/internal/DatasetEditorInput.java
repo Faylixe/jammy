@@ -140,6 +140,7 @@ public final class DatasetEditorInput extends CompareEditorInput {
 		}
 	}
 
+	
 	/**
 	 * Static factory method that creates a {@link DatasetEditorInput} from the given
 	 * <tt>actual</tt> and <tt>expected</tt> file.
