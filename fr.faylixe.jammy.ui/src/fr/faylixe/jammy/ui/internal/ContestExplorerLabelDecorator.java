@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.ui.view;
+package fr.faylixe.jammy.ui.internal;
 
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;

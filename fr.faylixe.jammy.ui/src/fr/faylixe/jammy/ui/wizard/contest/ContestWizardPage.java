@@ -12,6 +12,7 @@ import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
@@ -60,17 +61,20 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 				try {
 					monitor.beginTask(RETRIEVE_CONTEST, 1);
 					final List<Contest> contest = Jammy.getInstance().getContests();
-					setInput(contest);
+					Display.getDefault().asyncExec(() -> { setInput(contest); });
 				}
 				catch (final IOException e) {
-					MessageDialog.openError(getShell(), CONTEST_ERROR_TITLE, e.getMessage());
-					final IWizard wizard = getWizard();
-					final IWizardContainer container = wizard.getContainer();
-					if (container instanceof WizardDialog) {
-						final WizardDialog dialog = (WizardDialog) container;
-						dialog.close();
-					}
+					Display.getDefault().asyncExec(() -> { 
+						MessageDialog.openError(getShell(), CONTEST_ERROR_TITLE, e.getMessage());
+						final IWizard wizard = getWizard();
+						final IWizardContainer container = wizard.getContainer();
+						if (container instanceof WizardDialog) {
+							final WizardDialog dialog = (WizardDialog) container;
+							dialog.close();
+						}
+					});
 				}
+				monitor.worked(1);
 			});
 		}
 		catch (final InterruptedException | InvocationTargetException e) {

@@ -24,19 +24,22 @@ import fr.faylixe.googlecodejam.client.executor.Request;
  */
 public final class LoginDialog extends Dialog implements LocationListener {
 
-	/** **/
+	/** Dialog width. **/
 	private static final int WIDTH = 500;
 
-	/** **/
+	/** Dialog height. **/
 	private static final int HEIGHT = 400;
 
-	/** **/
+	/** Dialog title. **/
+	private static final String TITLE = "Google login";
+
+	/** Consumer that is in charge of consuming the retrieved cookie.**/
 	private final Consumer<String> cookieConsumer;
 
-	/** **/
+	/** Source URL to visit. **/
 	private final String source;
 
-	/** **/
+	/** Target URL that trigger the dialog end. **/
 	private final String target;
 
 	/**
@@ -89,6 +92,13 @@ public final class LoginDialog extends Dialog implements LocationListener {
 		browser.addLocationListener(this);
 		browser.setUrl(source);
 		return container;
+	}
+	
+	/** {@inheritDoc} **/
+	@Override
+	protected void configureShell(final Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText(TITLE);
 	}
 
 	/** {@inheritDoc} **/

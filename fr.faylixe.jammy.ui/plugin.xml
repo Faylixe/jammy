@@ -64,7 +64,7 @@
       </view>
       <view
             category="fr.faylixe.jammy.view.category"
-            class="fr.faylixe.jammy.ui.view.ContestExplorer"
+            class="fr.faylixe.jammy.ui.view.Explorer"
             icon="icons/view/contest.png"
             id="fr.faylixe.jammy.view.contest"
             name="Contest Explorer"
@@ -74,6 +74,30 @@
          </description>
       </view>
    </extension>
+    <extension
+          point="org.eclipse.ui.navigator.viewer">
+          <viewerContentBinding
+          	viewerId="fr.faylixe.jammy.view.contest">
+          	<includes>
+          		<contentExtension
+          			isRoot="true"
+          			pattern="fr.faylixe.jammy.ui.explorer.content">
+          		</contentExtension>
+          	</includes>
+          </viewerContentBinding>
+    </extension>
+    <extension
+          point="org.eclipse.ui.navigator.navigatorContent">
+          <navigatorContent
+          	contentProvider="fr.faylixe.jammy.ui.internal.ContestExplorerContentProvider"
+          	labelProvider="fr.faylixe.jammy.ui.internal.ContestExplorerLabelProvider"
+          	id="fr.faylixe.jammy.ui.explorer.content"
+          	name="Contest explorer">
+          	<triggerPoints>
+          		<instanceof value="fr.faylixe.googlecodejam.client.webservice.ContestInfo"></instanceof>
+          	</triggerPoints>
+          </navigatorContent>
+    </extension>
     <extension
           point="org.eclipse.ui.preferencePages">
        <page
@@ -153,14 +177,9 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:fr.faylixe.jammy.menu.contest?after=contest.contribution">
+            locationURI="popup:fr.faylixe.jammy.view.contest?after=additions">
          <menu
                label="Solver">
-            <command
-                  commandId="fr.faylixe.jammy.command.opensolver"
-                  label="Open"
-                  style="push">
-            </command>
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -179,9 +198,32 @@
                   </and>
                </with>
             </visibleWhen>
+            <command
+                  commandId="fr.faylixe.jammy.command.opensolver"
+                  label="Open"
+                  style="push">
+            </command>
          </menu>
          <menu
                label="Sample dataset">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="fr.faylixe.googlecodejam.client.webservice.Problem">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
             <command
                   commandId="fr.faylixe.jammy.command.runtest"
                   label="Run"
@@ -191,25 +233,25 @@
                   commandId="fr.faylixe.jammy.command.opendataseteditor"
                   label="Edit"
                   style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <and>
+                        <count
+                              value="1">
+                        </count>
+                        <iterate
+                              ifEmpty="false"
+                              operator="and">
+                           <instanceof
+                                 value="fr.faylixe.googlecodejam.client.webservice.Problem">
+                           </instanceof>
+                        </iterate>
+                     </and>
+                  </with>
+               </visibleWhen>
             </command>
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="selection">
-                  <and>
-                     <count
-                           value="1">
-                     </count>
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="fr.faylixe.googlecodejam.client.webservice.Problem">
-                        </instanceof>
-                     </iterate>
-                  </and>
-               </with>
-            </visibleWhen>
          </menu>
          <command
                commandId="fr.faylixe.jammy.command.runonlinedataset"
@@ -249,7 +291,7 @@
     <extension
           point="org.eclipse.ui.decorators">
        <decorator
-             class="fr.faylixe.jammy.ui.view.ContestExplorerLabelDecorator"
+             class="fr.faylixe.jammy.ui.internal.ContestExplorerLabelDecorator"
              id="fr.faylixe.jammy.ui.decorator"
              label="Contest explorer decorator"
              lightweight="true">

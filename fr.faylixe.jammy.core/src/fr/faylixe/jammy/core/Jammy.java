@@ -214,7 +214,7 @@ public class Jammy extends AbstractUIPlugin {
 			.append(Request.getHostname())
 			.append(JammyPreferences.TARGET_PAGE)
 			.toString();
-		final Dialog dialog = new LoginDialog(null,
+		final Dialog dialog = new LoginDialog(EclipseUtils.getActiveShell(),
 				url,
 				JammyPreferences.getLoginTargetURL(),
 				cookie -> {
