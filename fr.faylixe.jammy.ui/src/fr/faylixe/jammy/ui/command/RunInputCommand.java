@@ -20,6 +20,8 @@ import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.OnlineSubmission;
 
 /**
+ * This command will run the selected problem
+ * input.
  * 
  * @author fv
  */
@@ -34,7 +36,7 @@ public final class RunInputCommand extends AbstractHandler {
 			final Object object = structuredSelection.getFirstElement();
 			if (object instanceof ProblemInput) {
 				final ProblemInput input = (ProblemInput) object;
-				final ProgressMonitorDialog dialog = new ProgressMonitorDialog(null);
+				final ProgressMonitorDialog dialog = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
 				try {
 					dialog.run(true, false, createRunnable(input));
 				}
@@ -47,9 +49,11 @@ public final class RunInputCommand extends AbstractHandler {
 	}
 
 	/**
+	 * Factory method that creates a {@link IRunnableWithProgress} instance that
+	 * is in charge of creating the submission and to submit it to the service.
 	 * 
-	 * @param input
-	 * @return
+	 * @param input Problem input to create runnable for.
+	 * @return Created instance.
 	 */
 	private static IRunnableWithProgress createRunnable(final ProblemInput input) {
 		return monitor -> {

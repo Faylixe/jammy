@@ -28,6 +28,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -212,6 +214,16 @@ public final class EclipseUtils {
 	 * @param commandId Identifier of the command to execute.
 	 */
 	public static void executeCommand(final String commandId) {
+		executeCommand(commandId, new ExecutionEvent());
+	}
+
+	/**
+	 * Executes the command denoted by the given <tt>commandId</tt>.
+	 * 
+	 * @param commandId Identifier of the command to execute.
+	 * @param event Event to send to the command.
+	 */
+	public static void executeCommand(final String commandId, final ExecutionEvent event) {
 		final IServiceLocator locator = PlatformUI.getWorkbench();
 		final ICommandService service = (ICommandService) locator.getService(ICommandService.class);
 		final Command command = service.getCommand(commandId);
@@ -222,6 +234,7 @@ public final class EclipseUtils {
 			showError(String.format(COMMAND_ERROR, commandId), e);
 		}
 	}
+
 
 	/**
 	 * Creates and runs a UI thread based job that
@@ -302,6 +315,21 @@ public final class EclipseUtils {
 			if (!Character.isDigit(character)) {
 				return NOT_NUMBER;
 			}
+		}
+		return null;
+	}
+	
+	/**
+	 * This methods extract the first object of the given <tt>selection</tt>
+	 * if any. 
+	 * 
+	 * @param selection Selection to extract first element from.
+	 * @return First element if any, <tt>null</tt> otherwise.
+	 */
+	public static Object getFirstSelection(final ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
+			final IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+			return structuredSelection.getFirstElement();
 		}
 		return null;
 	}

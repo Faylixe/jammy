@@ -3,6 +3,7 @@ package fr.faylixe.jammy.ui.view;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -51,13 +52,23 @@ public final class ContestExplorer extends ViewPart implements IContestSelection
 		viewer.setContentProvider(new ContestExplorerContentProvider());
 		final ILabelDecorator decorator = PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator();
 		viewer.setLabelProvider(new DecoratingLabelProvider(new ContestExplorerLabelProvider(), decorator));
-		viewer.addDoubleClickListener(event -> {
-			EclipseUtils.executeCommand(OpenSolverCommand.ID);
-		});
+		viewer.addDoubleClickListener(this::onDoubleClick);
 		viewer.addSelectionChangedListener(this);
 		createContextualMenu();
 		Jammy.getInstance().addContestSelectionListener(this);
 		ProblemSolverFactory.getInstance().addListener(this);
+	}
+
+	/**
+	 * Callback method that handles double click.
+	 * 
+	 * @param event Event that trigger this call.
+	 */
+	private void onDoubleClick(final DoubleClickEvent event) {
+		final Object object = EclipseUtils.getFirstSelection(event.getSelection());
+		if (object != null && object instanceof Problem) {
+			EclipseUtils.executeCommand(OpenSolverCommand.ID);
+		}
 	}
 
 	/** {@inheritDoc} **/

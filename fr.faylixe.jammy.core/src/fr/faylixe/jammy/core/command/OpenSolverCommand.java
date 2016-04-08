@@ -1,8 +1,11 @@
 package fr.faylixe.jammy.core.command;
 
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.ProblemSolver;
+import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /**
@@ -10,24 +13,24 @@ import fr.faylixe.jammy.core.common.EclipseUtils;
  * 
  * @author fv
  */
-public final class OpenSolverCommand extends AbstractProgressiveSolverCommand {
+public final class OpenSolverCommand extends AbstractProblemCommand {
 
 	/** Command identifier. **/
 	public static final String ID = "fr.faylixe.jammy.command.opensolver";
 
-	/** Task name for the file opening. **/
-	private static final String OPEN_FILE_TASK = "Opening solver class file";
-
 	/** {@inheritDoc} **/
 	@Override
-	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) {
-		EclipseUtils.openFile(solver.getFile());
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	protected String getTaskName() {
-		return OPEN_FILE_TASK;
+	protected IRunnableWithProgress createRunnable(final Problem problem) {
+		return monitor -> {
+			final ProblemSolverFactory factory = ProblemSolverFactory.getInstance();
+			try {
+				final ProblemSolver solver = factory.getSolver(problem, monitor);
+				EclipseUtils.openFile(solver.getFile());
+			}
+			catch (final CoreException e) {
+				EclipseUtils.showError(e);
+			}
+		};
 	}
 
 }

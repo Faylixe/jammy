@@ -1,10 +1,13 @@
 package fr.faylixe.jammy.core.command;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.jammy.core.ProblemSolver;
+import fr.faylixe.jammy.core.ProblemSolverFactory;
+import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.LocalSubmission;
 
@@ -15,21 +18,21 @@ import fr.faylixe.jammy.core.service.LocalSubmission;
  * 
  * @author fv
  */
-public final class RunSampleDatasetCommand extends AbstractProgressiveSolverCommand {
-
-	/** Task name for the file opening. **/
-	private static final String RUN_SAMPLE_TASK = "Running sample dataset";
+public final class RunSampleDatasetCommand extends AbstractProblemCommand {
 
 	/** {@inheritDoc} **/
 	@Override
-	protected void processSolver(final ProblemSolver solver, final IProgressMonitor monitor) throws CoreException {
-		ISubmission.runAsJob(new LocalSubmission(solver));
-	}
-
-	/** {@inheritDoc} **/
-	@Override
-	protected String getTaskName() {
-		return RUN_SAMPLE_TASK;
+	protected IRunnableWithProgress createRunnable(final Problem problem) {
+		return monitor -> {
+			final ProblemSolverFactory factory = ProblemSolverFactory.getInstance();
+			try {
+				final ProblemSolver solver = factory.getSolver(problem, monitor);
+				ISubmission.runAsJob(new LocalSubmission(solver));
+			}
+			catch (final CoreException e) {
+				EclipseUtils.showError(e);
+			}
+		};
 	}
 
 }
