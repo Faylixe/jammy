@@ -312,6 +312,23 @@ public class Jammy extends AbstractUIPlugin {
 	}
 
 	/**
+	 * 
+	 */
+	public void refreshSession() {
+		if (session != null) {
+			try {
+				this.session = session.refresh();
+				setSelectedProblem(session.getContestInfo().getProblem(0));
+				fireSessionChanged();
+				fireContestSelectionChanged(session.getContestInfo());
+			}
+			catch (final IOException e) {
+				EclipseUtils.showError(e);
+			}
+		}
+	}
+
+	/**
 	 * Sets the currently selected problem.
 	 * 
 	 * @param problem The newly selected problem.

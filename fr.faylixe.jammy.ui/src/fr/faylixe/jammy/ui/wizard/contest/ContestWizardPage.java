@@ -1,18 +1,17 @@
 package fr.faylixe.jammy.ui.wizard.contest;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.common.EclipseUtils;
@@ -27,7 +26,7 @@ import fr.faylixe.googlecodejam.client.Contest;
 public final class ContestWizardPage extends AbstractListWizardPage {
 
 	/** Contest retrieval job name. **/
-	private static final String JOB_NAME = "Extract contest";
+	private static final String RETRIEVE_CONTEST = "Extract contest";
 
 	/** Name of this page. **/
 	private static final String PAGE_NAME = "Contest selection. ";
@@ -55,31 +54,29 @@ public final class ContestWizardPage extends AbstractListWizardPage {
 	 * Start a job based contest retrieval.
 	 */
 	private void retrieveContest() {
-		final Job job = Job.create(JOB_NAME, monitor -> {
-			try {
-				final List<Contest> contest = Jammy.getInstance().getContests();
-				Display.getDefault().asyncExec(() -> {
+		final ProgressMonitorDialog loader = new ProgressMonitorDialog(getShell());
+		try {
+			loader.run(true, true, monitor -> {
+				try {
+					monitor.beginTask(RETRIEVE_CONTEST, 1);
+					final List<Contest> contest = Jammy.getInstance().getContests();
 					setInput(contest);
-				});
-			}
-			catch (final IOException e) {
-				e.printStackTrace();
-				Display.getDefault().asyncExec(() -> {
-					MessageDialog.openError(
-							EclipseUtils.getActiveShell(),
-							CONTEST_ERROR_TITLE,
-							e.getMessage());
+				}
+				catch (final IOException e) {
+					MessageDialog.openError(getShell(), CONTEST_ERROR_TITLE, e.getMessage());
 					final IWizard wizard = getWizard();
 					final IWizardContainer container = wizard.getContainer();
 					if (container instanceof WizardDialog) {
 						final WizardDialog dialog = (WizardDialog) container;
 						dialog.close();
 					}
-				});
-			}
-			return Status.OK_STATUS;
-		});
-		job.schedule();
+				}
+			});
+		}
+		catch (final InterruptedException | InvocationTargetException e) {
+			// TODO : Add custom error message ?
+			EclipseUtils.showError(e);
+		}
 	}
 
 	/** {@inheritDoc} **/

@@ -4,6 +4,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
+import fr.faylixe.jammy.core.Jammy;
+
 /**
  * 
  * @author fv
@@ -16,8 +18,7 @@ public final class RefreshProblemCommand extends AbstractHandler {
 	/** {@inheritDoc} **/
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		
-		// TODO : Reload contest info ?
+		Jammy.getInstance().refreshSession();
 		return null;
 	}
 
