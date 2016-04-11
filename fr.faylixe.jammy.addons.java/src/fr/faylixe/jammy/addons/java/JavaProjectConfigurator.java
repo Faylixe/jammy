@@ -18,6 +18,8 @@ import fr.faylixe.jammy.core.addons.IProjectConfigurator;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /**
+ * {@link IProjectConfigurator} implementation for Java addon.
+ * Adds Java nature for created project, and configures Java classpath.
  * 
  * @author fv
  */

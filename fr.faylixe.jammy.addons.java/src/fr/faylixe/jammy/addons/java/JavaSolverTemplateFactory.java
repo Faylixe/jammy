@@ -3,6 +3,8 @@ package fr.faylixe.jammy.addons.java;
 import fr.faylixe.jammy.core.addons.ISolverTemplateFactory;
 
 /**
+ * {@link ISolverTemplateFactory} implementation
+ * for Java addon.
  * 
  * @author fv
  */

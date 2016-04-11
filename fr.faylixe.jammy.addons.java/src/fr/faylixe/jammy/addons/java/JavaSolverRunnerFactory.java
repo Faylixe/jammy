@@ -7,7 +7,7 @@ import fr.faylixe.jammy.core.addons.ISolverRunner;
 import fr.faylixe.jammy.core.addons.ISolverRunnerFactory;
 
 /**
- * Factory for solver runner.
+ * {@link ISolverRunnerFactory} implementation for Java addon.
  * 
  * @author fv
  */

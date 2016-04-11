@@ -12,8 +12,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public interface IProjectConfigurator {
 
 	/**
-	 * @throws CoreException 
 	 * 
+	 * @param project
+	 * @param monitor
+	 * @throws CoreException
 	 */
 	void configure(IProject project, IProgressMonitor monitor) throws CoreException;
 
