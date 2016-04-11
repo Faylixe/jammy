@@ -35,7 +35,7 @@ public final class LanguageManager {
 	private static final String SOLVER_EXTENSION = "extension";
 	
 	/** **/
-	private static final String TEMPLATE_FACTORY = "factory";
+	private static final String TEMPLATE_FACTORY = "templateFactory";
 
 	/** Extension attribute name for the manager implementation class. **/
 	private static final String PROJECT_CONFIGURATOR = "projectConfigurator";
@@ -120,6 +120,10 @@ public final class LanguageManager {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProject project = workspace.getRoot().getProject(projectName);
 		if (!project.exists()) {
+			if (!projectConfigurator.shouldCreate()) {
+				// TODO : Handler error.
+				return null;
+			}
 			monitor.subTask(CREATE_PROJECT_TASK);
 			project.create(monitor);
 			project.open(monitor);

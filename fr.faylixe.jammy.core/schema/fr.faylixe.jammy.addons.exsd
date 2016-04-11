@@ -56,14 +56,14 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="solverPath" type="string">
+         <attribute name="solverPath" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="solverExtension" type="string">
+         <attribute name="solverExtension" type="string" use="required">
             <annotation>
                <documentation>
                   

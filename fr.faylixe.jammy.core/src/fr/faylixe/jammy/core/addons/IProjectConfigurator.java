@@ -5,17 +5,28 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
+ * Project configurator object are in charge
+ * of configuring created project regarding
+ * of a target language.
  * 
  * @author fv
- *
  */
 public interface IProjectConfigurator {
 
 	/**
 	 * 
-	 * @param project
-	 * @param monitor
-	 * @throws CoreException
+	 * @return
+	 */
+	default boolean shouldCreate() {
+		return true;
+	}
+
+	/**
+	 * Configures the given created <tt>project</tt>.
+	 * 
+	 * @param project Project to configure.
+	 * @param monitor Monitor instance used for project configuration.
+	 * @throws CoreException If any error occurs while configuring project.
 	 */
 	void configure(IProject project, IProgressMonitor monitor) throws CoreException;
 
