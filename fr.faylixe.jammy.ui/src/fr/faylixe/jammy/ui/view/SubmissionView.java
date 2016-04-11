@@ -16,11 +16,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.faylixe.jammy.core.Jammy;
@@ -289,19 +286,26 @@ public final class SubmissionView extends ViewPart implements IDoubleClickListen
 	 */
 	private void update() {
 		Display.getDefault().asyncExec(() -> {
-			final IWorkbench workbench = PlatformUI.getWorkbench();
-			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			final IWorkbenchPage page = window.getActivePage();
+			activate();
+			viewer.refresh();
+			indicator.setSelection(indicator.getSelection() + 1);
+		});
+	}
+	
+	/**
+	 * Actives this view part.
+	 */
+	public static void activate() {
+		Display.getDefault().syncExec(() -> {
 			try {
-				page.showView(ID);
+				final IWorkbenchPage page = EclipseUtils.getActivePage();
+				if (page != null) {
+					page.showView(SubmissionView.ID);
+				}
 			}
 			catch (final PartInitException e) {
 				EclipseUtils.showError(e); // TODO : Customize error message.
 			}
-			page.activate(SubmissionView.this);
-			page.bringToTop(SubmissionView.this);
-			viewer.refresh();
-			indicator.setSelection(indicator.getSelection() + 1);
 		});
 	}
 

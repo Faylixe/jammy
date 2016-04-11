@@ -7,11 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -95,17 +91,10 @@ public final class JammyUI extends AbstractUIPlugin {
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final IWorkbenchPage page = window.getActivePage();
-		page.addPartListener(EditorCache.getInstance());
-		// Activate Submission view for ensuring listener connection. (BUGFIX).
 		Display.getDefault().asyncExec(() -> {
-			try {
-				page.showView(SubmissionView.ID);
-			}
-			catch (final PartInitException e) {
-				EclipseUtils.showError(e); // TODO : Customize error message.
+			final IWorkbenchPage page = EclipseUtils.getActivePage();
+			if (page != null) {
+				page.addPartListener(EditorCache.getInstance());
 			}
 		});
 	}

@@ -14,8 +14,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import fr.faylixe.googlecodejam.client.common.NamedObject;
-import fr.faylixe.jammy.ui.internal.NamedObjectContentProvider;
-import fr.faylixe.jammy.ui.internal.NamedObjectLabelProvider;
 
 /**
  * Abstract {@link WizardPage} implementation that aims

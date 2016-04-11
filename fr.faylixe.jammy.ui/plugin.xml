@@ -31,10 +31,16 @@
       </command>
       <command
             categoryId="fr.faylixe.jammy.commands.category"
-            defaultHandler="fr.faylixe.jammy.ui.command.RunInputCommand"
+            defaultHandler="fr.faylixe.jammy.ui.command.RunOnlineDatasetCommand"
             description="Run a submission for the given input selection."
             id="fr.faylixe.jammy.command.runonlinedataset"
             name="Run online dataset">
+      </command>
+      <command
+            categoryId="fr.faylixe.jammy.commands.category"
+            defaultHandler="fr.faylixe.jammy.ui.command.RunSampleDatasetCommand"
+            id="fr.faylixe.jammy.command.runtest"
+            name="Run sample dataset">
       </command>
      </extension>
     <extension
@@ -290,34 +296,33 @@
        <decorator
              class="fr.faylixe.jammy.ui.internal.ContestExplorerLabelDecorator"
              id="fr.faylixe.jammy.ui.decorator"
-             label="Contest explorer decorator"
-             lightweight="true">
-          <enablement>
-             <objectClass
-                   name="fr.faylixe.googlecodejam.client.webservice.ProblemInput">
-             </objectClass>
-          </enablement>
+             label="Jammy decorator"
+             lightweight="true"
+             state="true">
+          <description>
+             Decorator for Jammy contest explorer view
+          </description>
        </decorator>
     </extension>
     <extension
           point="org.eclipse.ui.bindings">
        <key
+             commandId="fr.faylixe.jammy.command.opendataseteditor"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="M1+M2+D">
+       </key>
+       <key
              commandId="fr.faylixe.jammy.command.runtest"
              contextId="org.eclipse.ui.contexts.window"
              schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-             sequence="M1+M2+T">
+             sequence="M1+M2+F">
        </key>
        <key
-             commandId="fr.faylixe.jammy.command.opendataseteditor"
+             commandId="fr.faylixe.jammy.command.runonlinedataset"
              contextId="org.eclipse.ui.contexts.window"
              schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-             sequence="M1+M2+E">
-       </key>
-       <key
-             commandId="fr.faylixe.jammy.command.opendataseteditor"
-             contextId="org.eclipse.ui.contexts.window"
-             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-             sequence="M1+M2+R">
+             sequence="M1+M2+Q">
        </key>
     </extension>
 </plugin>

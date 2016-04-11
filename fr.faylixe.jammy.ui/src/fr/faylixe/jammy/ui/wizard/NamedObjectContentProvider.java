@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.ui.internal;
+package fr.faylixe.jammy.ui.wizard;
 
 import java.util.List;
 

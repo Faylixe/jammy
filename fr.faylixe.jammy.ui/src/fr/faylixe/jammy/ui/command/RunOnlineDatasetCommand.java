@@ -9,6 +9,7 @@ import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.service.ISubmission;
 import fr.faylixe.jammy.core.service.OnlineSubmission;
+import fr.faylixe.jammy.ui.view.SubmissionView;
 
 /**
  * This command will run the selected problem
@@ -16,7 +17,7 @@ import fr.faylixe.jammy.core.service.OnlineSubmission;
  * 
  * @author fv
  */
-public final class RunInputCommand extends AbstractProblemInputCommand {
+public final class RunOnlineDatasetCommand extends AbstractProblemInputCommand {
 
 	/**
 	 * Factory method that creates a {@link IRunnableWithProgress} instance that
@@ -29,6 +30,7 @@ public final class RunInputCommand extends AbstractProblemInputCommand {
 		return monitor -> {
 			final ProblemSolverFactory factory = ProblemSolverFactory.getInstance();
 			try {
+				SubmissionView.activate();
 				final ProblemSolver solver = factory.getSolver(input.getProblem(), monitor);
 				final ISubmission submission = new OnlineSubmission(solver, input);
 				ISubmission.runAsJob(submission);

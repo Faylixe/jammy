@@ -321,17 +321,24 @@ public final class EclipseUtils {
 	}
 
 	/**
+	 * Retrieves from the current selection the object that belongs
+	 * to the given <tt>target</tt> class.
 	 * 
-	 * @param selection
-	 * @param target
-	 * @return
+	 * @param selection Selection to extract object from.
+	 * @param target Target class to cast extracted object.
+	 * @return Extracted object if any, {@link Optional#empty()} otherwise.
 	 */
 	public static <T> Optional<T> getSelection(final ISelection selection, final Class<T> target) {
 		if (selection instanceof IStructuredSelection) {
 			final IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 			final Object object = structuredSelection.getFirstElement();
 			if (target.isInstance(object)) {
-				return Optional.of(target.cast(object));
+				try {
+					return Optional.of(target.cast(object));
+				}
+				catch (final ClassCastException e) {
+					return Optional.empty();
+				}
 			}
 		}
 		return Optional.empty();

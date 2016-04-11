@@ -23,7 +23,7 @@ import fr.faylixe.jammy.core.listener.IProblemStateListener;
  * 
  * @author fv
  */
-public final class ContestExplorer extends CommonNavigator  implements IContestSelectionListener, ISelectionChangedListener, IProblemStateListener {
+public final class ContestExplorer extends CommonNavigator implements IContestSelectionListener, ISelectionChangedListener, IProblemStateListener {
 
 	/** View identifier. **/
 	public static final String ID = "fr.faylixe.jammy.view.contest";
