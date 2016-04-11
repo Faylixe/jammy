@@ -36,7 +36,7 @@ public final class JavaAddonPlugin extends AbstractUIPlugin {
 	public void start(final BundleContext context) throws Exception { // NOPMD
 		super.start(context);
 		plugin = this;
-		template = EclipseUtils.getResource("/templates/solution.template.java", JavaAddonPlugin.getDefault().getBundle());
+		template = EclipseUtils.getResource("/templates/solution.template.java", getBundle());
 	}
 
 	/** {@inheritDoc} **/

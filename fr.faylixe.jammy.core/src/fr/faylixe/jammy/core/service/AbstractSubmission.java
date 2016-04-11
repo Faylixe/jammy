@@ -12,8 +12,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import fr.faylixe.googlecodejam.client.common.NamedObject;
 import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSolver;
-import fr.faylixe.jammy.core.addons.ILanguageManager;
 import fr.faylixe.jammy.core.addons.ISolverRunner;
+import fr.faylixe.jammy.core.addons.LanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 
 /**
@@ -123,7 +123,7 @@ public abstract class AbstractSubmission extends NamedObject implements ISubmiss
 	 * @throws CoreException If any error occurs while running solver instance.
 	 */
 	protected final void run(final String arguments, final IProgressMonitor monitor) throws CoreException {
-		final ILanguageManager manager = Jammy.getInstance().getCurrentLanguageManager();
+		final LanguageManager manager = Jammy.getInstance().getCurrentLanguageManager();
 		final ISolverRunner execution = manager.getRunner(solver, monitor);
 		execution.run(arguments, getOutputFile().getLocation().toString());
 		service.fireExecutionStarted(this);

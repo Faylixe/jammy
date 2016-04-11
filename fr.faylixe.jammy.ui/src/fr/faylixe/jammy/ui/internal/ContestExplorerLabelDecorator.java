@@ -1,10 +1,13 @@
 package fr.faylixe.jammy.ui.internal;
 
+import java.util.List;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 
+import fr.faylixe.googlecodejam.client.webservice.Problem;
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
 import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.ui.JammyUI;
@@ -96,24 +99,62 @@ public final class ContestExplorerLabelDecorator implements ILightweightLabelDec
 	@Override
 	public void decorate(final Object element, final IDecoration decoration) {
 		if (element instanceof ProblemInput) {
-			final ProblemInput input = (ProblemInput) element;
-			if (!factory.isPassed(input)) {
-				final int attempt = factory.getProblemAttempt(input);
-				final String suffix = new StringBuilder()
-					.append(' ')
-					.append(ATTEMPT_PREFIX)
-					.append(attempt)
-					.append(']')
-					.toString();
-				decoration.addSuffix(suffix);
-				if (attempt > 0) {
-					decoration.addOverlay(getErrorOverlay(), IDecoration.BOTTOM_LEFT);
-				}
-			}
-			else {
-				decoration.addOverlay(getSuccessOverlay(), IDecoration.BOTTOM_LEFT);
-			}
+			decorateInput((ProblemInput) element, decoration);
+		}
+		else if (element instanceof Problem) {
+			decorateProblem((Problem) element, decoration);
+		}
+	}
 
+	/**
+	 * Decorates the given <tt>input</tt> instance. If the input
+	 * is passed, then add a success overlay. Otherwise if any
+	 * attempt has been made, it add an error overlay, plus
+	 * an attempt number prefix.
+	 *  
+	 * @param input Problem input to decorate.
+	 * @param decoration Decoration instance.
+	 */
+	private void decorateInput(final ProblemInput input, final IDecoration decoration) {
+		if (!factory.isPassed(input)) {
+			final int attempt = factory.getProblemAttempt(input);
+			final String suffix = new StringBuilder()
+				.append(' ')
+				.append(ATTEMPT_PREFIX)
+				.append(attempt)
+				.append(']')
+				.toString();
+			decoration.addSuffix(suffix);
+			if (attempt > 0) {
+				decoration.addOverlay(getErrorOverlay(), IDecoration.BOTTOM_LEFT);
+			}
+		}
+		else {
+			decoration.addOverlay(getSuccessOverlay(), IDecoration.BOTTOM_LEFT);
+		}
+	}
+	
+	/**
+	 * Decorates the given <tt>problem</tt> instance. Such as it adds
+	 * an error overlay if any problem input if errored. Or success
+	 * overlay if all problem input are successfull.
+	 * 
+	 * @param problem Problem to decorate.
+	 * @param decoration Decoration instance.
+	 */
+	private void decorateProblem(final Problem problem, final IDecoration decoration) {
+		final List<ProblemInput> inputs = problem.getProblemInputs();
+		int passed = 0;
+		for (final ProblemInput input : problem.getProblemInputs()) {
+			if (factory.isPassed(input)) {
+				passed++;
+			}
+			else if (factory.getProblemAttempt(input) > 0) {
+				decoration.addOverlay(getErrorOverlay(), IDecoration.BOTTOM_LEFT);
+			}
+		}
+		if (passed == inputs.size()) {
+			decoration.addOverlay(getSuccessOverlay(), IDecoration.BOTTOM_LEFT);
 		}
 	}
 

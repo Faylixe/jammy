@@ -4,8 +4,12 @@
    <extension
          point="fr.faylixe.jammy.addons">
       <fr.faylixe.jammy.addons.manager
-            class="fr.faylixe.jammy.addons.java.JavaManager"
-            language="Java">
+            language="Java"
+            solverExtension=".java"
+            solverPath="src"
+            templateFactory="fr.faylixe.jammy.addons.java.JavaSolverTemplateFactory"
+            projectConfigurator="fr.faylixe.jammy.addons.java.JavaProjectConfigurator"
+            runnerFactory="fr.faylixe.jammy.addons.java.JavaSolverRunnerFactory">
       </fr.faylixe.jammy.addons.manager>
    </extension>
 

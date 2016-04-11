@@ -29,7 +29,7 @@ import fr.faylixe.googlecodejam.client.executor.HttpRequestExecutor;
 import fr.faylixe.googlecodejam.client.executor.Request;
 import fr.faylixe.googlecodejam.client.webservice.ContestInfo;
 import fr.faylixe.googlecodejam.client.webservice.Problem;
-import fr.faylixe.jammy.core.addons.ILanguageManager;
+import fr.faylixe.jammy.core.addons.LanguageManager;
 import fr.faylixe.jammy.core.common.EclipseUtils;
 import fr.faylixe.jammy.core.common.SerializationUtils;
 import fr.faylixe.jammy.core.internal.JammySourceProvider;
@@ -78,7 +78,7 @@ public class Jammy extends AbstractUIPlugin {
 	private final List<ISessionListener> sessionListeners;
 
 	/** Language manager instance available. **/
-	private final Map<String, ILanguageManager> managers;
+	private final Map<String, LanguageManager> managers;
 
 	/** Current session used for interracting with code jam platform. **/
 	private CodeJamSession session;
@@ -403,12 +403,12 @@ public class Jammy extends AbstractUIPlugin {
 	 */
 	private void loadLanguageManagers() {
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
-		final IConfigurationElement [] elements = registry.getConfigurationElementsFor(ILanguageManager.EXTENSION_ID);
+		final IConfigurationElement [] elements = registry.getConfigurationElementsFor(LanguageManager.EXTENSION_ID);
 		for (final IConfigurationElement element : elements) {
-			final String language = element.getAttribute(ILanguageManager.LANGUAGE_ATTRIBUTE);
+			final String language = element.getAttribute(LanguageManager.LANGUAGE);
 			try {
-				final Object manager = element.createExecutableExtension(ILanguageManager.CLASS_ATTRIBUTE);
-				managers.put(language, (ILanguageManager) manager);
+				final LanguageManager manager = LanguageManager.create(element);
+				managers.put(language, manager);
 			}
 			catch (final CoreException e) {
 				EclipseUtils.showError(e.getMessage(), e);
@@ -422,7 +422,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * 
 	 * @return Currently language manager instance selected.
 	 */
-	public ILanguageManager getCurrentLanguageManager() {
+	public LanguageManager getCurrentLanguageManager() {
 		final String language = JammyPreferences.getCurrentLanguage();
 		return managers.get(language);
 	}

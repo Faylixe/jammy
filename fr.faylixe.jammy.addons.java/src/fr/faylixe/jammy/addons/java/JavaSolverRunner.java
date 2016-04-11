@@ -1,4 +1,4 @@
-package fr.faylixe.jammy.addons.java.internal;
+package fr.faylixe.jammy.addons.java;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +74,7 @@ public final class JavaSolverRunner implements ISolverRunner {
 		final HashMap<String, String> attributes = new HashMap<>();
 		final IFile file = solver.getFile();
 		final String filename = file.getName();
-		final String name = filename.substring(0, filename.length() - JavaSolverBuilder.SOLVER_EXTENSION.length());
+		final String name = filename.substring(0, filename.length() - 5); // Note : -5 for .java extension.
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, name);
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, solver.getProject().getName());
 		attributes.put(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, arguments);

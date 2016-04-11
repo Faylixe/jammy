@@ -49,21 +49,55 @@
 
    <element name="fr.faylixe.jammy.addons.manager">
       <complexType>
-         <attribute name="class" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":fr.faylixe.jammy.core.addons.ILanguageManager"/>
-               </appinfo>
-            </annotation>
-         </attribute>
          <attribute name="language" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="solverPath" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="solverExtension" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="projectConfigurator" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":fr.faylixe.jammy.core.addons.IProjectConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="runnerFactory" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":fr.faylixe.jammy.core.addons.ISolverRunnerFactory"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="templateFactory" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":fr.faylixe.jammy.core.addons.ISolverTemplateFactory"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
