@@ -1,5 +1,7 @@
 package fr.faylixe.jammy.ui.view;
 
+import java.util.Optional;
+
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -67,10 +69,9 @@ public final class ContestExplorer extends CommonNavigator  implements IContestS
 	/** {@inheritDoc} **/
 	@Override
 	public void selectionChanged(final SelectionChangedEvent event) {	
-		final Object object = EclipseUtils.getFirstSelection(event.getSelection());
-		if (object instanceof Problem) {
-			final Problem problem = (Problem) object;
-			Jammy.getInstance().setSelectedProblem(problem);
+		final Optional<Problem> problem = EclipseUtils.getSelection(event.getSelection(), Problem.class);
+		if (problem.isPresent()) {
+			Jammy.getInstance().setSelectedProblem(problem.get());
 		}
 	}
 

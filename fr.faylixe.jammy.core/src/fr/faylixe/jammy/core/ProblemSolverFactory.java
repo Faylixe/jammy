@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -137,6 +138,26 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 			solver = reference.get();
 		}
 		return solver;
+	}
+	
+	/**
+	 * Returns the problem associated to the
+	 * given <tt>solverFile</tt> if any.
+	 * 
+	 * @param solverFile Solver file to retrieve problem from.
+	 * @return Associated problem if any, <tt>null</tt> otherwise.
+	 */
+	public Problem getProblem(final IFile solverFile) {
+		for (final Problem problem : solvers.keySet()) {
+			final SoftReference<ProblemSolver> solverReference = solvers.get(problem);
+			if (solverReference != null) {
+				final ProblemSolver solver = solverReference.get();
+				if (solver != null && solverFile.equals(solver.getFile())) {
+					return problem;
+				}
+			}
+		}
+		return null;
 	}
 	
 	/**

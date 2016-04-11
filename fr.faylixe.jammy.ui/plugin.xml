@@ -299,4 +299,25 @@
           </enablement>
        </decorator>
     </extension>
+    <extension
+          point="org.eclipse.ui.bindings">
+       <key
+             commandId="fr.faylixe.jammy.command.runtest"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="M1+M2+T">
+       </key>
+       <key
+             commandId="fr.faylixe.jammy.command.opendataseteditor"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="M1+M2+E">
+       </key>
+       <key
+             commandId="fr.faylixe.jammy.command.opendataseteditor"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="M1+M2+R">
+       </key>
+    </extension>
 </plugin>

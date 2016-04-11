@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -318,20 +319,22 @@ public final class EclipseUtils {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * This methods extract the first object of the given <tt>selection</tt>
-	 * if any. 
 	 * 
-	 * @param selection Selection to extract first element from.
-	 * @return First element if any, <tt>null</tt> otherwise.
+	 * @param selection
+	 * @param target
+	 * @return
 	 */
-	public static Object getFirstSelection(final ISelection selection) {
+	public static <T> Optional<T> getSelection(final ISelection selection, final Class<T> target) {
 		if (selection instanceof IStructuredSelection) {
 			final IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			return structuredSelection.getFirstElement();
+			final Object object = structuredSelection.getFirstElement();
+			if (target.isInstance(object)) {
+				return Optional.of(target.cast(object));
+			}
 		}
-		return null;
+		return Optional.empty();
 	}
 
 }
