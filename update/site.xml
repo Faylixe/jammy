@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/fr.faylixe.jammy.addons.python.feature_1.0.0.201604121257.jar" id="fr.faylixe.jammy.addons.python.feature" version="1.0.0.201604121257">
-      <category name="fr.faylixe.jammy.addon.category"/>
+      <category name="Addons"/>
    </feature>
    <feature url="features/fr.faylixe.jammy_1.1.0.201604121250.jar" id="fr.faylixe.jammy" version="1.1.0.201604121250">
-      <category name="fr.faylixe.jammy.category"/>
+      <category name="Core"/>
    </feature>
-   <category-def name="fr.faylixe.jammy.category" label="Jammy">
+   <feature url="features/fr.faylixe.jammy.addons.lua.feature_1.0.0.201604121512.jar" id="fr.faylixe.jammy.addons.lua.feature" version="1.0.0.201604121512">
+      <category name="Addons"/>
+   </feature>
+   <category-def name="Core" label="Core">
       <description>
          Main plugin related to Jammy application
       </description>
    </category-def>
-   <category-def name="fr.faylixe.jammy.addon.category" label="Addons">
+   <category-def name="Addons" label="Addons">
       <description>
          Addons that provides additional language support
       </description>
