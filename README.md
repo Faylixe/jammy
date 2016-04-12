@@ -7,3 +7,7 @@
 **Jammy** is a set of eclipse plugin for managing Google Code Jam development. This project is based on the
 [Google Code Jam API](https://github.com/Faylixe/googlecodejam-client). You can check the official [website](http://faylixe.fr/jammy/)
 for more informations.
+
+# Changelog :
+
+* **[12/04/2016]** : Improved constest explorer, problem state display, fix submission view focus issues, key binding. Adding Python language support.
