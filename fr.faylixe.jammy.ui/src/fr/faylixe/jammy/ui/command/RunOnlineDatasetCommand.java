@@ -4,8 +4,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import fr.faylixe.googlecodejam.client.webservice.ProblemInput;
+import fr.faylixe.jammy.core.Jammy;
 import fr.faylixe.jammy.core.ProblemSolver;
 import fr.faylixe.jammy.core.ProblemSolverFactory;
 import fr.faylixe.jammy.core.common.EclipseUtils;
@@ -22,16 +24,27 @@ import fr.faylixe.jammy.ui.view.SubmissionView;
 public final class RunOnlineDatasetCommand extends AbstractProblemInputCommand {
 
 	/** Title for the confirmation dialog. **/
-	private static final String TITLE = "Confirm submission";
+	private static final String NOT_LOGGED_TITLE = "Not authenticated";
 
 	/** Message for the confirmation dialog. **/
-	private static final String MESSAGE = "You are about to trigger download for input %s for problem %s. Are you sure ?";
+	private static final String NOT_LOGGED_MESSAGE = "You must first login";
+
+	/** Title for the confirmation dialog. **/
+	private static final String CONFIRMATION_TITLE = "Confirm submission";
+
+	/** Message for the confirmation dialog. **/
+	private static final String CONFIRMATION_MESSAGE = "You are about to trigger download for input %s for problem %s. Are you sure ?";
 
 	/** {@inheritDoc} **/
 	@Override
 	protected boolean shouldExecute(final ProblemInput input) {
-		final String message = String.format(MESSAGE, input.getName(), input.getProblem().getName());
-		return MessageDialog.openConfirm(Display.getDefault().getActiveShell(), TITLE, message);
+		final Shell shell = Display.getDefault().getActiveShell();
+		if (!Jammy.getInstance().isLogged()) {
+			MessageDialog.openInformation(shell, NOT_LOGGED_TITLE, NOT_LOGGED_MESSAGE);
+			return false;
+		}
+		final String message = String.format(CONFIRMATION_MESSAGE, input.getName(), input.getProblem().getName());
+		return MessageDialog.openConfirm(shell, CONFIRMATION_TITLE, message);
 	}
 
 	/**
