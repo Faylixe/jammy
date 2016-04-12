@@ -33,12 +33,23 @@ public abstract class AbstractRunnableCommand<T> extends AbstractHandler {
 		this.targetClass = targetClass;
 	}
 
+	/**
+	 * Boolean method that aims to be overriden.
+	 * Performs check in order to see if command should be executed or not.
+	 * 
+	 * @param target Target to execute command for.
+	 * @return <tt>true</tt> if the command should be executed, <tt>false</tt> otherwise.
+	 */
+	protected boolean shouldExecute(final T target) {
+		return true;
+	}
+
 	/** {@inheritDoc} **/
 	@Override
 	public final Object execute(final ExecutionEvent event) throws ExecutionException {
 		final ISelection selection = HandlerUtil.getActiveMenuSelection(event);
 		final T target = EclipseUtils.getSelection(selection, targetClass).orElseGet(() -> getAlternative(event));
-		if (target != null) {
+		if (target != null && shouldExecute(target)) {
 			final ProgressMonitorDialog dialog = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
 			try {
 				dialog.run(true, false, createRunnable(target));
