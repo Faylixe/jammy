@@ -217,7 +217,7 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	 * @return <tt>true</tt> if the given <tt>input</tt> is passed, <tt>false</tt> otherwise.
 	 */
 	public boolean isPassed(final ProblemInput input) {
-		return passed.contains(input);
+		return passed.contains(getKey(input));
 	}
 
 	/**
@@ -341,6 +341,7 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	@Override
 	public void submissionFinished(final ISubmission submission) {
 		if (submission instanceof OnlineSubmission) {
+			System.out.println("Success for :" + submission.getProblemInput());
 			// Submission is a success here : we mark the problem input as passed.
 			setPassed(submission.getProblemInput());
 		}

@@ -37,7 +37,7 @@ public abstract class AbstractRunnableCommand<T> extends AbstractHandler {
 	@Override
 	public final Object execute(final ExecutionEvent event) throws ExecutionException {
 		final ISelection selection = HandlerUtil.getActiveMenuSelection(event);
-		final T target = EclipseUtils.getSelection(selection, targetClass).orElse(getAlternative(event));
+		final T target = EclipseUtils.getSelection(selection, targetClass).orElseGet(() -> getAlternative(event));
 		if (target != null) {
 			final ProgressMonitorDialog dialog = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
 			try {
