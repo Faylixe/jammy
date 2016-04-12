@@ -29,10 +29,10 @@ public final class LanguageManager {
 	public static final String LANGUAGE = "language";
 
 	/** **/
-	private static final String SOLVER_PATH = "path";
+	private static final String SOLVER_PATH = "solverPath";
 
 	/** **/
-	private static final String SOLVER_EXTENSION = "extension";
+	private static final String SOLVER_EXTENSION = "solverExtension";
 	
 	/** **/
 	private static final String TEMPLATE_FACTORY = "templateFactory";
@@ -141,7 +141,7 @@ public final class LanguageManager {
 	 * @return Retrieved solver file instance.
 	 * @throws CoreException  If any error occurs while creating the file.
 	 */
-	public IFile getSolver(Problem problem, IProgressMonitor monitor) throws CoreException {
+	public IFile getSolver(final Problem problem, final IProgressMonitor monitor) throws CoreException {
 		final IProject project = getProject(problem, monitor);
 		final String name = problem.getNormalizedName();
 		final StringBuilder builder = new StringBuilder();
@@ -167,7 +167,7 @@ public final class LanguageManager {
 	 * @param monitor Monitor instance used for creating runner.
 	 * @return Created runner instance for executing the given <tt>solver</tt>
 	 */
-	public ISolverRunner getRunner(ProblemSolver solver, IProgressMonitor monitor) {
+	public ISolverRunner getRunner(final ProblemSolver solver, final IProgressMonitor monitor) {
 		return runnerFactory.create(solver, monitor);
 	}
 
