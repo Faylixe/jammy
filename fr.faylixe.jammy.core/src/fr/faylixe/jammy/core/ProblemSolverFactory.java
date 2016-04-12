@@ -115,6 +115,7 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 	@Override
 	public void languageManagerChanged() {
 		EclipseUtils.closeAllFile();
+		solvers.clear();
 	}
 
 	/**
@@ -358,6 +359,7 @@ public final class ProblemSolverFactory implements ILanguageManagerListener, ISu
 				instance.loadState();
 				final ISubmissionService service = ISubmissionService.get();
 				service.addSubmissionListener(instance);	
+				JammyPreferences.addLanguageManagerListener(instance);
 			}
 		}
 		return instance;
