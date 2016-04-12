@@ -218,6 +218,27 @@
       <update label="Jammy update site" url="http://faylixe.fr/jammy/update"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="fr.faylixe.jammy.core" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.core.resources" version="3.9.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.compare" version="3.5.501" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.ui.ide" version="3.10.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.debug.ui" version="3.10.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.console" version="3.5.300" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.navigator" version="3.5.401" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.navigator.resources" version="3.4.700" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.ui" version="3.10.2" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="fr.faylixe.jammy.addons.java"
          download-size="0"
