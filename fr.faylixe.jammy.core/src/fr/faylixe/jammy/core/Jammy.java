@@ -258,8 +258,7 @@ public class Jammy extends AbstractUIPlugin {
 	 * @return <tt>true</tt> if user is logged to the service, <tt>false</tt> otherwise.
 	 */
 	public boolean isLogged() {
-		// TODO : Consider updating source from this result.
-		return session != null && session.isLogged();
+		return JammySourceProvider.get().isLogged();
 	}
 
 	/**
